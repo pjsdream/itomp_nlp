@@ -97,8 +97,6 @@ void Loader::storeDataInAttributeList(int attribute_number, int size, const std:
     gl_->glBufferData(GL_ARRAY_BUFFER, sizeof(float) * buffer.size(), buffer.data(), GL_STATIC_DRAW);
     gl_->glVertexAttribPointer(attribute_number, size, GL_FLOAT, GL_FALSE, 0, 0);
 
-    //gl_->glBindBuffer(GL_ARRAY_BUFFER, 0);
-
     vbos_.push_back(vbo);
 }
 
@@ -122,8 +120,6 @@ void Loader::bindIndicesBuffer(const std::vector<int> indices)
     gl_->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
 
     gl_->glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * indices.size(), indices.data(), GL_STATIC_DRAW);
-
-    //gl_->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     vbos_.push_back(vbo);
 }
