@@ -6,7 +6,7 @@
 
 #include <QMainWindow>
 
-#include <renderer/renderer.h>
+#include <itomp_nlp/renderer/renderer.h>
 
 
 namespace itomp_renderer

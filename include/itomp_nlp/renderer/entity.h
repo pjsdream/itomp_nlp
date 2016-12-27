@@ -2,7 +2,7 @@
 #define ITOMP_RENDERER_ENTITY_H
 
 
-#include <renderer/textured_model.h>
+#include <itomp_nlp/renderer/textured_model.h>
 
 #include <Eigen/Dense>
 

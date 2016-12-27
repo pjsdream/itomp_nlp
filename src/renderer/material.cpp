@@ -1,4 +1,4 @@
-#include <renderer/material.h>
+#include <itomp_nlp/renderer/material.h>
 
 
 namespace itomp_renderer

@@ -120,8 +120,8 @@
       <Command>mkdir ..\src\GeneratedFiles
 xcopy ..\shader ..\bin\shader /S /E /I /Y &gt; nul
 xcopy ..\texture ..\bin\texture /S /E /I /Y &gt; nul
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\renderer\renderer_interface.h" -o "..\src\GeneratedFiles\moc_renderer_interface.cpp"
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer_interface.h" -o "..\src\GeneratedFiles\moc_renderer_interface.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -168,8 +168,8 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\renderer\renderer.h" -o "..\src\Ge
       <Command>mkdir ..\src\GeneratedFiles
 xcopy ..\shader ..\bin\shader /S /E /I /Y &gt; nul
 xcopy ..\texture ..\bin\texture /S /E /I /Y &gt; nul
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\renderer\renderer_interface.h" -o "..\src\GeneratedFiles\moc_renderer_interface.cpp"
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer_interface.h" -o "..\src\GeneratedFiles\moc_renderer_interface.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -190,24 +190,10 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\renderer\renderer.h" -o "..\src\Ge
     <ClCompile Include="..\src\renderer\shader_program.cpp" />
     <ClCompile Include="..\src\renderer\static_shader.cpp" />
     <ClCompile Include="..\src\renderer\textured_model.cpp" />
+    <ClCompile Include="..\src\shape\mesh.cpp" />
+    <ClCompile Include="..\src\shape\shape.cpp" />
     <ClCompile Include="..\src\test\test_interface.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\include\renderer\camera.h" />
-    <ClInclude Include="..\include\renderer\entity.h" />
-    <ClInclude Include="..\include\renderer\gl_base.h" />
-    <ClInclude Include="..\include\renderer\light.h" />
-    <ClInclude Include="..\include\renderer\light_shader.h" />
-    <ClInclude Include="..\include\renderer\material.h" />
-    <ClInclude Include="..\include\renderer\model_texture.h" />
-    <ClInclude Include="..\include\renderer\raw_model.h" />
-    <ClInclude Include="..\include\renderer\loader.h" />
-    <ClInclude Include="..\include\renderer\renderer_interface.h" />
-    <ClInclude Include="..\include\renderer\renderer.h" />
-    <ClInclude Include="..\include\renderer\shader_program.h" />
-    <ClInclude Include="..\include\renderer\static_shader.h" />
-    <ClInclude Include="..\include\renderer\textured_model.h" />
-    <ClInclude Include="..\lib\lodepng.h" />
+    <ClCompile Include="..\src\utils\conversion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\meshes\elbow_flex_link.dae" />
@@ -223,6 +209,26 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\renderer\renderer.h" -o "..\src\Ge
     <None Include="..\shader\resolve_lists.vert" />
     <None Include="..\shader\static.frag" />
     <None Include="..\shader\static.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\itomp_nlp\renderer\camera.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\entity.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\gl_base.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\light.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\light_shader.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\loader.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\material.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\model_texture.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\raw_model.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\renderer.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\renderer_interface.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\shader_program.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\static_shader.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\textured_model.h" />
+    <ClInclude Include="..\include\itomp_nlp\shape\mesh.h" />
+    <ClInclude Include="..\include\itomp_nlp\shape\shape.h" />
+    <ClInclude Include="..\include\itomp_nlp\utils\conversion.h" />
+    <ClInclude Include="..\lib\lodepng.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

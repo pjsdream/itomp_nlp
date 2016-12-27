@@ -2,11 +2,11 @@
 #define ITOMP_RENDERER_LIGHT_SHADER_H
 
 
-#include <renderer/shader_program.h>
+#include <itomp_nlp/renderer/shader_program.h>
 
-#include <renderer/camera.h>
-#include <renderer/light.h>
-#include <renderer/material.h>
+#include <itomp_nlp/renderer/camera.h>
+#include <itomp_nlp/renderer/light.h>
+#include <itomp_nlp/renderer/material.h>
 
 
 namespace itomp_renderer

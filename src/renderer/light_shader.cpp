@@ -1,4 +1,4 @@
-#include <renderer/light_shader.h>
+#include <itomp_nlp/renderer/light_shader.h>
 
 
 namespace itomp_renderer

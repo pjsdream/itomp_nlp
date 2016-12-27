@@ -2,7 +2,7 @@
 #define ITOMP_RENDERER_SHADER_PROGRAM_H
 
 
-#include <renderer/gl_base.h>
+#include <itomp_nlp/renderer/gl_base.h>
 
 #include <Eigen/Dense>
 

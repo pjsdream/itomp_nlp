@@ -2,8 +2,8 @@
 #define ITOMP_RENDERER_TEXTURED_MODEL_H
 
 
-#include <renderer/raw_model.h>
-#include <renderer/model_texture.h>
+#include <itomp_nlp/renderer/raw_model.h>
+#include <itomp_nlp/renderer/model_texture.h>
 
 
 namespace itomp_renderer

@@ -7,16 +7,18 @@
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions_4_3_Core>
 
-#include <renderer/camera.h>
+#include <itomp_nlp/renderer/camera.h>
 
-#include <renderer/loader.h>
+#include <itomp_nlp/renderer/loader.h>
 
-#include <renderer/entity.h>
+#include <itomp_nlp/renderer/entity.h>
 
-#include <renderer/static_shader.h>
-#include <renderer/light_shader.h>
-#include <renderer/light.h>
-#include <renderer/material.h>
+#include <itomp_nlp/renderer/static_shader.h>
+#include <itomp_nlp/renderer/light_shader.h>
+#include <itomp_nlp/renderer/light.h>
+#include <itomp_nlp/renderer/material.h>
+
+#include <itomp_nlp/shape/mesh.h>
 
 
 namespace itomp_renderer
@@ -69,6 +71,7 @@ private:
     Entity* entity_;
     Light* light_;
     Material* material_;
+    itomp_shape::Mesh* mesh_;
 
     // shaders
     LightShader* light_shader_;

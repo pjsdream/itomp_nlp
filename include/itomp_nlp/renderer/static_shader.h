@@ -2,7 +2,7 @@
 #define ITOMP_RENDERER_STATIC_SHADER_H
 
 
-#include <renderer/shader_program.h>
+#include <itomp_nlp/renderer/shader_program.h>
 
 
 namespace itomp_renderer

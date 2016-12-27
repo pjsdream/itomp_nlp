@@ -1,4 +1,4 @@
-#include <renderer/model_texture.h>
+#include <itomp_nlp/renderer/model_texture.h>
 
 
 namespace itomp_renderer

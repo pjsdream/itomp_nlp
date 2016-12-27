@@ -1,4 +1,4 @@
-#include <renderer/renderer.h>
+#include <itomp_nlp/renderer/renderer.h>
 
 #include <QMouseEvent>
 
@@ -122,6 +122,9 @@ void Renderer::initializeGL()
     entity_->getTransformation().translate( Eigen::Vector3d(0, 0, 0) );
 
     material_ = new Material(Eigen::Vector3d(1, 1, 1), Eigen::Vector3d(0.5, 0.5, 0.5));
+
+    mesh_ = new itomp_shape::Mesh();
+    mesh_->importDaeFile("../meshes/torso_lift_link.dae");
 
     light_ = new Light(Eigen::Vector3d(0, 0, 20), Eigen::Vector3d(1, 1, 1));
 }

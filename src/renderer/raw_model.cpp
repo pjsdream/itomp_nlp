@@ -1,4 +1,4 @@
-#include <renderer/raw_model.h>
+#include <itomp_nlp/renderer/raw_model.h>
 
 
 namespace itomp_renderer

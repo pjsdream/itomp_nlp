@@ -4,9 +4,9 @@
 
 #include <vector>
 
-#include <renderer/raw_model.h>
-#include <renderer/textured_model.h>
-#include <renderer/gl_base.h>
+#include <itomp_nlp/renderer/raw_model.h>
+#include <itomp_nlp/renderer/textured_model.h>
+#include <itomp_nlp/renderer/gl_base.h>
 
 
 namespace itomp_renderer

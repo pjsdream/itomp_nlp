@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <stdio.h>
 
-#include <renderer/renderer_interface.h>
+#include <itomp_nlp/renderer/renderer_interface.h>
 
 int main(int argc, char** argv)
 {
