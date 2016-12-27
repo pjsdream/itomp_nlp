@@ -8,12 +8,10 @@
 #include <QOpenGLFunctions_4_3_Core>
 
 #include <renderer/camera.h>
-#include <renderer/renderer_object.h>
 
 #include <renderer/loader.h>
 
-#include <renderer/raw_model.h>
-#include <renderer/textured_model.h>
+#include <renderer/entity.h>
 
 #include <renderer/static_shader.h>
 
@@ -51,7 +49,7 @@ protected:
 
 private:
 
-    void renderTexturedModel(TexturedModel* model);
+    void render(Entity* model, StaticShader* shader);
 
     Camera camera_;
 
@@ -64,6 +62,7 @@ private:
     RawModel* model_;
     ModelTexture* texture_;
     TexturedModel* textured_model_;
+    Entity* entity_;
 
     // shaders
     StaticShader* static_shader_;

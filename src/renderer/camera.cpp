@@ -13,8 +13,8 @@ Camera::Camera()
     , sensitivity_zoom_(0.001)
     , fovy_(90.)
     , aspect_(4. / 3.)
-    , near_(0.001)
-    , far_(10.)
+    , near_(0.1)
+    , far_(1000.)
 {
 }
 

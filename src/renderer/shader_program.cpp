@@ -34,9 +34,34 @@ void ShaderProgram::cleanUp()
     gl_->glDeleteProgram(shader_program_);
 }
 
+void ShaderProgram::loadUniform(int location, float value)
+{
+    gl_->glUniform1f(location, value);
+}
+
+void ShaderProgram::loadUniform(int location, const Eigen::Vector3f& v)
+{
+    gl_->glUniform3fv(location, 1, v.data());
+}
+
+void ShaderProgram::loadUniform(int location, bool value)
+{
+    gl_->glUniform1f(location, value);
+}
+
+void ShaderProgram::loadUniform(int location, const Eigen::Matrix4f& m)
+{
+    gl_->glUniformMatrix4fv(location, 1, GL_FALSE, m.data());
+}
+
 void ShaderProgram::bindAttribute(int attribute, const std::string& variable_name)
 {
     gl_->glBindAttribLocation(shader_program_, attribute, variable_name.c_str());
+}
+
+GLint ShaderProgram::getUniformLocation(const std::string& uniform_name)
+{
+    return gl_->glGetUniformLocation(shader_program_, uniform_name.c_str());
 }
 
 GLuint ShaderProgram::loadShader(const std::string& filename, GLuint shader_type)
@@ -90,9 +115,9 @@ GLuint ShaderProgram::createShaderProgram()
 
     gl_->glAttachShader(program, vertex_shader_);
     gl_->glAttachShader(program, fragment_shader_);
-
+    
     gl_->glLinkProgram(program);
-
+    
     GLint linked;
     gl_->glGetProgramiv(program, GL_LINK_STATUS, &linked);
 
@@ -108,7 +133,7 @@ GLuint ShaderProgram::createShaderProgram()
 
         return 0;
     }
-
+    
     return program;
 }
 

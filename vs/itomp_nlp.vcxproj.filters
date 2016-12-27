@@ -30,9 +30,6 @@
     <ClCompile Include="..\src\renderer\renderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\renderer\renderer_object.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\renderer\renderer_interface.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
@@ -66,15 +63,15 @@
     <ClCompile Include="..\lib\lodepng.cpp">
       <Filter>LodePNG</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\renderer\entity.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\renderer\camera.h">
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\include\renderer\renderer.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\renderer\renderer_object.h">
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\include\renderer\renderer_interface.h">
@@ -103,6 +100,9 @@
     </ClInclude>
     <ClInclude Include="..\lib\lodepng.h">
       <Filter>LodePNG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\renderer\entity.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -135,6 +135,9 @@
     </None>
     <None Include="..\shader\static.vert">
       <Filter>Shader</Filter>
+    </None>
+    <None Include="..\meshes\elbow_flex_link.dae">
+      <Filter>Robot</Filter>
     </None>
   </ItemGroup>
 </Project>

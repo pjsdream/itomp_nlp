@@ -19,14 +19,16 @@ Renderer::Renderer(QWidget* parent)
     setFormat(format);
 
     camera_.setOrtho();
+    camera_.setPerspective();
 }
 
 Renderer::~Renderer()
 {
 }
 
-void Renderer::renderTexturedModel(TexturedModel* model)
+void Renderer::render(Entity* entity, StaticShader* shader)
 {
+    TexturedModel* textured_model = entity->getModel();
     RawModel* raw_model = textured_model_->getModel();
 
     gl_->glBindVertexArray(raw_model->getVAO());
@@ -34,8 +36,11 @@ void Renderer::renderTexturedModel(TexturedModel* model)
     gl_->glEnableVertexAttribArray(0);
     gl_->glEnableVertexAttribArray(1);
 
+    Eigen::Affine3f transformation = entity->getTransformation().cast<float>();
+    shader->loadTransformationMatrix(transformation.matrix());
+
     gl_->glActiveTexture(GL_TEXTURE0);
-    gl_->glBindTexture(GL_TEXTURE_2D, model->getTexture()->getId());
+    gl_->glBindTexture(GL_TEXTURE_2D, textured_model->getTexture()->getId());
 
     gl_->glDrawElements(GL_TRIANGLES, raw_model->getNumVertices(), GL_UNSIGNED_INT, 0);
 
@@ -49,7 +54,9 @@ void Renderer::initializeGL()
 {
     gl_ = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
 
-    gl_->glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    gl_->glEnable(GL_DEPTH_TEST);
+    gl_->glClearColor(0.5f, 1.0f, 1.0f, 1.0f);
+    gl_->glClearDepth(1.0f);
 
     loader_ = new Loader(this);
 
@@ -77,6 +84,10 @@ void Renderer::initializeGL()
     model_ = loader_->createRawModel(vertices, texture_coords, indices);
     texture_ = new ModelTexture( loader_->loadTexture("texture/image.png") );
     textured_model_ = new TexturedModel(model_, texture_);
+    entity_ = new Entity(textured_model_, Eigen::Affine3d::Identity());
+    entity_->getTransformation().translate( Eigen::Vector3d(0, 0, 0) );
+
+    loader_->loadDaeFile("../meshes/gripper_link.dae");
 }
 
 void Renderer::resizeGL(int w, int h)
@@ -90,9 +101,16 @@ void Renderer::resizeGL(int w, int h)
 void Renderer::paintGL()
 {
     gl_->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    
     static_shader_->start();
-    renderTexturedModel(textured_model_);
+
+    Eigen::Matrix4f projection = camera_.projectionMatrix().cast<float>();
+    static_shader_->loadProjectionMatrix(projection);
+
+    entity_->getTransformation().translate( Eigen::Vector3d(0, 0, -0.1));
+
+    render(entity_, static_shader_);
+
     static_shader_->stop();
 }
 

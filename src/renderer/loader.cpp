@@ -2,6 +2,11 @@
 
 #include <lodepng.h>
 
+// dae importer
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 
 namespace itomp_renderer
 {
@@ -9,6 +14,33 @@ namespace itomp_renderer
 Loader::Loader(Renderer* renderer)
     : GLBase(renderer)
 {
+}
+
+TexturedModel* Loader::loadDaeFile(const std::string& filename)
+{
+    Assimp::Importer importer;
+    importer.SetExtraVerbose(false);
+    const aiScene* scene = importer.ReadFile(filename, aiProcess_Triangulate);
+    
+    // Material usage
+    /*
+    aiMaterial* material = scene->mMaterials[0];
+
+    printf("%d\n", material->GetTextureCount(aiTextureType_DIFFUSE));
+    printf("%d\n", material->GetTextureCount(aiTextureType_SPECULAR));
+    printf("%d\n", material->GetTextureCount(aiTextureType_AMBIENT));
+
+    aiString aipath;
+    material->GetTexture(aiTextureType_DIFFUSE, 0, &aipath);
+    std::string path = aipath.data;
+
+    aiColor4D ambient;
+    material->Get(AI_MATKEY_COLOR_SPECULAR, ambient);
+    printf("%s\n", path.c_str());
+    printf("%lf %lf %lf %lf\n", ambient.r, ambient.g, ambient.b, ambient.a);
+    */
+
+    return 0;
 }
 
 RawModel* Loader::createRawModel(const std::vector<double>& positions, const std::vector<int>& indices)

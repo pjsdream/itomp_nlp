@@ -21,6 +21,8 @@ public:
     RawModel* createRawModel(const std::vector<double>& positions, const std::vector<int>& indices);
     RawModel* createRawModel(const std::vector<double>& positions, const std::vector<double> texture_coords, const std::vector<int>& indices);
 
+    TexturedModel* loadDaeFile(const std::string& filename);
+
     GLuint loadTexture(const std::string& filename);
 
     void cleanUp();

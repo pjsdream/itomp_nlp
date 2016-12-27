@@ -20,8 +20,15 @@ public:
     StaticShader(Renderer* renderer);
 
     virtual void bindAttributes();
+    virtual void getAllUniformLocations();
+
+    void loadTransformationMatrix(const Eigen::Matrix4f& matrix);
+    void loadProjectionMatrix(const Eigen::Matrix4f& matrix);
 
 private:
+
+    GLint location_transform_matrix_;
+    GLint location_projection_matrix_;
 };
 
 }

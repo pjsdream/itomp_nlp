@@ -4,6 +4,8 @@
 
 #include <renderer/gl_base.h>
 
+#include <Eigen/Dense>
+
 
 namespace itomp_renderer
 {
@@ -19,10 +21,19 @@ public:
     void start();
     void stop();
     void cleanUp();
+    
+    void loadUniform(int location, float value);
+    void loadUniform(int locatiom, const Eigen::Vector3f& v);
+    void loadUniform(int location, bool value);
+    void loadUniform(int location, const Eigen::Matrix4f& m);
 
 protected:
 
+    virtual void getAllUniformLocations() = 0;
+
     void bindAttribute(int attribute, const std::string& variable_name);
+
+    GLint getUniformLocation(const std::string& uniform_name);
 
 private:
 
