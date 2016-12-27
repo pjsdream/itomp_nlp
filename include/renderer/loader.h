@@ -19,7 +19,7 @@ public:
     Loader(Renderer* renderer);
 
     RawModel* createRawModel(const std::vector<double>& positions, const std::vector<int>& indices);
-    RawModel* createRawModel(const std::vector<double>& positions, const std::vector<double> texture_coords, const std::vector<int>& indices);
+    RawModel* createRawModel(const std::vector<double>& positions, const std::vector<double>& normals, const std::vector<double>& texture_coords, const std::vector<int>& indices);
 
     TexturedModel* loadDaeFile(const std::string& filename);
 

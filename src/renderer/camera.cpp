@@ -66,7 +66,7 @@ void Camera::zoomPixel(int dx, int dy)
         eye_ = n * minimum_distance;
 }
 
-Eigen::Matrix4d Camera::projectionMatrix()
+Eigen::Matrix4d Camera::projectionMatrix() const
 {
     switch (projection_type_)
     {
@@ -78,7 +78,7 @@ Eigen::Matrix4d Camera::projectionMatrix()
     }
 }
 
-Eigen::Matrix4d Camera::viewMatrix()
+Eigen::Matrix4d Camera::viewMatrix() const
 {
     const Eigen::Vector3d n = (eye_ - center_).normalized();
     const Eigen::Vector3d u = up_.cross(n).normalized();
@@ -95,7 +95,7 @@ Eigen::Matrix4d Camera::viewMatrix()
     return mat;
 }
 
-Eigen::Matrix4d Camera::perspective()
+Eigen::Matrix4d Camera::perspective() const
 {
     const double t = tan((fovy_ / 180. * M_PI) / 2.);
 
@@ -109,7 +109,7 @@ Eigen::Matrix4d Camera::perspective()
     return mat;
 }
 
-Eigen::Matrix4d Camera::ortho()
+Eigen::Matrix4d Camera::ortho() const
 {
     double d = (eye_ - center_).norm();
 

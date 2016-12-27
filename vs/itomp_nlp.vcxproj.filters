@@ -66,6 +66,15 @@
     <ClCompile Include="..\src\renderer\entity.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\renderer\light_shader.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\light.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\material.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\renderer\camera.h">
@@ -104,6 +113,15 @@
     <ClInclude Include="..\include\renderer\entity.h">
       <Filter>Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\renderer\light_shader.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\renderer\light.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\renderer\material.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -138,6 +156,12 @@
     </None>
     <None Include="..\meshes\elbow_flex_link.dae">
       <Filter>Robot</Filter>
+    </None>
+    <None Include="..\shader\light.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\light.vert">
+      <Filter>Shader</Filter>
     </None>
   </ItemGroup>
 </Project>

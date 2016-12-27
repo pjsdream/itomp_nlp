@@ -4,12 +4,12 @@
 namespace itomp_renderer
 {
 
-const std::string StaticShader::vertex_filename = "shader/static.vert";
-const std::string StaticShader::fragment_filename = "shader/static.frag";
+const std::string StaticShader::vertex_filename_ = "shader/static.vert";
+const std::string StaticShader::fragment_filename_ = "shader/static.frag";
 
 
 StaticShader::StaticShader(Renderer* renderer)
-    : ShaderProgram(renderer, vertex_filename, fragment_filename)
+    : ShaderProgram(renderer, vertex_filename_, fragment_filename_)
 {
     bindAttributes();
     getAllUniformLocations();

@@ -53,8 +53,8 @@ public:
     void rotatePixel(int dx, int dy);
     void zoomPixel(int dx, int dy);
 
-    Eigen::Matrix4d projectionMatrix();
-    Eigen::Matrix4d viewMatrix();
+    Eigen::Matrix4d projectionMatrix() const;
+    Eigen::Matrix4d viewMatrix() const;
 
     inline const Eigen::Vector3d& eyePosition() const
     {
@@ -63,8 +63,8 @@ public:
 
 private:
 
-    Eigen::Matrix4d perspective();
-    Eigen::Matrix4d ortho();
+    Eigen::Matrix4d perspective() const;
+    Eigen::Matrix4d ortho() const;
 
     ProjectionType projection_type_;
 

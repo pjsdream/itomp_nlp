@@ -53,12 +53,13 @@ RawModel* Loader::createRawModel(const std::vector<double>& positions, const std
     return new RawModel(vao, indices.size());
 }
 
-RawModel* Loader::createRawModel(const std::vector<double>& positions, const std::vector<double> texture_coords, const std::vector<int>& indices)
+RawModel* Loader::createRawModel(const std::vector<double>& positions, const std::vector<double>& normals, const std::vector<double>& texture_coords, const std::vector<int>& indices)
 {
     GLuint vao = createVAO();
     bindIndicesBuffer(indices);
     storeDataInAttributeList(0, 3, positions);
-    storeDataInAttributeList(1, 2, texture_coords);
+    storeDataInAttributeList(1, 3, normals);
+    storeDataInAttributeList(2, 2, texture_coords);
     unbindVAO();
 
     return new RawModel(vao, indices.size());

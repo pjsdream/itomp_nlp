@@ -179,6 +179,9 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\renderer\renderer.h" -o "..\src\Ge
     <ClCompile Include="..\src\renderer\camera.cpp" />
     <ClCompile Include="..\src\renderer\entity.cpp" />
     <ClCompile Include="..\src\renderer\gl_base.cpp" />
+    <ClCompile Include="..\src\renderer\light.cpp" />
+    <ClCompile Include="..\src\renderer\light_shader.cpp" />
+    <ClCompile Include="..\src\renderer\material.cpp" />
     <ClCompile Include="..\src\renderer\model_texture.cpp" />
     <ClCompile Include="..\src\renderer\raw_model.cpp" />
     <ClCompile Include="..\src\renderer\loader.cpp" />
@@ -193,6 +196,9 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\renderer\renderer.h" -o "..\src\Ge
     <ClInclude Include="..\include\renderer\camera.h" />
     <ClInclude Include="..\include\renderer\entity.h" />
     <ClInclude Include="..\include\renderer\gl_base.h" />
+    <ClInclude Include="..\include\renderer\light.h" />
+    <ClInclude Include="..\include\renderer\light_shader.h" />
+    <ClInclude Include="..\include\renderer\material.h" />
     <ClInclude Include="..\include\renderer\model_texture.h" />
     <ClInclude Include="..\include\renderer\raw_model.h" />
     <ClInclude Include="..\include\renderer\loader.h" />
@@ -207,6 +213,8 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\renderer\renderer.h" -o "..\src\Ge
     <None Include="..\meshes\elbow_flex_link.dae" />
     <None Include="..\shader\build_lists.frag" />
     <None Include="..\shader\build_lists.vert" />
+    <None Include="..\shader\light.frag" />
+    <None Include="..\shader\light.vert" />
     <None Include="..\shader\line.frag" />
     <None Include="..\shader\line.vert" />
     <None Include="..\shader\mesh.frag" />

@@ -19,7 +19,6 @@ Renderer::Renderer(QWidget* parent)
     setFormat(format);
 
     camera_.setOrtho();
-    camera_.setPerspective();
 }
 
 Renderer::~Renderer()
@@ -35,6 +34,7 @@ void Renderer::render(Entity* entity, StaticShader* shader)
 
     gl_->glEnableVertexAttribArray(0);
     gl_->glEnableVertexAttribArray(1);
+    gl_->glEnableVertexAttribArray(2);
 
     Eigen::Affine3f transformation = entity->getTransformation().cast<float>();
     shader->loadTransformationMatrix(transformation.matrix());
@@ -46,6 +46,33 @@ void Renderer::render(Entity* entity, StaticShader* shader)
 
     gl_->glDisableVertexAttribArray(0);
     gl_->glDisableVertexAttribArray(1);
+    gl_->glDisableVertexAttribArray(2);
+
+    gl_->glBindVertexArray(0);
+}
+
+void Renderer::render(Entity* entity, LightShader* shader)
+{
+    TexturedModel* textured_model = entity->getModel();
+    RawModel* raw_model = textured_model_->getModel();
+
+    gl_->glBindVertexArray(raw_model->getVAO());
+
+    gl_->glEnableVertexAttribArray(0);
+    gl_->glEnableVertexAttribArray(1);
+    gl_->glEnableVertexAttribArray(2);
+
+    Eigen::Affine3f transformation = entity->getTransformation().cast<float>();
+    shader->loadModelTransform(transformation.matrix());
+
+    gl_->glActiveTexture(GL_TEXTURE0);
+    gl_->glBindTexture(GL_TEXTURE_2D, textured_model->getTexture()->getId());
+
+    gl_->glDrawElements(GL_TRIANGLES, raw_model->getNumVertices(), GL_UNSIGNED_INT, 0);
+
+    gl_->glDisableVertexAttribArray(0);
+    gl_->glDisableVertexAttribArray(1);
+    gl_->glDisableVertexAttribArray(2);
 
     gl_->glBindVertexArray(0);
 }
@@ -60,7 +87,7 @@ void Renderer::initializeGL()
 
     loader_ = new Loader(this);
 
-    static_shader_ = new StaticShader(this);
+    light_shader_ = new LightShader(this);
 
     std::vector<double> vertices = {
         -0.5, 0.5, 0,
@@ -69,9 +96,11 @@ void Renderer::initializeGL()
         0.5, 0.5, 0,
     };
 
-    std::vector<int> indices = {
-        0, 1, 3,
-        3, 1, 2,
+    std::vector<double> normals = {
+        -1, 1, 1,
+        -1, -1, 1,
+        1, -1, 1,
+        1, 1, 1,
     };
 
     std::vector<double> texture_coords = {
@@ -81,13 +110,20 @@ void Renderer::initializeGL()
         1, 0, 
     };
 
-    model_ = loader_->createRawModel(vertices, texture_coords, indices);
+    std::vector<int> indices = {
+        0, 1, 3,
+        3, 1, 2,
+    };
+
+    model_ = loader_->createRawModel(vertices, normals, texture_coords, indices);
     texture_ = new ModelTexture( loader_->loadTexture("texture/image.png") );
     textured_model_ = new TexturedModel(model_, texture_);
     entity_ = new Entity(textured_model_, Eigen::Affine3d::Identity());
     entity_->getTransformation().translate( Eigen::Vector3d(0, 0, 0) );
 
-    loader_->loadDaeFile("../meshes/gripper_link.dae");
+    material_ = new Material(Eigen::Vector3d(1, 1, 1), Eigen::Vector3d(0.5, 0.5, 0.5));
+
+    light_ = new Light(Eigen::Vector3d(0, 0, 20), Eigen::Vector3d(1, 1, 1));
 }
 
 void Renderer::resizeGL(int w, int h)
@@ -102,16 +138,15 @@ void Renderer::paintGL()
 {
     gl_->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    static_shader_->start();
+    light_shader_->start();
 
-    Eigen::Matrix4f projection = camera_.projectionMatrix().cast<float>();
-    static_shader_->loadProjectionMatrix(projection);
+    light_shader_->loadCamera(camera_);
+    light_shader_->loadLight(light_);
+    light_shader_->loadMaterial(material_);
 
-    entity_->getTransformation().translate( Eigen::Vector3d(0, 0, -0.1));
+    render(entity_, light_shader_);
 
-    render(entity_, static_shader_);
-
-    static_shader_->stop();
+    light_shader_->stop();
 }
 
 void Renderer::mousePressEvent(QMouseEvent* event)

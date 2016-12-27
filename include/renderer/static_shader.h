@@ -12,18 +12,21 @@ class StaticShader : public ShaderProgram
 {
 private:
 
-    static const std::string vertex_filename;
-    static const std::string fragment_filename;
+    static const std::string vertex_filename_;
+    static const std::string fragment_filename_;
 
 public:
 
     StaticShader(Renderer* renderer);
 
     virtual void bindAttributes();
-    virtual void getAllUniformLocations();
 
     void loadTransformationMatrix(const Eigen::Matrix4f& matrix);
     void loadProjectionMatrix(const Eigen::Matrix4f& matrix);
+
+protected:
+    
+    virtual void getAllUniformLocations();
 
 private:
 

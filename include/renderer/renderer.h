@@ -14,6 +14,9 @@
 #include <renderer/entity.h>
 
 #include <renderer/static_shader.h>
+#include <renderer/light_shader.h>
+#include <renderer/light.h>
+#include <renderer/material.h>
 
 
 namespace itomp_renderer
@@ -49,7 +52,8 @@ protected:
 
 private:
 
-    void render(Entity* model, StaticShader* shader);
+    void render(Entity* entity, StaticShader* shader);
+    void render(Entity* entity, LightShader* shader);
 
     Camera camera_;
 
@@ -63,9 +67,11 @@ private:
     ModelTexture* texture_;
     TexturedModel* textured_model_;
     Entity* entity_;
+    Light* light_;
+    Material* material_;
 
     // shaders
-    StaticShader* static_shader_;
+    LightShader* light_shader_;
 
     int last_mouse_x_;
     int last_mouse_y_;
