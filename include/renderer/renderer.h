@@ -10,6 +10,14 @@
 #include <renderer/camera.h>
 #include <renderer/renderer_object.h>
 
+#include <renderer/loader.h>
+
+#include <renderer/raw_model.h>
+#include <renderer/textured_model.h>
+
+#include <renderer/static_shader.h>
+
+
 namespace itomp_renderer
 {
 
@@ -27,12 +35,10 @@ public:
     explicit Renderer(QWidget* parent = 0);
     ~Renderer();
 
-    int addTriangularMeshBuffer(const std::vector<Eigen::Vector3d>& vertices, const std::vector<Eigen::Vector3d>& normals, const Eigen::Vector4d& color);
-    int addBoxBuffer(const Eigen::Vector3d& half_extents, const Eigen::Vector4d& color);
-    
-    int addObject(int buffer_id);
-    int addObject(int buffer_id, const Eigen::Quaterniond& orientation, const Eigen::Vector3d& position);
-    void setObjectPose(int object_id, const Eigen::Quaterniond& orientation, const Eigen::Vector3d& position);
+    inline QOpenGLFunctions_4_3_Core* getGLFunctions()
+    {
+        return gl_;
+    }
 
 protected:
 
@@ -45,54 +51,22 @@ protected:
 
 private:
 
-    void initializeOITBuffers();
-    void displayOIT();
-
-    GLuint loadShader(GLuint shader_type, const std::string& filename);
-    GLuint linkShaderProgram(const std::vector<GLuint>& shaders);
+    void renderTexturedModel(TexturedModel* model);
 
     Camera camera_;
 
     QOpenGLFunctions_4_3_Core* gl_;
+    
+    // loader
+    Loader* loader_;
 
-    GLuint mesh_vertex_shader_;
-    GLuint mesh_fragment_shader_;
-    GLuint mesh_shader_program_;
-    GLuint mesh_shader_location_view_matrix_;
-    GLuint mesh_shader_location_projection_matrix_;
+    // models
+    RawModel* model_;
+    ModelTexture* texture_;
+    TexturedModel* textured_model_;
 
-    GLuint line_vertex_shader_;
-    GLuint line_fragment_shader_;
-    GLuint line_shader_program_;
-    GLuint line_shader_location_view_matrix_;
-    GLuint line_shader_location_projection_matrix_;
-
-    GLuint oit_build_vertex_shader_;
-    GLuint oit_build_fragment_shader_;
-    GLuint oit_build_shader_program_;
-    GLuint oit_build_shader_location_model_matrix_;
-    GLuint oit_build_shader_location_view_matrix_;
-    GLuint oit_build_shader_location_projection_matrix_;
-    GLuint oit_build_shader_location_eye_position_;
-
-    GLuint oit_resolve_vertex_shader_;
-    GLuint oit_resolve_fragment_shader_;
-    GLuint oit_resolve_shader_program_;
-
-    GLuint oit_head_pointer_texture_;
-    GLuint oit_head_pointer_clear_buffer_;
-    GLuint oit_atomic_counter_buffer_;
-    GLuint oit_linked_list_buffer_;
-    GLuint oit_linked_list_texture_;
-    GLuint oit_quad_vao_;
-    GLuint oit_quad_vbo_;
-
-    // visualizing objects
-    std::vector<int> object_ids_;
-    std::vector<Eigen::Affine3d> object_transformations_;
-
-    // objects
-    std::vector<RendererObjectBuffer*> object_buffers_;
+    // shaders
+    StaticShader* static_shader_;
 
     int last_mouse_x_;
     int last_mouse_y_;
