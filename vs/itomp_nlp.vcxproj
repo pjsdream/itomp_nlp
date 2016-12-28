@@ -182,9 +182,10 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\renderer\light.cpp" />
     <ClCompile Include="..\src\renderer\light_shader.cpp" />
     <ClCompile Include="..\src\renderer\material.cpp" />
-    <ClCompile Include="..\src\renderer\model_texture.cpp" />
+    <ClCompile Include="..\src\renderer\texture.cpp" />
+    <ClCompile Include="..\src\renderer\object.cpp" />
     <ClCompile Include="..\src\renderer\raw_model.cpp" />
-    <ClCompile Include="..\src\renderer\loader.cpp" />
+    <ClCompile Include="..\src\renderer\resource_manager.cpp" />
     <ClCompile Include="..\src\renderer\renderer_interface.cpp" />
     <ClCompile Include="..\src\renderer\renderer.cpp" />
     <ClCompile Include="..\src\renderer\shader_program.cpp" />
@@ -194,6 +195,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\shape\shape.cpp" />
     <ClCompile Include="..\src\test\test_interface.cpp" />
     <ClCompile Include="..\src\utils\conversion.cpp" />
+    <ClCompile Include="..\src\utils\timing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\meshes\elbow_flex_link.dae" />
@@ -216,9 +218,10 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\renderer\gl_base.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\light.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\light_shader.h" />
-    <ClInclude Include="..\include\itomp_nlp\renderer\loader.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\resource_manager.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\material.h" />
-    <ClInclude Include="..\include\itomp_nlp\renderer\model_texture.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\texture.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\object.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\raw_model.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\renderer.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\renderer_interface.h" />
@@ -228,6 +231,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\shape\mesh.h" />
     <ClInclude Include="..\include\itomp_nlp\shape\shape.h" />
     <ClInclude Include="..\include\itomp_nlp\utils\conversion.h" />
+    <ClInclude Include="..\include\itomp_nlp\utils\timing.h" />
     <ClInclude Include="..\lib\lodepng.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

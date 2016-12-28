@@ -9,7 +9,7 @@
 
 #include <itomp_nlp/renderer/camera.h>
 
-#include <itomp_nlp/renderer/loader.h>
+#include <itomp_nlp/renderer/resource_manager.h>
 
 #include <itomp_nlp/renderer/entity.h>
 
@@ -54,24 +54,16 @@ protected:
 
 private:
 
-    void render(Entity* entity, StaticShader* shader);
-    void render(Entity* entity, LightShader* shader);
+    void renderObject(Object* object, LightShader* shader);
 
     Camera camera_;
 
     QOpenGLFunctions_4_3_Core* gl_;
     
-    // loader
-    Loader* loader_;
-
     // models
-    RawModel* model_;
-    ModelTexture* texture_;
-    TexturedModel* textured_model_;
-    Entity* entity_;
+    ResourceManager* resource_manager_;
     Light* light_;
-    Material* material_;
-    itomp_shape::Mesh* mesh_;
+    Object* object_;
 
     // shaders
     LightShader* light_shader_;

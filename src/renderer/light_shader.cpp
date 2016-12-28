@@ -36,7 +36,10 @@ void LightShader::getAllUniformLocations()
     location_eye_position_ = getUniformLocation("eye_position");
 
     location_material_ambient_color_ = getUniformLocation("material_ambient_color");
+    location_material_diffuse_color_ = getUniformLocation("material_diffuse_color");
     location_material_specular_color_ = getUniformLocation("material_specular_color");
+    location_shininess_ = getUniformLocation("shininess");
+    location_has_texture_ = getUniformLocation("has_texture");
 }
 
 void LightShader::loadModelTransform(const Eigen::Matrix4f& m)
@@ -58,9 +61,9 @@ void LightShader::loadCamera(const Camera& camera)
 void LightShader::loadLight(const Light* light)
 {
     const Eigen::Vector3f position = light->getPosition().cast<float>();
-    const Eigen::Vector3f ambient_color = light->getAmbientColor().cast<float>();
-    const Eigen::Vector3f diffuse_color = light->getDiffuseColor().cast<float>();
-    const Eigen::Vector3f specular_color = light->getSpecularColor().cast<float>();
+    const Eigen::Vector4f ambient_color = light->getAmbientColor();
+    const Eigen::Vector4f diffuse_color = light->getDiffuseColor();
+    const Eigen::Vector4f specular_color = light->getSpecularColor();
 
     loadUniform(location_light_position_, position);
     loadUniform(location_light_ambient_color_, ambient_color);
@@ -70,11 +73,26 @@ void LightShader::loadLight(const Light* light)
 
 void LightShader::loadMaterial(const Material* material)
 {
-    const Eigen::Vector3f ambient_color = material->getAmbientColor().cast<float>();
-    const Eigen::Vector3f specular_color = material->getSpecularColor().cast<float>();
+    // alpha is ignored
+    const Eigen::Vector4f ambient_color = material->getAmbientColor();
+    const Eigen::Vector4f specular_color = material->getSpecularColor();
 
     loadUniform(location_material_ambient_color_, ambient_color);
     loadUniform(location_material_specular_color_, specular_color);
+    loadUniform(location_shininess_, material->getShininess());
+
+    if (material->hasDiffuseTexture())
+    {
+        loadUniform(location_has_texture_, true);
+    }
+    else
+    {
+        loadUniform(location_has_texture_, false);
+
+        const Eigen::Vector4f diffuse_color = material->getDiffuseColor();
+
+        loadUniform(location_material_diffuse_color_, diffuse_color);
+    }
 }
 
 }

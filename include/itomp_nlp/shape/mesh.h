@@ -26,7 +26,7 @@ private:
     std::vector<Eigen::Vector3d> vertices_;
     std::vector<Eigen::Vector3d> normals_;
     std::vector<Eigen::Vector2d> texture_coords_;
-    std::vector<Eigen::Vector3i> traingles_;
+    std::vector<Eigen::Vector3i> triangles_;
 };
 
 }

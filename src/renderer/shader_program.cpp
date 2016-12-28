@@ -44,6 +44,11 @@ void ShaderProgram::loadUniform(int location, const Eigen::Vector3f& v)
     gl_->glUniform3fv(location, 1, v.data());
 }
 
+void ShaderProgram::loadUniform(int location, const Eigen::Vector4f& v)
+{
+    gl_->glUniform4fv(location, 1, v.data());
+}
+
 void ShaderProgram::loadUniform(int location, bool value)
 {
     gl_->glUniform1f(location, value);

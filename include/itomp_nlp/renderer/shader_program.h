@@ -24,6 +24,7 @@ public:
     
     void loadUniform(int location, float value);
     void loadUniform(int locatiom, const Eigen::Vector3f& v);
+    void loadUniform(int location, const Eigen::Vector4f& v);
     void loadUniform(int location, bool value);
     void loadUniform(int location, const Eigen::Matrix4f& m);
 

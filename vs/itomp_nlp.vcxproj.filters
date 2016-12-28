@@ -57,12 +57,6 @@
     <ClCompile Include="..\src\renderer\static_shader.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\renderer\loader.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\renderer\model_texture.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\renderer\textured_model.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
@@ -89,6 +83,18 @@
     </ClCompile>
     <ClCompile Include="..\src\utils\conversion.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\object.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\utils\timing.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\resource_manager.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\texture.cpp">
+      <Filter>Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,13 +166,7 @@
     <ClInclude Include="..\include\itomp_nlp\renderer\light_shader.h">
       <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\renderer\loader.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\material.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\renderer\model_texture.h">
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\raw_model.h">
@@ -185,6 +185,18 @@
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\textured_model.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\object.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\utils\timing.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\resource_manager.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\texture.h">
       <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>

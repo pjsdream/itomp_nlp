@@ -5,18 +5,19 @@ in vec3 surface_position;
 in vec3 surface_normal;
 
 uniform vec3 light_position;
-uniform vec3 light_ambient_color;
-uniform vec3 light_diffuse_color;
-uniform vec3 light_specular_color;
+uniform vec4 light_ambient_color;
+uniform vec4 light_diffuse_color;
+uniform vec4 light_specular_color;
 uniform float light_ambient;
 uniform vec3 eye_position;
 
-uniform vec3 material_ambient_color;
-uniform vec3 material_specular_color;
+uniform vec4 material_ambient_color;
+uniform vec4 material_diffuse_color;
+uniform vec4 material_specular_color;
+uniform float shininess = 10.0;
 
+uniform bool has_texture;
 uniform sampler2D texture_sampler;
-
-const float shininess = 10.0;
 
 out vec4 out_color;
 
@@ -33,11 +34,15 @@ void main()
     float VdotR = dot(V, R);
     float light_specular = pow( clamp(VdotR, 0, 1), shininess );
 
-    vec3 material_diffuse_color = vec3( texture(texture_sampler, pass_texture_coords) );
+    vec4 material_final_diffuse_color;
+    if (has_texture)
+        material_final_diffuse_color = texture(texture_sampler, pass_texture_coords);
+    else
+        material_final_diffuse_color = material_diffuse_color ;
 
-    vec3 phong_color = light_ambient_color * material_ambient_color * light_ambient
-                     + light_diffuse_color * material_diffuse_color * light_diffuse
+    vec4 phong_color = light_ambient_color * material_ambient_color * light_ambient
+                     + light_diffuse_color * material_final_diffuse_color * light_diffuse
                      + light_specular_color * material_specular_color * light_specular;
 
-    out_color = vec4(phong_color, 1.0);
+    out_color = vec4(phong_color.xyz, 1.0);
 }

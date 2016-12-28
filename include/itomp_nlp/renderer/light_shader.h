@@ -22,7 +22,7 @@ private:
 public:
 
     LightShader(Renderer* renderer);
-
+    
     virtual void bindAttributes();
 
     void loadModelTransform(const Eigen::Matrix4f& m);
@@ -50,7 +50,10 @@ private:
     GLuint location_eye_position_;
 
     GLuint location_material_ambient_color_;
+    GLuint location_material_diffuse_color_;
     GLuint location_material_specular_color_;
+    GLuint location_shininess_;
+    GLuint location_has_texture_;
 };
 
 }

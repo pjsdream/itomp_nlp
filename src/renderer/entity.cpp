@@ -1,6 +1,7 @@
 #include <itomp_nlp/renderer/entity.h>
 
 
+/*
 namespace itomp_renderer
 {
 
@@ -10,3 +11,4 @@ Entity::Entity(TexturedModel* model, const Eigen::Affine3d& transformation)
 }
 
 }
+*/

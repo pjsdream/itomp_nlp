@@ -4,9 +4,9 @@
 namespace itomp_renderer
 {
 
-Light::Light(const Eigen::Vector3d& position, const Eigen::Vector3d& color)
+Light::Light(const Eigen::Vector3d& position)
     : position_(position)
-    , color_(color)
+    , color_(Eigen::Vector4f(0, 0, 0, 1))
 {
 }
 

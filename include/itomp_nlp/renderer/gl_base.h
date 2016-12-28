@@ -14,12 +14,16 @@ class GLBase
 {
 public:
 
-    GLBase(QOpenGLFunctions_4_3_Core* gl);
     GLBase(Renderer* renderer);
-    GLBase(GLBase& base);
+
+    inline Renderer* getRenderer()
+    {
+        return renderer_;
+    }
 
 protected:
 
+    Renderer* renderer_;
     QOpenGLFunctions_4_3_Core* gl_;
 };
 

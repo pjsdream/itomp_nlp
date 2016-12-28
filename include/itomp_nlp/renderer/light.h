@@ -12,24 +12,24 @@ class Light
 {
 public:
 
-    Light(const Eigen::Vector3d& position = Eigen::Vector3d::Zero(), const Eigen::Vector3d& color = Eigen::Vector3d(1, 1, 1));
+    Light(const Eigen::Vector3d& position = Eigen::Vector3d::Zero());
 
     inline const Eigen::Vector3d& getPosition() const
     {
         return position_;
     }
 
-    inline Eigen::Vector3d getAmbientColor() const
+    inline Eigen::Vector4f getAmbientColor() const
     {
-        return Eigen::Vector3d::Zero();
+        return Eigen::Vector4f(0, 0, 0, 1);
     }
 
-    inline const Eigen::Vector3d& getDiffuseColor() const
+    inline const Eigen::Vector4f& getDiffuseColor() const
     {
         return color_;
     }
 
-    inline const Eigen::Vector3d& getSpecularColor() const
+    inline const Eigen::Vector4f& getSpecularColor() const
     {
         return color_;
     }
@@ -39,7 +39,7 @@ public:
         position_ = position;
     }
 
-    inline void setColor(const Eigen::Vector3d& color)
+    inline void setColor(const Eigen::Vector4f& color)
     {
         color_ = color;
     }
@@ -47,7 +47,7 @@ public:
 private:
 
     Eigen::Vector3d position_;
-    Eigen::Vector3d color_;
+    Eigen::Vector4f color_;
 };
 
 }

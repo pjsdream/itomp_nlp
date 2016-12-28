@@ -25,56 +25,14 @@ Renderer::~Renderer()
 {
 }
 
-void Renderer::render(Entity* entity, StaticShader* shader)
+void Renderer::renderObject(Object* object, LightShader* shader)
 {
-    TexturedModel* textured_model = entity->getModel();
-    RawModel* raw_model = textured_model_->getModel();
-
-    gl_->glBindVertexArray(raw_model->getVAO());
-
-    gl_->glEnableVertexAttribArray(0);
-    gl_->glEnableVertexAttribArray(1);
-    gl_->glEnableVertexAttribArray(2);
-
-    Eigen::Affine3f transformation = entity->getTransformation().cast<float>();
-    shader->loadTransformationMatrix(transformation.matrix());
-
-    gl_->glActiveTexture(GL_TEXTURE0);
-    gl_->glBindTexture(GL_TEXTURE_2D, textured_model->getTexture()->getId());
-
-    gl_->glDrawElements(GL_TRIANGLES, raw_model->getNumVertices(), GL_UNSIGNED_INT, 0);
-
-    gl_->glDisableVertexAttribArray(0);
-    gl_->glDisableVertexAttribArray(1);
-    gl_->glDisableVertexAttribArray(2);
-
-    gl_->glBindVertexArray(0);
-}
-
-void Renderer::render(Entity* entity, LightShader* shader)
-{
-    TexturedModel* textured_model = entity->getModel();
-    RawModel* raw_model = textured_model_->getModel();
-
-    gl_->glBindVertexArray(raw_model->getVAO());
-
-    gl_->glEnableVertexAttribArray(0);
-    gl_->glEnableVertexAttribArray(1);
-    gl_->glEnableVertexAttribArray(2);
-
-    Eigen::Affine3f transformation = entity->getTransformation().cast<float>();
+    Eigen::Affine3f transformation = Eigen::Affine3f::Identity();
     shader->loadModelTransform(transformation.matrix());
 
-    gl_->glActiveTexture(GL_TEXTURE0);
-    gl_->glBindTexture(GL_TEXTURE_2D, textured_model->getTexture()->getId());
+    light_shader_->loadMaterial(object->getMaterial());
 
-    gl_->glDrawElements(GL_TRIANGLES, raw_model->getNumVertices(), GL_UNSIGNED_INT, 0);
-
-    gl_->glDisableVertexAttribArray(0);
-    gl_->glDisableVertexAttribArray(1);
-    gl_->glDisableVertexAttribArray(2);
-
-    gl_->glBindVertexArray(0);
+    object->draw();
 }
 
 void Renderer::initializeGL()
@@ -85,48 +43,15 @@ void Renderer::initializeGL()
     gl_->glClearColor(0.5f, 1.0f, 1.0f, 1.0f);
     gl_->glClearDepth(1.0f);
 
-    loader_ = new Loader(this);
+    resource_manager_ = new ResourceManager(this);
 
     light_shader_ = new LightShader(this);
 
-    std::vector<double> vertices = {
-        -0.5, 0.5, 0,
-        -0.5, -0.5, 0,
-        0.5, -0.5, 0,
-        0.5, 0.5, 0,
-    };
+    object_ = new Object(this);
+    object_ = resource_manager_->importDaeFile("../meshes/torso_lift_link.dae");
 
-    std::vector<double> normals = {
-        -1, 1, 1,
-        -1, -1, 1,
-        1, -1, 1,
-        1, 1, 1,
-    };
-
-    std::vector<double> texture_coords = {
-        0, 0, 
-        0, 1, 
-        1, 1, 
-        1, 0, 
-    };
-
-    std::vector<int> indices = {
-        0, 1, 3,
-        3, 1, 2,
-    };
-
-    model_ = loader_->createRawModel(vertices, normals, texture_coords, indices);
-    texture_ = new ModelTexture( loader_->loadTexture("texture/image.png") );
-    textured_model_ = new TexturedModel(model_, texture_);
-    entity_ = new Entity(textured_model_, Eigen::Affine3d::Identity());
-    entity_->getTransformation().translate( Eigen::Vector3d(0, 0, 0) );
-
-    material_ = new Material(Eigen::Vector3d(1, 1, 1), Eigen::Vector3d(0.5, 0.5, 0.5));
-
-    mesh_ = new itomp_shape::Mesh();
-    mesh_->importDaeFile("../meshes/torso_lift_link.dae");
-
-    light_ = new Light(Eigen::Vector3d(0, 0, 20), Eigen::Vector3d(1, 1, 1));
+    light_ = new Light(Eigen::Vector3d(20, 0, 0));
+    light_->setColor(Eigen::Vector4f(1, 1, 1, 1));
 }
 
 void Renderer::resizeGL(int w, int h)
@@ -145,9 +70,8 @@ void Renderer::paintGL()
 
     light_shader_->loadCamera(camera_);
     light_shader_->loadLight(light_);
-    light_shader_->loadMaterial(material_);
 
-    render(entity_, light_shader_);
+    renderObject(object_, light_shader_);
 
     light_shader_->stop();
 }
