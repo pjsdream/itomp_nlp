@@ -10,7 +10,6 @@ uniform vec4 light_diffuse_color[8];
 uniform vec4 light_specular_color[8];
 uniform vec3 eye_position;
 
-uniform vec4 material_ambient_color;
 uniform vec4 material_diffuse_color;
 uniform vec4 material_specular_color;
 uniform float shininess;

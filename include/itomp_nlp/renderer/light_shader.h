@@ -50,7 +50,6 @@ private:
     GLuint location_light_specular_color_[MAX_NUM_LIGHTS];
     GLuint location_eye_position_;
 
-    GLuint location_material_ambient_color_;
     GLuint location_material_diffuse_color_;
     GLuint location_material_specular_color_;
     GLuint location_shininess_;

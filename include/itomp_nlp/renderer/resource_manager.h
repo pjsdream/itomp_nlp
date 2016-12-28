@@ -18,7 +18,7 @@ public:
 
     ResourceManager(Renderer* renderer);
 
-    Object* importDaeFile(const std::string& filename);
+    Object* importFile(const std::string& filename);
 
     Texture* loadTexture(const std::string& filename);
 

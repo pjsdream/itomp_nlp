@@ -174,6 +174,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\lodepng.cpp" />
+    <ClCompile Include="..\lib\tinyxml2.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_renderer.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_renderer_interface.cpp" />
     <ClCompile Include="..\src\renderer\camera.cpp" />
@@ -182,6 +183,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\renderer\light.cpp" />
     <ClCompile Include="..\src\renderer\light_shader.cpp" />
     <ClCompile Include="..\src\renderer\material.cpp" />
+    <ClCompile Include="..\src\renderer\robot_renderer.cpp" />
     <ClCompile Include="..\src\renderer\texture.cpp" />
     <ClCompile Include="..\src\renderer\object.cpp" />
     <ClCompile Include="..\src\renderer\resource_manager.cpp" />
@@ -189,6 +191,12 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\renderer\renderer.cpp" />
     <ClCompile Include="..\src\renderer\shader_program.cpp" />
     <ClCompile Include="..\src\renderer\static_shader.cpp" />
+    <ClCompile Include="..\src\robot\joint.cpp" />
+    <ClCompile Include="..\src\robot\link.cpp" />
+    <ClCompile Include="..\src\robot\revolute_joint.cpp" />
+    <ClCompile Include="..\src\robot\robot_model.cpp" />
+    <ClCompile Include="..\src\robot\robot_state.cpp" />
+    <ClCompile Include="..\src\robot\urdf_parser.cpp" />
     <ClCompile Include="..\src\shape\mesh.cpp" />
     <ClCompile Include="..\src\shape\shape.cpp" />
     <ClCompile Include="..\src\test\test_interface.cpp" />
@@ -208,6 +216,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <None Include="..\shader\resolve_lists.vert" />
     <None Include="..\shader\static.frag" />
     <None Include="..\shader\static.vert" />
+    <None Include="..\urdf\fetch.urdf" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\itomp_nlp\renderer\camera.h" />
@@ -217,17 +226,25 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\renderer\light_shader.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\resource_manager.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\material.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\robot_renderer.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\texture.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\object.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\renderer.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\renderer_interface.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\shader_program.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\static_shader.h" />
+    <ClInclude Include="..\include\itomp_nlp\robot\joint.h" />
+    <ClInclude Include="..\include\itomp_nlp\robot\link.h" />
+    <ClInclude Include="..\include\itomp_nlp\robot\revolute_joint.h" />
+    <ClInclude Include="..\include\itomp_nlp\robot\robot_model.h" />
+    <ClInclude Include="..\include\itomp_nlp\robot\robot_state.h" />
+    <ClInclude Include="..\include\itomp_nlp\robot\urdf_parser.h" />
     <ClInclude Include="..\include\itomp_nlp\shape\mesh.h" />
     <ClInclude Include="..\include\itomp_nlp\shape\shape.h" />
     <ClInclude Include="..\include\itomp_nlp\utils\conversion.h" />
     <ClInclude Include="..\include\itomp_nlp\utils\timing.h" />
     <ClInclude Include="..\lib\lodepng.h" />
+    <ClInclude Include="..\lib\tinyxml2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -25,12 +25,35 @@ Renderer::~Renderer()
 {
 }
 
+int Renderer::registerMeshFile(const std::string& filename)
+{
+    Object* object = resource_manager_->importFile(filename);
+    objects_.push_back(object);
+    return objects_.size() - 1;
+}
+
+int Renderer::addEntity(int object_id, const Eigen::Affine3d& transform)
+{
+    Entity* entity = new Entity(objects_[object_id], transform);
+    entities_.push_back(entity);
+    return entities_.size() - 1;
+}
+
 void Renderer::renderObject(Object* object, LightShader* shader)
 {
     Eigen::Affine3f transformation = Eigen::Affine3f::Identity();
     shader->loadModelTransform(transformation.matrix());
+    shader->loadMaterial(object->getMaterial());
+    object->draw();
+}
 
-    light_shader_->loadMaterial(object->getMaterial());
+void Renderer::renderEntity(Entity* entity, LightShader* shader)
+{
+    Object* object = entity->getObject();
+    Eigen::Affine3f transformation = entity->getTransformation().cast<float>();
+
+    shader->loadModelTransform(transformation.matrix());
+    shader->loadMaterial(object->getMaterial());
     object->draw();
 }
 
@@ -46,15 +69,17 @@ void Renderer::initializeGL()
 
     light_shader_ = new LightShader(this);
 
-    object_ = new Object(this);
-    object_ = resource_manager_->importDaeFile("../meshes/base_link.dae");
-
     Light* light;
-    
     light = new Light(Eigen::Vector3d(-1, 0, 0));
     light->setDiffuseColor(Eigen::Vector4f(1, 1, 1, 1));
     light->setSpecularColor(Eigen::Vector4f(0, 0, 0, 1));
     lights_.push_back(light);
+
+    // debug
+    /*
+    registerMeshFile("../meshes/torso_lift_link.dae");
+    addEntity(0, Eigen::Affine3d::Identity());
+    */
 }
 
 void Renderer::resizeGL(int w, int h)
@@ -76,7 +101,10 @@ void Renderer::paintGL()
     light_shader_->loadCamera(camera_);
     light_shader_->loadLights(lights_);
 
-    renderObject(object_, light_shader_);
+    for (int i=0; i<entities_.size(); i++)
+    {
+        renderEntity(entities_[i], light_shader_);
+    }
 
     light_shader_->stop();
 }

@@ -43,6 +43,9 @@ public:
         return gl_;
     }
 
+    int registerMeshFile(const std::string& filename);
+    int addEntity(int object_id, const Eigen::Affine3d& transform);
+
 protected:
 
     virtual void initializeGL();
@@ -55,18 +58,23 @@ protected:
 private:
 
     void renderObject(Object* object, LightShader* shader);
+    void renderEntity(Entity* entity, LightShader* shader);
 
     Camera camera_;
 
     QOpenGLFunctions_4_3_Core* gl_;
     
-    // models
     ResourceManager* resource_manager_;
-    std::vector<Light*> lights_;
-    Object* object_;
 
     // shaders
     LightShader* light_shader_;
+    std::vector<Light*> lights_;
+
+    // objects
+    std::vector<Object*> objects_;
+
+    // entities to be drawn
+    std::vector<Entity*> entities_;
 
     int last_mouse_x_;
     int last_mouse_y_;

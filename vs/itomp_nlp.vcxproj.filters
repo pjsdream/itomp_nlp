@@ -25,6 +25,12 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{2af99639-e8b1-4eae-91a5-2ab898f55d0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TinyXML2">
+      <UniqueIdentifier>{e25e7a0f-d3f1-4cf9-8c1b-edc2bdf22780}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="URDF">
+      <UniqueIdentifier>{945d1111-13d6-4f09-a3c1-9bcc7ad17baf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\test\test_interface.cpp">
@@ -90,6 +96,30 @@
     <ClCompile Include="..\src\renderer\texture.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="..\lib\tinyxml2.cpp">
+      <Filter>TinyXML2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\robot\robot_model.cpp">
+      <Filter>Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\robot\robot_state.cpp">
+      <Filter>Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\robot\urdf_parser.cpp">
+      <Filter>Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\robot\joint.cpp">
+      <Filter>Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\robot\link.cpp">
+      <Filter>Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\robot\revolute_joint.cpp">
+      <Filter>Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\robot_renderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -127,6 +157,9 @@
     </None>
     <None Include="..\shader\light.vert">
       <Filter>Shader</Filter>
+    </None>
+    <None Include="..\urdf\fetch.urdf">
+      <Filter>URDF</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +215,30 @@
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\texture.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\tinyxml2.h">
+      <Filter>TinyXML2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\robot\robot_model.h">
+      <Filter>Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\robot\robot_state.h">
+      <Filter>Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\robot\urdf_parser.h">
+      <Filter>Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\robot\joint.h">
+      <Filter>Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\robot\link.h">
+      <Filter>Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\robot\revolute_joint.h">
+      <Filter>Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\robot_renderer.h">
       <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>

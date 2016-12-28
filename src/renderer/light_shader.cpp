@@ -39,7 +39,6 @@ void LightShader::getAllUniformLocations()
     }
     location_eye_position_ = getUniformLocation("eye_position");
 
-    location_material_ambient_color_ = getUniformLocation("material_ambient_color");
     location_material_diffuse_color_ = getUniformLocation("material_diffuse_color");
     location_material_specular_color_ = getUniformLocation("material_specular_color");
     location_shininess_ = getUniformLocation("shininess");
@@ -84,11 +83,8 @@ void LightShader::loadLights(const std::vector<Light*>& lights)
 
 void LightShader::loadMaterial(const Material* material)
 {
-    // alpha is ignored
-    const Eigen::Vector4f ambient_color = material->getAmbientColor();
     const Eigen::Vector4f specular_color = material->getSpecularColor();
 
-    loadUniform(location_material_ambient_color_, ambient_color);
     loadUniform(location_material_specular_color_, specular_color);
     loadUniform(location_shininess_, material->getShininess());
 

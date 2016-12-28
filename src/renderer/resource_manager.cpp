@@ -46,7 +46,7 @@ void ResourceManager::unbindVAO()
     gl_->glBindVertexArray(0);
 }
 
-Object* ResourceManager::importDaeFile(const std::string& filename)
+Object* ResourceManager::importFile(const std::string& filename)
 {
     Object* object = new Object(getRenderer());
     Material* material = new Material();
@@ -56,12 +56,8 @@ Object* ResourceManager::importDaeFile(const std::string& filename)
 
     Assimp::Importer importer;
 
-    itomp_utils::timerStart();
-
     const aiScene* scene = importer.ReadFile(filename, aiProcess_Triangulate);
 
-    itomp_utils::timerPrintElapsedTime();
-    
     // mesh
     if (scene->HasMeshes())
     {
@@ -103,8 +99,6 @@ Object* ResourceManager::importDaeFile(const std::string& filename)
             object->setNumVertices(3 * mesh->mNumFaces);
         }
     }
-
-    itomp_utils::timerPrintElapsedTime();
 
     // color
     if (scene->HasMaterials())
