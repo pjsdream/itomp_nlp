@@ -4,7 +4,7 @@
 namespace itomp_renderer
 {
 
-Texture::Texture(int id)
+Texture::Texture(GLuint id)
     : texture_id_(id)
 {
 }

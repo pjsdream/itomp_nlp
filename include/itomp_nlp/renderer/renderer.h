@@ -62,7 +62,7 @@ private:
     
     // models
     ResourceManager* resource_manager_;
-    Light* light_;
+    std::vector<Light*> lights_;
     Object* object_;
 
     // shaders

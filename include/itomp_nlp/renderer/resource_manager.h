@@ -21,7 +21,7 @@ public:
 
     Object* importDaeFile(const std::string& filename);
 
-    GLuint loadTexture(const std::string& filename);
+    Texture* loadTexture(const std::string& filename);
 
     void cleanUp();
 

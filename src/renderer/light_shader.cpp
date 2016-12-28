@@ -28,11 +28,15 @@ void LightShader::getAllUniformLocations()
     location_view_ = getUniformLocation("view");
     location_projection_ = getUniformLocation("projection");
 
-    location_light_position_ = getUniformLocation("light_position");
-    location_light_ambient_color_ = getUniformLocation("light_ambient_color");
-    location_light_diffuse_color_ = getUniformLocation("light_diffuse_color");
-    location_light_specular_color_ = getUniformLocation("light_specular_color");
-    location_light_ambient_ = getUniformLocation("light_ambient");
+    for (int i=0; i<MAX_NUM_LIGHTS; i++)
+    {
+        const std::string array_index = "[" + std::to_string(i) + "]";
+        
+        location_light_use_[i] = getUniformLocation("light_use" + array_index);
+        location_light_position_[i] = getUniformLocation("light_position" + array_index);
+        location_light_diffuse_color_[i] = getUniformLocation("light_diffuse_color" + array_index);
+        location_light_specular_color_[i] = getUniformLocation("light_specular_color" + array_index);
+    }
     location_eye_position_ = getUniformLocation("eye_position");
 
     location_material_ambient_color_ = getUniformLocation("material_ambient_color");
@@ -58,17 +62,24 @@ void LightShader::loadCamera(const Camera& camera)
     loadUniform(location_eye_position_, eye_position);
 }
 
-void LightShader::loadLight(const Light* light)
+void LightShader::loadLights(const std::vector<Light*>& lights)
 {
-    const Eigen::Vector3f position = light->getPosition().cast<float>();
-    const Eigen::Vector4f ambient_color = light->getAmbientColor();
-    const Eigen::Vector4f diffuse_color = light->getDiffuseColor();
-    const Eigen::Vector4f specular_color = light->getSpecularColor();
+    for (int i=0; i<lights.size() && i<MAX_NUM_LIGHTS; i++)
+    {
+        const Eigen::Vector3f position = lights[i]->getPosition().cast<float>();
+        const Eigen::Vector4f diffuse_color = lights[i]->getDiffuseColor();
+        const Eigen::Vector4f specular_color = lights[i]->getSpecularColor();
+        
+        loadUniform(location_light_use_[i], true);
+        loadUniform(location_light_position_[i], position);
+        loadUniform(location_light_diffuse_color_[i], diffuse_color);
+        loadUniform(location_light_specular_color_[i], specular_color);
+    }
 
-    loadUniform(location_light_position_, position);
-    loadUniform(location_light_ambient_color_, ambient_color);
-    loadUniform(location_light_diffuse_color_, diffuse_color);
-    loadUniform(location_light_specular_color_, specular_color);
+    for (int i=lights.size(); i<MAX_NUM_LIGHTS; i++)
+    {
+        loadUniform(location_light_use_[i], false);
+    }
 }
 
 void LightShader::loadMaterial(const Material* material)

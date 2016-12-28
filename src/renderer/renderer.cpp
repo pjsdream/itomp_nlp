@@ -31,7 +31,6 @@ void Renderer::renderObject(Object* object, LightShader* shader)
     shader->loadModelTransform(transformation.matrix());
 
     light_shader_->loadMaterial(object->getMaterial());
-
     object->draw();
 }
 
@@ -40,7 +39,7 @@ void Renderer::initializeGL()
     gl_ = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
 
     gl_->glEnable(GL_DEPTH_TEST);
-    gl_->glClearColor(0.5f, 1.0f, 1.0f, 1.0f);
+    gl_->glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     gl_->glClearDepth(1.0f);
 
     resource_manager_ = new ResourceManager(this);
@@ -48,10 +47,14 @@ void Renderer::initializeGL()
     light_shader_ = new LightShader(this);
 
     object_ = new Object(this);
-    object_ = resource_manager_->importDaeFile("../meshes/torso_lift_link.dae");
+    object_ = resource_manager_->importDaeFile("../meshes/base_link.dae");
 
-    light_ = new Light(Eigen::Vector3d(20, 0, 0));
-    light_->setColor(Eigen::Vector4f(1, 1, 1, 1));
+    Light* light;
+    
+    light = new Light(Eigen::Vector3d(-1, 0, 0));
+    light->setDiffuseColor(Eigen::Vector4f(1, 1, 1, 1));
+    light->setSpecularColor(Eigen::Vector4f(0, 0, 0, 1));
+    lights_.push_back(light);
 }
 
 void Renderer::resizeGL(int w, int h)
@@ -66,10 +69,12 @@ void Renderer::paintGL()
 {
     gl_->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    light_shader_->start();
+    // light direction from camera
+    lights_[0]->setPosition( - camera_.lookAtDirection() );
 
+    light_shader_->start();
     light_shader_->loadCamera(camera_);
-    light_shader_->loadLight(light_);
+    light_shader_->loadLights(lights_);
 
     renderObject(object_, light_shader_);
 

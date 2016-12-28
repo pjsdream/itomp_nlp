@@ -16,6 +16,8 @@ class LightShader : public ShaderProgram
 {
 private:
 
+    static const int MAX_NUM_LIGHTS = 8;
+
     static const std::string vertex_filename_;
     static const std::string fragment_filename_;
 
@@ -28,7 +30,7 @@ public:
     void loadModelTransform(const Eigen::Matrix4f& m);
     void loadCamera(const Camera& camera);
 
-    void loadLight(const Light* light);
+    void loadLights(const std::vector<Light*>& light);
 
     void loadMaterial(const Material* material);
 
@@ -42,11 +44,10 @@ private:
     GLuint location_view_;
     GLuint location_projection_;
 
-    GLuint location_light_position_;
-    GLuint location_light_ambient_color_;
-    GLuint location_light_diffuse_color_;
-    GLuint location_light_specular_color_;
-    GLuint location_light_ambient_;
+    GLuint location_light_use_[MAX_NUM_LIGHTS];
+    GLuint location_light_position_[MAX_NUM_LIGHTS];
+    GLuint location_light_diffuse_color_[MAX_NUM_LIGHTS];
+    GLuint location_light_specular_color_[MAX_NUM_LIGHTS];
     GLuint location_eye_position_;
 
     GLuint location_material_ambient_color_;

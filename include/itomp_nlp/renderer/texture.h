@@ -2,6 +2,9 @@
 #define ITOMP_RENDERER_TEXTURE_H
 
 
+#include <itomp_nlp/renderer/gl_base.h>
+
+
 namespace itomp_renderer
 {
 
@@ -9,16 +12,16 @@ class Texture
 {
 public:
 
-    Texture(int id);
+    Texture(GLuint id);
 
-    inline int getId()
+    inline GLuint getId()
     {
         return texture_id_;
     }
 
 private:
 
-    int texture_id_;
+    GLuint texture_id_;
 };
 
 }

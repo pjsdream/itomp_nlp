@@ -131,7 +131,7 @@ Object* ResourceManager::importDaeFile(const std::string& filename)
             const int idx = filename.find_last_of("/\\");
             const std::string texture_filename = idx == std::string::npos ? path.C_Str() : filename.substr(0, idx) + "/" + path.C_Str();
 
-            material->setDiffuseTexture( new Texture( loadTexture(texture_filename) ) );
+            material->setDiffuseTexture( loadTexture(texture_filename) );
         }
 
         else
@@ -207,7 +207,7 @@ void ResourceManager::unmapElementBuffer()
     gl_->glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 }
 
-GLuint ResourceManager::loadTexture(const std::string& filename)
+Texture* ResourceManager::loadTexture(const std::string& filename)
 {
     // load png file
     std::vector<unsigned char> image;
@@ -232,7 +232,8 @@ GLuint ResourceManager::loadTexture(const std::string& filename)
     gl_->glGenerateMipmap(GL_TEXTURE_2D);
 
     textures_.push_back(texture);
-    return texture;
+
+    return new Texture(texture);
 }
 
 }

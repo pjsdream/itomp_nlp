@@ -19,19 +19,14 @@ public:
         return position_;
     }
 
-    inline Eigen::Vector4f getAmbientColor() const
-    {
-        return Eigen::Vector4f(0, 0, 0, 1);
-    }
-
     inline const Eigen::Vector4f& getDiffuseColor() const
     {
-        return color_;
+        return diffuse_color_;
     }
 
     inline const Eigen::Vector4f& getSpecularColor() const
     {
-        return color_;
+        return specular_color_;
     }
 
     inline void setPosition(const Eigen::Vector3d& position)
@@ -39,15 +34,21 @@ public:
         position_ = position;
     }
 
-    inline void setColor(const Eigen::Vector4f& color)
+    inline void setDiffuseColor(const Eigen::Vector4f& color)
     {
-        color_ = color;
+        diffuse_color_ = color;
+    }
+
+    inline void setSpecularColor(const Eigen::Vector4f& color)
+    {
+        specular_color_ = color;
     }
 
 private:
 
     Eigen::Vector3d position_;
-    Eigen::Vector4f color_;
+    Eigen::Vector4f diffuse_color_;
+    Eigen::Vector4f specular_color_;
 };
 
 }

@@ -61,6 +61,11 @@ public:
         return eye_;
     }
 
+    inline Eigen::Vector3d lookAtDirection() const
+    {
+        return (center_ - eye_).normalized();
+    }
+
 private:
 
     Eigen::Matrix4d perspective() const;

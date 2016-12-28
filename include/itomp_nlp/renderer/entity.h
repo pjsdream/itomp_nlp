@@ -2,8 +2,7 @@
 #define ITOMP_RENDERER_ENTITY_H
 
 
-/*
-#include <itomp_nlp/renderer/textured_model.h>
+#include <itomp_nlp/renderer/object.h>
 
 #include <Eigen/Dense>
 
@@ -15,11 +14,12 @@ class Entity
 {
 public:
     
-    Entity(TexturedModel* model, const Eigen::Affine3d& transformation);
+    Entity(Object* model);
+    Entity(Object* model, const Eigen::Affine3d& transformation);
 
-    inline TexturedModel* getModel()
+    inline Object* getObject()
     {
-        return model_;
+        return object_;
     }
 
     inline const Eigen::Affine3d& getTransformation() const
@@ -39,12 +39,11 @@ public:
 
 private:
 
-    TexturedModel* model_;
+    Object* object_;
     Eigen::Affine3d transformation_;
 };
 
 }
-*/
 
 
 #endif // ITOMP_RENDERER_ENTITY_H
