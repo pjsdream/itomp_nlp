@@ -4,7 +4,6 @@
 
 #include <vector>
 
-#include <itomp_nlp/renderer/raw_model.h>
 #include <itomp_nlp/renderer/texture.h>
 #include <itomp_nlp/renderer/gl_base.h>
 #include <itomp_nlp/renderer/object.h>
