@@ -20,7 +20,10 @@ int RobotRenderer::addRobotEntity()
 
     // TODO: for now, robot entities at origin
     for (int i=0; i<robot_objects_.size(); i++)
-        renderer_->addEntity(robot_objects_[i], Eigen::Affine3d(Eigen::Translation3d(0, i * 0.1, 0)));
+    {
+        const double t = (double)i / robot_objects_.size() * 2*M_PI;
+        renderer_->addEntity(robot_objects_[i], Eigen::Affine3d(Eigen::Translation3d(cos(t), sin(t), 0)));
+    }
 
     robot_entities_.push_back(entities);
     return robot_entities_.size() - 1;

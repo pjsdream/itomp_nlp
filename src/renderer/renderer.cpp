@@ -62,7 +62,7 @@ void Renderer::initializeGL()
     gl_ = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
 
     gl_->glEnable(GL_DEPTH_TEST);
-    gl_->glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    gl_->glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
     gl_->glClearDepth(1.0f);
 
     resource_manager_ = new ResourceManager(this);
@@ -74,12 +74,6 @@ void Renderer::initializeGL()
     light->setDiffuseColor(Eigen::Vector4f(1, 1, 1, 1));
     light->setSpecularColor(Eigen::Vector4f(0, 0, 0, 1));
     lights_.push_back(light);
-
-    // debug
-    /*
-    registerMeshFile("../meshes/torso_lift_link.dae");
-    addEntity(0, Eigen::Affine3d::Identity());
-    */
 }
 
 void Renderer::resizeGL(int w, int h)
