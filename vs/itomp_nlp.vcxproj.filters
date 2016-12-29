@@ -126,6 +126,9 @@
     <ClCompile Include="..\src\renderer\wireframe_shader.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\robot\continuous_joint.cpp">
+      <Filter>Robot</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -270,6 +273,9 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\wireframe_shader.h">
       <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\robot\continuous_joint.h">
+      <Filter>Robot</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
