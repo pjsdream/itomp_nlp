@@ -15,6 +15,7 @@ class ShaderProgram : public GLBase
 public:
 
     ShaderProgram(Renderer* renderer, const std::string& vertex_filename, const std::string& fragment_filename);
+    ShaderProgram(Renderer* renderer, const std::string& vertex_filename, const std::string& geometry_filename, const std::string& fragment_filename);
 
     virtual void bindAttributes() = 0;
 
@@ -42,6 +43,7 @@ private:
     GLuint createShaderProgram();
 
     GLuint vertex_shader_;
+    GLuint geometry_shader_;
     GLuint fragment_shader_;
 
     GLuint shader_program_;

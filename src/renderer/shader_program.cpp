@@ -13,6 +13,16 @@ ShaderProgram::ShaderProgram(Renderer* renderer, const std::string& vertex_filen
     shader_program_ = createShaderProgram();
 }
 
+ShaderProgram::ShaderProgram(Renderer* renderer, const std::string& vertex_filename, const std::string& geometry_filename, const std::string& fragment_filename)
+    : GLBase(renderer)
+{
+    vertex_shader_ = loadShader(vertex_filename, GL_VERTEX_SHADER);
+    geometry_shader_ = loadShader(geometry_filename, GL_GEOMETRY_SHADER);
+    fragment_shader_ = loadShader(fragment_filename, GL_FRAGMENT_SHADER);
+
+    shader_program_ = createShaderProgram();
+}
+
 void ShaderProgram::start()
 {
     gl_->glUseProgram(shader_program_);
@@ -118,7 +128,14 @@ GLuint ShaderProgram::createShaderProgram()
 {
     GLuint program = gl_->glCreateProgram();
 
+    // vert
     gl_->glAttachShader(program, vertex_shader_);
+
+    // geom
+    if (geometry_shader_ != 0)
+        gl_->glAttachShader(program, geometry_shader_);
+
+    // frag
     gl_->glAttachShader(program, fragment_shader_);
     
     gl_->glLinkProgram(program);

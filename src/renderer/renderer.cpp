@@ -57,6 +57,24 @@ void Renderer::renderEntity(Entity* entity, LightShader* shader)
     object->draw();
 }
 
+void Renderer::renderEntityNormals(Entity* entity, NormalShader* shader)
+{
+    Object* object = entity->getObject();
+    Eigen::Affine3f transformation = entity->getTransformation().cast<float>();
+
+    shader->loadModelTransform(transformation.matrix());
+    object->draw(GL_POINTS);
+}
+
+void Renderer::renderEntityWireframe(Entity* entity, WireframeShader* shader)
+{
+    Object* object = entity->getObject();
+    Eigen::Affine3f transformation = entity->getTransformation().cast<float>();
+
+    shader->loadModelTransform(transformation.matrix());
+    object->draw();
+}
+
 void Renderer::initializeGL()
 {
     gl_ = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
@@ -67,8 +85,15 @@ void Renderer::initializeGL()
 
     resource_manager_ = new ResourceManager(this);
 
+    // shaders
     light_shader_ = new LightShader(this);
 
+    normal_shader_ = new NormalShader(this);
+    setNormalLineLength(0.01);
+
+    wireframe_shader_ = new WireframeShader(this);
+
+    // default light
     Light* light;
     light = new Light(Eigen::Vector3d(-1, 0, 0));
     light->setDiffuseColor(Eigen::Vector4f(1, 1, 1, 1));
@@ -91,16 +116,36 @@ void Renderer::paintGL()
     // light direction from camera
     lights_[0]->setPosition( - camera_.lookAtDirection() );
 
+    // light shader
     light_shader_->start();
     light_shader_->loadCamera(camera_);
     light_shader_->loadLights(lights_);
 
     for (int i=0; i<entities_.size(); i++)
-    {
         renderEntity(entities_[i], light_shader_);
-    }
 
     light_shader_->stop();
+
+    /*
+    // normal shader
+    normal_shader_->start();
+    normal_shader_->loadCamera(camera_);
+    normal_shader_->loadLineLength(normal_line_length_);
+
+    for (int i=0; i<entities_.size(); i++)
+        renderEntityNormals(entities_[i], normal_shader_);
+
+    normal_shader_->stop();
+
+    // wireframe shader
+    wireframe_shader_->start();
+    wireframe_shader_->loadCamera(camera_);
+
+    for (int i=0; i<entities_.size(); i++)
+        renderEntityWireframe(entities_[i], wireframe_shader_);
+
+    wireframe_shader_->stop();
+    */
 }
 
 void Renderer::mousePressEvent(QMouseEvent* event)

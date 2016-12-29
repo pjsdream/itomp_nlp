@@ -16,7 +16,7 @@ public:
 
     Object(Renderer* renderer);
 
-    void draw();
+    void draw(GLuint primitive_type = GL_TRIANGLES);
 
     inline GLuint getVAO() const
     {

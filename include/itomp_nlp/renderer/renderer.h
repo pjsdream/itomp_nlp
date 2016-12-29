@@ -15,6 +15,8 @@
 
 #include <itomp_nlp/renderer/static_shader.h>
 #include <itomp_nlp/renderer/light_shader.h>
+#include <itomp_nlp/renderer/normal_shader.h>
+#include <itomp_nlp/renderer/wireframe_shader.h>
 #include <itomp_nlp/renderer/light.h>
 #include <itomp_nlp/renderer/material.h>
 
@@ -43,6 +45,11 @@ public:
         return gl_;
     }
 
+    inline void setNormalLineLength(double length)
+    {
+        normal_line_length_ = length;
+    }
+
     int registerMeshFile(const std::string& filename);
     int addEntity(int object_id, const Eigen::Affine3d& transform);
 
@@ -59,6 +66,8 @@ private:
 
     void renderObject(Object* object, LightShader* shader);
     void renderEntity(Entity* entity, LightShader* shader);
+    void renderEntityNormals(Entity* entity, NormalShader* shader);
+    void renderEntityWireframe(Entity* entity, WireframeShader* shader);
 
     Camera camera_;
 
@@ -69,6 +78,9 @@ private:
     // shaders
     LightShader* light_shader_;
     std::vector<Light*> lights_;
+    NormalShader* normal_shader_;
+    double normal_line_length_;
+    WireframeShader* wireframe_shader_;
 
     // objects
     std::vector<Object*> objects_;

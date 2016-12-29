@@ -15,7 +15,7 @@ Object::Object(Renderer* renderer)
 {
 }
 
-void Object::draw()
+void Object::draw(GLuint primitive_type)
 {
     gl_->glBindVertexArray(vao_);
 
@@ -35,7 +35,7 @@ void Object::draw()
     gl_->glEnableVertexAttribArray(0);
     gl_->glEnableVertexAttribArray(1);
 
-    gl_->glDrawElements(GL_TRIANGLES, num_vertices_, GL_UNSIGNED_INT, 0);
+    gl_->glDrawElements(primitive_type, num_vertices_, GL_UNSIGNED_INT, 0);
 
     gl_->glDisableVertexAttribArray(0);
     gl_->glDisableVertexAttribArray(1);

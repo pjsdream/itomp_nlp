@@ -42,7 +42,12 @@ void main()
     {
         if (light_use[i])
         {
-            vec3 L = normalize(light_position[i] - surface_position);
+            // This is for point light:
+            // vec3 L = normalize(light_position[i] - surface_position);
+
+            // This is for directional light:
+            vec3 L = normalize(light_position[i]);
+
             vec3 R = - L + 2.0 * dot(L, N) * N;
 
             float NdotL = dot(N, L);

@@ -57,9 +57,6 @@
     <ClCompile Include="..\src\renderer\shader_program.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\renderer\static_shader.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\lib\lodepng.cpp">
       <Filter>LodePNG</Filter>
     </ClCompile>
@@ -120,6 +117,15 @@
     <ClCompile Include="..\src\renderer\robot_renderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\renderer\static_shader.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\normal_shader.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\wireframe_shader.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -160,6 +166,24 @@
     </None>
     <None Include="..\urdf\fetch.urdf">
       <Filter>URDF</Filter>
+    </None>
+    <None Include="..\shader\normal.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\normal.geom">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\normal.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\wireframe.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\wireframe.geom">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\wireframe.vert">
+      <Filter>Shader</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -202,9 +226,6 @@
     <ClInclude Include="..\include\itomp_nlp\renderer\shader_program.h">
       <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\renderer\static_shader.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\object.h">
       <Filter>Renderer</Filter>
     </ClInclude>
@@ -239,6 +260,15 @@
       <Filter>Robot</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\robot_renderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\static_shader.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\normal_shader.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\wireframe_shader.h">
       <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>
