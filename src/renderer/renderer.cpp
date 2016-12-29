@@ -126,8 +126,8 @@ void Renderer::paintGL()
 
     light_shader_->stop();
 
-    /*
     // normal shader
+    /*
     normal_shader_->start();
     normal_shader_->loadCamera(camera_);
     normal_shader_->loadLineLength(normal_line_length_);

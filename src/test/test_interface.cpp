@@ -19,6 +19,7 @@ int main(int argc, char** argv)
     itomp_robot::RobotModel* robot_model = urdf_parser.parseURDF("../urdf/fetch.urdf");
 
     renderer_interface->addRobot(robot_model);
+    renderer_interface->addRobotEntity(0);
 
     renderer_interface->show();
 

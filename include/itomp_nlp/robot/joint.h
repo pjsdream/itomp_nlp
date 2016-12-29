@@ -4,6 +4,8 @@
 
 #include <string>
 
+#include <Eigen/Dense>
+
 
 namespace itomp_robot
 {
@@ -26,20 +28,29 @@ public:
         joint_name_ = name;
     }
 
-    void setParentLink(Link* link);
-    void setChildLink(Link* link);
-
     inline Link* getChildLink() const
     {
         return child_link_;
     }
 
-private:
+    inline const Eigen::Affine3d& getOrigin()
+    {
+        return origin_;
+    }
+
+    void setParentLink(Link* link);
+    void setChildLink(Link* link);
+
+    void setOrigin(const Eigen::Vector3d& position, const Eigen::Quaterniond& orientation);
+
+protected:
 
     std::string joint_name_;
 
     Link* parent_link_;
     Link* child_link_;
+
+    Eigen::Affine3d origin_;
 };
 
 }

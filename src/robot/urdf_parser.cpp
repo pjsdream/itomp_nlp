@@ -112,6 +112,7 @@ RobotModel* URDFParser::parseURDF(const std::string& filename)
         Eigen::Vector3d position;
         Eigen::Quaterniond orientation;
         parseOriginElement(origin_element, position, orientation);
+        joint->setOrigin(position, orientation);
 
         // parent
         std::string parent_name = joint_element->FirstChildElement("parent")->Attribute("link");
@@ -124,6 +125,9 @@ RobotModel* URDFParser::parseURDF(const std::string& filename)
         Eigen::Vector3d axis;
         parseAxisElement(axis_element, axis);
 
+        if (revolute_joint) // TODO: other types of joints
+            revolute_joint->setAxis(axis);
+
         // TODO: calibration
         // TODO: dynamics
 
@@ -132,6 +136,9 @@ RobotModel* URDFParser::parseURDF(const std::string& filename)
         double lower;
         double upper;
         parseLimitElement(limit_element, lower, upper);
+
+        if (revolute_joint) // TODO: other types of joints
+            revolute_joint->setLimit(lower, upper);
 
         // TODO: mimic
         // TODO: safety_controller

@@ -41,12 +41,18 @@ public:
         return visual_mesh_filenames_;
     }
 
+    inline const std::vector<Eigen::Affine3d>& getVisualOrigins() const
+    {
+        return visual_origins_;
+    }
+
     inline int getNumChild() const
     {
         return child_joints_.size();
     }
 
     Link* getChildLink(int idx) const;
+    Joint* getChildJoint(int idx) const;
 
     void addVisualMesh(const Eigen::Vector3d& position, const Eigen::Quaterniond& orientation, const std::string& mesh_filename);
 

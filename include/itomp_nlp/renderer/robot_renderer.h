@@ -22,11 +22,12 @@ private:
 
     void addRobotObjects(itomp_robot::RobotModel* robot_model);
     void addRobotObjectsRecursive(const itomp_robot::Link* link);
+    void addRobotEntitiesRecursive(const itomp_robot::Link* link, const Eigen::Affine3d transform, std::vector<int>& entities);
 
     Renderer* renderer_;
 
     // robot model and corresponding meshes
-    std::vector<itomp_robot::RobotModel*> robot_models_;
+    itomp_robot::RobotModel* robot_model_;
     std::vector<int> robot_objects_;
 
     // entities

@@ -22,6 +22,7 @@ public:
     RendererInterface();
 
     void addRobot(itomp_robot::RobotModel* robot_model);
+    void addRobotEntity(int robot_index);
 
 protected slots:
 

@@ -36,4 +36,9 @@ Link* Link::getChildLink(int idx) const
     return child_joints_[idx]->getChildLink();
 }
 
+Joint* Link::getChildJoint(int idx) const
+{
+    return child_joints_[idx];
+}
+
 }

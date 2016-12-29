@@ -20,4 +20,11 @@ void Joint::setChildLink(Link* link)
     child_link_ = link;
 }
 
+void Joint::setOrigin(const Eigen::Vector3d& position, const Eigen::Quaterniond& orientation)
+{
+    origin_.setIdentity();
+    origin_.rotate(orientation);
+    origin_.translate(position);
+}
+
 }
