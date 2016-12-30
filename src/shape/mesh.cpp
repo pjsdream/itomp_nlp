@@ -14,6 +14,7 @@ namespace itomp_shape
 {
 
 Mesh::Mesh()
+    : Shape()
 {
 }
 

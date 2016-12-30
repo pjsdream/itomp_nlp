@@ -2,6 +2,9 @@
 #define ITOMP_SHAPE_SHAPE_H
 
 
+#include <Eigen/Dense>
+
+
 namespace itomp_shape
 {
 
@@ -10,8 +13,29 @@ class Shape
 public:
 
     Shape();
+    Shape(const Eigen::Affine3d& transform);
+    ~Shape();
 
-private:
+    inline virtual Shape* clone() const
+    {
+        return new Shape(*this);
+    }
+
+    inline void setTransform(const Eigen::Affine3d& transform)
+    {
+        transform_ = transform;
+    }
+
+    inline const Eigen::Affine3d& getTransform() const
+    {
+        return transform_;
+    }
+
+    void applyTransform(const Eigen::Affine3d& transform);
+
+protected:
+
+    Eigen::Affine3d transform_;
 };
 
 }

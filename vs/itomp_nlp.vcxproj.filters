@@ -31,6 +31,9 @@
     <Filter Include="URDF">
       <UniqueIdentifier>{945d1111-13d6-4f09-a3c1-9bcc7ad17baf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Optimization">
+      <UniqueIdentifier>{587889d2-79f1-4171-ae2c-2c9b10fec032}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\test\test_interface.cpp">
@@ -128,6 +131,18 @@
     </ClCompile>
     <ClCompile Include="..\src\robot\continuous_joint.cpp">
       <Filter>Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\optimizer_robot.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\optimizer.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\shape\obb.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\shape\rigid_body.cpp">
+      <Filter>Shape</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -276,6 +291,18 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\robot\continuous_joint.h">
       <Filter>Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_robot.h">
+      <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\optimizer.h">
+      <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\shape\obb.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\shape\rigid_body.h">
+      <Filter>Shape</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
