@@ -13,19 +13,27 @@
 namespace itomp_shape
 {
 
+class AABB;
+
 class Mesh : public Shape
 {
 public:
 
     Mesh();
+    
+    inline virtual Shape* clone() const
+    {
+        return new Mesh(*this);
+    }
 
-    void importDaeFile(const std::string& filename);
+    void setVertices(const std::vector<Eigen::Vector3d>& vertices);
+    void setTriangles(const std::vector<Eigen::Vector3i>& triangles);
+
+    AABB getAABB();
 
 private:
 
     std::vector<Eigen::Vector3d> vertices_;
-    std::vector<Eigen::Vector3d> normals_;
-    std::vector<Eigen::Vector2d> texture_coords_;
     std::vector<Eigen::Vector3i> triangles_;
 };
 

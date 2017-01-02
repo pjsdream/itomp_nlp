@@ -64,6 +64,17 @@ void OptimizerRobot::setLinkJoints(const std::vector<Link>& links, const std::ve
 {
     links_ = links;
     joints_ = joints;
+
+    // resize cache
+    link_world_transforms_.resize(links.size());
+
+    // forward kinematics shapes
+    for (int i=0; i<links_.size(); i++)
+    {
+        const std::vector<itomp_shape::Shape*>& shapes = links_[i].shapes;
+        for (int j=0; j<shapes.size(); j++)
+            fk_shapes_.push_back( shapes[j]->clone() );
+    }
 }
 
 void OptimizerRobot::setPositions(const Eigen::VectorXd& positions)

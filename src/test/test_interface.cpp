@@ -36,7 +36,54 @@ int main(int argc, char** argv)
         "wrist_roll_joint",
     };
 
+    std::vector<std::vector<std::string> > aabb_lists = 
+    {
+        {
+            "base_link",
+        },
+        {
+            "torso_lift_link",
+            "torso_fixed_link",
+        },
+        {
+            "head_pan_link",
+            "head_tilt_link",
+        },
+        {
+            "shoulder_pan_link",
+        },
+        {
+            "shoulder_lift_link",
+        },
+        {
+            "upperarm_roll_link",
+        },
+        {
+            "elbow_flex_link",
+        },
+        {
+            "forearm_roll_link",
+        },
+        {
+            "wrist_flex_link",
+        },
+        {
+            "wrist_roll_link",
+            "gripper_link",
+        },
+        {
+            "r_gripper_finger_link",
+        },
+        {
+            "l_gripper_finger_link",
+        },
+    };
+
     itomp_optimization::OptimizerRobotLoader optimizer_robot_loader;
+
+    for (int i=0; i<aabb_lists.size(); i++)
+        optimizer_robot_loader.addAABBList(aabb_lists[i]);
+
     itomp_optimization::OptimizerRobot* optimizer_robot = optimizer_robot_loader.loadRobot(robot_model, robot_state, active_joint_names);
 
     renderer_interface->addRobot(robot_model);

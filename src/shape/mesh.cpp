@@ -1,13 +1,6 @@
 #include <itomp_nlp/shape/mesh.h>
 
-#include <assimp/Importer.hpp>
-#include <assimp/postprocess.h>
-#include <assimp/scene.h>
-#include <assimp/color4.h>
-
-#include <itomp_nlp/utils/conversion.h>
-
-#include <time.h>
+#include <itomp_nlp/shape/aabb.h>
 
 
 namespace itomp_shape
@@ -18,44 +11,35 @@ Mesh::Mesh()
 {
 }
 
-void Mesh::importDaeFile(const std::string& filename)
+void Mesh::setVertices(const std::vector<Eigen::Vector3d>& vertices)
 {
-    Assimp::Importer importer;
+    vertices_ = vertices;
+}
 
-    const aiScene* scene = importer.ReadFile(filename, aiProcess_Triangulate);
-    
-    // mesh
-    // TODO: optimize
-    for (int i=0; i<scene->mNumMeshes; i++)
+void Mesh::setTriangles(const std::vector<Eigen::Vector3i>& triangles)
+{
+    triangles_ = triangles;
+}
+
+AABB Mesh::getAABB()
+{
+    Eigen::Vector3d lower = vertices_[0];
+    Eigen::Vector3d upper = vertices_[0];
+
+    for (int i=1; i<vertices_.size(); i++)
     {
-        const aiMesh* mesh = scene->mMeshes[i];
+        const Eigen::Vector3d& vertex = vertices_[i];
 
-        vertices_.resize(mesh->mNumVertices);
-        normals_.resize(mesh->mNumVertices);
-        if (mesh->HasTextureCoords(0))
-            texture_coords_.resize(mesh->mNumVertices);
+        if (lower(0) > vertex(0)) lower(0) = vertex(0);
+        if (lower(1) > vertex(1)) lower(1) = vertex(1);
+        if (lower(2) > vertex(2)) lower(2) = vertex(2);
 
-        for (int j=0; j<mesh->mNumVertices; j++)
-        {
-            const aiVector3D& vertex = mesh->mVertices[j];
-            const aiVector3D& normal = mesh->mNormals[j];
-            const aiVector3D& texture_coord = mesh->mTextureCoords[0][j];
-
-            vertices_[j] = Eigen::Vector3d(vertex.x, vertex.y, vertex.z);
-            normals_[j] = Eigen::Vector3d(normal.x, normal.y, normal.z);
-            if (mesh->HasTextureCoords(0))
-                texture_coords_[j] = Eigen::Vector2d(texture_coord.x, texture_coord.y);
-        }
-
-        triangles_.resize(mesh->mNumFaces);
-
-        for (int j=0; j<mesh->mNumFaces; j++)
-        {
-            const aiFace& face = mesh->mFaces[j];
-
-            triangles_[j] = Eigen::Vector3i( face.mIndices[0], face.mIndices[1], face.mIndices[2] );
-        }
+        if (upper(0) < vertex(0)) upper(0) = vertex(0);
+        if (upper(1) < vertex(1)) upper(1) = vertex(1);
+        if (upper(2) < vertex(2)) upper(2) = vertex(2);
     }
+
+    return AABB(lower, upper);
 }
 
 }

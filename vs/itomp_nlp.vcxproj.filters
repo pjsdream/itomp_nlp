@@ -153,6 +153,12 @@
     <ClCompile Include="..\src\optimization\optimizer_robot_loader.cpp">
       <Filter>Optimization</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\shape\mesh_loader.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\shape\aabb.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -321,6 +327,12 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_robot_loader.h">
       <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\shape\mesh_loader.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\shape\aabb.h">
+      <Filter>Shape</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

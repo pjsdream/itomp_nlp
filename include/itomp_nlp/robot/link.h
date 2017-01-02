@@ -6,6 +6,8 @@
 #include <vector>
 #include <Eigen/Dense>
 
+#include <itomp_nlp/shape/shape.h>
+
 
 namespace itomp_robot
 {
@@ -46,6 +48,11 @@ public:
         return visual_origins_;
     }
 
+    inline const std::vector<itomp_shape::Shape*>& getCollisionShapes() const
+    {
+        return collision_shapes_;
+    }
+
     inline int getNumChild() const
     {
         return child_joints_.size();
@@ -56,6 +63,7 @@ public:
     Joint* getParentJoint() const;
 
     void addVisualMesh(const Eigen::Vector3d& position, const Eigen::Quaterniond& orientation, const std::string& mesh_filename);
+    void addCollisionMesh(const Eigen::Vector3d& position, const Eigen::Quaterniond& orientation, const std::string& mesh_filename);
 
     void setParentJoint(Joint* joint);
     void addChildJoint(Joint* joint);
@@ -75,6 +83,8 @@ private:
     std::vector<std::string> visual_mesh_filenames_;
 
     // collision
+    std::vector<Eigen::Affine3d> collision_origins_;
+    std::vector<itomp_shape::Shape*> collision_shapes_;
 };
 
 }

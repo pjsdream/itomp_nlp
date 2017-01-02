@@ -57,27 +57,53 @@ RobotModel* URDFParser::parseURDF(const std::string& filename)
 
             // geometry
             tinyxml2::XMLElement* geometry_element = visual_element->FirstChildElement("geometry");
+
+            // TODO: box, cylinder, sphere
+
+            // mesh
+            tinyxml2::XMLElement* mesh_element = geometry_element->FirstChildElement("mesh");
             std::string mesh_filename;
-
-            if (geometry_element != 0)
+            if (mesh_element != 0)
             {
-                // mesh
-                tinyxml2::XMLElement* mesh_element = geometry_element->FirstChildElement("mesh");
+                mesh_filename = mesh_element->Attribute("filename");
 
-                if (mesh_element != 0)
-                {
-                    mesh_filename = mesh_element->Attribute("filename");
-
-                    if (mesh_filename.substr(0, 10) == "package://")
-                        resolvePackage(mesh_filename);
-                }
+                if (mesh_filename.substr(0, 10) == "package://")
+                    resolvePackage(mesh_filename);
             }
 
             if (mesh_filename != "")
                 link->addVisualMesh(position, orientation, mesh_filename);
         }
 
-        // TODO: collision
+        // collision
+        tinyxml2::XMLElement* collision_element = link_element->FirstChildElement("collision");
+        if (collision_element != 0)
+        {
+            // origin
+            tinyxml2::XMLElement* origin_element = visual_element->FirstChildElement("origin");
+            Eigen::Vector3d position;
+            Eigen::Quaterniond orientation;
+            parseOriginElement(origin_element, position, orientation);
+
+            // geometry
+            tinyxml2::XMLElement* geometry_element = visual_element->FirstChildElement("geometry");
+            
+            // TODO: box, cylinder, sphere
+
+            // mesh
+            tinyxml2::XMLElement* mesh_element = geometry_element->FirstChildElement("mesh");
+            std::string mesh_filename;
+            if (mesh_element != 0)
+            {
+                mesh_filename = mesh_element->Attribute("filename");
+
+                if (mesh_filename.substr(0, 10) == "package://")
+                    resolvePackage(mesh_filename);
+            }
+
+            if (mesh_filename != "")
+                link->addCollisionMesh(position, orientation, mesh_filename);
+        }
 
         link_map[link_name] = link;
 

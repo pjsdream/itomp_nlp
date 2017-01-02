@@ -8,6 +8,8 @@
 namespace itomp_shape
 {
 
+class AABB;
+
 class OBB : public Shape
 {
 public:
@@ -15,6 +17,8 @@ public:
     /// box [-x/2, x/2] x [-y/2, y/2] x [-z/2, z/2]
     OBB(double x, double y, double z);
     OBB(double x, double y, double z, const Eigen::Affine3d& transform = Eigen::Affine3d::Identity());
+
+    OBB(const AABB& aabb);
 
     /// centered at (0, 0, 0)
     OBB(const Eigen::Vector3d& size);
@@ -27,6 +31,7 @@ public:
 
 private:
 
+    // extents
     Eigen::Vector3d size_;
 };
 

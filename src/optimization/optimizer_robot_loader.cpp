@@ -7,12 +7,22 @@
 #include <itomp_nlp/robot/continuous_joint.h>
 #include <itomp_nlp/robot/fixed_joint.h>
 
+#include <itomp_nlp/shape/mesh.h>
+
 
 namespace itomp_optimization
 {
 
 OptimizerRobotLoader::OptimizerRobotLoader()
 {
+}
+
+void OptimizerRobotLoader::addAABBList(const std::vector<std::string> aabb_list)
+{
+    aabb_lists_.push_back(aabb_list);
+    is_aabb_encountered_.push_back(false);
+    aabbs_.push_back(itomp_shape::AABB());
+    aabb_link_id_.push_back(-1);
 }
 
 OptimizerRobot* OptimizerRobotLoader::loadRobot(itomp_robot::RobotModel* robot_model, itomp_robot::RobotState* robot_state, const std::vector<std::string>& active_joint_names)
@@ -25,6 +35,17 @@ OptimizerRobot* OptimizerRobotLoader::loadRobot(itomp_robot::RobotModel* robot_m
     const itomp_robot::Link* root_link = robot_model->getRootLink();
 
     loadRobotRecursive(root_link, Eigen::Affine3d::Identity(), -1);
+
+    // convert aabb to obb
+    for (int i=0; i<aabbs_.size(); i++)
+    {
+        const int link_id = aabb_link_id_[i];
+        const itomp_shape::AABB& aabb = aabbs_[i];
+
+        itomp_shape::OBB* obb = new itomp_shape::OBB(aabb);
+        optimizer_links_[ link_id ].shapes.push_back(obb);
+    }
+    
     robot->setLinkJoints(optimizer_links_, optimizer_joints_);
 
     return robot;
@@ -95,6 +116,44 @@ void OptimizerRobotLoader::loadRobotRecursive(const itomp_robot::Link* link, con
     else
     {
         current_transform = transform;
+    }
+
+    // aabb
+    for (int i=0; i<aabb_lists_.size(); i++)
+    {
+        const std::vector<std::string>& aabb_list = aabb_lists_[i];
+
+        if (std::find(aabb_list.begin(), aabb_list.end(), link->getLinkName()) != aabb_list.end())
+        {
+            aabb_link_id_[i] = optimizer_links_.size() - 1;
+
+            const std::vector<itomp_shape::Shape*> shapes = link->getCollisionShapes();
+            itomp_shape::AABB& aabb = aabbs_[i];
+
+
+            for (int j=0; j<shapes.size(); j++)
+            {
+                // TODO: collision shapes for other types than mesh
+
+                itomp_shape::Mesh* mesh = dynamic_cast<itomp_shape::Mesh*>(shapes[j]);
+                if (mesh != 0)
+                {
+                    itomp_shape::AABB shape_aabb = mesh->getAABB();
+
+                    // apply translation
+                    // TODO: apply orientation
+                    shape_aabb.translate(transform.translation());
+
+                    if (!is_aabb_encountered_[i])
+                    {
+                        is_aabb_encountered_[i] = true;
+                        aabb = shape_aabb;
+                    }
+                    else
+                        aabb = aabb.merge(shape_aabb);
+                }
+            }
+        }
     }
 
     for (int i=0; i<link->getNumChild(); i++)
