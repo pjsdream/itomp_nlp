@@ -1,8 +1,8 @@
 #version 430 core
 
-in vec2 pass_texture_coords;
 in vec3 surface_position;
 in vec3 surface_normal;
+in vec2 pass_texture_coords;
 
 uniform bool light_use[8];
 uniform vec3 light_position[8];
