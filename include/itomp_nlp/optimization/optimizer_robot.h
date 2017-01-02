@@ -84,9 +84,9 @@ public:
     /// do forward kinematics and store the results in cache
     void forwardKinematics();
 
-    inline const std::vector<itomp_shape::Shape*>& getCollisionShapes()
+    inline const std::vector<itomp_shape::Shape*>& getCollisionShapes(int idx)
     {
-        return fk_shapes_;
+        return fk_shapes_[idx];
     }
 
 private:
@@ -101,7 +101,7 @@ private:
     EigenAlignedVector<Eigen::Affine3d> link_world_transforms_;
 
     // fk transforms
-    std::vector<itomp_shape::Shape*> fk_shapes_;
+    std::vector<std::vector<itomp_shape::Shape*> > fk_shapes_;
 };
 
 }

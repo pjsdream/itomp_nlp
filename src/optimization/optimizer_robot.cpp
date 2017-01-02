@@ -30,7 +30,10 @@ OptimizerRobot::~OptimizerRobot()
     }
 
     for (int i=0; i<fk_shapes_.size(); i++)
-        delete fk_shapes_[i];
+    {
+        for (int j=0; j<fk_shapes_[i].size(); j++)
+            delete fk_shapes_[i][j];
+    }
 }
 
 OptimizerRobot::OptimizerRobot(const OptimizerRobot& robot)
@@ -57,7 +60,10 @@ OptimizerRobot::OptimizerRobot(const OptimizerRobot& robot)
     }
 
     for (int i=0; i<fk_shapes_.size(); i++)
-        fk_shapes_[i] = robot.fk_shapes_[i]->clone();
+    {
+        for (int j=0; j<robot.fk_shapes_[i].size(); j++)
+            fk_shapes_[i][j] = robot.fk_shapes_[i][j]->clone();
+    }
 }
 
 void OptimizerRobot::setLinkJoints(const std::vector<Link>& links, const std::vector<Joint>& joints)
@@ -69,11 +75,14 @@ void OptimizerRobot::setLinkJoints(const std::vector<Link>& links, const std::ve
     link_world_transforms_.resize(links.size());
 
     // forward kinematics shapes
+    fk_shapes_.resize(links_.size());
     for (int i=0; i<links_.size(); i++)
     {
         const std::vector<itomp_shape::Shape*>& shapes = links_[i].shapes;
         for (int j=0; j<shapes.size(); j++)
-            fk_shapes_.push_back( shapes[j]->clone() );
+        {
+            fk_shapes_[i].push_back( shapes[j]->clone() );
+        }
     }
 }
 
@@ -116,7 +125,6 @@ void OptimizerRobot::forwardKinematics()
     }
 
     // collision shape update
-    int idx = 0;
     for (int i=0; i<links_.size(); i++)
     {
         const Link& link = links_[i];
@@ -125,7 +133,7 @@ void OptimizerRobot::forwardKinematics()
             const itomp_shape::Shape* shape = link.shapes[j];
 
             // TODO: code-level optimization of eigen matrix multiplication
-            fk_shapes_[idx]->setTransform( link_world_transforms_[i] * shape->getTransform() );
+            fk_shapes_[i][j]->setTransform( link_world_transforms_[i] * shape->getTransform() );
         }
     }
 }
