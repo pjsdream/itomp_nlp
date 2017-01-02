@@ -14,6 +14,11 @@ public:
 
     ContinuousJoint();
 
+    virtual double getDefaultPosition();
+    virtual const ContinuousJoint* continuousJoint() const { return this; }
+
+    virtual Eigen::Affine3d getTransform(double angle) const;
+
     inline const Eigen::Vector3d& getAxis() const
     {
         return axis_;

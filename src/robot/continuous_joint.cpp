@@ -9,4 +9,14 @@ ContinuousJoint::ContinuousJoint()
 {
 }
 
+double ContinuousJoint::getDefaultPosition()
+{
+    return 0.;
+}
+
+Eigen::Affine3d ContinuousJoint::getTransform(double angle) const
+{
+    return Eigen::Affine3d( Eigen::AngleAxisd(angle, axis_) );
+}
+
 }

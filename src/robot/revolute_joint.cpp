@@ -9,4 +9,14 @@ RevoluteJoint::RevoluteJoint()
 {
 }
 
+double RevoluteJoint::getDefaultPosition()
+{
+    return 0.;
+}
+
+Eigen::Affine3d RevoluteJoint::getTransform(double angle) const
+{
+    return Eigen::Affine3d( Eigen::AngleAxisd(angle, axis_) );
+}
+
 }

@@ -1,5 +1,5 @@
-#ifndef ITOMP_ROBOT_REVOLUTE_JOINT_H
-#define ITOMP_ROBOT_REVOLUTE_JOINT_H
+#ifndef ITOMP_ROBOT_PRISMATIC_JOINT_H
+#define ITOMP_ROBOT_PRISMATIC_JOINT_H
 
 
 #include <itomp_nlp/robot/joint.h>
@@ -8,16 +8,16 @@
 namespace itomp_robot
 {
 
-class RevoluteJoint : public Joint
+class PrismaticJoint : public Joint
 {
 public:
 
-    RevoluteJoint();
+    PrismaticJoint();
 
     virtual double getDefaultPosition();
-    virtual const RevoluteJoint* revoluteJoint() const { return this; }
+    virtual const PrismaticJoint* prismaticJoint() const { return this; }
 
-    virtual Eigen::Affine3d getTransform(double angle) const;
+    virtual Eigen::Affine3d getTransform(double t) const;
 
     inline const Eigen::Vector3d& getAxis() const
     {
@@ -58,4 +58,4 @@ private:
 }
 
 
-#endif // ITOMP_ROBOT_REVOLUTE_JOINT_H
+#endif // ITOMP_ROBOT_PRISMATIC_JOINT_H

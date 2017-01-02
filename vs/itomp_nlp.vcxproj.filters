@@ -144,6 +144,15 @@
     <ClCompile Include="..\src\shape\rigid_body.cpp">
       <Filter>Shape</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\robot\prismatic_joint.cpp">
+      <Filter>Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\robot\fixed_joint.cpp">
+      <Filter>Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\optimizer_robot_loader.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -303,6 +312,15 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\shape\rigid_body.h">
       <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\robot\prismatic_joint.h">
+      <Filter>Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\robot\fixed_joint.h">
+      <Filter>Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_robot_loader.h">
+      <Filter>Optimization</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

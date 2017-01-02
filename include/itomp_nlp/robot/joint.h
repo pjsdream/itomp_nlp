@@ -12,11 +12,25 @@ namespace itomp_robot
 
 class Link;
 
+class PrismaticJoint;
+class ContinuousJoint;
+class RevoluteJoint;
+class FixedJoint;
+
 class Joint
 {
 public:
 
     Joint();
+
+    virtual double getDefaultPosition() = 0;
+
+    virtual const PrismaticJoint* prismaticJoint() const { return 0; }
+    virtual const ContinuousJoint* continuousJoint() const { return 0; }
+    virtual const RevoluteJoint* revoluteJoint() const { return 0; }
+    virtual const FixedJoint* fixedJoint() const { return 0; }
+
+    virtual Eigen::Affine3d getTransform(double q) const = 0;
 
     inline const std::string& getJointName() const
     {
@@ -33,7 +47,7 @@ public:
         return child_link_;
     }
 
-    inline const Eigen::Affine3d& getOrigin()
+    inline const Eigen::Affine3d& getOrigin() const
     {
         return origin_;
     }

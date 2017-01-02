@@ -1,8 +1,19 @@
 #include <itomp_nlp/optimization/optimizer_robot.h>
 
+#include <itomp_nlp/robot/revolute_joint.h>
+#include <itomp_nlp/robot/prismatic_joint.h>
+#include <itomp_nlp/robot/fixed_joint.h>
+
 
 namespace itomp_optimization
 {
+
+const double OptimizerRobot::position_lower_default_ = -10.;
+const double OptimizerRobot::position_upper_default_ = 10.;
+
+const double OptimizerRobot::velocity_lower_default_ = -100.;
+const double OptimizerRobot::velocity_upper_default_ = 100.;
+
 
 OptimizerRobot::OptimizerRobot()
 {
@@ -17,6 +28,12 @@ OptimizerRobot::~OptimizerRobot()
         for (int j=0; j<link.shapes.size(); j++)
             delete link.shapes[j];
     }
+}
+
+void OptimizerRobot::setLinkJoints(const std::vector<Link>& links, const std::vector<Joint>& joints)
+{
+    links_ = links;
+    joints_ = joints;
 }
 
 void OptimizerRobot::setPositions(const Eigen::VectorXd& positions)

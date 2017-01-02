@@ -53,6 +53,7 @@ public:
 
     Link* getChildLink(int idx) const;
     Joint* getChildJoint(int idx) const;
+    Joint* getParentJoint() const;
 
     void addVisualMesh(const Eigen::Vector3d& position, const Eigen::Quaterniond& orientation, const std::string& mesh_filename);
 

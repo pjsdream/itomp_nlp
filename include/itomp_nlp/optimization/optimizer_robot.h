@@ -9,6 +9,9 @@
 #include <vector>
 #include <Eigen/StdVector>
 
+#include <itomp_nlp/robot/robot_model.h>
+#include <itomp_nlp/robot/robot_state.h>
+
 
 namespace itomp_optimization
 {
@@ -20,16 +23,22 @@ namespace itomp_optimization
  */
 class OptimizerRobot
 {
-private:
-
+public:
+    
     enum JointType
     {
         JOINT_TYPE_PRISMATIC = 0,
         JOINT_TYPE_REVOLUTE,
+        JOINT_TYPE_FIXED,
+        JOINT_TYPE_ROOT,
     };
-
-public:
     
+    static const double position_lower_default_;
+    static const double position_upper_default_;
+
+    static const double velocity_lower_default_;
+    static const double velocity_upper_default_;
+
     template<class T>
     using EigenAlignedVector = std::vector<T, Eigen::aligned_allocator<T> >;
 
@@ -61,6 +70,8 @@ public:
 
     OptimizerRobot();
     ~OptimizerRobot();
+    
+    void setLinkJoints(const std::vector<Link>& links, const std::vector<Joint>& joints);
 
     void setPositions(const Eigen::VectorXd& positions);
     void setVelocities(const Eigen::VectorXd& velocities);

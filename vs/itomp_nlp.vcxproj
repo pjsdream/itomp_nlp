@@ -179,6 +179,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\GeneratedFiles\moc_renderer_interface.cpp" />
     <ClCompile Include="..\src\optimization\optimizer.cpp" />
     <ClCompile Include="..\src\optimization\optimizer_robot.cpp" />
+    <ClCompile Include="..\src\optimization\optimizer_robot_loader.cpp" />
     <ClCompile Include="..\src\renderer\camera.cpp" />
     <ClCompile Include="..\src\renderer\entity.cpp" />
     <ClCompile Include="..\src\renderer\gl_base.cpp" />
@@ -196,8 +197,10 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\renderer\static_shader.cpp" />
     <ClCompile Include="..\src\renderer\wireframe_shader.cpp" />
     <ClCompile Include="..\src\robot\continuous_joint.cpp" />
+    <ClCompile Include="..\src\robot\fixed_joint.cpp" />
     <ClCompile Include="..\src\robot\joint.cpp" />
     <ClCompile Include="..\src\robot\link.cpp" />
+    <ClCompile Include="..\src\robot\prismatic_joint.cpp" />
     <ClCompile Include="..\src\robot\revolute_joint.cpp" />
     <ClCompile Include="..\src\robot\robot_model.cpp" />
     <ClCompile Include="..\src\robot\robot_state.cpp" />
@@ -234,6 +237,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
   <ItemGroup>
     <ClInclude Include="..\include\itomp_nlp\optimization\optimizer.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_robot.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_robot_loader.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\camera.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\entity.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\gl_base.h" />
@@ -251,8 +255,10 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\renderer\static_shader.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\wireframe_shader.h" />
     <ClInclude Include="..\include\itomp_nlp\robot\continuous_joint.h" />
+    <ClInclude Include="..\include\itomp_nlp\robot\fixed_joint.h" />
     <ClInclude Include="..\include\itomp_nlp\robot\joint.h" />
     <ClInclude Include="..\include\itomp_nlp\robot\link.h" />
+    <ClInclude Include="..\include\itomp_nlp\robot\prismatic_joint.h" />
     <ClInclude Include="..\include\itomp_nlp\robot\revolute_joint.h" />
     <ClInclude Include="..\include\itomp_nlp\robot\robot_model.h" />
     <ClInclude Include="..\include\itomp_nlp\robot\robot_state.h" />

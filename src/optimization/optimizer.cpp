@@ -12,4 +12,9 @@ void Optimizer::setOptions(const OptimizerOptions& options)
 {
 }
 
+void Optimizer::setInitialRobotState(const Eigen::VectorXd& v)
+{
+    // TODO
+}
+
 }
