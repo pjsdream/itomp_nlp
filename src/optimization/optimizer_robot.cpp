@@ -28,6 +28,36 @@ OptimizerRobot::~OptimizerRobot()
         for (int j=0; j<link.shapes.size(); j++)
             delete link.shapes[j];
     }
+
+    for (int i=0; i<fk_shapes_.size(); i++)
+        delete fk_shapes_[i];
+}
+
+OptimizerRobot::OptimizerRobot(const OptimizerRobot& robot)
+{
+    links_ = robot.links_;
+    joints_ = robot.joints_;
+
+    positions_ = robot.positions_;
+    velocities_ = robot.velocities_;
+
+    link_world_transforms_ = robot.link_world_transforms_;
+
+    fk_shapes_ = robot.fk_shapes_;
+
+    // create new shapes
+    for (int i=0; i<robot.links_.size(); i++)
+    {
+        const std::vector<itomp_shape::Shape*>& shapes = robot.links_[i].shapes;
+        for (int j=0; j<shapes.size(); j++)
+        {
+            const itomp_shape::Shape* shape = shapes[j];
+            links_[i].shapes[j] = shape->clone();
+        }
+    }
+
+    for (int i=0; i<fk_shapes_.size(); i++)
+        fk_shapes_[i] = robot.fk_shapes_[i]->clone();
 }
 
 void OptimizerRobot::setLinkJoints(const std::vector<Link>& links, const std::vector<Joint>& joints)

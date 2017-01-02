@@ -71,6 +71,9 @@ public:
     OptimizerRobot();
     ~OptimizerRobot();
     
+    // copy constructor for creating memory for collision shapes
+    OptimizerRobot(const OptimizerRobot& robot);
+    
     void setLinkJoints(const std::vector<Link>& links, const std::vector<Joint>& joints);
 
     void setPositions(const Eigen::VectorXd& positions);
