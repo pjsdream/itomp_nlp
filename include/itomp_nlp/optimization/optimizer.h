@@ -23,9 +23,15 @@ public:
     Optimizer();
 
     void setOptions(const OptimizerOptions& options);
-    void setInitialRobotState(const Eigen::VectorXd& v);
+    void setInitialRobotState(const Eigen::VectorXd& position, const Eigen::VectorXd& velocity);
+
+    void setRobot(OptimizerRobot* robot);
+
+    void initialize();
 
 private:
+
+    OptimizerRobot* robot_;
 };
 
 }

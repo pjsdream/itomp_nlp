@@ -86,6 +86,9 @@ int main(int argc, char** argv)
 
     itomp_optimization::OptimizerRobot* optimizer_robot = optimizer_robot_loader.loadRobot(robot_model, robot_state, active_joint_names);
 
+    itomp_optimization::Optimizer optimizer;
+    optimizer.setRobot(optimizer_robot);
+
     renderer_interface->addRobot(robot_model);
     renderer_interface->addRobotEntity(0);
 

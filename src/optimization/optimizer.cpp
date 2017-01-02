@@ -12,7 +12,17 @@ void Optimizer::setOptions(const OptimizerOptions& options)
 {
 }
 
-void Optimizer::setInitialRobotState(const Eigen::VectorXd& v)
+void Optimizer::setInitialRobotState(const Eigen::VectorXd& position, const Eigen::VectorXd& velocity)
+{
+    // TODO
+}
+
+void Optimizer::setRobot(OptimizerRobot* robot)
+{
+    robot_ = robot;
+}
+
+void Optimizer::initialize()
 {
     // TODO
 }
