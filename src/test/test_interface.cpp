@@ -19,8 +19,8 @@ int main(int argc, char** argv)
     itomp_renderer::RendererInterface* renderer_interface = new itomp_renderer::RendererInterface();
 
     itomp_robot::URDFParser urdf_parser;
-    urdf_parser.addPackageDirectoryMapping("fetch_description", "..");
-    itomp_robot::RobotModel* robot_model = urdf_parser.parseURDF("../urdf/fetch.urdf");
+    urdf_parser.addPackageDirectoryMapping("fetch_description", "/home/jaesungp/catkin_ws/src/fetch_ros/fetch_description");
+    itomp_robot::RobotModel* robot_model = urdf_parser.parseURDF("/home/jaesungp/catkin_ws/src/itomp_nlp/urdf/fetch.urdf");
 
     // default robot state
     itomp_robot::RobotState* robot_state = new itomp_robot::RobotState(robot_model);
