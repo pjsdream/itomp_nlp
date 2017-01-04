@@ -163,6 +163,19 @@ qt5_wrap_cpp(renderer_moc
   include/itomp_nlp/renderer/renderer_interface.h
 )
 
+# collect .h files
+file(GLOB_RECURSE itomp_HEADER_FILES
+  include/itomp_nlp/*.h
+  lib/*.h
+)
+file(GLOB_RECURSE itomp_EXCLUDING_HEADER_FILES
+  include/itomp_nlp/renderer/renderer.h
+  include/itomp_nlp/renderer/renderer_interface.h
+)
+list(REMOVE_ITEM itomp_HEADER_FILES
+  ${itomp_EXCLUDING_HEADER_FILES}
+)
+
 ## Declare a C++ library
 add_library(itomp_nlp
   # renderer
@@ -217,6 +230,9 @@ add_library(itomp_nlp
 
   # tinyxml2
   lib/tinyxml2.cpp
+
+  # header files for QtCreator import
+  ${itomp_HEADER_FILES}
 )
 
 target_link_libraries(itomp_nlp
@@ -231,7 +247,9 @@ target_link_libraries(itomp_nlp
 # add_dependencies(itomp_nlp ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(test_interface src/test/test_interface.cpp)
+add_executable(test_interface
+  src/test/test_interface.cpp
+)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
