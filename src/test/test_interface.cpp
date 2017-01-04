@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <stdio.h>
 
+#include <itomp_nlp/nlp/glove_pretrained_loader.h>
+
 #include <itomp_nlp/renderer/renderer_interface.h>
 
 #include <itomp_nlp/robot/urdf_parser.h>
@@ -14,6 +16,11 @@ int main(int argc, char** argv)
 {
     setbuf(stdout, NULL);
     setbuf(stderr, NULL);
+
+    itomp_nlp::GlovePretrainedLoader glove_pretrained_loader;
+    itomp_nlp::WordToVector* word_to_vector = glove_pretrained_loader.loadGlovePretrainedData("C:\\lib\\glove.6B\\glove.6B.50d.txt");
+
+    delete word_to_vector;
 
     QApplication app(argc, argv);
     itomp_renderer::RendererInterface* renderer_interface = new itomp_renderer::RendererInterface();

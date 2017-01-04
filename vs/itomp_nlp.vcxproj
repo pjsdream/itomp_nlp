@@ -177,6 +177,9 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\lib\tinyxml2.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_renderer.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_renderer_interface.cpp" />
+    <ClCompile Include="..\src\nlp\glove_pretrained_loader.cpp" />
+    <ClCompile Include="..\src\nlp\commands_to_cost.cpp" />
+    <ClCompile Include="..\src\nlp\word_to_vector.cpp" />
     <ClCompile Include="..\src\optimization\collision_cost.cpp" />
     <ClCompile Include="..\src\optimization\cost.cpp" />
     <ClCompile Include="..\src\optimization\goal_cost.cpp" />
@@ -242,6 +245,9 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <None Include="..\urdf\fetch.urdf" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\itomp_nlp\nlp\glove_pretrained_loader.h" />
+    <ClInclude Include="..\include\itomp_nlp\nlp\commands_to_cost.h" />
+    <ClInclude Include="..\include\itomp_nlp\nlp\word_to_vector.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\collision_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\cost.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\goal_cost.h" />
