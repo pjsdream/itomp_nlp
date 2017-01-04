@@ -177,9 +177,13 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\lib\tinyxml2.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_renderer.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_renderer_interface.cpp" />
+    <ClCompile Include="..\src\optimization\collision_cost.cpp" />
+    <ClCompile Include="..\src\optimization\cost.cpp" />
+    <ClCompile Include="..\src\optimization\goal_cost.cpp" />
     <ClCompile Include="..\src\optimization\optimizer.cpp" />
     <ClCompile Include="..\src\optimization\optimizer_robot.cpp" />
     <ClCompile Include="..\src\optimization\optimizer_robot_loader.cpp" />
+    <ClCompile Include="..\src\optimization\smoothness_cost.cpp" />
     <ClCompile Include="..\src\renderer\camera.cpp" />
     <ClCompile Include="..\src\renderer\entity.cpp" />
     <ClCompile Include="..\src\renderer\gl_base.cpp" />
@@ -237,9 +241,13 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <None Include="..\urdf\fetch.urdf" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\itomp_nlp\optimization\collision_cost.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\cost.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\goal_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\optimizer.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_robot.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_robot_loader.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\smoothness_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\camera.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\entity.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\gl_base.h" />

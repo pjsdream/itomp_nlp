@@ -73,6 +73,7 @@ void OptimizerRobot::setLinkJoints(const std::vector<Link>& links, const std::ve
 
     // resize cache
     link_world_transforms_.resize(links.size());
+    setBaseTransform(Eigen::Affine3d::Identity());
 
     // forward kinematics shapes
     fk_shapes_.resize(links_.size());

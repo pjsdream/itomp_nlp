@@ -100,6 +100,11 @@ public:
         return fk_shapes_[idx];
     }
 
+    inline const Eigen::Affine3d& getLinkWorldTransform(int idx)
+    {
+        return link_world_transforms_[idx];
+    }
+
 private:
 
     std::vector<Link> links_;

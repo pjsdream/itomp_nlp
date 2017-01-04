@@ -159,6 +159,18 @@
     <ClCompile Include="..\src\shape\aabb.cpp">
       <Filter>Shape</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\optimization\cost.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\goal_cost.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\smoothness_cost.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\collision_cost.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -333,6 +345,18 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\shape\aabb.h">
       <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\cost.h">
+      <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\goal_cost.h">
+      <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\smoothness_cost.h">
+      <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\collision_cost.h">
+      <Filter>Optimization</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -92,23 +92,27 @@ int main(int argc, char** argv)
 
     itomp_optimization::OptimizerRobot* optimizer_robot = optimizer_robot_loader.loadRobot(robot_model, robot_state, active_joint_names);
 
-    itomp_optimization::Optimizer optimizer;
-    optimizer.setRobot(optimizer_robot);
-
     itomp_optimization::OptimizerOptions options;
     options.trajectory_duration = 3.0;
     options.timestep = 0.5;
     options.num_waypoints = 6;
     options.num_waypoint_interpolations = 8;
-    optimizer.setOptions(options);
 
-    optimizer.initialize();
+    itomp_optimization::Optimizer optimizer;
+    optimizer.setRobot(optimizer_robot);
+    optimizer.setOptions(options);
+    optimizer.prepare();
 
     Eigen::Matrix<double, 7, 1> position;
     Eigen::Matrix<double, 7, 1> velocity;
     position.setZero();
     velocity.setZero();
     optimizer.setInitialRobotState(position, velocity);
+
+    // end effector link id = 7
+    optimizer.setGoalPosition(7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(1, -1, 1));
+
+    optimizer.startOptimizationThread();
 
     renderer_interface->addRobot(robot_model);
     renderer_interface->addRobotEntity(0);
