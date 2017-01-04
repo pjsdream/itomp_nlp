@@ -5,6 +5,7 @@
 #include <itomp_nlp/optimization/goal_cost.h>
 #include <itomp_nlp/optimization/velocity_cost.h>
 #include <itomp_nlp/optimization/goal_region_cost.h>
+#include <itomp_nlp/optimization/repulsive_cost.h>
 
 #include <functional>
 
@@ -125,6 +126,10 @@ void Optimizer::initializeCostFunctions()
     // goal region cost
     GoalRegionCost* goal_region_cost = new GoalRegionCost(*this, 1);
     cost_functions_[GOAL_REGION_COST] = goal_region_cost;
+
+    // goal repulsive cost
+    RepulsiveCost* repulsive_cost = new RepulsiveCost(*this, 1);
+    cost_functions_[REPULSIVE_COST] = repulsive_cost;
 }
 
 void Optimizer::setGoalPosition(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& goal_position)
@@ -143,6 +148,12 @@ void Optimizer::addGoalRegionPlane(int link_id, const Eigen::Vector3d& translate
 {
     GoalRegionCost* goal_region_cost = dynamic_cast<GoalRegionCost*>(cost_functions_[GOAL_REGION_COST]);
     goal_region_cost->addGoalRegionPlane(link_id, translate, plane);
+}
+
+void Optimizer::addRepulsion(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& repulsion_center, double distance)
+{
+    RepulsiveCost* repulsive_cost = dynamic_cast<RepulsiveCost*>(cost_functions_[REPULSIVE_COST]);
+    repulsive_cost->addRepulsion(link_id, translate, repulsion_center, distance);
 }
 
 void Optimizer::startOptimizationThread()
@@ -205,7 +216,7 @@ void Optimizer::optimize()
 {
     int iterations = 0;
 
-    const double alpha = 0.01;
+    const double alpha = 0.001;
 
     while (!thread_stop_requested_)
     {

@@ -189,6 +189,9 @@
     <ClCompile Include="..\src\optimization\goal_region_cost.cpp">
       <Filter>Optimization</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\optimization\repulsive_cost.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -389,6 +392,9 @@
       <Filter>NLP</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\optimization\goal_region_cost.h">
+      <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\repulsive_cost.h">
       <Filter>Optimization</Filter>
     </ClInclude>
   </ItemGroup>

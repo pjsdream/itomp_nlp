@@ -38,6 +38,7 @@ public:
     friend class GoalCost;
     friend class VelocityCost;
     friend class GoalRegionCost;
+    friend class RepulsiveCost;
 
     enum CostFunctionType
     {
@@ -46,6 +47,7 @@ public:
         GOAL_COST,
         VELOCITY_COST,
         GOAL_REGION_COST,
+        REPULSIVE_COST,
         NUM_COST_FUNCTIONS
     };
 
@@ -74,6 +76,9 @@ public:
 
     // goal plane
     void addGoalRegionPlane(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector4d& plane);
+
+    // repulsion
+    void addRepulsion(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& repulsion_center, double distance);
 
     // thread
     void startOptimizationThread();
