@@ -73,6 +73,17 @@ public:
     
     // copy constructor for creating memory for collision shapes
     OptimizerRobot(const OptimizerRobot& robot);
+
+    // clone
+    inline OptimizerRobot* clone()
+    {
+        return new OptimizerRobot(*this);
+    }
+
+    inline int getDoF() const
+    {
+        return joints_.size() - 1;
+    }
     
     void setLinkJoints(const std::vector<Link>& links, const std::vector<Joint>& joints);
 

@@ -89,6 +89,21 @@ int main(int argc, char** argv)
     itomp_optimization::Optimizer optimizer;
     optimizer.setRobot(optimizer_robot);
 
+    itomp_optimization::OptimizerOptions options;
+    options.trajectory_duration = 3.0;
+    options.timestep = 0.5;
+    options.num_waypoints = 6;
+    options.num_waypoint_interpolations = 8;
+    optimizer.setOptions(options);
+
+    optimizer.initialize();
+
+    Eigen::Matrix<double, 7, 1> position;
+    Eigen::Matrix<double, 7, 1> velocity;
+    position.setZero();
+    velocity.setZero();
+    optimizer.setInitialRobotState(position, velocity);
+
     renderer_interface->addRobot(robot_model);
     renderer_interface->addRobotEntity(0);
 
