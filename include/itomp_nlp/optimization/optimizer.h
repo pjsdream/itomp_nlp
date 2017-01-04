@@ -52,6 +52,11 @@ public:
     Optimizer();
     ~Optimizer();
 
+    inline int getNumInterpolatedVariables() const
+    {
+        return interpolated_variables_.cols() / 2;
+    }
+
     void setOptions(const OptimizerOptions& options);
     void setRobot(OptimizerRobot* robot);
 
@@ -69,7 +74,8 @@ public:
     void startOptimizationThread();
     void stopOptimizationThread();
 
-    void getBestTrajectory();
+    // TODO: currently, returns interpolated joint positions and velocities
+    Eigen::MatrixXd getBestTrajectory();
 
 private:
 
@@ -98,7 +104,10 @@ private:
     // best result trajectory
     void storeBestWaypointVariables();
     std::mutex mutex_best_waypoint_variables_;
+    Eigen::MatrixXd best_waypoint_variables_pass_;
     Eigen::MatrixXd best_waypoint_variables_;
+    Eigen::MatrixXd best_interpolated_variables_pass_;
+    Eigen::MatrixXd best_interpolated_variables_;
 
     OptimizerRobot* robot_;
 

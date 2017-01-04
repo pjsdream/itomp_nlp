@@ -3,6 +3,7 @@
 
 
 #include <itomp_nlp/robot/robot_model.h>
+#include <itomp_nlp/robot/robot_state.h>
 
 #include <itomp_nlp/renderer/renderer.h>
 
@@ -17,12 +18,15 @@ public:
     RobotRenderer(Renderer* renderer, itomp_robot::RobotModel* robot_model);
 
     int addRobotEntity();
+    void setRobotEntity(int entity_id, itomp_robot::RobotState* robot_state);
 
 private:
 
     void addRobotObjects(itomp_robot::RobotModel* robot_model);
     void addRobotObjectsRecursive(const itomp_robot::Link* link);
     void addRobotEntitiesRecursive(const itomp_robot::Link* link, const Eigen::Affine3d transform, std::vector<int>& entities);
+
+    void setRobotEntitiesRecursive(const itomp_robot::Link* link, const Eigen::Affine3d transform, const std::vector<int>& entities, int& entity_idx, itomp_robot::RobotState* robot_state);
 
     Renderer* renderer_;
 

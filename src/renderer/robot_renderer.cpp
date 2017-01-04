@@ -26,6 +26,12 @@ int RobotRenderer::addRobotEntity()
     return robot_entities_.size() - 1;
 }
 
+void RobotRenderer::setRobotEntity(int entity_id, itomp_robot::RobotState* robot_state)
+{
+    int id = 0;
+    setRobotEntitiesRecursive(robot_model_->getRootLink(), Eigen::Affine3d::Identity(), robot_entities_[entity_id], id, robot_state);
+}
+
 void RobotRenderer::addRobotObjects(itomp_robot::RobotModel* robot_model)
 {
     robot_model_ = robot_model;
@@ -69,6 +75,28 @@ void RobotRenderer::addRobotEntitiesRecursive(const itomp_robot::Link* link, con
 
         addRobotEntitiesRecursive( link->getChildLink(i), transform * joint_origin, entities );
     }
+}
+
+void RobotRenderer::setRobotEntitiesRecursive(const itomp_robot::Link* link, const Eigen::Affine3d transform, const std::vector<int>& entities, int& entity_idx, itomp_robot::RobotState* robot_state)
+{
+    // WARNING! it should recurses in the same manner objects are registered
+    
+    const std::vector<Eigen::Affine3d>& mesh_origins = link->getVisualOrigins();
+
+    for (int i=0; i<mesh_origins.size(); i++)
+    {
+        renderer_->setEntityTransform(entities[entity_idx++], transform * mesh_origins[i]);
+    }
+
+    for (int i=0; i<link->getNumChild(); i++)
+    {
+        itomp_robot::Joint* joint = link->getChildJoint(i);
+
+        const Eigen::Affine3d& joint_transform = joint->getOrigin() * joint->getTransform( robot_state->getPosition(joint->getJointName()) );
+
+        setRobotEntitiesRecursive( link->getChildLink(i), transform * joint_transform, entities, entity_idx, robot_state );
+    }
+    
 }
 
 }

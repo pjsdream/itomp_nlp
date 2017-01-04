@@ -52,6 +52,7 @@ public:
 
     int registerMeshFile(const std::string& filename);
     int addEntity(int object_id, const Eigen::Affine3d& transform);
+    void setEntityTransform(int entity_id, const Eigen::Affine3d& transform);
 
 protected:
 

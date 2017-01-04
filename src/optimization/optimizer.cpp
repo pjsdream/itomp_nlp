@@ -146,13 +146,14 @@ void Optimizer::stopOptimizationThread()
     optimization_thread_.join();
 }
 
-void Optimizer::getBestTrajectory()
+Eigen::MatrixXd Optimizer::getBestTrajectory()
 {
     mutex_best_waypoint_variables_.lock();
-
-    // TODO: prepare for trajectory in output format
-
+    best_waypoint_variables_ = best_waypoint_variables_pass_;
+    best_interpolated_variables_ = best_interpolated_variables_pass_;
     mutex_best_waypoint_variables_.unlock();
+
+    return best_interpolated_variables_;
 }
 
 void Optimizer::threadEnter()
@@ -195,7 +196,8 @@ void Optimizer::optimize()
 void Optimizer::storeBestWaypointVariables()
 {
     mutex_best_waypoint_variables_.lock();
-    best_waypoint_variables_ = waypoint_variables_;
+    best_waypoint_variables_pass_ = waypoint_variables_;
+    best_interpolated_variables_pass_ = interpolated_variables_;
     mutex_best_waypoint_variables_.unlock();
 }
 

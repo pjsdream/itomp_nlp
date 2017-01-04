@@ -39,6 +39,11 @@ int Renderer::addEntity(int object_id, const Eigen::Affine3d& transform)
     return entities_.size() - 1;
 }
 
+void Renderer::setEntityTransform(int entity_id, const Eigen::Affine3d& transform)
+{
+    entities_[entity_id]->setTransformation(transform);
+}
+
 void Renderer::renderObject(Object* object, LightShader* shader)
 {
     Eigen::Affine3f transformation = Eigen::Affine3f::Identity();
