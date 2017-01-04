@@ -18,7 +18,11 @@ int main(int argc, char** argv)
     setbuf(stderr, NULL);
 
     itomp_nlp::GlovePretrainedLoader glove_pretrained_loader;
+#ifdef WIN32
     itomp_nlp::WordToVector* word_to_vector = glove_pretrained_loader.loadGlovePretrainedData("C:\\lib\\glove.6B\\glove.6B.50d.txt");
+#else
+    itomp_nlp::WordToVector* word_to_vector = glove_pretrained_loader.loadGlovePretrainedData("/playpen/jaesungp/lib/glove.6B/glove.6B.50d.txt");
+#endif
 
     delete word_to_vector;
 
