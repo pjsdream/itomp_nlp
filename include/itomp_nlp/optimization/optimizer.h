@@ -74,8 +74,10 @@ public:
     void startOptimizationThread();
     void stopOptimizationThread();
 
-    // TODO: currently, returns interpolated joint positions and velocities
+    // TODO: output format. Currently, returns interpolated joint positions and velocities
     Eigen::MatrixXd getBestTrajectory();
+
+    void moveForwardOneTimestep();
 
 private:
 
@@ -108,6 +110,11 @@ private:
     Eigen::MatrixXd best_waypoint_variables_;
     Eigen::MatrixXd best_interpolated_variables_pass_;
     Eigen::MatrixXd best_interpolated_variables_;
+
+    // update while optimizing
+    void updateWhileOptimizing();
+    void moveForwardOneTimestepInternal();
+    std::atomic_int move_forward_requests_;
 
     OptimizerRobot* robot_;
 

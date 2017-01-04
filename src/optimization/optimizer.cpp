@@ -137,12 +137,15 @@ void Optimizer::setGoalVelocity(int link_id, const Eigen::Vector3d& translate, c
 void Optimizer::startOptimizationThread()
 {
     thread_stop_requested_ = false;
+    move_forward_requests_ = 0;
+
     optimization_thread_ = std::thread( std::bind(&Optimizer::threadEnter, this) );
 }
 
 void Optimizer::stopOptimizationThread()
 {
     thread_stop_requested_ = true;
+
     optimization_thread_.join();
 }
 
@@ -156,9 +159,35 @@ Eigen::MatrixXd Optimizer::getBestTrajectory()
     return best_interpolated_variables_;
 }
 
+void Optimizer::moveForwardOneTimestep()
+{
+    move_forward_requests_++;
+}
+
 void Optimizer::threadEnter()
 {
     optimize();
+}
+
+void Optimizer::updateWhileOptimizing()
+{
+    while (move_forward_requests_)
+    {
+        moveForwardOneTimestepInternal();
+        move_forward_requests_--;
+    }
+}
+
+void Optimizer::moveForwardOneTimestepInternal()
+{
+    int num_shift = (timestep_ + 1e-6) / ((double)trajectory_duration_ / num_waypoints_);
+    waypoint_variables_.block(0, 0, dof_, waypoint_variables_.cols() - num_shift * 2) = waypoint_variables_.block(0, 2 * num_shift, dof_, waypoint_variables_.cols() - num_shift * 2); 
+
+    for (int i = waypoint_variables_.cols() - num_shift * 2; i < waypoint_variables_.cols(); i += 2)
+    {
+        waypoint_variables_.col(i    ) = waypoint_variables_.col(i - 2);
+        waypoint_variables_.col(i + 1).setZero();
+    }
 }
 
 void Optimizer::optimize()
@@ -169,6 +198,8 @@ void Optimizer::optimize()
 
     while (!thread_stop_requested_)
     {
+        updateWhileOptimizing();
+
         // cost function
         optimizationPrecomputation();
         const double f = cost();
@@ -177,7 +208,7 @@ void Optimizer::optimize()
         printf("iteration %5d: %lf\n", iterations, f);
 
         // DEBUG: endeffector (link 7) position print
-        Eigen::Vector3d e = (*forward_kinematics_robots_.rbegin())->getLinkWorldTransform(7).translation();
+        Eigen::Vector3d e = (*forward_kinematics_robots_.rbegin())->getLinkWorldTransform(7) * Eigen::Vector3d(0.2, 0, 0);
         printf("link 7 position: %lf %lf %lf\n", e(0), e(1), e(2));
 
         // simple gradient descent update

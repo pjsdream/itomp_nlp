@@ -30,7 +30,7 @@ void RendererInterface::initializeResources()
 {
 #ifdef WIN32
     itomp_robot::URDFParser urdf_parser;
-    urdf_parser.addPackageDirectoryMapping("fetch_description", "..");
+    urdf_parser.addPackageDirectoryMapping("fetch_description", "C:\\Users\\jaesungp\\Desktop\\documents\\fetch_ros\\fetch_description");
     robot_model_ = urdf_parser.parseURDF("../urdf/fetch.urdf");
 #else
     itomp_robot::URDFParser urdf_parser;
@@ -121,7 +121,7 @@ void RendererInterface::initializeResources()
 
     // end effector link id = 7
     optimizer_.setGoalPosition(7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.5, 0.5, 1));
-    optimizer_.setGoalVelocity(7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0, 0, 1));
+    //optimizer_.setGoalVelocity(7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0, 0, 1));
 
     optimizer_.startOptimizationThread();
 
@@ -147,6 +147,11 @@ void RendererInterface::updateNextFrame()
 
         setRobotEntity(0, i, &robot_state);
     }
+
+    static int cnt = 0;
+    cnt++;
+    if (cnt % 30 == 0)
+        optimizer_.moveForwardOneTimestep();
 
     renderer_->update();
 }
