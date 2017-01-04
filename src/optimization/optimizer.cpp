@@ -83,6 +83,8 @@ void Optimizer::initialize()
 void Optimizer::startOptimizationThread()
 {
     thread_stop_requested_ = false;
+    thread_stop_mutex_.unlock();
+
     optimization_thread_ = std::thread( std::bind(&Optimizer::threadEnter, this) );
 }
 
