@@ -31,10 +31,10 @@ double VelocityCost::cost()
             const GoalVelocity& goal_velocity = velocities_[j];
 
             const Eigen::Affine3d& backward_link_transform = backward_robot->getLinkWorldTransform(goal_velocity.link_id);
-            const Eigen::Vector3d backward_ee_translation = backward_link_transform.translation() + goal_velocity.translation;
+            const Eigen::Vector3d backward_ee_translation = backward_link_transform * goal_velocity.translation;
 
             const Eigen::Affine3d& forward_link_transform = forward_robot->getLinkWorldTransform(goal_velocity.link_id);
-            const Eigen::Vector3d forward_ee_translation = forward_link_transform.translation() + goal_velocity.translation;
+            const Eigen::Vector3d forward_ee_translation = forward_link_transform * goal_velocity.translation;
 
             const Eigen::Vector3d velocity = (forward_ee_translation - backward_ee_translation) / (2. * timestep);
             cost += time_weight * (velocity - goal_velocity.velocity).squaredNorm();

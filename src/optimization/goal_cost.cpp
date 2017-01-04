@@ -25,7 +25,7 @@ double GoalCost::cost()
             const Goal& goal = goal_positions_[j];
 
             const Eigen::Affine3d& link_transform = robot->getLinkWorldTransform(goal.link_id);
-            const Eigen::Vector3d ee_translation = link_transform.translation() + goal.translation;
+            const Eigen::Vector3d ee_translation = link_transform * goal.translation;
 
             cost += (ee_translation - goal.goal_position).squaredNorm();
         }
