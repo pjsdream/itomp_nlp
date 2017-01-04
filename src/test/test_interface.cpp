@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include <itomp_nlp/nlp/glove_pretrained_loader.h>
+#include <itomp_nlp/nlp/commands_to_cost.h>
 
 #include <itomp_nlp/renderer/renderer_interface.h>
 
@@ -23,6 +24,15 @@ int main(int argc, char** argv)
 #else
     itomp_nlp::WordToVector* word_to_vector = glove_pretrained_loader.loadGlovePretrainedData("/playpen/jaesungp/lib/glove.6B/glove.6B.50d.txt");
 #endif
+
+    itomp_nlp::CommandsToCost commands_to_cost(word_to_vector);
+    commands_to_cost.analyzeCosts("move");
+    commands_to_cost.analyzeCosts("pull");
+    commands_to_cost.analyzeCosts("push");
+    commands_to_cost.analyzeCosts("thrust");
+    commands_to_cost.analyzeCosts("slow");
+    commands_to_cost.analyzeCosts("vertically");
+    commands_to_cost.analyzeCosts("horizontally");
 
     delete word_to_vector;
 

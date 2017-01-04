@@ -48,6 +48,8 @@ WordToVector* GlovePretrainedLoader::loadGlovePretrainedData(const std::string& 
     itomp_utils::timerPrintElapsedTime();
 
     fclose(fp);
+
+    return dictionary;
 }
 
 }

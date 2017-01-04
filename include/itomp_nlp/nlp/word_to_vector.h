@@ -19,9 +19,9 @@ public:
 
     void addMapping(const std::string& str, const Eigen::VectorXd& v);
 
-    Eigen::VectorXd getVector(const std::string& str);
+    Eigen::VectorXd getVector(const std::string& str) const;
 
-    double cosineSimilarity(const std::string& word1, const std::string& word2);
+    double cosineSimilarity(const std::string& word1, const std::string& word2) const;
 
 private:
     
