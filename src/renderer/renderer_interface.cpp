@@ -40,6 +40,7 @@ void RendererInterface::initializeResources()
 
     // default robot state
     robot_state_ = new itomp_robot::RobotState(robot_model_);
+    robot_state_->setPosition("torso_lift_joint", 0.35);
 
     active_joint_names_ = 
     {
@@ -120,7 +121,7 @@ void RendererInterface::initializeResources()
 
     // end effector link id = 7
     optimizer_.setGoalPosition(7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.5, 0.5, 1));
-    optimizer_.setGoalVelocity(7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0, 1, 0));
+    optimizer_.setGoalVelocity(7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0, 0, 1));
 
     optimizer_.startOptimizationThread();
 

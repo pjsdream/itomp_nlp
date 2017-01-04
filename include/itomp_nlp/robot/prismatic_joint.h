@@ -17,7 +17,7 @@ public:
     virtual double getDefaultPosition();
     virtual const PrismaticJoint* prismaticJoint() const { return this; }
 
-    virtual Eigen::Affine3d getTransform(double t) const;
+    virtual Eigen::Affine3d getTransform(double q) const;
 
     inline const Eigen::Vector3d& getAxis() const
     {

@@ -24,6 +24,8 @@ double VelocityCost::cost()
         OptimizerRobot* backward_robot = optimizer_.forward_kinematics_robots_[i-1];
         OptimizerRobot* forward_robot = optimizer_.forward_kinematics_robots_[i+1];
 
+        const double time_weight = 1. - (double)(i-1) / (optimizer_.forward_kinematics_robots_.size() - 2);
+
         for (int j=0; j<velocities_.size(); j++)
         {
             const GoalVelocity& goal_velocity = velocities_[j];
@@ -35,7 +37,7 @@ double VelocityCost::cost()
             const Eigen::Vector3d forward_ee_translation = forward_link_transform.translation() + goal_velocity.translation;
 
             const Eigen::Vector3d velocity = (forward_ee_translation - backward_ee_translation) / (2. * timestep);
-            cost += (velocity - goal_velocity.velocity).squaredNorm();
+            cost += time_weight * (velocity - goal_velocity.velocity).squaredNorm();
         }
     }
 
