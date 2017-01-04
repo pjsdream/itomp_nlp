@@ -83,17 +83,12 @@ void Optimizer::initialize()
 void Optimizer::startOptimizationThread()
 {
     thread_stop_requested_ = false;
-    thread_stop_mutex_.unlock();
-
     optimization_thread_ = std::thread( std::bind(&Optimizer::threadEnter, this) );
 }
 
 void Optimizer::stopOptimizationThread()
 {
-    thread_stop_mutex_.lock();
     thread_stop_requested_ = true;
-    thread_stop_mutex_.unlock();
-
     optimization_thread_.join();
 }
 
@@ -104,15 +99,8 @@ void Optimizer::threadEnter()
 
 void Optimizer::optimize()
 {
-    while (true)
+    while (!thread_stop_requested_)
     {
-        // test thread stop
-        thread_stop_mutex_.lock();
-        if (thread_stop_requested_)
-            return;
-        thread_stop_mutex_.unlock();
-
-        // TODO: optimize
     }
 }
 

@@ -7,7 +7,7 @@
 #include <Eigen/Dense>
 
 #include <thread>
-#include <mutex>
+#include <atomic>
 
 
 namespace itomp_optimization
@@ -46,7 +46,7 @@ private:
     void optimize();
 
     std::thread optimization_thread_;
-    std::mutex thread_stop_mutex_;
+    std::atomic_bool thread_stop_mutex_;
     bool thread_stop_requested_;
 
     void interpolate();
