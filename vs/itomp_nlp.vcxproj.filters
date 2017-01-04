@@ -186,6 +186,9 @@
     <ClCompile Include="..\src\nlp\commands_to_cost.cpp">
       <Filter>NLP</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\optimization\goal_region_cost.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -384,6 +387,9 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\nlp\commands_to_cost.h">
       <Filter>NLP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\goal_region_cost.h">
+      <Filter>Optimization</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

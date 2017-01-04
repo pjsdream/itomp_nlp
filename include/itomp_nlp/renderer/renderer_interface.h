@@ -31,6 +31,7 @@ public:
 protected slots:
 
     void updateNextFrame();
+    void moveTrajectoryForwardOneTimestep();
 
 private:
 

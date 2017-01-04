@@ -22,13 +22,19 @@ double SmoothnessCost::cost()
             const double& q0 = optimizer_.interpolated_variables_(j, i);
             const double& q1 = optimizer_.interpolated_variables_(j, i + 2);
 
-            cost += (q1-q0) * (q1-q0);
+            cost += f(q1-q0);
         }
     }
 
     // TODO: velocity
 
     return cost * weight_;
+}
+
+double SmoothnessCost::f(double x)
+{
+    x = std::abs(x);
+    return x < 0.01 ? 0. : x - 0.01;
 }
 
 }

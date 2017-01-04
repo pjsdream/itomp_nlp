@@ -22,6 +22,7 @@ double VelocityCost::cost()
     for (int i = 1; i < optimizer_.forward_kinematics_robots_.size() - 1; i++)
     {
         OptimizerRobot* backward_robot = optimizer_.forward_kinematics_robots_[i-1];
+        OptimizerRobot* robot = optimizer_.forward_kinematics_robots_[i];
         OptimizerRobot* forward_robot = optimizer_.forward_kinematics_robots_[i+1];
 
         const double time_weight = 1. - (double)(i-1) / (optimizer_.forward_kinematics_robots_.size() - 2);
@@ -36,22 +37,32 @@ double VelocityCost::cost()
             const Eigen::Affine3d& forward_link_transform = forward_robot->getLinkWorldTransform(goal_velocity.link_id);
             const Eigen::Vector3d forward_ee_translation = forward_link_transform * goal_velocity.translation;
 
+            const Eigen::Affine3d& link_transform = robot->getLinkWorldTransform(goal_velocity.link_id);
+            const Eigen::Vector3d ee_translation = link_transform * goal_velocity.translation;
+
             const Eigen::Vector3d velocity = (forward_ee_translation - backward_ee_translation) / (2. * timestep);
-            cost += time_weight * (velocity - goal_velocity.velocity).squaredNorm();
+            const double distance = (ee_translation - goal_velocity.goal_position).norm();
+            cost += f( distance * (velocity - goal_velocity.velocity).norm() );
         }
     }
 
     return cost * weight_;
 }
 
-void VelocityCost::addGoalVelocity(int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& velocity)
+void VelocityCost::addGoalVelocity(int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& goal_position, const Eigen::Vector3d& velocity)
 {
     GoalVelocity goal;
     goal.link_id = link_id;
     goal.translation = translation;
+    goal.goal_position = goal_position;
     goal.velocity = velocity;
 
     velocities_.push_back(goal);
+}
+
+double VelocityCost::f(double x)
+{
+    return x < 0.1 ? 0. : x - 0.1;
 }
 
 }

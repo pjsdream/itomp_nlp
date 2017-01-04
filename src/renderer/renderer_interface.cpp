@@ -21,9 +21,15 @@ RendererInterface::RendererInterface()
     QTimer* timer = new QTimer(this);
     timer->setInterval(16);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateNextFrame()));
-    timer->start();
+
+    QTimer* execution_timer = new QTimer(this);
+    execution_timer->setInterval(500);
+    connect(execution_timer, SIGNAL(timeout()), this, SLOT(moveTrajectoryForwardOneTimestep()));
 
     initializeResources();
+
+    timer->start();
+    execution_timer->start();
 }
 
 void RendererInterface::initializeResources()
@@ -107,7 +113,7 @@ void RendererInterface::initializeResources()
     options.trajectory_duration = 3.0;
     options.timestep = 0.5;
     options.num_waypoints = 6;
-    options.num_waypoint_interpolations = 8;
+    options.num_waypoint_interpolations = 4;
 
     optimizer_.setRobot(optimizer_robot_);
     optimizer_.setOptions(options);
@@ -120,8 +126,14 @@ void RendererInterface::initializeResources()
     optimizer_.setInitialRobotState(position, velocity);
 
     // end effector link id = 7
-    optimizer_.setGoalPosition(7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.5, 0.5, 1));
-    //optimizer_.setGoalVelocity(7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0, 0, 1));
+    optimizer_.setGoalPosition(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector3d(0.5, 0.5, 1));
+    //optimizer_.setGoalVelocity(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector3d(0.5, 0.5, 1), Eigen::Vector3d(0, 0, -0.2));
+    optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d(0, 0,  1, -0.7));
+    optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d(0, 0, -1,  0.72));
+    optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d( 1, 0, 0, -0.5));
+    optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d(-1, 0, 0,  1.0));
+    optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d(0,  1, 0,  0.5));
+    optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d(0, -1, 0,  0.5));
 
     optimizer_.startOptimizationThread();
 
@@ -148,12 +160,12 @@ void RendererInterface::updateNextFrame()
         setRobotEntity(0, i, &robot_state);
     }
 
-    static int cnt = 0;
-    cnt++;
-    if (cnt % 30 == 0)
-        optimizer_.moveForwardOneTimestep();
-
     renderer_->update();
+}
+
+void RendererInterface::moveTrajectoryForwardOneTimestep()
+{
+    optimizer_.moveForwardOneTimestep();
 }
 
 void RendererInterface::addRobot(itomp_robot::RobotModel* robot_model)

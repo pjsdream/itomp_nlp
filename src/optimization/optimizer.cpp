@@ -4,6 +4,7 @@
 #include <itomp_nlp/optimization/collision_cost.h>
 #include <itomp_nlp/optimization/goal_cost.h>
 #include <itomp_nlp/optimization/velocity_cost.h>
+#include <itomp_nlp/optimization/goal_region_cost.h>
 
 #include <functional>
 
@@ -106,20 +107,24 @@ void Optimizer::initializeCostFunctions()
     cost_functions_.resize(NUM_COST_FUNCTIONS);
 
     // smoothness cost
-    SmoothnessCost* smoothness_cost = new SmoothnessCost(*this, 1.0);
+    SmoothnessCost* smoothness_cost = new SmoothnessCost(*this, 1);
     cost_functions_[SMOOTHNESS_COST] = smoothness_cost;
 
     // collision cost
-    CollisionCost* collision_cost = new CollisionCost(*this, 1.0);
+    CollisionCost* collision_cost = new CollisionCost(*this, 1);
     cost_functions_[COLLISION_COST] = collision_cost;
 
     // goal cost
-    GoalCost* goal_cost = new GoalCost(*this, 1.0);
+    GoalCost* goal_cost = new GoalCost(*this, 1);
     cost_functions_[GOAL_COST] = goal_cost;
 
     // velocity cost
-    VelocityCost* velocity_cost = new VelocityCost(*this, 0.1);
+    VelocityCost* velocity_cost = new VelocityCost(*this, 1);
     cost_functions_[VELOCITY_COST] = velocity_cost;
+
+    // goal region cost
+    GoalRegionCost* goal_region_cost = new GoalRegionCost(*this, 1);
+    cost_functions_[GOAL_REGION_COST] = goal_region_cost;
 }
 
 void Optimizer::setGoalPosition(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& goal_position)
@@ -128,10 +133,16 @@ void Optimizer::setGoalPosition(int link_id, const Eigen::Vector3d& translate, c
     goal_cost->addGoalPosition(link_id, translate, goal_position);
 }
 
-void Optimizer::setGoalVelocity(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& velocity)
+void Optimizer::setGoalVelocity(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& goal_position, const Eigen::Vector3d& velocity)
 {
     VelocityCost* velocity_cost = dynamic_cast<VelocityCost*>(cost_functions_[VELOCITY_COST]);
-    velocity_cost->addGoalVelocity(link_id, translate, velocity);
+    velocity_cost->addGoalVelocity(link_id, translate, goal_position, velocity);
+}
+
+void Optimizer::addGoalRegionPlane(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector4d& plane)
+{
+    GoalRegionCost* goal_region_cost = dynamic_cast<GoalRegionCost*>(cost_functions_[GOAL_REGION_COST]);
+    goal_region_cost->addGoalRegionPlane(link_id, translate, plane);
 }
 
 void Optimizer::startOptimizationThread()
@@ -199,17 +210,28 @@ void Optimizer::optimize()
     while (!thread_stop_requested_)
     {
         updateWhileOptimizing();
+        
+        optimizationPrecomputation();
 
         // cost function
-        optimizationPrecomputation();
         const double f = cost();
 
+        // DEBUG: print cost functions
+        for (int i=0; i<NUM_COST_FUNCTIONS; i++)
+        {
+            const double c = cost_functions_[i]->cost();
+            printf("%.9lf ", c);
+        }
+        printf("\n");
+
+        /*
         // DEBUG: print iteration and costs (slow)
         printf("iteration %5d: %lf\n", iterations, f);
 
         // DEBUG: endeffector (link 7) position print
-        Eigen::Vector3d e = (*forward_kinematics_robots_.rbegin())->getLinkWorldTransform(7) * Eigen::Vector3d(0.2, 0, 0);
+        Eigen::Vector3d e = (*forward_kinematics_robots_.rbegin())->getLinkWorldTransform(7) * Eigen::Vector3d(0.1, 0, 0);
         printf("link 7 position: %lf %lf %lf\n", e(0), e(1), e(2));
+        */
 
         // simple gradient descent update
         computeGradient();
@@ -249,7 +271,7 @@ void Optimizer::computeGradient()
     // TODO: optimize by using locality of trajectory, or using analytic gradient
 
     // central difference
-    const double delta = 0.01;
+    const double delta = 0.0001;
     for (int i=2; i < waypoint_variables_.cols(); i++)
     {
         for (int j=0; j < waypoint_variables_.rows(); j++)

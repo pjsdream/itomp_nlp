@@ -34,6 +34,8 @@ public:
 private:
 
     std::vector<Goal> goal_positions_;
+
+    double f(double x);
 };
 
 }

@@ -37,6 +37,7 @@ public:
     friend class CollisionCost;
     friend class GoalCost;
     friend class VelocityCost;
+    friend class GoalRegionCost;
 
     enum CostFunctionType
     {
@@ -44,6 +45,7 @@ public:
         COLLISION_COST,
         GOAL_COST,
         VELOCITY_COST,
+        GOAL_REGION_COST,
         NUM_COST_FUNCTIONS
     };
 
@@ -68,7 +70,10 @@ public:
     void setGoalPosition(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& goal_position);
 
     // goal velocity
-    void setGoalVelocity(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& velocity);
+    void setGoalVelocity(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& goal_position, const Eigen::Vector3d& velocity);
+
+    // goal plane
+    void addGoalRegionPlane(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector4d& plane);
 
     // thread
     void startOptimizationThread();

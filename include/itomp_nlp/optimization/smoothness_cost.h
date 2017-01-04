@@ -17,6 +17,8 @@ public:
     virtual double cost();
 
 private:
+
+    double f(double x);
 };
 
 }
