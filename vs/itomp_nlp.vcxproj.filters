@@ -171,6 +171,9 @@
     <ClCompile Include="..\src\optimization\collision_cost.cpp">
       <Filter>Optimization</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\optimization\velocity_cost.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -356,6 +359,9 @@
       <Filter>Optimization</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\optimization\collision_cost.h">
+      <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\velocity_cost.h">
       <Filter>Optimization</Filter>
     </ClInclude>
   </ItemGroup>

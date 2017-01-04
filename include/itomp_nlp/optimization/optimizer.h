@@ -36,12 +36,14 @@ public:
     friend class SmoothnessCost;
     friend class CollisionCost;
     friend class GoalCost;
+    friend class VelocityCost;
 
     enum CostFunctionType
     {
         SMOOTHNESS_COST = 0,
         COLLISION_COST,
         GOAL_COST,
+        VELOCITY_COST,
         NUM_COST_FUNCTIONS
     };
 
@@ -59,6 +61,9 @@ public:
 
     // goal position
     void setGoalPosition(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& goal_position);
+
+    // goal velocity
+    void setGoalVelocity(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& velocity);
 
     // thread
     void startOptimizationThread();

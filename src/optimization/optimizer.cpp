@@ -3,6 +3,7 @@
 #include <itomp_nlp/optimization/smoothness_cost.h>
 #include <itomp_nlp/optimization/collision_cost.h>
 #include <itomp_nlp/optimization/goal_cost.h>
+#include <itomp_nlp/optimization/velocity_cost.h>
 
 #include <functional>
 
@@ -115,12 +116,22 @@ void Optimizer::initializeCostFunctions()
     // goal cost
     GoalCost* goal_cost = new GoalCost(*this, 1.0);
     cost_functions_[GOAL_COST] = goal_cost;
+
+    // velocity cost
+    VelocityCost* velocity_cost = new VelocityCost(*this, 0.1);
+    cost_functions_[VELOCITY_COST] = velocity_cost;
 }
 
 void Optimizer::setGoalPosition(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& goal_position)
 {
     GoalCost* goal_cost = dynamic_cast<GoalCost*>(cost_functions_[GOAL_COST]);
     goal_cost->addGoalPosition(link_id, translate, goal_position);
+}
+
+void Optimizer::setGoalVelocity(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& velocity)
+{
+    VelocityCost* velocity_cost = dynamic_cast<VelocityCost*>(cost_functions_[VELOCITY_COST]);
+    velocity_cost->addGoalVelocity(link_id, translate, velocity);
 }
 
 void Optimizer::startOptimizationThread()
@@ -161,7 +172,12 @@ void Optimizer::optimize()
         optimizationPrecomputation();
         const double f = cost();
 
-        printf("iteration %4d: %lf\n", iterations, f);
+        // DEBUG: print iteration and costs (slow)
+        printf("iteration %5d: %lf\n", iterations, f);
+
+        // DEBUG: endeffector (link 7) position print
+        Eigen::Vector3d e = (*forward_kinematics_robots_.rbegin())->getLinkWorldTransform(7).translation();
+        printf("link 7 position: %lf %lf %lf\n", e(0), e(1), e(2));
 
         // simple gradient descent update
         computeGradient();

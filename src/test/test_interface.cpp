@@ -110,7 +110,8 @@ int main(int argc, char** argv)
     optimizer.setInitialRobotState(position, velocity);
 
     // end effector link id = 7
-    optimizer.setGoalPosition(7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(1, -1, 1));
+    optimizer.setGoalPosition(7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(1, 1, 1));
+    optimizer.setGoalVelocity(7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0, 0, -1));
 
     optimizer.startOptimizationThread();
 
