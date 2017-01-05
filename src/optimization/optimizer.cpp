@@ -101,23 +101,6 @@ void Optimizer::prepare()
 
     // cost function initialization
     initializeCostFunctions();
-
-    // prepare cache for adagrad
-    prepareAdaGradCache();
-}
-
-void Optimizer::prepareAdaGradCache()
-{
-    adagrad_sum_squares_.resize( dof_, num_waypoints_ * 2 );
-    adagrad_sum_squares_.setZero();
-
-    for (int i=0; i<adagrad_num_history_; i++)
-    {
-        adagrad_history_[i].resize( dof_, num_waypoints_ * 2 );
-        adagrad_history_[i].setZero();
-    }
-
-    adagrad_history_pointer_ = 0;
 }
 
 void Optimizer::initializeCostFunctions()
@@ -272,14 +255,7 @@ void Optimizer::optimizeGradientDescent()
         computeGradientChainRule();
 
         // update current point
-        // AdaGrad method (http://caffe.berkeleyvision.org/tutorial/solver.html)
-        for (int i=0; i<dof_; i++)
-        {
-            for (int j=0; j < num_waypoints_ * 2; j++)
-            {
-                waypoint_variables_(i, j) -= alpha * gradient_(
-            }
-        }
+        waypoint_variables_.block(0, 2, dof_, num_waypoints_ * 2) -= alpha * gradient_;
 
         // simple gradient descent
         //waypoint_variables_.block(0, 2, dof_, num_waypoints_ * 2) -= alpha * ;

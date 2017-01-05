@@ -112,13 +112,6 @@ private:
     void computeGradientChainRule();
     Eigen::MatrixXd gradient_;
 
-    // AdaGrad cache
-    void prepareAdaGradCache();
-    static const int adagrad_num_history_ = 100;
-    Eigen::MatrixXd adagrad_sum_squares_;
-    Eigen::MatrixXd adagrad_history_[ adagrad_num_history_ ];
-    int adagrad_history_pointer_;
-
     // cost functions
     void initializeCostFunctions();
     std::vector<Cost*> cost_functions_;
