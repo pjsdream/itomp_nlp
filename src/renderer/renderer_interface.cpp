@@ -113,7 +113,7 @@ void RendererInterface::initializeResources()
     options.trajectory_duration = 3.0;
     options.timestep = 0.5;
     options.num_waypoints = 6;
-    options.num_waypoint_interpolations = 4;
+    options.num_waypoint_interpolations = 1;
 
     optimizer_.setRobot(optimizer_robot_);
     optimizer_.setOptions(options);
@@ -126,8 +126,9 @@ void RendererInterface::initializeResources()
     optimizer_.setInitialRobotState(position, velocity);
 
     // end effector link id = 7
-    //optimizer_.setGoalPosition(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector3d(0.5, 0.5, 1));
+    optimizer_.setGoalPosition(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector3d(0.5, 0.5, 1));
     //optimizer_.setGoalVelocity(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector3d(0.5, 0.5, 1), Eigen::Vector3d(0, 0, -0.2));
+    /*
     optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d(0, 0,  1, -0.7));
     optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d(0, 0, -1,  0.72));
     optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d( 1, 0, 0, -0.5));
@@ -135,6 +136,7 @@ void RendererInterface::initializeResources()
     optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d(0,  1, 0,  0.5));
     optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d(0, -1, 0,  0.5));
     optimizer_.addRepulsion(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector3d(0.95, 0.01, 0.71), 0.2);
+    */
 
     optimizer_.startOptimizationThread();
 

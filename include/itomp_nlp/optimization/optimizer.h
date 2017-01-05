@@ -106,7 +106,9 @@ private:
 
     // objective function and gradient computation
     double cost();
-    void computeGradient();
+    double cost(int interpolation_idx);
+    void computeGradientDirect();
+    void computeGradientChainRule();
     Eigen::MatrixXd gradient_;
 
     // cost functions
@@ -143,8 +145,8 @@ private:
 
     // interpolated variables
     // [q0 q0' q1 q1' q2 q2' ... ]
-    Eigen::MatrixXd interpolation_coefficients_;
-    Eigen::MatrixXd interpolated_variables_;
+    Eigen::MatrixXd interpolation_coefficients_;  // 4 rows
+    Eigen::MatrixXd interpolated_variables_;      // n rows
 };
 
 }

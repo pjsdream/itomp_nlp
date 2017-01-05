@@ -34,6 +34,25 @@ double RepulsiveCost::cost()
     return cost * weight_;
 }
 
+double RepulsiveCost::cost(int idx)
+{
+    double cost = 0.;
+
+    OptimizerRobot* robot = optimizer_.forward_kinematics_robots_[idx];
+
+    for (int j=0; j<repulsions_.size(); j++)
+    {
+        const Repulsion& repulsion = repulsions_[j];
+
+        const Eigen::Affine3d& link_transform = robot->getLinkWorldTransform(repulsion.link_id);
+        const Eigen::Vector3d ee_translation = link_transform * repulsion.translation;
+
+        cost += f( (ee_translation - repulsion.repulsion_center).norm(), repulsion.distance );
+    }
+
+    return cost * weight_;
+}
+
 void RepulsiveCost::addRepulsion(int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& repulsion_center, double distance)
 {
     Repulsion repulsion;

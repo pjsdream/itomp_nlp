@@ -28,6 +28,7 @@ public:
     GoalCost(Optimizer& optimizer, double weight);
     
     virtual double cost();
+    virtual double cost(int idx);
 
     void addGoalPosition(int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& goal_position);
 

@@ -15,6 +15,7 @@ public:
     CollisionCost(Optimizer& optimizer, double weight);
     
     virtual double cost();
+    virtual double cost(int idx);
 
 private:
 };

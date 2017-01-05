@@ -29,6 +29,7 @@ public:
     RepulsiveCost(Optimizer& optimizer, double weight);
     
     virtual double cost();
+    virtual double cost(int idx);
 
     void addRepulsion(int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& repulsion_center, double distance);
 

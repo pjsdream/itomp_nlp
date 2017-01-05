@@ -29,6 +29,7 @@ public:
     VelocityCost(Optimizer& optimizer, double weight);
     
     virtual double cost();
+    virtual double cost(int idx);
 
     void addGoalVelocity(int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& goal_position, const Eigen::Vector3d& velocity);
 

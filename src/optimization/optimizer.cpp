@@ -245,7 +245,8 @@ void Optimizer::optimize()
         */
 
         // simple gradient descent update
-        computeGradient();
+        //computeGradientDirect();
+        computeGradientChainRule();
 
         // update current point
         waypoint_variables_.block(0, 2, dof_, num_waypoints_ * 2) -= alpha * gradient_;
@@ -275,7 +276,17 @@ double Optimizer::cost()
     return cost;
 }
 
-void Optimizer::computeGradient()
+double Optimizer::cost(int interpolation_idx)
+{
+    double cost = 0.;
+
+    for (int i=0; i<cost_functions_.size(); i++)
+        cost += cost_functions_[i]->cost(interpolation_idx);
+
+    return cost;
+}
+
+void Optimizer::computeGradientDirect()
 {
     gradient_.setZero();
     
@@ -300,8 +311,76 @@ void Optimizer::computeGradient()
             const double backward_cost = cost();
 
             waypoint_variables_(j, i) = original_value;
+            optimizationPrecomputation();
 
             gradient_(j, i-2) = (forward_cost - backward_cost) / (2. * delta);
+        }
+    }
+
+    // restore interpolation variables modified by central difference method
+    optimizationPrecomputation();
+}
+
+void Optimizer::computeGradientChainRule()
+{
+    gradient_.setZero();
+    
+    Eigen::MatrixXd chain(dof_, 2);
+
+    // central difference
+    const double delta = 0.0001;
+    for (int i=0; i < num_waypoints_; i++)
+    {
+        for (int j = 1; j <= num_waypoint_interpolations_ + 1; j++)
+        {
+            const int interpolation_idx = i * (num_waypoint_interpolations_ + 1) + j;
+            const int col_position = interpolation_idx * 2;
+            const int col_velocity = interpolation_idx * 2 + 1;
+
+            for (int k=0; k<dof_; k++)
+            {
+                for (int l=0; l<2; l++)
+                {
+                    const double original_value = interpolated_variables_( k, col_position + l );
+
+                    // forward cost
+                    interpolated_variables_( k, col_position + l ) += delta;
+
+                    // local precomputation
+                    forward_kinematics_robots_[interpolation_idx]->setPositions ( interpolated_variables_.col( col_position ) );
+                    forward_kinematics_robots_[interpolation_idx]->setVelocities( interpolated_variables_.col( col_velocity ) );
+                    forward_kinematics_robots_[interpolation_idx]->forwardKinematics();
+
+                    const double forward_cost = cost(interpolation_idx);
+                    
+                    // backward cost
+                    interpolated_variables_( k, col_position + l ) -= 2. * delta;
+
+                    // local precomputation
+                    forward_kinematics_robots_[interpolation_idx]->setPositions ( interpolated_variables_.col( col_position ) );
+                    forward_kinematics_robots_[interpolation_idx]->setVelocities( interpolated_variables_.col( col_velocity ) );
+                    forward_kinematics_robots_[interpolation_idx]->forwardKinematics();
+
+                    const double backward_cost = cost(interpolation_idx);
+
+                    // restore
+                    interpolated_variables_( k, col_position + l ) = original_value;
+                    forward_kinematics_robots_[interpolation_idx]->setPositions ( interpolated_variables_.col( col_position ) );
+                    forward_kinematics_robots_[interpolation_idx]->setVelocities( interpolated_variables_.col( col_velocity ) );
+                    forward_kinematics_robots_[interpolation_idx]->forwardKinematics();
+
+                    chain(k, l) = (forward_cost - backward_cost) / (2. * delta);
+                }
+            }
+
+            // the derivative is chained with hermite spline coefficients
+            if (i != 0)
+            {
+                gradient_.col(i*2-2) += chain * Eigen::Vector2d(interpolation_coefficients_(0, j*2), interpolation_coefficients_(0, j*2+1));
+                gradient_.col(i*2-1) += chain * Eigen::Vector2d(interpolation_coefficients_(1, j*2), interpolation_coefficients_(1, j*2+1));
+            }
+            gradient_.col(i*2  ) += chain * Eigen::Vector2d(interpolation_coefficients_(2, j*2), interpolation_coefficients_(2, j*2+1));
+            gradient_.col(i*2+1) += chain * Eigen::Vector2d(interpolation_coefficients_(3, j*2), interpolation_coefficients_(3, j*2+1));
         }
     }
 

@@ -49,6 +49,12 @@ double VelocityCost::cost()
     return cost * weight_;
 }
 
+double VelocityCost::cost(int idx)
+{
+    // TODO
+    return 0.;
+}
+
 void VelocityCost::addGoalVelocity(int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& goal_position, const Eigen::Vector3d& velocity)
 {
     GoalVelocity goal;

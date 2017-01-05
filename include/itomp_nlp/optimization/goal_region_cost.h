@@ -28,6 +28,7 @@ public:
     GoalRegionCost(Optimizer& optimizer, double weight);
     
     virtual double cost();
+    virtual double cost(int idx);
 
     void addGoalRegionPlane(int link_id, const Eigen::Vector3d& translation, const Eigen::Vector4d& plane);
 

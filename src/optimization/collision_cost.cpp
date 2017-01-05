@@ -15,4 +15,10 @@ double CollisionCost::cost()
     return 0.;
 }
 
+double CollisionCost::cost(int idx)
+{
+    // TODO
+    return 0.;
+}
+
 }
