@@ -26,7 +26,7 @@ private:
 
 public:
 
-    RepulsiveCost(Optimizer& optimizer, double weight);
+    RepulsiveCost(OptimizerThread& optimizer, double weight);
     
     virtual double cost();
     virtual double cost(int idx);

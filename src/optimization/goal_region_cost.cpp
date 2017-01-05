@@ -1,11 +1,11 @@
 #include <itomp_nlp/optimization/goal_region_cost.h>
-#include <itomp_nlp/optimization/optimizer.h>
+#include <itomp_nlp/optimization/optimizer_thread.h>
 
 
 namespace itomp_optimization
 {
 
-GoalRegionCost::GoalRegionCost(Optimizer& optimizer, double weight)
+GoalRegionCost::GoalRegionCost(OptimizerThread& optimizer, double weight)
     : Cost(optimizer, weight)
 {
 }

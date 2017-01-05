@@ -1,5 +1,5 @@
 #include <itomp_nlp/optimization/repulsive_cost.h>
-#include <itomp_nlp/optimization/optimizer.h>
+#include <itomp_nlp/optimization/optimizer_thread.h>
 
 #include <iostream>
 
@@ -7,7 +7,7 @@
 namespace itomp_optimization
 {
 
-RepulsiveCost::RepulsiveCost(Optimizer& optimizer, double weight)
+RepulsiveCost::RepulsiveCost(OptimizerThread& optimizer, double weight)
     : Cost(optimizer, weight)
 {
 }

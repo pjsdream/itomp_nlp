@@ -113,7 +113,7 @@ void RendererInterface::initializeResources()
     options.trajectory_duration = 3.0;
     options.timestep = 0.5;
     options.num_waypoints = 6;
-    options.num_waypoint_interpolations = 1;
+    options.num_waypoint_interpolations = 8;
 
     optimizer_.setRobot(optimizer_robot_);
     optimizer_.setOptions(options);

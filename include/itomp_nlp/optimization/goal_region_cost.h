@@ -25,7 +25,7 @@ private:
 
 public:
 
-    GoalRegionCost(Optimizer& optimizer, double weight);
+    GoalRegionCost(OptimizerThread& optimizer, double weight);
     
     virtual double cost();
     virtual double cost(int idx);

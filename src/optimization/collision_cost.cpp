@@ -1,11 +1,11 @@
 #include <itomp_nlp/optimization/collision_cost.h>
-#include <itomp_nlp/optimization/optimizer.h>
+#include <itomp_nlp/optimization/optimizer_thread.h>
 
 
 namespace itomp_optimization
 {
 
-CollisionCost::CollisionCost(Optimizer& optimizer, double weight)
+CollisionCost::CollisionCost(OptimizerThread& optimizer, double weight)
     : Cost(optimizer, weight)
 {
 }

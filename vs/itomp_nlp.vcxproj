@@ -185,6 +185,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\optimization\optimizer.cpp" />
     <ClCompile Include="..\src\optimization\optimizer_robot.cpp" />
     <ClCompile Include="..\src\optimization\optimizer_robot_loader.cpp" />
+    <ClCompile Include="..\src\optimization\optimizer_thread.cpp" />
     <ClCompile Include="..\src\optimization\repulsive_cost.cpp" />
     <ClCompile Include="..\src\optimization\smoothness_cost.cpp" />
     <ClCompile Include="..\src\optimization\velocity_cost.cpp" />
@@ -255,6 +256,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\optimization\optimizer.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_robot.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_robot_loader.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_thread.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\repulsive_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\smoothness_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\velocity_cost.h" />

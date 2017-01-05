@@ -12,7 +12,7 @@ class CollisionCost : public Cost
 {
 public:
 
-    CollisionCost(Optimizer& optimizer, double weight);
+    CollisionCost(OptimizerThread& optimizer, double weight);
     
     virtual double cost();
     virtual double cost(int idx);

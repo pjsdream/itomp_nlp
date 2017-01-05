@@ -12,7 +12,7 @@ class SmoothnessCost : public Cost
 {
 public:
 
-    SmoothnessCost(Optimizer& optimizer, double weight);
+    SmoothnessCost(OptimizerThread& optimizer, double weight);
 
     virtual double cost();
     virtual double cost(int idx);

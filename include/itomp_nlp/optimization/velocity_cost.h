@@ -26,7 +26,7 @@ private:
 
 public:
 
-    VelocityCost(Optimizer& optimizer, double weight);
+    VelocityCost(OptimizerThread& optimizer, double weight);
     
     virtual double cost();
     virtual double cost(int idx);

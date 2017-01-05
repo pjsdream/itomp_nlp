@@ -8,20 +8,20 @@
 namespace itomp_optimization
 {
 
-class Optimizer;
+class OptimizerThread;
 
 class Cost
 {
 public:
 
-    Cost(Optimizer& optimizer, double weight = 1.);
+    Cost(OptimizerThread& optimizer, double weight = 1.);
 
     virtual double cost() = 0;
     virtual double cost(int idx) = 0;
 
 protected:
 
-    Optimizer& optimizer_;
+    OptimizerThread& optimizer_;
     double weight_;
 };
 
