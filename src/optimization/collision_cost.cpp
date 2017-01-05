@@ -12,7 +12,12 @@ CollisionCost::CollisionCost(Optimizer& optimizer, double weight)
     
 double CollisionCost::cost()
 {
-    return 0.;
+    double c = 0.;
+
+    for (int i=0; i<optimizer_.forward_kinematics_robots_.size(); i++)
+        c += cost(i);
+
+    return c;
 }
 
 double CollisionCost::cost(int idx)

@@ -14,6 +14,10 @@ VelocityCost::VelocityCost(Optimizer& optimizer, double weight)
 
 double VelocityCost::cost()
 {
+    // TODO
+    return 0.;
+
+    /*
     double cost = 0.;
 
     const double timestep = (double)optimizer_.trajectory_duration_ / (optimizer_.interpolated_variables_.cols() - 1);
@@ -47,6 +51,7 @@ double VelocityCost::cost()
     }
 
     return cost * weight_;
+    */
 }
 
 double VelocityCost::cost(int idx)

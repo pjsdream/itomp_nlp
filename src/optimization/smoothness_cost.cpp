@@ -12,30 +12,10 @@ SmoothnessCost::SmoothnessCost(Optimizer& optimizer, double weight)
 
 double SmoothnessCost::cost()
 {
-    /*
-    double cost = 0.;
-
-    // position
-    for (int i=0; i<optimizer_.interpolated_variables_.cols() - 2; i += 2)
-    {
-        for (int j=0; j<optimizer_.interpolated_variables_.rows(); j++)
-        {
-            const double& q0 = optimizer_.interpolated_variables_(j, i);
-            const double& q1 = optimizer_.interpolated_variables_(j, i + 2);
-
-            cost += f(q1-q0);
-        }
-    }
-
-    // TODO: velocity
-
-    return cost * weight_;
-    */
-
     double c = 0.;
 
-    for (int i=0; i<optimizer_.interpolated_variables_.cols(); i += 2)
-        c += cost(i/2);
+    for (int i=0; i<optimizer_.forward_kinematics_robots_.size(); i++)
+        c += cost(i);
 
     return c;
 }

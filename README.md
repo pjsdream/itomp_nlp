@@ -12,6 +12,8 @@ ROS catkin setup
 * Qt5 (https://www.qt.io/developers/, tested on Qt5.7)
 * lodepng (http://lodev.org/lodepng/)
 * tinyxml2 (https://github.com/leethomason/tinyxml2)
+* Eigen (http://eigen.tuxfamily.org/index.php?title=Main_Page)
+* dlib (http://dlib.net/)
 * assimp 3.3.1 (http://www.assimp.org/, http://www.assimp.org/lib_html/index.html)
 * Fetch-ros (https://github.com/fetchrobotics/fetch_ros)
 * GloVe pre-trained word-to-vector data (http://nlp.stanford.edu/projects/glove/, glove.6B.zip)
@@ -21,6 +23,8 @@ Copy the following lib files to lib/ folder
 * lodepng.h
 * tinyxml2.cpp
 * tinyxml2.h
+* Eigen/
+* dlib/
 
 Copy urdf files to urdf/ folder
 

@@ -93,7 +93,8 @@ private:
 
     // should be called in the created thread
     void threadEnter();
-    void optimize();
+    void optimizeGradientDescent();
+    void optimizeDlib();
 
     std::thread optimization_thread_;
     std::atomic_bool thread_stop_mutex_;
@@ -110,6 +111,13 @@ private:
     void computeGradientDirect();
     void computeGradientChainRule();
     Eigen::MatrixXd gradient_;
+
+    // AdaGrad cache
+    void prepareAdaGradCache();
+    static const int adagrad_num_history_ = 100;
+    Eigen::MatrixXd adagrad_sum_squares_;
+    Eigen::MatrixXd adagrad_history_[ adagrad_num_history_ ];
+    int adagrad_history_pointer_;
 
     // cost functions
     void initializeCostFunctions();

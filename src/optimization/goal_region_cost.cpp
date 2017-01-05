@@ -12,33 +12,12 @@ GoalRegionCost::GoalRegionCost(Optimizer& optimizer, double weight)
 
 double GoalRegionCost::cost()
 {
-    double cost = 0.;
+    double c = 0.;
 
     for (int i=0; i<optimizer_.forward_kinematics_robots_.size(); i++)
-    {
-        OptimizerRobot* robot = optimizer_.forward_kinematics_robots_[i];
+        c += cost(i);
 
-        for (int j=0; j<goal_planes_.size(); j++)
-        {
-            const GoalPlane& goal = goal_planes_[j];
-
-            const Eigen::Affine3d& link_transform = robot->getLinkWorldTransform(goal.link_id);
-
-            Eigen::Vector4d ee_translation;
-            ee_translation.block(0, 0, 3, 1) = link_transform * goal.translation;
-            ee_translation(3) = 1.;
-
-            const Eigen::Vector4d& plane = goal.plane;
-
-            double v = plane.dot(ee_translation);
-
-            // ReLU-like objective function
-            if (v < 0)
-            cost += -v;
-        }
-    }
-
-    return cost * weight_;
+    return c;
 }
 
 double GoalRegionCost::cost(int idx)

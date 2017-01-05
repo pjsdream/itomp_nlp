@@ -119,7 +119,6 @@
     <PreBuildEvent>
       <Command>mkdir ..\src\GeneratedFiles
 xcopy ..\shader ..\bin\shader /S /E /I /Y &gt; nul
-xcopy ..\texture ..\bin\texture /S /E /I /Y &gt; nul
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer_interface.h" -o "..\src\GeneratedFiles\moc_renderer_interface.cpp"
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
     </PreBuildEvent>
@@ -167,7 +166,6 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <PreBuildEvent>
       <Command>mkdir ..\src\GeneratedFiles
 xcopy ..\shader ..\bin\shader /S /E /I /Y &gt; nul
-xcopy ..\texture ..\bin\texture /S /E /I /Y &gt; nul
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer_interface.h" -o "..\src\GeneratedFiles\moc_renderer_interface.cpp"
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
     </PreBuildEvent>
