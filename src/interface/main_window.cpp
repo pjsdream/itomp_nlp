@@ -1,21 +1,28 @@
-#include <itomp_nlp/renderer/renderer_interface.h>
-#include <QTimer>
+#include <itomp_nlp/interface/main_window.h>
 
+#include <QTimer>
 
 #include <itomp_nlp/robot/urdf_parser.h>
 
 
-namespace itomp_renderer
+namespace itomp_interface
 {
 
-RendererInterface::RendererInterface()
+MainWindow::MainWindow()
+    : QMainWindow()
 {
+    setWindowTitle("Motion planner");
+
     resize(800, 600);
 
     // central visualizer widget setup
-    renderer_ = new Renderer(this);
+    renderer_ = new itomp_renderer::Renderer(this);
     setCentralWidget(renderer_);
     show();
+
+    // motion planner interface setup
+    itomp_interface_ = new ItompInterface();
+    itomp_interface_->move( pos().x() - itomp_interface_->width(), pos().y() );
 
     // timer
     QTimer* timer = new QTimer(this);
@@ -32,7 +39,7 @@ RendererInterface::RendererInterface()
     execution_timer->start();
 }
 
-void RendererInterface::initializeResources()
+void MainWindow::initializeResources()
 {
 #ifdef WIN32
     itomp_robot::URDFParser urdf_parser;
@@ -147,7 +154,7 @@ void RendererInterface::initializeResources()
         addRobotEntity(0);
 }
 
-void RendererInterface::updateNextFrame()
+void MainWindow::updateNextFrame()
 {
     // update robot trajectory to renderer
     Eigen::MatrixXd trajectory = optimizer_.getBestTrajectory();
@@ -166,23 +173,23 @@ void RendererInterface::updateNextFrame()
     renderer_->update();
 }
 
-void RendererInterface::moveTrajectoryForwardOneTimestep()
+void MainWindow::moveTrajectoryForwardOneTimestep()
 {
     optimizer_.moveForwardOneTimestep();
 }
 
-void RendererInterface::addRobot(itomp_robot::RobotModel* robot_model)
+void MainWindow::addRobot(itomp_robot::RobotModel* robot_model)
 {
-    RobotRenderer* robot_renderer = new RobotRenderer(renderer_, robot_model);
+    itomp_renderer::RobotRenderer* robot_renderer = new itomp_renderer::RobotRenderer(renderer_, robot_model);
     robot_renderers_.push_back(robot_renderer);
 }
 
-void RendererInterface::addRobotEntity(int robot_index)
+void MainWindow::addRobotEntity(int robot_index)
 {
     robot_entities_.push_back( robot_renderers_[robot_index]->addRobotEntity() );
 }
 
-void RendererInterface::setRobotEntity(int robot_index, int entity_id, itomp_robot::RobotState* robot_state)
+void MainWindow::setRobotEntity(int robot_index, int entity_id, itomp_robot::RobotState* robot_state)
 {
     robot_renderers_[robot_index]->setRobotEntity(robot_entities_[entity_id], robot_state);
 }

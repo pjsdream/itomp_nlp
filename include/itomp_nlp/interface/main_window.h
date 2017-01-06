@@ -1,33 +1,33 @@
-#ifndef ITOMP_RENDERER_SIMULATOR_INTERFACE_H
-#define ITOMP_RENDERER_SIMULATOR_INTERFACE_H
+#ifndef ITOMP_INTERFACE_MAIN_WINDOW_H
+#define ITOMP_INTERFACE_MAIN_WINDOW_H
 
-
-#include <cmath>
 
 #include <QMainWindow>
 
 #include <itomp_nlp/renderer/renderer.h>
 #include <itomp_nlp/renderer/robot_renderer.h>
 
+#include <itomp_nlp/interface/itomp_interface.h>
+
 #include <itomp_nlp/optimization/optimizer.h>
 #include <itomp_nlp/optimization/optimizer_robot_loader.h>
 
 
-namespace itomp_renderer
+namespace itomp_interface
 {
 
-class RendererInterface : public QMainWindow
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
 
-    RendererInterface();
+    MainWindow();
 
     void addRobot(itomp_robot::RobotModel* robot_model);
     void addRobotEntity(int robot_index);
     void setRobotEntity(int robot_index, int entity_id, itomp_robot::RobotState* robot_state);
-
+    
 protected slots:
 
     void updateNextFrame();
@@ -44,13 +44,15 @@ private:
     std::vector<std::string> active_joint_names_;
     std::vector<std::vector<std::string> > aabb_lists_;
 
-    Renderer* renderer_;
+    itomp_renderer::Renderer* renderer_;
 
-    std::vector<RobotRenderer*> robot_renderers_;
+    ItompInterface* itomp_interface_;
+
+    std::vector<itomp_renderer::RobotRenderer*> robot_renderers_;
     std::vector<int> robot_entities_;
 };
 
 }
 
 
-#endif // ITOMP_RENDERER_SIMULATOR_INTERFACE_H
+#endif // ITOMP_INTERFACE_MAIN_WINDOW_H

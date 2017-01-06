@@ -119,7 +119,8 @@
     <PreBuildEvent>
       <Command>mkdir ..\src\GeneratedFiles
 xcopy ..\shader ..\bin\shader /S /E /I /Y &gt; nul
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer_interface.h" -o "..\src\GeneratedFiles\moc_renderer_interface.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\main_window.h" -o "..\src\GeneratedFiles\moc_main_window.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_interface.h" -o "..\src\GeneratedFiles\moc_itomp_interface.cpp"
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -166,15 +167,19 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <PreBuildEvent>
       <Command>mkdir ..\src\GeneratedFiles
 xcopy ..\shader ..\bin\shader /S /E /I /Y &gt; nul
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer_interface.h" -o "..\src\GeneratedFiles\moc_renderer_interface.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\main_window.h" -o "..\src\GeneratedFiles\moc_main_window.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_interface.h" -o "..\src\GeneratedFiles\moc_itomp_interface.cpp"
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\lodepng.cpp" />
     <ClCompile Include="..\lib\tinyxml2.cpp" />
+    <ClCompile Include="..\src\GeneratedFiles\moc_itomp_interface.cpp" />
+    <ClCompile Include="..\src\GeneratedFiles\moc_main_window.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_renderer.cpp" />
-    <ClCompile Include="..\src\GeneratedFiles\moc_renderer_interface.cpp" />
+    <ClCompile Include="..\src\interface\itomp_interface.cpp" />
+    <ClCompile Include="..\src\interface\main_window.cpp" />
     <ClCompile Include="..\src\nlp\glove_pretrained_loader.cpp" />
     <ClCompile Include="..\src\nlp\commands_to_cost.cpp" />
     <ClCompile Include="..\src\nlp\word_to_vector.cpp" />
@@ -200,7 +205,6 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\renderer\texture.cpp" />
     <ClCompile Include="..\src\renderer\object.cpp" />
     <ClCompile Include="..\src\renderer\resource_manager.cpp" />
-    <ClCompile Include="..\src\renderer\renderer_interface.cpp" />
     <ClCompile Include="..\src\renderer\renderer.cpp" />
     <ClCompile Include="..\src\renderer\shader_program.cpp" />
     <ClCompile Include="..\src\renderer\static_shader.cpp" />
@@ -246,6 +250,8 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <None Include="..\urdf\fetch.urdf" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\itomp_nlp\interface\itomp_interface.h" />
+    <ClInclude Include="..\include\itomp_nlp\interface\main_window.h" />
     <ClInclude Include="..\include\itomp_nlp\nlp\glove_pretrained_loader.h" />
     <ClInclude Include="..\include\itomp_nlp\nlp\commands_to_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\nlp\word_to_vector.h" />
@@ -272,7 +278,6 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\renderer\texture.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\object.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\renderer.h" />
-    <ClInclude Include="..\include\itomp_nlp\renderer\renderer_interface.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\shader_program.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\static_shader.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\wireframe_shader.h" />

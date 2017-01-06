@@ -5,7 +5,7 @@
 #include <itomp_nlp/nlp/glove_pretrained_loader.h>
 #include <itomp_nlp/nlp/commands_to_cost.h>
 
-#include <itomp_nlp/renderer/renderer_interface.h>
+#include <itomp_nlp/interface/main_window.h>
 
 
 int main(int argc, char** argv)
@@ -34,9 +34,9 @@ int main(int argc, char** argv)
     */
 
     QApplication app(argc, argv);
-    itomp_renderer::RendererInterface* renderer_interface = new itomp_renderer::RendererInterface();
+    itomp_interface::MainWindow* main_window = new itomp_interface::MainWindow();
 
-    renderer_interface->show();
+    main_window->show();
 
     app.exec();
 

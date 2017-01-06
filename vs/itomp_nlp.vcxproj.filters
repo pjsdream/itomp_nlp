@@ -37,6 +37,9 @@
     <Filter Include="NLP">
       <UniqueIdentifier>{e3dfff5b-c6d3-401f-a7c5-e4838d815769}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{ae7bdb2b-7cfb-49b7-946d-148af9fe773b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\test\test_interface.cpp">
@@ -48,13 +51,7 @@
     <ClCompile Include="..\src\renderer\renderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\renderer\renderer_interface.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\GeneratedFiles\moc_renderer.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\GeneratedFiles\moc_renderer_interface.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\renderer\gl_base.cpp">
@@ -195,6 +192,18 @@
     <ClCompile Include="..\src\optimization\optimizer_thread.cpp">
       <Filter>Optimization</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\interface\itomp_interface.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\interface\main_window.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\GeneratedFiles\moc_itomp_interface.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\GeneratedFiles\moc_main_window.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -287,9 +296,6 @@
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\renderer.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\renderer\renderer_interface.h">
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\shader_program.h">
@@ -402,6 +408,12 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_thread.h">
       <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\interface\itomp_interface.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\interface\main_window.h">
+      <Filter>Interface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
