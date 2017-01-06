@@ -9,9 +9,6 @@
 
 #include <itomp_nlp/interface/itomp_interface.h>
 
-#include <itomp_nlp/optimization/optimizer.h>
-#include <itomp_nlp/optimization/optimizer_robot_loader.h>
-
 
 namespace itomp_interface
 {
@@ -31,18 +28,8 @@ public:
 protected slots:
 
     void updateNextFrame();
-    void moveTrajectoryForwardOneTimestep();
 
 private:
-
-    // resources
-    void initializeResources();
-    itomp_robot::RobotModel* robot_model_;
-    itomp_robot::RobotState* robot_state_;
-    itomp_optimization::OptimizerRobot* optimizer_robot_;
-    itomp_optimization::Optimizer optimizer_;
-    std::vector<std::string> active_joint_names_;
-    std::vector<std::vector<std::string> > aabb_lists_;
 
     itomp_renderer::Renderer* renderer_;
 
