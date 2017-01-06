@@ -11,6 +11,8 @@
 #include <atomic>
 #include <mutex>
 
+#include <dlib/optimization.h>
+
 
 namespace itomp_optimization
 {
@@ -36,6 +38,10 @@ public:
         REPULSIVE_COST,
         NUM_COST_FUNCTIONS
     };
+
+private:
+
+    typedef dlib::matrix<double,0,1> column_vector;
 
 public:
 
@@ -98,8 +104,27 @@ private:
     // should be called in the created thread
     void threadEnter();
     void optimizeGradientDescent();
-    void optimizeDlib();
+    
+    // dlib optimization
+    template <
+        typename search_strategy_type,
+        typename funct, 
+        typename funct_der, 
+        typename T
+        >
+    void optimizeDlib(
+        search_strategy_type search_strategy,
+        const funct& f, 
+        const funct_der& der, 
+        T& x, 
+        double min_f
+        );
+    column_vector dlib_waypoint_variables_;
+    column_vector dlib_gradient_;
+    double dlibCost(const column_vector& x);
+    column_vector dlibDerivative(const column_vector& x);
 
+    // thread
     std::thread thread_;
     std::atomic_bool thread_stop_mutex_;
     bool thread_stop_requested_;
@@ -132,6 +157,7 @@ private:
     void updateWhileOptimizing();
     void moveForwardOneTimestepInternal();
     std::atomic_int move_forward_requests_;
+    bool is_solution_updated_;
 
     OptimizerRobot* robot_;
 

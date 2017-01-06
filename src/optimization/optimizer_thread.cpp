@@ -15,6 +15,93 @@
 namespace itomp_optimization
 {
 
+// dlib bfgs search strategy
+class bfgs_search_strategy
+{
+public:
+    bfgs_search_strategy() : been_used(false), been_used_twice(false) {}
+
+    double get_wolfe_rho (
+    ) const { return 0.01; }
+
+    double get_wolfe_sigma (
+    ) const { return 0.9; }
+
+    unsigned long get_max_line_search_iterations (
+    ) const { return 100; }
+
+    template <typename T>
+    const dlib::matrix<double,0,1>& get_next_direction (
+        const T& x,
+        const double ,
+        const T& funct_derivative
+    )
+    {
+        if (been_used == false)
+        {
+            been_used = true;
+            H = dlib::identity_matrix<double>(x.size());
+        }
+        else
+        {
+            // update H with the BFGS formula from (3.2.12) on page 55 of Fletcher 
+            delta = (x-prev_x); 
+            gamma = funct_derivative-prev_derivative;
+
+            double dg = dlib::dot(delta,gamma);
+
+            // Try to set the initial value of the H matrix to something reasonable if we are still
+            // in the early stages of figuring out what it is.  This formula below is what is suggested
+            // in the book Numerical Optimization by Nocedal and Wright in the chapter on Quasi-Newton methods.
+            if (been_used_twice == false)
+            {
+                double gg = dlib::trans(gamma)*gamma;
+                if (std::abs(gg) > std::numeric_limits<double>::epsilon())
+                {
+                    const double temp = dlib::put_in_range(0.01, 100, dg/gg);
+                    H = dlib::diagm(dlib::uniform_matrix<double>(x.size(),1, temp));
+                    been_used_twice = true;
+                }
+            }
+
+            Hg = H*gamma;
+            gH = dlib::trans(trans(gamma)*H);
+            double gHg = dlib::trans(gamma)*H*gamma;
+            if (gHg < std::numeric_limits<double>::infinity() && dg < std::numeric_limits<double>::infinity() &&
+                dg != 0)
+            {
+                H += (1 + gHg/dg)*delta*trans(delta)/(dg) - (delta*dlib::trans(gH) + Hg*dlib::trans(delta))/(dg);
+            }
+            else
+            {
+                H = dlib::identity_matrix<double>(H.nr());
+                been_used_twice = false;
+            }
+        }
+
+        prev_x = x;
+        prev_direction = -H*funct_derivative;
+        prev_derivative = funct_derivative;
+        return prev_direction;
+    }
+
+    void reset()
+    {
+        been_used = false;
+        been_used_twice = false;
+    }
+
+private:
+    bool been_used;
+    bool been_used_twice;
+    dlib::matrix<double,0,1> prev_x;
+    dlib::matrix<double,0,1> prev_derivative;
+    dlib::matrix<double,0,1> prev_direction;
+    dlib::matrix<double> H;
+    dlib::matrix<double,0,1> delta, gamma, Hg, gH;
+};
+
+
 OptimizerThread::OptimizerThread()
 {
 }
@@ -82,6 +169,10 @@ void OptimizerThread::prepare()
 
     // gradient resize
     gradient_.resize(dof_, num_waypoints_ * 2);
+
+    // dlib variables resize
+    dlib_waypoint_variables_.set_size(dof_ * num_waypoints_ * 2);
+    dlib_gradient_.set_size(dof_ * num_waypoints_ * 2);
 
     // cost function initialization
     initializeCostFunctions();
@@ -172,8 +263,13 @@ void OptimizerThread::moveForwardOneTimestep()
 
 void OptimizerThread::threadEnter()
 {
-    optimizeGradientDescent();
-    //optimizeDlib();
+    //optimizeGradientDescent();
+
+    optimizeDlib(bfgs_search_strategy(),
+                 std::bind(&OptimizerThread::dlibCost, this, std::placeholders::_1),
+                 std::bind(&OptimizerThread::dlibDerivative, this, std::placeholders::_1),
+                 dlib_waypoint_variables_,
+                 -1.);
 }
 
 void OptimizerThread::updateWhileOptimizing()
@@ -195,11 +291,102 @@ void OptimizerThread::moveForwardOneTimestepInternal()
         waypoint_variables_.col(i    ) = waypoint_variables_.col(i - 2);
         waypoint_variables_.col(i + 1).setZero();
     }
+
+    // mark if waypoint has been changed
+    is_solution_updated_ = true;
 }
 
-void OptimizerThread::optimizeDlib()
+template <
+    typename search_strategy_type,
+    typename funct, 
+    typename funct_der, 
+    typename T
+    >
+void OptimizerThread::optimizeDlib(
+        search_strategy_type search_strategy,
+        const funct& f, 
+        const funct_der& der, 
+        T& x, 
+        double min_f
+    )
 {
-    // TODO
+    T g, s;
+
+    double f_value = f(x);
+    g = der(x);
+
+    while (true)
+    {
+        // update the trajectory
+        updateWhileOptimizing();
+
+        // the waypoint variables might be changed
+        if (is_solution_updated_)
+        {
+            is_solution_updated_ = false;
+
+            // update current solution x
+            const int num_variables_per_waypoint = dof_ * 2;
+            memcpy(waypoint_variables_.data() + num_variables_per_waypoint, x.begin(), num_variables_per_waypoint * num_waypoints_);
+
+            // reset search strategy
+            search_strategy.reset();
+        }
+
+        s = search_strategy.get_next_direction(x, f_value, g);
+
+        double alpha = line_search(
+                    make_line_search_function(f,x,s, f_value),
+                    f_value,
+                    make_line_search_function(der,x,s, g),
+                    dot(g,s), // compute initial gradient for the line search
+                    search_strategy.get_wolfe_rho(), search_strategy.get_wolfe_sigma(), min_f,
+                    search_strategy.get_max_line_search_iterations());
+
+        // Take the search step indicated by the above line search
+        x += alpha*s;
+
+        // copy x to waypoint variables
+        const int num_variables_per_waypoint = dof_ * 2;
+        memcpy(waypoint_variables_.data() + num_variables_per_waypoint, x.begin(), sizeof(double) * num_variables_per_waypoint * num_waypoints_);
+
+        // store best waypoint
+        storeBestWaypointVariables();
+        
+        // DEBUG: print cost functions
+        optimizationPrecomputation();
+        for (int i=0; i<NUM_COST_FUNCTIONS; i++)
+        {
+            const double c = cost_functions_[i]->cost();
+            printf("%.9lf ", c);
+        }
+        printf("\n");
+    }
+}
+
+double OptimizerThread::dlibCost(const column_vector& x)
+{
+    // copy x to waypoint variables
+    // skip the first two columns which are initial state
+    const int num_variables_per_waypoint = dof_ * 2;
+    memcpy(waypoint_variables_.data() + num_variables_per_waypoint, x.begin(), sizeof(double) * num_variables_per_waypoint * num_waypoints_);
+
+    // precomputation is done in cost function
+    optimizationPrecomputation();
+
+    return cost();
+}
+
+OptimizerThread::column_vector OptimizerThread::dlibDerivative(const column_vector& x)
+{
+    // assumed that precomputation for x is previously done
+    computeGradientChainRule();
+
+    // copy gradient to dlib gradient
+    const int num_variables_per_waypoint = dof_ * 2;
+    memcpy(dlib_gradient_.begin(), gradient_.data(), sizeof(double) * num_variables_per_waypoint * num_waypoints_);
+
+    return dlib_gradient_;
 }
 
 void OptimizerThread::optimizeGradientDescent()

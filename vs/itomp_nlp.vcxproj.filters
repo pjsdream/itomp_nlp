@@ -40,6 +40,9 @@
     <Filter Include="Interface">
       <UniqueIdentifier>{ae7bdb2b-7cfb-49b7-946d-148af9fe773b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Optimization\dlib">
+      <UniqueIdentifier>{75fb9466-a97b-4ae5-bb83-a652096840a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\test\test_interface.cpp">
@@ -414,6 +417,9 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\interface\main_window.h">
       <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\dlib\optimization_thread_safe.h">
+      <Filter>Optimization\dlib</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

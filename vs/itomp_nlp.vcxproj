@@ -257,6 +257,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\nlp\word_to_vector.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\collision_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\cost.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\dlib\optimization_thread_safe.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\goal_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\goal_region_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\optimizer.h" />
