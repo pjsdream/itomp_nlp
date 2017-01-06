@@ -158,9 +158,10 @@ include_directories(
 )
 
 # Qt5 moc
-qt5_wrap_cpp(renderer_moc
+qt5_wrap_cpp(interface_moc
+  include/itomp_nlp/interface/itomp_interface.h
+  include/itomp_nlp/interface/main_window.h
   include/itomp_nlp/renderer/renderer.h
-  include/itomp_nlp/renderer/renderer_interface.h
 )
 
 # collect .h files
@@ -169,8 +170,9 @@ file(GLOB_RECURSE itomp_HEADER_FILES
   lib/*.h
 )
 file(GLOB_RECURSE itomp_EXCLUDING_HEADER_FILES
+  include/itomp_nlp/interface/itomp_interface.h
+  include/itomp_nlp/interface/main_window.h
   include/itomp_nlp/renderer/renderer.h
-  include/itomp_nlp/renderer/renderer_interface.h
 )
 list(REMOVE_ITEM itomp_HEADER_FILES
   ${itomp_EXCLUDING_HEADER_FILES}
@@ -188,14 +190,13 @@ add_library(itomp_nlp
   src/renderer/normal_shader.cpp
   src/renderer/object.cpp
   src/renderer/renderer.cpp
-  src/renderer/renderer_interface.cpp
   src/renderer/resource_manager.cpp
   src/renderer/robot_renderer.cpp
   src/renderer/shader_program.cpp
   src/renderer/static_shader.cpp
   src/renderer/texture.cpp
   src/renderer/wireframe_shader.cpp
-  ${renderer_moc}
+  ${interface_moc}
 
   # shape
   src/shape/aabb.cpp
@@ -220,6 +221,18 @@ add_library(itomp_nlp
   src/optimization/optimizer.cpp
   src/optimization/optimizer_robot.cpp
   src/optimization/optimizer_robot_loader.cpp
+  src/optimization/optimizer_thread.cpp
+  src/optimization/cost.cpp
+  src/optimization/collision_cost.cpp
+  src/optimization/goal_cost.cpp
+  src/optimization/goal_region_cost.cpp
+  src/optimization/repulsive_cost.cpp
+  src/optimization/smoothness_cost.cpp
+  src/optimization/velocity_cost.cpp
+
+  # interface
+  src/interface/itomp_interface.cpp
+  src/interface/main_window.cpp
 
   # utils
   src/utils/conversion.cpp

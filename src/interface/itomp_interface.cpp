@@ -48,7 +48,7 @@ void ItompInterface::initializeResources()
 #else
     itomp_robot::URDFParser urdf_parser;
     urdf_parser.addPackageDirectoryMapping("fetch_description", "/home/jaesungp/catkin_ws/src/fetch_ros/fetch_description");
-    itomp_robot::RobotModel* robot_model = urdf_parser.parseURDF("/home/jaesungp/catkin_ws/src/itomp_nlp/urdf/fetch.urdf");
+    robot_model_ = urdf_parser.parseURDF("/home/jaesungp/catkin_ws/src/itomp_nlp/urdf/fetch.urdf");
 #endif
 
     // default robot state
