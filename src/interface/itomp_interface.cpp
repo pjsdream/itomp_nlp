@@ -9,6 +9,8 @@ namespace itomp_interface
 ItompInterface::ItompInterface(QWidget* parent)
     : QWidget(parent)
 {
+    setWindowTitle("Motion planner");
+
     resize(400, 600);
     show();
 

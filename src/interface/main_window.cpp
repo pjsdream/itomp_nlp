@@ -9,7 +9,7 @@ namespace itomp_interface
 MainWindow::MainWindow()
     : QMainWindow()
 {
-    setWindowTitle("Motion planner");
+    setWindowTitle("Viewer");
 
     resize(800, 600);
 
