@@ -29,7 +29,7 @@ double SmoothnessCost::cost(int idx)
     {
         const double& q = optimizer_.interpolated_variables_(j, idx*2+1);
 
-        cost += f(q);
+        cost += q*q;
     }
 
     return cost * weight_;

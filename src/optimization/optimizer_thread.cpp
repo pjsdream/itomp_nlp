@@ -28,7 +28,7 @@ public:
     ) const { return 0.9; }
 
     unsigned long get_max_line_search_iterations (
-    ) const { return 100; }
+    ) const { return 10; }
 
     template <typename T>
     const dlib::matrix<double,0,1>& get_next_direction (
@@ -65,12 +65,12 @@ public:
             }
 
             Hg = H*gamma;
-            gH = dlib::trans(trans(gamma)*H);
+            gH = dlib::trans(dlib::trans(gamma)*H);
             double gHg = dlib::trans(gamma)*H*gamma;
             if (gHg < std::numeric_limits<double>::infinity() && dg < std::numeric_limits<double>::infinity() &&
                 dg != 0)
             {
-                H += (1 + gHg/dg)*delta*trans(delta)/(dg) - (delta*dlib::trans(gH) + Hg*dlib::trans(delta))/(dg);
+                H += (1 + gHg/dg)*delta*dlib::trans(delta)/(dg) - (delta*dlib::trans(gH) + Hg*dlib::trans(delta))/(dg);
             }
             else
             {
@@ -315,7 +315,7 @@ void OptimizerThread::optimizeDlib(
     double f_value = f(x);
     g = der(x);
 
-    while (true)
+    while (!thread_stop_requested_)
     {
         // update the trajectory
         updateWhileOptimizing();

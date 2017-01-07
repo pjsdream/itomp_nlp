@@ -36,7 +36,7 @@ double GoalCost::cost(int idx)
         const Eigen::Vector3d ee_translation = link_transform * goal.translation;
 
         // ReLU-like objective function
-        cost += f( (ee_translation - goal.goal_position).norm() );
+        cost += (ee_translation - goal.goal_position).squaredNorm();
     }
 
     return cost * weight_;
