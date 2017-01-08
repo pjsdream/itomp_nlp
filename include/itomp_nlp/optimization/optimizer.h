@@ -33,6 +33,8 @@ class Optimizer
 {
 public:
 
+public:
+
     Optimizer();
     ~Optimizer();
 
@@ -48,17 +50,9 @@ public:
 
     void setInitialRobotState(const Eigen::VectorXd& position, const Eigen::VectorXd& velocity);
 
-    // goal position
-    void setGoalPosition(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& goal_position);
-
-    // goal velocity
-    void setGoalVelocity(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& goal_position, const Eigen::Vector3d& velocity);
-
-    // goal plane
-    void addGoalRegionPlane(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector4d& plane);
-
-    // repulsion
-    void addRepulsion(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& repulsion_center, double distance);
+    void setZeroCost(int id);
+    void setSmoothnessCost(int id, double weight);
+    void setGoalCost(int id, double weight, int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& goal_position);
 
     // thread
     void startOptimizationThread();

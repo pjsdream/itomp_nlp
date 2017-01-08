@@ -28,20 +28,15 @@ public:
     friend class GoalRegionCost;
     friend class RepulsiveCost;
 
-    enum CostFunctionType
-    {
-        SMOOTHNESS_COST = 0,
-        COLLISION_COST,
-        GOAL_COST,
-        VELOCITY_COST,
-        GOAL_REGION_COST,
-        REPULSIVE_COST,
-        NUM_COST_FUNCTIONS
-    };
-
 private:
 
     typedef dlib::matrix<double,0,1> column_vector;
+
+    struct CostFunctionRequest
+    {
+        int id;
+        Cost* cost;
+    };
 
 public:
 
@@ -79,17 +74,7 @@ public:
 
     void setInitialRobotState(const Eigen::VectorXd& position, const Eigen::VectorXd& velocity);
 
-    // goal position
-    void setGoalPosition(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& goal_position);
-
-    // goal velocity
-    void setGoalVelocity(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& goal_position, const Eigen::Vector3d& velocity);
-
-    // goal plane
-    void addGoalRegionPlane(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector4d& plane);
-
-    // repulsion
-    void addRepulsion(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& repulsion_center, double distance);
+    void pushCostFunctionRequest(int id, Cost* cost);
 
     // TODO: output format. Currently, returns interpolated joint positions and velocities
     Eigen::MatrixXd getBestTrajectory();
@@ -142,7 +127,7 @@ private:
     Eigen::MatrixXd gradient_;
 
     // cost functions
-    void initializeCostFunctions();
+    std::map<int, int> cost_id_map_;
     std::vector<Cost*> cost_functions_;
     
     // best result trajectory
@@ -158,6 +143,10 @@ private:
     void moveForwardOneTimestepInternal();
     std::atomic_int move_forward_requests_;
     bool is_solution_updated_;
+
+    std::mutex cost_function_request_mutex_;
+    std::vector<CostFunctionRequest> cost_function_requests_;
+    bool is_cost_function_updated_;
 
     OptimizerRobot* robot_;
 

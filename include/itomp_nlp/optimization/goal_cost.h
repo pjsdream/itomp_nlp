@@ -26,6 +26,11 @@ private:
 public:
 
     GoalCost(OptimizerThread& optimizer, double weight);
+
+    inline virtual Cost* clone() const
+    {
+        return new GoalCost(*this);
+    }
     
     virtual double cost();
     virtual double cost(int idx);

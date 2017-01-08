@@ -140,7 +140,7 @@ void ItompInterface::initializeResources()
     optimizer_.setInitialRobotState(position, velocity);
 
     // end effector link id = 7
-    optimizer_.setGoalPosition(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector3d(0.5, 0.5, 1));
+    //optimizer_.setGoalPosition(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector3d(0.5, 0.5, 1));
     //optimizer_.setGoalVelocity(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector3d(0.5, 0.5, 1), Eigen::Vector3d(0, 0, -0.2));
     /*
     optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d(0, 0,  1, -0.7));
@@ -185,7 +185,17 @@ void ItompInterface::moveTrajectoryForwardOneTimestep()
 
 void ItompInterface::costFunctionChanged(int id, const std::string& type, std::vector<double> values)
 {
-    printf("%d\n", id);
+    if (type == "zero")
+        optimizer_.setZeroCost(id);
+
+    else if (type == "smoothness")
+        optimizer_.setSmoothnessCost(id, values[0]);
+
+    else if (type == "goal")
+    {
+        // hard-coded enffector information for fetch robot
+        optimizer_.setGoalCost(id, values[0], 7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector3d(values[1], values[2], values[3]));
+    }
 }
 
 }

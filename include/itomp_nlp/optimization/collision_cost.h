@@ -13,6 +13,11 @@ class CollisionCost : public Cost
 public:
 
     CollisionCost(OptimizerThread& optimizer, double weight);
+
+    inline virtual Cost* clone() const
+    {
+        return new CollisionCost(*this);
+    }
     
     virtual double cost();
     virtual double cost(int idx);

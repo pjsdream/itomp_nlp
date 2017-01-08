@@ -27,6 +27,11 @@ private:
 public:
 
     RepulsiveCost(OptimizerThread& optimizer, double weight);
+
+    inline virtual Cost* clone() const
+    {
+        return new RepulsiveCost(*this);
+    }
     
     virtual double cost();
     virtual double cost(int idx);

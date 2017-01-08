@@ -46,24 +46,24 @@ void Optimizer::prepare()
     optimization_thread_.prepare();
 }
 
-void Optimizer::setGoalPosition(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& goal_position)
+void Optimizer::setZeroCost(int id)
 {
-    optimization_thread_.setGoalPosition(link_id, translate, goal_position);
+    Cost* cost = new Cost(optimization_thread_, 0.0);
+    optimization_thread_.pushCostFunctionRequest(id, cost);
 }
 
-void Optimizer::setGoalVelocity(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& goal_position, const Eigen::Vector3d& velocity)
+void Optimizer::setSmoothnessCost(int id, double weight)
 {
-    optimization_thread_.setGoalVelocity(link_id, translate, goal_position, velocity);
+    SmoothnessCost* cost = new SmoothnessCost(optimization_thread_, weight);
+    optimization_thread_.pushCostFunctionRequest(id, cost);
 }
 
-void Optimizer::addGoalRegionPlane(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector4d& plane)
+void Optimizer::setGoalCost(int id, double weight, int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& goal_position)
 {
-    optimization_thread_.addGoalRegionPlane(link_id, translate, plane);
-}
+    GoalCost* cost = new GoalCost(optimization_thread_, weight);
+    cost->addGoalPosition(link_id, translation, goal_position);
 
-void Optimizer::addRepulsion(int link_id, const Eigen::Vector3d& translate, const Eigen::Vector3d& repulsion_center, double distance)
-{
-    optimization_thread_.addRepulsion(link_id, translate, repulsion_center, distance);
+    optimization_thread_.pushCostFunctionRequest(id, cost);
 }
 
 void Optimizer::startOptimizationThread()

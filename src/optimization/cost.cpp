@@ -11,4 +11,14 @@ Cost::Cost(OptimizerThread& optimizer, double weight)
 {
 }
 
+double Cost::cost()
+{
+    return 0.;
+}
+
+double Cost::cost(int idx)
+{
+    return 0.;
+}
+
 }

@@ -26,6 +26,11 @@ private:
 public:
 
     GoalRegionCost(OptimizerThread& optimizer, double weight);
+
+    inline virtual Cost* clone() const
+    {
+        return new GoalRegionCost(*this);
+    }
     
     virtual double cost();
     virtual double cost(int idx);

@@ -27,6 +27,11 @@ private:
 public:
 
     VelocityCost(OptimizerThread& optimizer, double weight);
+
+    inline virtual Cost* clone() const
+    {
+        return new VelocityCost(*this);
+    }
     
     virtual double cost();
     virtual double cost(int idx);

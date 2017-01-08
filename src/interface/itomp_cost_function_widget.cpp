@@ -6,7 +6,7 @@ namespace itomp_interface
 
 const std::vector<std::pair<std::string, int> > ItompCostFunctionWidget::cost_types_ = 
 {
-    {"none", 1},
+    {"zero", 0},
     {"smoothness", 1},
     {"goal", 4},
 };
@@ -43,6 +43,8 @@ void ItompCostFunctionWidget::selectCostType(int index)
         layout_->setColumnStretch(i+1, 1);
         layout_->addWidget(double_spin_box, 0, i + 1);
     }
+
+    slotValueChanged();
 }
 
 void ItompCostFunctionWidget::clearValues()

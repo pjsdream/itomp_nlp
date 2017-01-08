@@ -10,14 +10,25 @@ namespace itomp_optimization
 
 class OptimizerThread;
 
+// zero cost
 class Cost
 {
 public:
 
     Cost(OptimizerThread& optimizer, double weight = 1.);
 
-    virtual double cost() = 0;
-    virtual double cost(int idx) = 0;
+    inline virtual Cost* clone() const
+    {
+        return new Cost(*this);
+    }
+
+    inline void setWeight(double weight)
+    {
+        weight_ = weight;
+    }
+
+    virtual double cost();
+    virtual double cost(int idx);
 
 protected:
 

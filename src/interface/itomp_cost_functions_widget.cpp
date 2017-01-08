@@ -27,6 +27,9 @@ void ItompCostFunctionsWidget::addCostFunction()
             this, SIGNAL(costFunctionChanged(int, const std::string&, std::vector<double>)));
 
     layout_->addWidget( cost_function_widget, cost_function_widgets_.size(), 0 );
+
+    // default cost function type
+    cost_function_widget->selectCostType(0);
 }
 
 }

@@ -14,6 +14,11 @@ public:
 
     SmoothnessCost(OptimizerThread& optimizer, double weight);
 
+    inline virtual Cost* clone() const
+    {
+        return new SmoothnessCost(*this);
+    }
+
     virtual double cost();
     virtual double cost(int idx);
 

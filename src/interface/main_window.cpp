@@ -22,6 +22,8 @@ MainWindow::MainWindow()
     itomp_interface_ = new ItompInterface();
     itomp_interface_->show();
 
+    // windows position
+    itomp_interface_->move(100, 100);
     move( itomp_interface_->pos().x() + itomp_interface_->width(), itomp_interface_->pos().y() );
 
     // timer

@@ -30,11 +30,11 @@ public:
 signals:
 
     void valueChanged(int id, const std::string& cost_type, std::vector<double> coefficients);
+    
+public slots:
 
-protected slots:
-
-    void selectCostType(int index);
     void slotValueChanged();
+    void selectCostType(int index);
 
 private:
 
