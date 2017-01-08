@@ -20,7 +20,9 @@ MainWindow::MainWindow()
 
     // motion planner interface setup
     itomp_interface_ = new ItompInterface();
-    itomp_interface_->move( pos().x() - itomp_interface_->width(), pos().y() );
+    itomp_interface_->show();
+
+    move( itomp_interface_->pos().x() + itomp_interface_->width(), itomp_interface_->pos().y() );
 
     // timer
     QTimer* timer = new QTimer(this);

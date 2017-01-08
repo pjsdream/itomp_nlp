@@ -13,6 +13,8 @@
 #include <itomp_nlp/optimization/optimizer.h>
 #include <itomp_nlp/optimization/optimizer_robot_loader.h>
 
+#include <itomp_nlp/interface/itomp_cost_functions_widget.h>
+
 
 namespace itomp_interface
 {
@@ -54,6 +56,8 @@ public slots:
     void stopMotionPlanning();
     void moveTrajectoryForwardOneTimestep();
 
+    void costFunctionChanged(int id, const std::string& type, std::vector<double> values);
+
 private:
 
     // resources
@@ -72,6 +76,7 @@ private:
     QPushButton* stop_button_;
 
     QScrollArea* scroll_area_;
+    ItompCostFunctionsWidget* itomp_cost_functions_widget_;
 
     QTimer* execution_timer_;
 };

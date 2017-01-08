@@ -204,6 +204,18 @@
     <ClCompile Include="..\src\GeneratedFiles\moc_main_window.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\interface\itomp_cost_function_widget.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\interface\itomp_cost_functions_widget.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -413,6 +425,12 @@
       <Filter>Interface</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\interface\main_window.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_function_widget.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_functions_widget.h">
       <Filter>Interface</Filter>
     </ClInclude>
   </ItemGroup>

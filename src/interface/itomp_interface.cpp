@@ -11,8 +11,7 @@ ItompInterface::ItompInterface(QWidget* parent)
 {
     setWindowTitle("Motion planner");
 
-    resize(400, 600);
-    show();
+    resize(600, 600);
 
     layout_ = new QGridLayout(this);
     setLayout(layout_);
@@ -26,7 +25,13 @@ ItompInterface::ItompInterface(QWidget* parent)
     layout_->addWidget(start_button_, 0, 0);
     layout_->addWidget(stop_button_, 0, 1);
 
+    itomp_cost_functions_widget_ = new ItompCostFunctionsWidget(this);
+    connect(itomp_cost_functions_widget_, SIGNAL(costFunctionChanged(int, const std::string&, std::vector<double>)),
+            this, SLOT(costFunctionChanged(int, const std::string&, std::vector<double>)));
+
     scroll_area_ = new QScrollArea(this);
+    scroll_area_->setWidget(itomp_cost_functions_widget_);
+    scroll_area_->setWidgetResizable(true);
 
     layout_->addWidget(scroll_area_, 1, 0, 1, 2);
     
@@ -176,6 +181,11 @@ void ItompInterface::stopMotionPlanning()
 void ItompInterface::moveTrajectoryForwardOneTimestep()
 {
     optimizer_.moveForwardOneTimestep();
+}
+
+void ItompInterface::costFunctionChanged(int id, const std::string& type, std::vector<double> values)
+{
+    printf("%d\n", id);
 }
 
 }

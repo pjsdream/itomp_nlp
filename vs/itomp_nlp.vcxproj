@@ -121,6 +121,8 @@
 xcopy ..\shader ..\bin\shader /S /E /I /Y &gt; nul
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\main_window.h" -o "..\src\GeneratedFiles\moc_main_window.cpp"
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_interface.h" -o "..\src\GeneratedFiles\moc_itomp_interface.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_cost_function_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_cost_functions_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp"
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -169,15 +171,21 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
 xcopy ..\shader ..\bin\shader /S /E /I /Y &gt; nul
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\main_window.h" -o "..\src\GeneratedFiles\moc_main_window.cpp"
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_interface.h" -o "..\src\GeneratedFiles\moc_itomp_interface.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_cost_function_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_cost_functions_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp"
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\lodepng.cpp" />
     <ClCompile Include="..\lib\tinyxml2.cpp" />
+    <ClCompile Include="..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp" />
+    <ClCompile Include="..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_itomp_interface.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_main_window.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_renderer.cpp" />
+    <ClCompile Include="..\src\interface\itomp_cost_functions_widget.cpp" />
+    <ClCompile Include="..\src\interface\itomp_cost_function_widget.cpp" />
     <ClCompile Include="..\src\interface\itomp_interface.cpp" />
     <ClCompile Include="..\src\interface\main_window.cpp" />
     <ClCompile Include="..\src\nlp\glove_pretrained_loader.cpp" />
@@ -250,6 +258,8 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <None Include="..\urdf\fetch.urdf" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_functions_widget.h" />
+    <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_function_widget.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_interface.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\main_window.h" />
     <ClInclude Include="..\include\itomp_nlp\nlp\glove_pretrained_loader.h" />
