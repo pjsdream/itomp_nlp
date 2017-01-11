@@ -35,13 +35,11 @@ public:
     virtual double cost();
     virtual double cost(int idx);
 
-    void addGoalPosition(int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& goal_position);
+    void setGoalPosition(int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& goal_position);
 
 private:
 
-    std::vector<Goal> goal_positions_;
-
-    double f(double x);
+    Goal goal_position_;
 };
 
 }

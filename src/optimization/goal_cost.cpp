@@ -28,34 +28,23 @@ double GoalCost::cost(int idx)
 
     OptimizerRobot* robot = optimizer_.forward_kinematics_robots_[idx];
 
-    for (int j=0; j<goal_positions_.size(); j++)
-    {
-        const Goal& goal = goal_positions_[j];
+    const Eigen::Affine3d& link_transform = robot->getLinkWorldTransform(goal_position_.link_id);
+    const Eigen::Vector3d ee_translation = link_transform * goal_position_.translation;
 
-        const Eigen::Affine3d& link_transform = robot->getLinkWorldTransform(goal.link_id);
-        const Eigen::Vector3d ee_translation = link_transform * goal.translation;
-
-        // ReLU-like objective function
-        cost += (ee_translation - goal.goal_position).squaredNorm();
-    }
+    // ReLU-like objective function
+    cost += (ee_translation - goal_position_.goal_position).squaredNorm();
 
     return cost * weight_;
 }
 
-void GoalCost::addGoalPosition(int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& goal_position)
+void GoalCost::setGoalPosition(int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& goal_position)
 {
     Goal goal;
     goal.link_id = link_id;
     goal.translation = translation;
     goal.goal_position = goal_position;
 
-    goal_positions_.push_back(goal);
-}
-
-double GoalCost::f(double x)
-{
-    if (x < 0.01) return 0.;
-    return x - 0.01;
+    goal_position_ = goal;
 }
 
 }

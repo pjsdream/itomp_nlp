@@ -28,20 +28,15 @@ double RepulsiveCost::cost(int idx)
 
     OptimizerRobot* robot = optimizer_.forward_kinematics_robots_[idx];
 
-    for (int j=0; j<repulsions_.size(); j++)
-    {
-        const Repulsion& repulsion = repulsions_[j];
+    const Eigen::Affine3d& link_transform = robot->getLinkWorldTransform(repulsion_.link_id);
+    const Eigen::Vector3d ee_translation = link_transform * repulsion_.translation;
 
-        const Eigen::Affine3d& link_transform = robot->getLinkWorldTransform(repulsion.link_id);
-        const Eigen::Vector3d ee_translation = link_transform * repulsion.translation;
-
-        cost += f( (ee_translation - repulsion.repulsion_center).norm(), repulsion.distance );
-    }
+    cost += f( (ee_translation - repulsion_.repulsion_center).norm(), repulsion_.distance );
 
     return cost * weight_;
 }
 
-void RepulsiveCost::addRepulsion(int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& repulsion_center, double distance)
+void RepulsiveCost::setRepulsion(int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& repulsion_center, double distance)
 {
     Repulsion repulsion;
     repulsion.link_id = link_id;
@@ -49,12 +44,13 @@ void RepulsiveCost::addRepulsion(int link_id, const Eigen::Vector3d& translation
     repulsion.repulsion_center = repulsion_center;
     repulsion.distance = distance;
 
-    repulsions_.push_back(repulsion);
+    repulsion_ = repulsion;
 }
 
 double RepulsiveCost::f(double x, double d)
 {
-    return x < d ? (d-x) : 0.;
+    // squared norm
+    return x < d ? (d-x) * (d-x) : 0.;
 }
 
 }

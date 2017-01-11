@@ -61,7 +61,7 @@ void Optimizer::setSmoothnessCost(int id, double weight)
 void Optimizer::setGoalCost(int id, double weight, int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& goal_position)
 {
     GoalCost* cost = new GoalCost(optimization_thread_, weight);
-    cost->addGoalPosition(link_id, translation, goal_position);
+    cost->setGoalPosition(link_id, translation, goal_position);
 
     optimization_thread_.pushCostFunctionRequest(id, cost);
 }

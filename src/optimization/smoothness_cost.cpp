@@ -35,10 +35,4 @@ double SmoothnessCost::cost(int idx)
     return cost * weight_;
 }
 
-double SmoothnessCost::f(double x)
-{
-    x = std::abs(x);
-    return x < 0.01 ? 0. : x - 0.01;
-}
-
 }

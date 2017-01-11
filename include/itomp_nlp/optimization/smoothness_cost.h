@@ -24,7 +24,6 @@ public:
 
 private:
 
-    double f(double x);
 };
 
 }

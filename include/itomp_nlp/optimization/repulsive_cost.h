@@ -36,11 +36,11 @@ public:
     virtual double cost();
     virtual double cost(int idx);
 
-    void addRepulsion(int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& repulsion_center, double distance);
+    void setRepulsion(int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& repulsion_center, double distance);
 
 private:
 
-    std::vector<Repulsion> repulsions_;
+    Repulsion repulsion_;
 
     double f(double x, double d);
 };
