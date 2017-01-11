@@ -45,6 +45,7 @@ OptimizerRobot::OptimizerRobot(const OptimizerRobot& robot)
     velocities_ = robot.velocities_;
 
     link_world_transforms_ = robot.link_world_transforms_;
+    link_world_transform_derivatives_ = robot.link_world_transform_derivatives_;
 
     fk_shapes_ = robot.fk_shapes_;
 
@@ -73,6 +74,7 @@ void OptimizerRobot::setLinkJoints(const std::vector<Link>& links, const std::ve
 
     // resize cache
     link_world_transforms_.resize(links.size());
+    link_world_transform_derivatives_.resize(links.size());
     setBaseTransform(Eigen::Affine3d::Identity());
 
     // forward kinematics shapes
