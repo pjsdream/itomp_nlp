@@ -105,6 +105,8 @@ public:
         return link_world_transforms_[idx];
     }
 
+    Eigen::Vector3d getWorldVelocity(int link_idx, const Eigen::Vector3d& local_position);
+
 private:
 
     std::vector<Link> links_;
@@ -115,6 +117,11 @@ private:
 
     // forward kinematics
     EigenAlignedVector<Eigen::Affine3d> link_world_transforms_;
+
+    // velocity forward kinematics
+    EigenAlignedVector<Eigen::Matrix4d> link_world_transform_derivatives_;
+    Eigen::Matrix4d prismaticJointDerivative(int joint_idx);
+    Eigen::Matrix4d revoluteJointDerivative(int joint_idx);
 
     // fk transforms
     std::vector<std::vector<itomp_shape::Shape*> > fk_shapes_;

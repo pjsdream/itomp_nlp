@@ -102,6 +102,7 @@ void OptimizerRobot::setVelocities(const Eigen::VectorXd& velocities)
 void OptimizerRobot::setBaseTransform(const Eigen::Affine3d& transform)
 {
     link_world_transforms_[0] = transform;
+    link_world_transform_derivatives_[0] = transform.matrix();
 }
 
 void OptimizerRobot::forwardKinematics()
@@ -137,6 +138,98 @@ void OptimizerRobot::forwardKinematics()
             fk_shapes_[i][j]->setTransform( link_world_transforms_[i] * shape->getTransform() );
         }
     }
+
+    // velocity forward kinematics
+    for (int i=1; i<links_.size(); i++)
+    {
+        const Joint& joint = joints_[i];
+        
+        // joint transform including origin
+        Eigen::Matrix4d joint_transform = joint.origin.matrix();
+        Eigen::Matrix4d joint_transform_derivative = joint.origin.matrix();
+
+        switch (joint.joint_type)
+        {
+        case JOINT_TYPE_PRISMATIC:
+            joint_transform *= Eigen::Affine3d( Eigen::Translation3d(joint.axis * positions_[i-1]) ).matrix();
+            joint_transform_derivative *= prismaticJointDerivative(i);
+            break;
+
+        case JOINT_TYPE_REVOLUTE:
+            joint_transform *= Eigen::Affine3d( Eigen::AngleAxisd(positions_[i-1], joint.axis) ).matrix();
+            joint_transform_derivative *= revoluteJointDerivative(i);
+            break;
+        }
+
+        link_world_transform_derivatives_[i] = 
+            link_world_transform_derivatives_[joint.parent] * joint_transform
+            + link_world_transforms_[joint.parent].matrix() * joint_transform_derivative;
+    }
+}
+
+Eigen::Matrix4d OptimizerRobot::prismaticJointDerivative(int joint_idx)
+{
+    const Joint& joint = joints_[joint_idx];
+    const Eigen::Vector3d& axis = joint.axis;
+    const double& ax = axis(0);
+    const double& ay = axis(1);
+    const double& az = axis(2);
+
+    const double& position = positions_[joint_idx-1];
+    const double& velocity = velocities_[joint_idx-1];
+
+    Eigen::Matrix4d m;
+    m.setZero();
+
+    m(0, 3) = ax * velocity;
+    m(1, 3) = ay * velocity;
+    m(2, 3) = az * velocity;
+
+    return m;
+}
+
+Eigen::Matrix4d OptimizerRobot::revoluteJointDerivative(int joint_idx)
+{
+    const Joint& joint = joints_[joint_idx];
+    const Eigen::Vector3d& axis = joint.axis;
+    const double& ax = axis(0);
+    const double& ay = axis(1);
+    const double& az = axis(2);
+
+    const double& position = positions_[joint_idx-1];
+    const double& velocity = velocities_[joint_idx-1];
+    const double c = std::cos(position);
+    const double s = std::sin(position);
+
+    const Eigen::Vector4d q (c, ax * s, ay * s, az * s);
+    const Eigen::Vector4d dq = velocity * Eigen::Vector4d(-s, ax * c, ay * c, az * c);
+
+    Eigen::Matrix4d m;
+    m.setZero();
+
+    m(0, 0) = - 4. * q(2) * dq(2) - 4. * q(3) * dq(3);
+    m(1, 0) = 2. * dq(1) * q(2) + 2. * q(1) * dq(2) + 2. * dq(3) * q(0) + 2. * q(3) * dq(0);
+    m(2, 0) = 2. * dq(1) * q(3) + 2. * q(1) * dq(3) - 2. * dq(2) * q(0) - 2. * q(2) * dq(0);
+
+    m(0, 1) = 2. * dq(1) * q(2) + 2. * q(1) * dq(2) - 2. * dq(3) * q(0) - 2. * q(3) * dq(0);
+    m(1, 1) = - 4. * q(1) * dq(1) - 4. * q(3) * dq(3);
+    m(2, 1) = 2. * dq(2) * q(3) + 2. * q(2) * dq(3) + 2. * dq(1) * q(0) + 2. * q(1) * dq(0);
+
+    m(0, 2) = 2. * dq(1) * q(3) + 2. * q(1) * dq(3) + 2. * dq(2) * q(0) + 2. * q(2) * dq(0);
+    m(1, 2) = 2. * dq(2) * q(3) + 2. * q(2) * dq(3) - 2. * dq(1) * q(0) - 2. * q(1) * dq(0);
+    m(2, 2) = - 4. * q(1) * dq(1) - 4. * q(2) * dq(2);
+
+    return m;
+}
+
+Eigen::Vector3d OptimizerRobot::getWorldVelocity(int link_idx, const Eigen::Vector3d& local_position)
+{
+    const Eigen::Matrix4d& m = link_world_transform_derivatives_[link_idx];
+
+    Eigen::Vector4d v;
+    v << local_position, 0.;
+
+    return (m * v).block(0, 0, 3, 1);
 }
 
 }
