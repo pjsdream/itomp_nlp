@@ -216,6 +216,24 @@
     <ClCompile Include="..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\nlp\crf_factor.cpp">
+      <Filter>NLP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\nlp\crf.cpp">
+      <Filter>NLP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\nlp\crf_cost_functions_node.cpp">
+      <Filter>NLP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\nlp\crf_grounding_node.cpp">
+      <Filter>NLP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\nlp\crf_node.cpp">
+      <Filter>NLP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\nlp\crf_phrase_node.cpp">
+      <Filter>NLP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -432,6 +450,24 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_functions_widget.h">
       <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\nlp\crf_factor.h">
+      <Filter>NLP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\nlp\crf.h">
+      <Filter>NLP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\nlp\crf_node.h">
+      <Filter>NLP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\nlp\crf_cost_functions_node.h">
+      <Filter>NLP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\nlp\crf_grounding_node.h">
+      <Filter>NLP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\nlp\crf_phrase_node.h">
+      <Filter>NLP</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

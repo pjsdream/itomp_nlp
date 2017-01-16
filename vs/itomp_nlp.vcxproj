@@ -188,6 +188,12 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\interface\itomp_cost_function_widget.cpp" />
     <ClCompile Include="..\src\interface\itomp_interface.cpp" />
     <ClCompile Include="..\src\interface\main_window.cpp" />
+    <ClCompile Include="..\src\nlp\crf.cpp" />
+    <ClCompile Include="..\src\nlp\crf_cost_functions_node.cpp" />
+    <ClCompile Include="..\src\nlp\crf_factor.cpp" />
+    <ClCompile Include="..\src\nlp\crf_grounding_node.cpp" />
+    <ClCompile Include="..\src\nlp\crf_node.cpp" />
+    <ClCompile Include="..\src\nlp\crf_phrase_node.cpp" />
     <ClCompile Include="..\src\nlp\glove_pretrained_loader.cpp" />
     <ClCompile Include="..\src\nlp\commands_to_cost.cpp" />
     <ClCompile Include="..\src\nlp\word_to_vector.cpp" />
@@ -262,6 +268,12 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_function_widget.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_interface.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\main_window.h" />
+    <ClInclude Include="..\include\itomp_nlp\nlp\crf.h" />
+    <ClInclude Include="..\include\itomp_nlp\nlp\crf_cost_functions_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\nlp\crf_factor.h" />
+    <ClInclude Include="..\include\itomp_nlp\nlp\crf_grounding_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\nlp\crf_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\nlp\crf_phrase_node.h" />
     <ClInclude Include="..\include\itomp_nlp\nlp\glove_pretrained_loader.h" />
     <ClInclude Include="..\include\itomp_nlp\nlp\commands_to_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\nlp\word_to_vector.h" />
