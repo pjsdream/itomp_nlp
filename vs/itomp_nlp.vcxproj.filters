@@ -40,6 +40,12 @@
     <Filter Include="Interface">
       <UniqueIdentifier>{ae7bdb2b-7cfb-49b7-946d-148af9fe773b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="NLP\crf">
+      <UniqueIdentifier>{63486c80-2282-4d63-998d-9d94273aa3c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NLP\parsetree">
+      <UniqueIdentifier>{f07e6600-d6fe-4753-9ae1-cc56e105cf45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\test\test_interface.cpp">
@@ -216,23 +222,50 @@
     <ClCompile Include="..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\nlp\crf_factor.cpp">
-      <Filter>NLP</Filter>
+    <ClCompile Include="..\src\crf\crf.cpp">
+      <Filter>NLP\crf</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\nlp\crf.cpp">
-      <Filter>NLP</Filter>
+    <ClCompile Include="..\src\crf\crf_cost_functions_node.cpp">
+      <Filter>NLP\crf</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\nlp\crf_cost_functions_node.cpp">
-      <Filter>NLP</Filter>
+    <ClCompile Include="..\src\crf\crf_factor.cpp">
+      <Filter>NLP\crf</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\nlp\crf_grounding_node.cpp">
-      <Filter>NLP</Filter>
+    <ClCompile Include="..\src\crf\crf_grounding_node.cpp">
+      <Filter>NLP\crf</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\nlp\crf_node.cpp">
-      <Filter>NLP</Filter>
+    <ClCompile Include="..\src\crf\crf_node.cpp">
+      <Filter>NLP\crf</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\nlp\crf_phrase_node.cpp">
-      <Filter>NLP</Filter>
+    <ClCompile Include="..\src\crf\crf_phrase_node.cpp">
+      <Filter>NLP\crf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\parsetree\parsetree.cpp">
+      <Filter>NLP\parsetree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\parsetree\parsetree_node.cpp">
+      <Filter>NLP\parsetree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\parsetree\parsetree_noun_node.cpp">
+      <Filter>NLP\parsetree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\parsetree\parsetree_np_node.cpp">
+      <Filter>NLP\parsetree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\parsetree\parsetree_pp_node.cpp">
+      <Filter>NLP\parsetree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\parsetree\parsetree_verb_node.cpp">
+      <Filter>NLP\parsetree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\parsetree\parsetree_vp_node.cpp">
+      <Filter>NLP\parsetree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crf\crf_examples.cpp">
+      <Filter>NLP\crf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crf\crf_factor_manager.cpp">
+      <Filter>NLP\crf</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -451,23 +484,50 @@
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_functions_widget.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\nlp\crf_factor.h">
-      <Filter>NLP</Filter>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf.h">
+      <Filter>NLP\crf</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\nlp\crf.h">
-      <Filter>NLP</Filter>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_cost_functions_node.h">
+      <Filter>NLP\crf</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\nlp\crf_node.h">
-      <Filter>NLP</Filter>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_factor.h">
+      <Filter>NLP\crf</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\nlp\crf_cost_functions_node.h">
-      <Filter>NLP</Filter>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_grounding_node.h">
+      <Filter>NLP\crf</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\nlp\crf_grounding_node.h">
-      <Filter>NLP</Filter>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_node.h">
+      <Filter>NLP\crf</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\nlp\crf_phrase_node.h">
-      <Filter>NLP</Filter>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_phrase_node.h">
+      <Filter>NLP\crf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree.h">
+      <Filter>NLP\parsetree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_node.h">
+      <Filter>NLP\parsetree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_noun_node.h">
+      <Filter>NLP\parsetree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_np_node.h">
+      <Filter>NLP\parsetree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_pp_node.h">
+      <Filter>NLP\parsetree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_verb_node.h">
+      <Filter>NLP\parsetree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_vp_node.h">
+      <Filter>NLP\parsetree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_examples.h">
+      <Filter>NLP\crf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_factor_manager.h">
+      <Filter>NLP\crf</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

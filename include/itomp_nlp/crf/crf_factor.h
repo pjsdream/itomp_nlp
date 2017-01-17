@@ -16,6 +16,8 @@ public:
 
     CRFFactor();
 
+    virtual int dimFeature() = 0;
+
 private:
 
     Eigen::VectorXd weights_;

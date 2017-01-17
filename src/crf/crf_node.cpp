@@ -1,4 +1,4 @@
-#include <itomp_nlp/nlp/crf_node.h>
+#include <itomp_nlp/crf/crf_node.h>
 
 
 namespace itomp_nlp

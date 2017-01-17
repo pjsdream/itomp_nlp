@@ -179,6 +179,14 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
   <ItemGroup>
     <ClCompile Include="..\lib\lodepng.cpp" />
     <ClCompile Include="..\lib\tinyxml2.cpp" />
+    <ClCompile Include="..\src\crf\crf.cpp" />
+    <ClCompile Include="..\src\crf\crf_cost_functions_node.cpp" />
+    <ClCompile Include="..\src\crf\crf_factor.cpp" />
+    <ClCompile Include="..\src\crf\crf_examples.cpp" />
+    <ClCompile Include="..\src\crf\crf_factor_manager.cpp" />
+    <ClCompile Include="..\src\crf\crf_grounding_node.cpp" />
+    <ClCompile Include="..\src\crf\crf_node.cpp" />
+    <ClCompile Include="..\src\crf\crf_phrase_node.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_itomp_interface.cpp" />
@@ -188,12 +196,6 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\interface\itomp_cost_function_widget.cpp" />
     <ClCompile Include="..\src\interface\itomp_interface.cpp" />
     <ClCompile Include="..\src\interface\main_window.cpp" />
-    <ClCompile Include="..\src\nlp\crf.cpp" />
-    <ClCompile Include="..\src\nlp\crf_cost_functions_node.cpp" />
-    <ClCompile Include="..\src\nlp\crf_factor.cpp" />
-    <ClCompile Include="..\src\nlp\crf_grounding_node.cpp" />
-    <ClCompile Include="..\src\nlp\crf_node.cpp" />
-    <ClCompile Include="..\src\nlp\crf_phrase_node.cpp" />
     <ClCompile Include="..\src\nlp\glove_pretrained_loader.cpp" />
     <ClCompile Include="..\src\nlp\commands_to_cost.cpp" />
     <ClCompile Include="..\src\nlp\word_to_vector.cpp" />
@@ -208,6 +210,13 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\optimization\repulsive_cost.cpp" />
     <ClCompile Include="..\src\optimization\smoothness_cost.cpp" />
     <ClCompile Include="..\src\optimization\velocity_cost.cpp" />
+    <ClCompile Include="..\src\parsetree\parsetree.cpp" />
+    <ClCompile Include="..\src\parsetree\parsetree_node.cpp" />
+    <ClCompile Include="..\src\parsetree\parsetree_noun_node.cpp" />
+    <ClCompile Include="..\src\parsetree\parsetree_np_node.cpp" />
+    <ClCompile Include="..\src\parsetree\parsetree_pp_node.cpp" />
+    <ClCompile Include="..\src\parsetree\parsetree_verb_node.cpp" />
+    <ClCompile Include="..\src\parsetree\parsetree_vp_node.cpp" />
     <ClCompile Include="..\src\renderer\camera.cpp" />
     <ClCompile Include="..\src\renderer\entity.cpp" />
     <ClCompile Include="..\src\renderer\gl_base.cpp" />
@@ -264,16 +273,18 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <None Include="..\urdf\fetch.urdf" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_cost_functions_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_factor.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_examples.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_factor_manager.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_grounding_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_phrase_node.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_functions_widget.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_function_widget.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_interface.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\main_window.h" />
-    <ClInclude Include="..\include\itomp_nlp\nlp\crf.h" />
-    <ClInclude Include="..\include\itomp_nlp\nlp\crf_cost_functions_node.h" />
-    <ClInclude Include="..\include\itomp_nlp\nlp\crf_factor.h" />
-    <ClInclude Include="..\include\itomp_nlp\nlp\crf_grounding_node.h" />
-    <ClInclude Include="..\include\itomp_nlp\nlp\crf_node.h" />
-    <ClInclude Include="..\include\itomp_nlp\nlp\crf_phrase_node.h" />
     <ClInclude Include="..\include\itomp_nlp\nlp\glove_pretrained_loader.h" />
     <ClInclude Include="..\include\itomp_nlp\nlp\commands_to_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\nlp\word_to_vector.h" />
@@ -288,6 +299,13 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\optimization\repulsive_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\smoothness_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\velocity_cost.h" />
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree.h" />
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_noun_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_np_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_pp_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_verb_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_vp_node.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\camera.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\entity.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\gl_base.h" />
