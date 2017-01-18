@@ -12,7 +12,7 @@ class CRFPhraseNode : public CRFNode
 {
 public:
 
-    CRFPhraseNode();
+    CRFPhraseNode(bool is_known);
 
     virtual const std::string id() { return "Phrase"; }
 

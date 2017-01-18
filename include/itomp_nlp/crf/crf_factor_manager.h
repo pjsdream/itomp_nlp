@@ -5,6 +5,8 @@
 #include <itomp_nlp/crf/crf_node.h>
 #include <itomp_nlp/crf/crf_factor.h>
 
+#include <map>
+
 
 namespace itomp_nlp
 {
@@ -22,7 +24,9 @@ public:
 
 private:
 
-    static std::vector<CRFFactor*> factors_;
+    static std::string getId(const std::vector<CRFNode*>& nodes);
+
+    static std::map<std::string, CRFFactor*> factors_;
 };
 
 }

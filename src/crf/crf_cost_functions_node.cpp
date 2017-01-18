@@ -4,8 +4,8 @@
 namespace itomp_nlp
 {
 
-CRFCostFunctionsNode::CRFCostFunctionsNode()
-    : CRFNode()
+CRFCostFunctionsNode::CRFCostFunctionsNode(bool is_known)
+    : CRFNode(is_known)
 {
 }
 

@@ -14,11 +14,13 @@ class CRFNode
 {
 public:
 
-    CRFNode();
+    CRFNode(bool is_known);
 
     virtual const std::string id() { return "Node"; }
 
-private:
+protected:
+
+    bool is_known_;
 
 };
 

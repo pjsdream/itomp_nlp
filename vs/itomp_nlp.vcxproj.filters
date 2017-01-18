@@ -267,6 +267,15 @@
     <ClCompile Include="..\src\crf\crf_factor_manager.cpp">
       <Filter>NLP\crf</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\crf\crf_grounding_cost_functions_factor.cpp">
+      <Filter>NLP\crf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crf\crf_groundings_factor.cpp">
+      <Filter>NLP\crf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crf\crf_phrase_grounding_factor.cpp">
+      <Filter>NLP\crf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -527,6 +536,15 @@
       <Filter>NLP\crf</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\crf\crf_factor_manager.h">
+      <Filter>NLP\crf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_grounding_cost_functions_factor.h">
+      <Filter>NLP\crf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_groundings_factor.h">
+      <Filter>NLP\crf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_phrase_grounding_factor.h">
       <Filter>NLP\crf</Filter>
     </ClInclude>
   </ItemGroup>

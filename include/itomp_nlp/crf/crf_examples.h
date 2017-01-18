@@ -3,6 +3,7 @@
 
 
 #include <vector>
+#include <set>
 
 #include <itomp_nlp/crf/crf_node.h>
 #include <itomp_nlp/crf/crf_factor.h>
@@ -20,6 +21,9 @@ public:
     CRFExamples();
 
     void setNodeSize(int num_nodes, int num_factors);
+    void setNegativeExampleCoefficient(double lambda);
+
+    std::set<CRFFactor*> getFactors();
 
     // Edge insertion order is important. Order matters in sharing factor weights.
     // Factors identify the order of nodes and their types
@@ -27,7 +31,12 @@ public:
 
     void addExample(bool is_positive, const std::vector<CRFNode*>& nodes);
 
+    double cost();
+    void addGradient();
+
 private:
+
+    double negative_example_coefficient_;
 
     int num_nodes_;
     int num_factors_;

@@ -3,8 +3,11 @@
 
 
 #include <vector>
+#include <set>
 
 #include <itomp_nlp/crf/crf_examples.h>
+
+#include <dlib/optimization.h>
 
 
 namespace itomp_nlp
@@ -12,6 +15,10 @@ namespace itomp_nlp
 
 class CRF
 {
+private:
+
+    typedef dlib::matrix<double, 0, 1> column_vector;
+
 public:
 
     CRF();
@@ -28,6 +35,17 @@ public:
 private:
 
     void truncateTrailingDirectorySlash(std::string& directory);
+
+    double cost();
+    Eigen::VectorXd gradient();
+    void collectFactors();
+    std::set<CRFFactor*> factors_;
+
+    // dlib optimization interfaces
+    int dlib_dim_variables_;
+    void dlibUpdateVariablesToFactors(const column_vector& x);
+    double dlibCost(const column_vector& x);
+    const column_vector dlibGradient(const column_vector& x);
 
     std::vector<CRFExamples*> examples_;
 };

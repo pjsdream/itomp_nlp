@@ -4,8 +4,8 @@
 namespace itomp_nlp
 {
 
-CRFGroundingNode::CRFGroundingNode()
-    : CRFNode()
+CRFGroundingNode::CRFGroundingNode(bool is_known)
+    : CRFNode(is_known)
 {
 }
 

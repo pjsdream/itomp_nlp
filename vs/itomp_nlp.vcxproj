@@ -184,8 +184,11 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\crf\crf_factor.cpp" />
     <ClCompile Include="..\src\crf\crf_examples.cpp" />
     <ClCompile Include="..\src\crf\crf_factor_manager.cpp" />
+    <ClCompile Include="..\src\crf\crf_groundings_factor.cpp" />
+    <ClCompile Include="..\src\crf\crf_grounding_cost_functions_factor.cpp" />
     <ClCompile Include="..\src\crf\crf_grounding_node.cpp" />
     <ClCompile Include="..\src\crf\crf_node.cpp" />
+    <ClCompile Include="..\src\crf\crf_phrase_grounding_factor.cpp" />
     <ClCompile Include="..\src\crf\crf_phrase_node.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp" />
@@ -278,8 +281,11 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\crf\crf_factor.h" />
     <ClInclude Include="..\include\itomp_nlp\crf\crf_examples.h" />
     <ClInclude Include="..\include\itomp_nlp\crf\crf_factor_manager.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_groundings_factor.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_grounding_cost_functions_factor.h" />
     <ClInclude Include="..\include\itomp_nlp\crf\crf_grounding_node.h" />
     <ClInclude Include="..\include\itomp_nlp\crf\crf_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_phrase_grounding_factor.h" />
     <ClInclude Include="..\include\itomp_nlp\crf\crf_phrase_node.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_functions_widget.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_function_widget.h" />

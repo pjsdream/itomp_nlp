@@ -12,7 +12,7 @@ class CRFGroundingNode : public CRFNode
 {
 public:
 
-    CRFGroundingNode();
+    CRFGroundingNode(bool is_known);
 
     virtual const std::string id() { return "Grounding"; }
 

@@ -6,6 +6,8 @@
 
 #include <vector>
 
+#include <itomp_nlp/crf/crf_node.h>
+
 
 namespace itomp_nlp
 {
@@ -16,11 +18,26 @@ public:
 
     CRFFactor();
 
-    virtual int dimFeature() = 0;
+    int dimFeatures();
 
-private:
+    // array p to weights
+    void setWeight(const double* p);
 
+    inline const Eigen::VectorXd& getWeight()
+    {
+        return weights_;
+    }
+
+    virtual double cost(const std::vector<CRFNode*>& nodes) = 0;
+    virtual void addGradient(const std::vector<CRFNode*>& nodes) = 0;
+
+    void setGradientZero();
+
+protected:
+
+    // supposed to be initialized in derived classes
     Eigen::VectorXd weights_;
+    Eigen::VectorXd weights_gradient_;
 };
 
 }

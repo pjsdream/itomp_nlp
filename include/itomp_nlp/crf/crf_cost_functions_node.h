@@ -12,7 +12,7 @@ class CRFCostFunctionsNode : public CRFNode
 {
 public:
 
-    CRFCostFunctionsNode();
+    CRFCostFunctionsNode(bool is_known);
 
     virtual const std::string id() { return "CostFunctions"; }
 
