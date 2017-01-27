@@ -227,6 +227,9 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\renderer\light_shader.cpp" />
     <ClCompile Include="..\src\renderer\material.cpp" />
     <ClCompile Include="..\src\renderer\normal_shader.cpp" />
+    <ClCompile Include="..\src\renderer\rendering_capsule.cpp" />
+    <ClCompile Include="..\src\renderer\rendering_mesh.cpp" />
+    <ClCompile Include="..\src\renderer\rendering_shape.cpp" />
     <ClCompile Include="..\src\renderer\robot_renderer.cpp" />
     <ClCompile Include="..\src\renderer\texture.cpp" />
     <ClCompile Include="..\src\renderer\object.cpp" />
@@ -245,6 +248,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\robot\robot_state.cpp" />
     <ClCompile Include="..\src\robot\urdf_parser.cpp" />
     <ClCompile Include="..\src\shape\aabb.cpp" />
+    <ClCompile Include="..\src\shape\capsule.cpp" />
     <ClCompile Include="..\src\shape\mesh.cpp" />
     <ClCompile Include="..\src\shape\mesh_loader.cpp" />
     <ClCompile Include="..\src\shape\obb.cpp" />
@@ -318,6 +322,9 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\renderer\light.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\light_shader.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\normal_shader.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_capsule.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_mesh.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_shape.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\resource_manager.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\material.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\robot_renderer.h" />
@@ -337,6 +344,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\robot\robot_state.h" />
     <ClInclude Include="..\include\itomp_nlp\robot\urdf_parser.h" />
     <ClInclude Include="..\include\itomp_nlp\shape\aabb.h" />
+    <ClInclude Include="..\include\itomp_nlp\shape\capsule.h" />
     <ClInclude Include="..\include\itomp_nlp\shape\mesh.h" />
     <ClInclude Include="..\include\itomp_nlp\shape\mesh_loader.h" />
     <ClInclude Include="..\include\itomp_nlp\shape\obb.h" />

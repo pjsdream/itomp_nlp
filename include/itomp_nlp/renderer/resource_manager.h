@@ -8,6 +8,8 @@
 #include <itomp_nlp/renderer/gl_base.h>
 #include <itomp_nlp/renderer/object.h>
 
+#include <itomp_nlp/shape/capsule.h>
+
 
 namespace itomp
 {

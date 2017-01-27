@@ -46,6 +46,9 @@
     <Filter Include="NLP\parsetree">
       <UniqueIdentifier>{f07e6600-d6fe-4753-9ae1-cc56e105cf45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="RenderingShape">
+      <UniqueIdentifier>{53a525ac-7799-4878-8d74-c42007c8381a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\test\test_interface.cpp">
@@ -275,6 +278,18 @@
     </ClCompile>
     <ClCompile Include="..\src\crf\crf_phrase_grounding_factor.cpp">
       <Filter>NLP\crf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\shape\capsule.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_capsule.cpp">
+      <Filter>RenderingShape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_mesh.cpp">
+      <Filter>RenderingShape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_shape.cpp">
+      <Filter>RenderingShape</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -546,6 +561,18 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\crf\crf_phrase_grounding_factor.h">
       <Filter>NLP\crf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\shape\capsule.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_capsule.h">
+      <Filter>RenderingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_mesh.h">
+      <Filter>RenderingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_shape.h">
+      <Filter>RenderingShape</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
