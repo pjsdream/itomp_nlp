@@ -1,7 +1,7 @@
 #include <itomp_nlp/crf/crf_node.h>
 
 
-namespace itomp_nlp
+namespace itomp
 {
 
 CRFNode::CRFNode(bool is_known)

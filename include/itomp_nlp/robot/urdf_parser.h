@@ -10,7 +10,7 @@
 #include <tinyxml2.h>
 
 
-namespace itomp_robot
+namespace itomp
 {
 
 class URDFParser

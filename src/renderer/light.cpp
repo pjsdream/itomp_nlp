@@ -1,7 +1,7 @@
 #include <itomp_nlp/renderer/light.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 Light::Light(const Eigen::Vector3d& position)

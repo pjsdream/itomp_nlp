@@ -4,7 +4,7 @@
 #include <iostream>
 
 
-namespace itomp_optimization
+namespace itomp
 {
 
 VelocityCost::VelocityCost(OptimizerThread& optimizer, double weight)

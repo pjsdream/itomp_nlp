@@ -12,7 +12,7 @@
 #include <mutex>
 
 
-namespace itomp_optimization
+namespace itomp
 {
 
 struct OptimizerOptions

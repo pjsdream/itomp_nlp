@@ -1,7 +1,7 @@
 #include <itomp_nlp/renderer/shader_program.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 ShaderProgram::ShaderProgram(Renderer* renderer, const std::string& vertex_filename, const std::string& fragment_filename)

@@ -12,7 +12,7 @@
 #include <itomp_nlp/optimization/optimizer.h>
 
 
-namespace itomp_interface
+namespace itomp
 {
 
 class ItompCostFunctionWidget : public QWidget

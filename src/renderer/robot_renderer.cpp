@@ -3,10 +3,10 @@
 #include <itomp_nlp/robot/joint.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
-RobotRenderer::RobotRenderer(Renderer* renderer, itomp_robot::RobotModel* robot_model)
+RobotRenderer::RobotRenderer(Renderer* renderer, RobotModel* robot_model)
     : renderer_(renderer)
 {
     renderer->makeCurrent();
@@ -26,13 +26,13 @@ int RobotRenderer::addRobotEntity()
     return robot_entities_.size() - 1;
 }
 
-void RobotRenderer::setRobotEntity(int entity_id, itomp_robot::RobotState* robot_state)
+void RobotRenderer::setRobotEntity(int entity_id, RobotState* robot_state)
 {
     int id = 0;
     setRobotEntitiesRecursive(robot_model_->getRootLink(), Eigen::Affine3d::Identity(), robot_entities_[entity_id], id, robot_state);
 }
 
-void RobotRenderer::addRobotObjects(itomp_robot::RobotModel* robot_model)
+void RobotRenderer::addRobotObjects(RobotModel* robot_model)
 {
     robot_model_ = robot_model;
     robot_entities_.push_back(std::vector<int>());
@@ -40,7 +40,7 @@ void RobotRenderer::addRobotObjects(itomp_robot::RobotModel* robot_model)
     addRobotObjectsRecursive(robot_model->getRootLink());
 }
 
-void RobotRenderer::addRobotObjectsRecursive(const itomp_robot::Link* link)
+void RobotRenderer::addRobotObjectsRecursive(const Link* link)
 {
     const std::vector<std::string>& mesh_filenames = link->getVisualMeshFilenames();
 
@@ -54,7 +54,7 @@ void RobotRenderer::addRobotObjectsRecursive(const itomp_robot::Link* link)
         addRobotObjectsRecursive( link->getChildLink(i) );
 }
 
-void RobotRenderer::addRobotEntitiesRecursive(const itomp_robot::Link* link, const Eigen::Affine3d transform, std::vector<int>& entities)
+void RobotRenderer::addRobotEntitiesRecursive(const Link* link, const Eigen::Affine3d transform, std::vector<int>& entities)
 {
     // WARNING! it should recurses in the same manner objects are registered
     
@@ -69,7 +69,7 @@ void RobotRenderer::addRobotEntitiesRecursive(const itomp_robot::Link* link, con
 
     for (int i=0; i<link->getNumChild(); i++)
     {
-        itomp_robot::Joint* joint = link->getChildJoint(i);
+        Joint* joint = link->getChildJoint(i);
 
         const Eigen::Affine3d& joint_origin = joint->getOrigin();
 
@@ -77,7 +77,7 @@ void RobotRenderer::addRobotEntitiesRecursive(const itomp_robot::Link* link, con
     }
 }
 
-void RobotRenderer::setRobotEntitiesRecursive(const itomp_robot::Link* link, const Eigen::Affine3d transform, const std::vector<int>& entities, int& entity_idx, itomp_robot::RobotState* robot_state)
+void RobotRenderer::setRobotEntitiesRecursive(const Link* link, const Eigen::Affine3d transform, const std::vector<int>& entities, int& entity_idx, RobotState* robot_state)
 {
     // WARNING! it should recurses in the same manner objects are registered
     
@@ -90,7 +90,7 @@ void RobotRenderer::setRobotEntitiesRecursive(const itomp_robot::Link* link, con
 
     for (int i=0; i<link->getNumChild(); i++)
     {
-        itomp_robot::Joint* joint = link->getChildJoint(i);
+        Joint* joint = link->getChildJoint(i);
 
         const Eigen::Affine3d& joint_transform = joint->getOrigin() * joint->getTransform( robot_state->getPosition(joint->getJointName()) );
 

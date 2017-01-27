@@ -3,7 +3,7 @@
 #include <itomp_nlp/crf/crf_factor_manager.h>
 
 
-namespace itomp_nlp
+namespace itomp
 {
 
 CRFExamples::CRFExamples()

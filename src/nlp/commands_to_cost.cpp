@@ -1,7 +1,7 @@
 #include <itomp_nlp/nlp/commands_to_cost.h>
 
 
-namespace itomp_nlp
+namespace itomp
 {
 
 CommandsToCost::CommandsToCost(const WordToVector* similarity_measure)

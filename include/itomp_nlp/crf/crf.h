@@ -10,7 +10,7 @@
 #include <dlib/optimization.h>
 
 
-namespace itomp_nlp
+namespace itomp
 {
 
 class CRF

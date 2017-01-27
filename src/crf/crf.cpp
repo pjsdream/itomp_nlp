@@ -1,7 +1,7 @@
 #include <itomp_nlp/crf/crf.h>
 
 
-namespace itomp_nlp
+namespace itomp
 {
 
 CRF::CRF()

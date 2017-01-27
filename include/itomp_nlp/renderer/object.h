@@ -7,7 +7,7 @@
 #include <itomp_nlp/renderer/material.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 class Object : public GLBase

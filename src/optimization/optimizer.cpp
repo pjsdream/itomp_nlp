@@ -12,7 +12,7 @@
 #include <iostream>
 
 
-namespace itomp_optimization
+namespace itomp
 {
 
 Optimizer::Optimizer()

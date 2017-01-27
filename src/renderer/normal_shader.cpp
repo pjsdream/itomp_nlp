@@ -1,7 +1,7 @@
 #include <itomp_nlp/renderer/normal_shader.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 const std::string NormalShader::vertex_filename_ = "shader/normal.vert";

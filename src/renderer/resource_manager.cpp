@@ -10,7 +10,7 @@
 #include <itomp_nlp/utils/timing.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 ResourceManager::ResourceManager(Renderer* renderer)

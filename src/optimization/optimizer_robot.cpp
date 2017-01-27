@@ -5,7 +5,7 @@
 #include <itomp_nlp/robot/fixed_joint.h>
 
 
-namespace itomp_optimization
+namespace itomp
 {
 
 const double OptimizerRobot::position_lower_default_ = -10.;
@@ -52,10 +52,10 @@ OptimizerRobot::OptimizerRobot(const OptimizerRobot& robot)
     // create new shapes
     for (int i=0; i<robot.links_.size(); i++)
     {
-        const std::vector<itomp_shape::Shape*>& shapes = robot.links_[i].shapes;
+        const std::vector<Shape*>& shapes = robot.links_[i].shapes;
         for (int j=0; j<shapes.size(); j++)
         {
-            const itomp_shape::Shape* shape = shapes[j];
+            const Shape* shape = shapes[j];
             links_[i].shapes[j] = shape->clone();
         }
     }
@@ -81,7 +81,7 @@ void OptimizerRobot::setLinkJoints(const std::vector<Link>& links, const std::ve
     fk_shapes_.resize(links_.size());
     for (int i=0; i<links_.size(); i++)
     {
-        const std::vector<itomp_shape::Shape*>& shapes = links_[i].shapes;
+        const std::vector<Shape*>& shapes = links_[i].shapes;
         for (int j=0; j<shapes.size(); j++)
         {
             fk_shapes_[i].push_back( shapes[j]->clone() );
@@ -134,7 +134,7 @@ void OptimizerRobot::forwardKinematics()
         const Link& link = links_[i];
         for (int j=0; j<link.shapes.size(); j++)
         {
-            const itomp_shape::Shape* shape = link.shapes[j];
+            const Shape* shape = link.shapes[j];
 
             // TODO: code-level optimization of eigen matrix multiplication
             fk_shapes_[i][j]->setTransform( link_world_transforms_[i] * shape->getTransform() );

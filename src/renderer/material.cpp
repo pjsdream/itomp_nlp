@@ -3,7 +3,7 @@
 #include <lodepng.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 Material::Material()

@@ -16,7 +16,7 @@
 #include <itomp_nlp/interface/itomp_cost_functions_widget.h>
 
 
-namespace itomp_interface
+namespace itomp
 {
 
 class ItompInterface : public QWidget
@@ -27,12 +27,12 @@ public:
 
     ItompInterface(QWidget* parent = 0);
     
-    inline itomp_robot::RobotModel* getRobotModel()
+    inline RobotModel* getRobotModel()
     {
         return robot_model_;
     }
 
-    inline itomp_robot::RobotState* getRobotState()
+    inline RobotState* getRobotState()
     {
         return robot_state_;
     }
@@ -62,10 +62,10 @@ private:
 
     // resources
     void initializeResources();
-    itomp_robot::RobotModel* robot_model_;
-    itomp_robot::RobotState* robot_state_;
-    itomp_optimization::OptimizerRobot* optimizer_robot_;
-    itomp_optimization::Optimizer optimizer_;
+    RobotModel* robot_model_;
+    RobotState* robot_state_;
+    OptimizerRobot* optimizer_robot_;
+    Optimizer optimizer_;
     std::vector<std::string> active_joint_names_;
     std::vector<std::vector<std::string> > aabb_lists_;
 

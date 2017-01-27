@@ -8,7 +8,7 @@
 #include <map>
 
 
-namespace itomp_nlp
+namespace itomp
 {
 
 class CRFFactorManager

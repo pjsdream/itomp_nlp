@@ -11,7 +11,7 @@
 #include <itomp_nlp/interface/itomp_cost_function_widget.h>
 
 
-namespace itomp_interface
+namespace itomp
 {
 
 class ItompCostFunctionsWidget : public QWidget
@@ -32,7 +32,7 @@ public slots:
 
 private:
 
-    itomp_optimization::Optimizer* optimizer_;
+    Optimizer* optimizer_;
 
     QGridLayout* layout_;
 

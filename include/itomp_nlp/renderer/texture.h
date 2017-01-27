@@ -5,7 +5,7 @@
 #include <itomp_nlp/renderer/gl_base.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 class Texture

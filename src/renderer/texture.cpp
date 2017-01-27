@@ -1,7 +1,7 @@
 #include <itomp_nlp/renderer/texture.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 Texture::Texture(GLuint id)

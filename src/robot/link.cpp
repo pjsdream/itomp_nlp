@@ -4,7 +4,7 @@
 #include <itomp_nlp/shape/mesh_loader.h>
 
 
-namespace itomp_robot
+namespace itomp
 {
 
 Link::Link()
@@ -29,8 +29,8 @@ void Link::addCollisionMesh(const Eigen::Vector3d& position, const Eigen::Quater
     m.translate(position);
     collision_origins_.push_back(m);
 
-    itomp_shape::MeshLoader mesh_loader;
-    itomp_shape::Mesh* mesh = mesh_loader.loadMeshFile(mesh_filename);
+    MeshLoader mesh_loader;
+    Mesh* mesh = mesh_loader.loadMeshFile(mesh_filename);
     collision_shapes_.push_back(mesh);
 }
 

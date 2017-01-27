@@ -3,7 +3,7 @@
 #include <itomp_nlp/shape/aabb.h>
 
 
-namespace itomp_shape
+namespace itomp
 {
 
 Mesh::Mesh()

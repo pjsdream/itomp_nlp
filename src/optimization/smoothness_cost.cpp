@@ -2,7 +2,7 @@
 #include <itomp_nlp/optimization/optimizer_thread.h>
 
 
-namespace itomp_optimization
+namespace itomp
 {
 
 SmoothnessCost::SmoothnessCost(OptimizerThread& optimizer, double weight)

@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 
-namespace itomp_utils
+namespace itomp
 {
 
 void timerStart()

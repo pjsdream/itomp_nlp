@@ -5,7 +5,7 @@
 #include <itomp_nlp/shape/mesh.h>
 
 
-namespace itomp_shape
+namespace itomp
 {
 
 class MeshLoader

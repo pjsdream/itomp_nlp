@@ -10,7 +10,7 @@
 #include <time.h>
 
 
-namespace itomp_shape
+namespace itomp
 {
 
 Mesh* MeshLoader::loadMeshFile(const std::string& filename)

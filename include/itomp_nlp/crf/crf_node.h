@@ -7,7 +7,7 @@
 #include <vector>
 
 
-namespace itomp_nlp
+namespace itomp
 {
 
 class CRFNode

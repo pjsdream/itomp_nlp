@@ -23,7 +23,7 @@
 #include <itomp_nlp/shape/mesh.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 class Renderer : public QOpenGLWidget

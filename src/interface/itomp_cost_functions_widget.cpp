@@ -1,7 +1,7 @@
 #include <itomp_nlp/interface/itomp_cost_functions_widget.h>
 
 
-namespace itomp_interface
+namespace itomp
 {
 
 ItompCostFunctionsWidget::ItompCostFunctionsWidget(QWidget* parent)

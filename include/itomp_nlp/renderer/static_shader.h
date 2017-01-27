@@ -5,7 +5,7 @@
 #include <itomp_nlp/renderer/shader_program.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 class StaticShader : public ShaderProgram

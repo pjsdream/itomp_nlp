@@ -8,7 +8,7 @@
 #include <itomp_nlp/robot/link.h>
 
 
-namespace itomp_robot
+namespace itomp
 {
 
 class RobotModel

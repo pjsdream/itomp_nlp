@@ -4,7 +4,7 @@
 #include <iostream>
 
 
-namespace itomp_optimization
+namespace itomp
 {
 
 GoalCost::GoalCost(OptimizerThread& optimizer, double weight)

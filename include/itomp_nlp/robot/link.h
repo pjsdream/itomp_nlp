@@ -9,7 +9,7 @@
 #include <itomp_nlp/shape/shape.h>
 
 
-namespace itomp_robot
+namespace itomp
 {
 
 class Joint;
@@ -48,7 +48,7 @@ public:
         return visual_origins_;
     }
 
-    inline const std::vector<itomp_shape::Shape*>& getCollisionShapes() const
+    inline const std::vector<Shape*>& getCollisionShapes() const
     {
         return collision_shapes_;
     }
@@ -84,7 +84,7 @@ private:
 
     // collision
     std::vector<Eigen::Affine3d> collision_origins_;
-    std::vector<itomp_shape::Shape*> collision_shapes_;
+    std::vector<Shape*> collision_shapes_;
 };
 
 }

@@ -1,7 +1,7 @@
 #include <itomp_nlp/crf/crf_factor_manager.h>
 
 
-namespace itomp_nlp
+namespace itomp
 {
 
 std::map<std::string, CRFFactor*> CRFFactorManager::factors_;

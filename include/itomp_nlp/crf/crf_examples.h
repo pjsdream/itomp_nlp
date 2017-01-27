@@ -9,7 +9,7 @@
 #include <itomp_nlp/crf/crf_factor.h>
 
 
-namespace itomp_nlp
+namespace itomp
 {
 
 // Has one graph structure and multiple examples, each of which is either positive or negative

@@ -5,7 +5,7 @@
 #include <iostream>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 Renderer::Renderer(QWidget* parent)

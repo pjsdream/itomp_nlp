@@ -1,7 +1,7 @@
 #include <itomp_nlp/crf/crf_grounding_node.h>
 
 
-namespace itomp_nlp
+namespace itomp
 {
 
 CRFGroundingNode::CRFGroundingNode(bool is_known)

@@ -5,7 +5,7 @@
 #include <itomp_nlp/crf/crf_node.h>
 
 
-namespace itomp_nlp
+namespace itomp
 {
 
 class CRFGroundingNode : public CRFNode

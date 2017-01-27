@@ -7,7 +7,7 @@
 #include <itomp_nlp/utils/timing.h>
 
 
-namespace itomp_nlp
+namespace itomp
 {
 
 GlovePretrainedLoader::GlovePretrainedLoader()
@@ -24,7 +24,7 @@ WordToVector* GlovePretrainedLoader::loadGlovePretrainedData(const std::string& 
     if (fp == NULL)
         return dictionary;
     
-    itomp_utils::timerStart();
+    timerStart();
 
     // parse vector dimension
     // filename format: glove.[#tokens].[dimension].txt
@@ -45,7 +45,7 @@ WordToVector* GlovePretrainedLoader::loadGlovePretrainedData(const std::string& 
         dictionary->addMapping(word, v);
     }
     
-    itomp_utils::timerPrintElapsedTime();
+    timerPrintElapsedTime();
 
     fclose(fp);
 

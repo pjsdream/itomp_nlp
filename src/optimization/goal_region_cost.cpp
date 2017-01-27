@@ -2,7 +2,7 @@
 #include <itomp_nlp/optimization/optimizer_thread.h>
 
 
-namespace itomp_optimization
+namespace itomp
 {
 
 GoalRegionCost::GoalRegionCost(OptimizerThread& optimizer, double weight)

@@ -1,7 +1,7 @@
 #include <itomp_nlp/crf/crf_groundings_factor.h>
 
 
-namespace itomp_nlp
+namespace itomp
 {
 
 CRFGroundingsFactor::CRFGroundingsFactor()

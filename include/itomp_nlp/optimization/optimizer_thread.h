@@ -14,7 +14,7 @@
 #include <dlib/optimization.h>
 
 
-namespace itomp_optimization
+namespace itomp
 {
 
 class OptimizerThread

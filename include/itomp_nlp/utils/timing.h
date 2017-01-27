@@ -5,7 +5,7 @@
 #include <time.h>
 
 
-namespace itomp_utils
+namespace itomp
 {
 
 namespace internal
@@ -19,7 +19,6 @@ void timerStart();
 void timerPrintElapsedTime();
 
 }
-
 
 
 #endif // ITOMP_UTILS_TIMING_H

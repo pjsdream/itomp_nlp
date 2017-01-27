@@ -3,7 +3,7 @@
 #include <itomp_nlp/robot/urdf_parser.h>
 
 
-namespace itomp_interface
+namespace itomp
 {
 
 ItompInterface::ItompInterface(QWidget* parent)
@@ -49,17 +49,17 @@ ItompInterface::ItompInterface(QWidget* parent)
 void ItompInterface::initializeResources()
 {
 #ifdef _WIN32
-    itomp_robot::URDFParser urdf_parser;
+    URDFParser urdf_parser;
     urdf_parser.addPackageDirectoryMapping("fetch_description", "C:\\Users\\jaesungp\\Desktop\\documents\\fetch_ros\\fetch_description");
     robot_model_ = urdf_parser.parseURDF("../urdf/fetch.urdf");
 #else
-    itomp_robot::URDFParser urdf_parser;
+    URDFParser urdf_parser;
     urdf_parser.addPackageDirectoryMapping("fetch_description", "/home/jaesungp/catkin_ws/src/fetch_ros/fetch_description");
     robot_model_ = urdf_parser.parseURDF("/home/jaesungp/catkin_ws/src/itomp_nlp/urdf/fetch.urdf");
 #endif
 
     // default robot state
-    robot_state_ = new itomp_robot::RobotState(robot_model_);
+    robot_state_ = new RobotState(robot_model_);
     robot_state_->setPosition("torso_lift_joint", 0.35);
 
     active_joint_names_ = 
@@ -116,14 +116,14 @@ void ItompInterface::initializeResources()
         },
     };
 
-    itomp_optimization::OptimizerRobotLoader optimizer_robot_loader;
+    OptimizerRobotLoader optimizer_robot_loader;
 
     for (int i=0; i<aabb_lists_.size(); i++)
         optimizer_robot_loader.addAABBList(aabb_lists_[i]);
 
     optimizer_robot_ = optimizer_robot_loader.loadRobot(robot_model_, robot_state_, active_joint_names_);
 
-    itomp_optimization::OptimizerOptions options;
+    OptimizerOptions options;
     options.trajectory_duration = 3.0;
     options.timestep = 0.5;
     options.num_waypoints = 6;

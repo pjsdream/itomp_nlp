@@ -10,7 +10,7 @@
 #include <Eigen/Dense>
 
 
-namespace itomp_shape
+namespace itomp
 {
 
 class AABB : public Shape

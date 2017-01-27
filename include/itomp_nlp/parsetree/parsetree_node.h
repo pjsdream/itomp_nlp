@@ -2,7 +2,7 @@
 #define ITOMP_NLP_PARSETREE_PARSETREE_NODE_H
 
 
-namespace itomp_nlp
+namespace itomp
 {
 
 class ParsetreeNode

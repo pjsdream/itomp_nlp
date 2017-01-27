@@ -1,7 +1,7 @@
 #include <itomp_nlp/robot/prismatic_joint.h>
 
 
-namespace itomp_robot
+namespace itomp
 {
 
 PrismaticJoint::PrismaticJoint()

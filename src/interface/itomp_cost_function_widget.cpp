@@ -1,7 +1,7 @@
 #include <itomp_nlp/interface/itomp_cost_function_widget.h>
 
 
-namespace itomp_interface
+namespace itomp
 {
 
 const std::vector<std::pair<std::string, int> > ItompCostFunctionWidget::cost_types_ = 

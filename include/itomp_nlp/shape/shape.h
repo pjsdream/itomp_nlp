@@ -5,7 +5,7 @@
 #include <Eigen/Dense>
 
 
-namespace itomp_shape
+namespace itomp
 {
 
 class Shape

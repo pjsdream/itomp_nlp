@@ -9,7 +9,7 @@
 #include <itomp_nlp/renderer/object.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 class ResourceManager : public GLBase

@@ -1,7 +1,7 @@
 #include <itomp_nlp/robot/fixed_joint.h>
 
 
-namespace itomp_robot
+namespace itomp
 {
 
 FixedJoint::FixedJoint()

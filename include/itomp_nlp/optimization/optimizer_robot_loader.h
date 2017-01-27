@@ -8,7 +8,7 @@
 #include <itomp_nlp/shape/obb.h>
 
 
-namespace itomp_optimization
+namespace itomp
 {
 
 class OptimizerRobotLoader
@@ -19,19 +19,19 @@ public:
 
     void addAABBList(const std::vector<std::string> aabb_list);
 
-    OptimizerRobot* loadRobot(itomp_robot::RobotModel* robot_model, itomp_robot::RobotState* robot_state, const std::vector<std::string>& active_joint_names);
+    OptimizerRobot* loadRobot(RobotModel* robot_model, RobotState* robot_state, const std::vector<std::string>& active_joint_names);
 
 private:
 
-    void loadRobotRecursive(const itomp_robot::Link* link, const Eigen::Affine3d& transform, int parent_id);
+    void loadRobotRecursive(const Link* link, const Eigen::Affine3d& transform, int parent_id);
 
     std::vector<std::vector<std::string> > aabb_lists_;
-    std::vector<itomp_shape::AABB> aabbs_;
+    std::vector<AABB> aabbs_;
     std::vector<char> is_aabb_encountered_;
     std::vector<int> aabb_link_id_;
 
     std::vector<std::string> active_joint_names_;
-    itomp_robot::RobotState* robot_state_;
+    RobotState* robot_state_;
 
     std::vector<OptimizerRobot::Link> optimizer_links_;
     std::vector<OptimizerRobot::Joint> optimizer_joints_;

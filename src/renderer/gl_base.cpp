@@ -3,7 +3,7 @@
 #include <itomp_nlp/renderer/renderer.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 GLBase::GLBase(Renderer* renderer)

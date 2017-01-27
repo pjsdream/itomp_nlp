@@ -5,7 +5,7 @@
 #include <itomp_nlp/optimization/cost.h>
 
 
-namespace itomp_optimization
+namespace itomp
 {
 
 class CollisionCost : public Cost

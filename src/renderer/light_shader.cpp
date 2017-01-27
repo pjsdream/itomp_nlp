@@ -1,7 +1,7 @@
 #include <itomp_nlp/renderer/light_shader.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 const std::string LightShader::vertex_filename_ = "shader/light.vert";

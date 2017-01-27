@@ -9,7 +9,7 @@
 #include <Eigen/Dense>
 
 
-namespace itomp_optimization
+namespace itomp
 {
 
 class GoalRegionCost : public Cost

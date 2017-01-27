@@ -4,7 +4,7 @@
 #include <iostream>
 
 
-namespace itomp_optimization
+namespace itomp
 {
 
 RepulsiveCost::RepulsiveCost(OptimizerThread& optimizer, double weight)

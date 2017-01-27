@@ -10,7 +10,7 @@
 #include <itomp_nlp/interface/itomp_interface.h>
 
 
-namespace itomp_interface
+namespace itomp
 {
 
 class MainWindow : public QMainWindow
@@ -21,9 +21,9 @@ public:
 
     MainWindow();
 
-    void addRobot(itomp_robot::RobotModel* robot_model);
+    void addRobot(RobotModel* robot_model);
     void addRobotEntity(int robot_index);
-    void setRobotEntity(int robot_index, int entity_id, itomp_robot::RobotState* robot_state);
+    void setRobotEntity(int robot_index, int entity_id, RobotState* robot_state);
     
 protected slots:
 
@@ -31,11 +31,11 @@ protected slots:
 
 private:
 
-    itomp_renderer::Renderer* renderer_;
+    Renderer* renderer_;
 
     ItompInterface* itomp_interface_;
 
-    std::vector<itomp_renderer::RobotRenderer*> robot_renderers_;
+    std::vector<RobotRenderer*> robot_renderers_;
     std::vector<int> robot_entities_;
 };
 

@@ -13,7 +13,7 @@
 #include <itomp_nlp/robot/robot_state.h>
 
 
-namespace itomp_optimization
+namespace itomp
 {
 
 /** class OptimizerRobot
@@ -46,7 +46,7 @@ public:
     {
         // collision shapes
         // cloned for thread-safety
-        std::vector<itomp_shape::Shape*> shapes;
+        std::vector<Shape*> shapes;
     };
 
     struct Joint
@@ -95,7 +95,7 @@ public:
     /// do forward kinematics and store the results in cache
     void forwardKinematics();
 
-    inline const std::vector<itomp_shape::Shape*>& getCollisionShapes(int idx)
+    inline const std::vector<Shape*>& getCollisionShapes(int idx)
     {
         return fk_shapes_[idx];
     }
@@ -124,7 +124,7 @@ private:
     Eigen::Matrix4d revoluteJointDerivative(int joint_idx);
 
     // fk transforms
-    std::vector<std::vector<itomp_shape::Shape*> > fk_shapes_;
+    std::vector<std::vector<Shape*> > fk_shapes_;
 };
 
 }

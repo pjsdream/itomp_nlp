@@ -34,7 +34,7 @@ int main(int argc, char** argv)
     */
 
     QApplication app(argc, argv);
-    itomp_interface::MainWindow* main_window = new itomp_interface::MainWindow();
+    itomp::MainWindow* main_window = new itomp::MainWindow();
 
     main_window->show();
 

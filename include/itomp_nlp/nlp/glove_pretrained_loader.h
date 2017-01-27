@@ -5,7 +5,7 @@
 #include <itomp_nlp/nlp/word_to_vector.h>
 
 
-namespace itomp_nlp
+namespace itomp
 {
 
 class GlovePretrainedLoader

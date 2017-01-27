@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-namespace itomp_nlp
+namespace itomp
 {
 
 WordToVector::WordToVector()
