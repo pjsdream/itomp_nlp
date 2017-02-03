@@ -1,4 +1,4 @@
-#include <itomp_nlp/rendering_shape/rendering_shape.h>
+#include <itomp_nlp/renderer/rendering_shape.h>
 
 
 namespace itomp
