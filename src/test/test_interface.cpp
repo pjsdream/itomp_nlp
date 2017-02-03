@@ -7,6 +7,8 @@
 
 #include <itomp_nlp/interface/main_window.h>
 
+#include <itomp_nlp/renderer/rendering_capsule.h>
+
 
 int main(int argc, char** argv)
 {
@@ -34,9 +36,16 @@ int main(int argc, char** argv)
     */
 
     QApplication app(argc, argv);
-    itomp::MainWindow* main_window = new itomp::MainWindow();
+    //itomp::MainWindow* main_window = new itomp::MainWindow();
+    //main_window->show();
+    
+    itomp::Renderer* renderer = new itomp::Renderer();
 
-    main_window->show();
+    itomp::RenderingCapsule* capsule = new itomp::RenderingCapsule(renderer);
+    capsule->setCapsule(Eigen::Vector3d(0, 0, -1), Eigen::Vector3d(0, 0, 1), 0.5);
+    renderer->addShape(capsule);
+
+    renderer->show();
 
     app.exec();
 

@@ -27,6 +27,21 @@ public:
 
     void setCapsule(const Eigen::Vector3d& p, const Eigen::Vector3d& q, double d);
 
+    inline const Eigen::Vector3d& getP()
+    {
+        return p_[0];
+    }
+
+    inline const Eigen::Vector3d& getQ()
+    {
+        return p_[1];
+    }
+
+    inline const double& getD()
+    {
+        return d_;
+    }
+
 private:
 
     Eigen::Vector3d p_[2];

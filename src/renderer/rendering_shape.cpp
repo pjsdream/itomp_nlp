@@ -1,15 +1,21 @@
 #include <itomp_nlp/renderer/rendering_shape.h>
 
+#include <itomp_nlp/renderer/rendering_capsule.h>
+#include <itomp_nlp/renderer/rendering_mesh.h>
+
+#include <itomp_nlp/shape/capsule.h>
+#include <itomp_nlp/shape/mesh.h>
+
 
 namespace itomp
 {
 
 RenderingShape::RenderingShape(Renderer* renderer)
     : GLBase(renderer)
-    , material_(0)
 {
 }
 
+/*
 void RenderingShape::draw(GLuint primitive_type)
 {
     gl_->glBindVertexArray(vao_);
@@ -38,5 +44,6 @@ void RenderingShape::draw(GLuint primitive_type)
 
     gl_->glBindVertexArray(0);
 }
+*/
 
 }

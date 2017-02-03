@@ -22,6 +22,8 @@
 
 #include <itomp_nlp/shape/mesh.h>
 
+#include <itomp_nlp/renderer/rendering_shape.h>
+
 
 namespace itomp
 {
@@ -54,6 +56,8 @@ public:
     int addEntity(int object_id, const Eigen::Affine3d& transform);
     void setEntityTransform(int entity_id, const Eigen::Affine3d& transform);
 
+    void addShape(RenderingShape* shape);
+
 protected:
 
     virtual void initializeGL();
@@ -69,6 +73,8 @@ private:
     void renderEntity(Entity* entity, LightShader* shader);
     void renderEntityNormals(Entity* entity, NormalShader* shader);
     void renderEntityWireframe(Entity* entity, WireframeShader* shader);
+
+    void renderShape(RenderingShape* shape, LightShader* shader);
 
     Camera camera_;
 
@@ -88,6 +94,9 @@ private:
 
     // entities to be drawn
     std::vector<Entity*> entities_;
+
+    // rendering shapes
+    std::vector<RenderingShape*> rendering_shapes_;
 
     int last_mouse_x_;
     int last_mouse_y_;

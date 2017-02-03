@@ -2,8 +2,10 @@
 #define ITOMP_RENDERER_SHAPE_H
 
 
+#include <itomp_nlp/shape/shape.h>
+
 #include <itomp_nlp/renderer/gl_base.h>
-#include <itomp_nlp/renderer/material.h>
+#include <itomp_nlp/renderer/light_shader.h>
 
 #include <Eigen/Dense>
 
@@ -17,15 +19,10 @@ public:
 
     RenderingShape(Renderer* renderer);
     
-    virtual void draw(GLuint primitive_type = GL_TRIANGLES);
+    virtual void draw(LightShader* shader) = 0;
 
 protected:
-    
-    GLuint vao_;
-    std::vector<GLuint> vbos_;
-    int num_vertices_;
 
-    Material* material_;
 };
 
 }
