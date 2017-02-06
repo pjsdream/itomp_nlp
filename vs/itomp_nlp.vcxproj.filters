@@ -285,6 +285,9 @@
     <ClCompile Include="..\src\renderer\rendering_shape.cpp">
       <Filter>RenderingShape</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_human.cpp">
+      <Filter>RenderingShape</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -566,6 +569,9 @@
       <Filter>RenderingShape</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_shape.h">
+      <Filter>RenderingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_human.h">
       <Filter>RenderingShape</Filter>
     </ClInclude>
   </ItemGroup>

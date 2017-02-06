@@ -28,7 +28,7 @@ MainWindow::MainWindow()
 
     // timer
     QTimer* timer = new QTimer(this);
-    timer->setInterval(16);
+    timer->setInterval(33);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateNextFrame()));
 
     // renderer robots

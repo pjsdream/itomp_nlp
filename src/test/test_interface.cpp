@@ -7,7 +7,7 @@
 
 #include <itomp_nlp/interface/main_window.h>
 
-#include <itomp_nlp/renderer/rendering_capsule.h>
+#include <itomp_nlp/renderer/rendering_human.h>
 
 
 int main(int argc, char** argv)
@@ -41,9 +41,19 @@ int main(int argc, char** argv)
     
     itomp::Renderer* renderer = new itomp::Renderer();
 
-    itomp::RenderingCapsule* capsule = new itomp::RenderingCapsule(renderer);
-    capsule->setCapsule(Eigen::Vector3d(0, 0, -1), Eigen::Vector3d(0, 0, 1), 0.5);
-    renderer->addShape(capsule);
+    itomp::Material* material = new itomp::Material();
+    material->setDiffuseColor(Eigen::Vector4f(0.5, 0.5, 0.5, 1));
+
+    itomp::RenderingHuman* human= new itomp::RenderingHuman(renderer, 4);
+    human->setMaterial(material);
+    human->setVertex(0, Eigen::Vector3d(0, 0, 1), 0.1);
+    human->setVertex(1, Eigen::Vector3d(0, 0, 0.7), 0.05);
+    human->setVertex(2, Eigen::Vector3d(0.2, 0, 0.7), 0.05);
+    human->setVertex(3, Eigen::Vector3d(-0.2, 0, 0.7), 0.05);
+    human->addEdge(0, 1);
+    human->addEdge(1, 2);
+    human->addEdge(1, 3);
+    renderer->addShape(human);
 
     renderer->show();
 

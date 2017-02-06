@@ -26,33 +26,30 @@ private:
 
 public:
 
-    // requisite: makeCurrent before calling constructor
     RenderingCapsule(Renderer* renderer);
+    ~RenderingCapsule();
 
     virtual void draw(LightShader* shader);
     
-    void setCapsule(const Eigen::Vector3d& p, const Eigen::Vector3d& q, double d);
+    void setCapsule(const Eigen::Vector3d& p, double rp, const Eigen::Vector3d& q, double rq);
 
 private:
     
-    static const int max_depth_ = 3;
-    static AlignedVector<Eigen::Vector3f> normals_;
-    static std::vector<int> triangles_;
-    static int num_elements_;
+    static const int num_interpolations_ = 8;
+    static const int num_triangles_ = 2 * num_interpolations_ * (4 * num_interpolations_ - 4);
 
-    static void initializeNormals();
-    static void generateTriangles(int depth, const Eigen::Vector3f& p0, const Eigen::Vector3f& p1, const Eigen::Vector3f& p2);
-    static int insertNormal(const Eigen::Vector3f& p);
-
-    void initializeBuffers();
     void updateBuffers();
 
     GLuint vao_;
     std::vector<GLuint> vbos_;
 
+    Eigen::Matrix4f transformation_;
+    
+    bool need_update_buffer_;
     Eigen::Vector3f p_;
     Eigen::Vector3f q_;
-    double d_;
+    double rp_;
+    double rq_;
 };
 
 }

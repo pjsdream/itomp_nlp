@@ -136,11 +136,6 @@ void Renderer::paintGL()
     light_shader_->loadCamera(camera_);
     light_shader_->loadLights(lights_);
 
-    /*
-    for (int i=0; i<entities_.size(); i++)
-        renderEntity(entities_[i], light_shader_);
-        */
-
     for (int i=0; i<rendering_shapes_.size(); i++)
         renderShape(rendering_shapes_[i], light_shader_);
 
@@ -160,9 +155,9 @@ void Renderer::paintGL()
     // wireframe shader
     wireframe_shader_->start();
     wireframe_shader_->loadCamera(camera_);
-
-    for (int i=0; i<entities_.size(); i++)
-        renderEntityWireframe(entities_[i], wireframe_shader_);
+    
+    for (int i=0; i<rendering_shapes_.size(); i++)
+        renderShape(rendering_shapes_[i], wireframe_shader_);
 
     wireframe_shader_->stop();
     */

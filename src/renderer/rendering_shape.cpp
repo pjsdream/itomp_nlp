@@ -15,6 +15,11 @@ RenderingShape::RenderingShape(Renderer* renderer)
 {
 }
 
+void RenderingShape::setMaterial(Material* material)
+{
+    material_ = material;
+}
+
 /*
 void RenderingShape::draw(GLuint primitive_type)
 {

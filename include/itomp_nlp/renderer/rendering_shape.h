@@ -7,6 +7,8 @@
 #include <itomp_nlp/renderer/gl_base.h>
 #include <itomp_nlp/renderer/light_shader.h>
 
+#include <itomp_nlp/renderer/material.h>
+
 #include <Eigen/Dense>
 
 
@@ -21,8 +23,11 @@ public:
     
     virtual void draw(LightShader* shader) = 0;
 
+    void setMaterial(Material* material);
+
 protected:
 
+    Material* material_;
 };
 
 }
