@@ -32,6 +32,12 @@ void RenderingHuman::deleteEdge(int i, int j)
     edges_.erase(std::make_pair(i, j));
 }
 
+void RenderingHuman::deleteAllEdges()
+{
+    need_update_buffer_ = true;
+    edges_.clear();
+}
+
 void RenderingHuman::updateBuffers()
 {
     for (int i=capsules_.size(); i<edges_.size(); i++)
@@ -49,7 +55,7 @@ void RenderingHuman::updateBuffers()
         capsules_[idx++]->setCapsule( positions_[i], radii_[i], positions_[j], radii_[j] );
     }
 
-    //need_update_buffer_ = false;
+    need_update_buffer_ = false;
 }
 
 void RenderingHuman::draw(LightShader* shader)

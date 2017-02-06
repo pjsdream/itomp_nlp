@@ -105,7 +105,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\include;..\lib;C:\lib\assimp-3.3.1\include;$(QTDIR)\include;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;release;$(QTDIR)\mkspecs\win32-msvc2015;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;..\lib;C:\lib\assimp-3.3.1\include;$(QTDIR)\include;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;$(QTDIR)\mkspecs\win32-msvc2015;$(KINECTSDK20_DIR)inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <DisableSpecificWarnings>4577;4996</DisableSpecificWarnings>
@@ -126,10 +126,10 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_cost_fun
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
     </PreBuildEvent>
     <Lib>
-      <AdditionalDependencies>assimp-vc140-mt.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5OpenGL.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kinect20.lib;assimp-vc140-mt.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5OpenGL.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>..\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\lib;$(QTDIR)\lib;$(KINECTSDK20_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -159,7 +159,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\include;..\lib;C:\lib\assimp-3.3.1\include;$(QTDIR)\include;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;release;$(QTDIR)\mkspecs\win32-msvc2015;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;..\lib;C:\lib\assimp-3.3.1\include;$(QTDIR)\include;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;$(QTDIR)\mkspecs\win32-msvc2015;$(KINECTSDK20_DIR)inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <DisableSpecificWarnings>4577;4996</DisableSpecificWarnings>
@@ -182,10 +182,10 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_cost_fun
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
     </PreBuildEvent>
     <Lib>
-      <AdditionalDependencies>assimp-vc140-mt.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5OpenGL.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kinect20.lib;assimp-vc140-mt.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5OpenGL.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>..\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\lib;$(QTDIR)\lib;$(KINECTSDK20_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -211,6 +211,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\interface\itomp_cost_function_widget.cpp" />
     <ClCompile Include="..\src\interface\itomp_interface.cpp" />
     <ClCompile Include="..\src\interface\main_window.cpp" />
+    <ClCompile Include="..\src\kinect\kinect.cpp" />
     <ClCompile Include="..\src\nlp\glove_pretrained_loader.cpp" />
     <ClCompile Include="..\src\nlp\commands_to_cost.cpp" />
     <ClCompile Include="..\src\nlp\word_to_vector.cpp" />
@@ -241,6 +242,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\renderer\normal_shader.cpp" />
     <ClCompile Include="..\src\renderer\rendering_capsule.cpp" />
     <ClCompile Include="..\src\renderer\rendering_human.cpp" />
+    <ClCompile Include="..\src\renderer\rendering_kinect_human.cpp" />
     <ClCompile Include="..\src\renderer\rendering_mesh.cpp" />
     <ClCompile Include="..\src\renderer\rendering_shape.cpp" />
     <ClCompile Include="..\src\renderer\robot_renderer.cpp" />
@@ -307,6 +309,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_function_widget.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_interface.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\main_window.h" />
+    <ClInclude Include="..\include\itomp_nlp\kinect\kinect.h" />
     <ClInclude Include="..\include\itomp_nlp\nlp\glove_pretrained_loader.h" />
     <ClInclude Include="..\include\itomp_nlp\nlp\commands_to_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\nlp\word_to_vector.h" />
@@ -336,6 +339,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\renderer\normal_shader.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_capsule.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_human.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_kinect_human.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_mesh.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_shape.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\resource_manager.h" />

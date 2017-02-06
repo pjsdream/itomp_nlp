@@ -32,6 +32,7 @@ public:
     void setVertex(int i, const Eigen::Vector3d& position, double radius);
     void addEdge(int i, int j);
     void deleteEdge(int i, int j);
+    void deleteAllEdges();
 
     virtual void draw(LightShader* shader);
     
@@ -50,4 +51,4 @@ private:
 }
 
 
-#endif // ITOMP_RENDERER_CAPSULE_H
+#endif // ITOMP_RENDERER_HUMAN_H

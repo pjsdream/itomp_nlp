@@ -4,6 +4,8 @@
 
 #include <iostream>
 
+#include <QTimer>
+
 
 namespace itomp
 {
@@ -19,6 +21,12 @@ Renderer::Renderer(QWidget* parent)
     setFormat(format);
 
     camera_.setOrtho();
+    
+    // DEBUG: timer
+    QTimer* timer = new QTimer();
+    timer->setInterval(16);
+    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    timer->start();
 }
 
 Renderer::~Renderer()

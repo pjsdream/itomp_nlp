@@ -46,6 +46,9 @@
     <Filter Include="RenderingShape">
       <UniqueIdentifier>{53a525ac-7799-4878-8d74-c42007c8381a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kinect">
+      <UniqueIdentifier>{105ed8f6-f58f-48e8-9a94-d874dbd27da0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\renderer\camera.cpp">
@@ -286,6 +289,12 @@
       <Filter>RenderingShape</Filter>
     </ClCompile>
     <ClCompile Include="..\src\renderer\rendering_human.cpp">
+      <Filter>RenderingShape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\kinect\kinect.cpp">
+      <Filter>Kinect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_kinect_human.cpp">
       <Filter>RenderingShape</Filter>
     </ClCompile>
   </ItemGroup>
@@ -572,6 +581,12 @@
       <Filter>RenderingShape</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_human.h">
+      <Filter>RenderingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\kinect\kinect.h">
+      <Filter>Kinect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_kinect_human.h">
       <Filter>RenderingShape</Filter>
     </ClInclude>
   </ItemGroup>
