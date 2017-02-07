@@ -37,8 +37,8 @@ MainWindow::MainWindow()
 
     for (int i=0; i<num_interpolated_variables; i++)
     {
-        RenderingRobot* rendering_robot = new RenderingRobot(renderer_, robot_model);
-        rendering_robots_.push_back(rendering_robot);
+        //RenderingRobot* rendering_robot = new RenderingRobot(renderer_, robot_model);
+        //rendering_robots_.push_back(rendering_robot);
     }
 
     forward_kinematics_ = itomp_interface_->getOptimizerRobot();
@@ -64,7 +64,7 @@ void MainWindow::updateNextFrame()
             robot_state.setPosition(itomp_interface_->getActiveJointNames()[j], optimizer_robot_trajectory(j));
 
         // update robot state to renderer
-        rendering_robots_[i]->setRobotState(robot_state);
+        //rendering_robots_[i]->setRobotState(robot_state);
 
         // update collision boxes
         forward_kinematics_->setPositions(trajectory.col(i*2));

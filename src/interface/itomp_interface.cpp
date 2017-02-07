@@ -8,6 +8,7 @@ namespace itomp
 
 ItompInterface::ItompInterface(QWidget* parent)
     : QWidget(parent)
+    , is_optimizing_(false)
 {
     setWindowTitle("Motion planner");
 
@@ -42,8 +43,6 @@ ItompInterface::ItompInterface(QWidget* parent)
     
     // initialize resource
     initializeResources();
-
-    is_optimizing_ = false;
 }
 
 void ItompInterface::initializeResources()

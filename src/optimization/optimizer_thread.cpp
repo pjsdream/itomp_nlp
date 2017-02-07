@@ -185,6 +185,9 @@ void OptimizerThread::prepare()
     // dlib variables resize
     dlib_waypoint_variables_.set_size(dof_ * num_waypoints_ * 2);
     dlib_gradient_.set_size(dof_ * num_waypoints_ * 2);
+
+    // best trajectory is the initial trajectory
+    storeBestWaypointVariables();
 }
 
 void OptimizerThread::start()
@@ -307,8 +310,10 @@ void OptimizerThread::optimizeDlib(
         updateWhileOptimizing();
 
         // the waypoint variables might be changed
+        bool updated_any = false;
         if (is_solution_updated_)
         {
+            updated_any = true;
             is_solution_updated_ = false;
 
             // update current solution x
@@ -317,6 +322,22 @@ void OptimizerThread::optimizeDlib(
 
             // reset search strategy
             search_strategy.reset();
+        }
+
+        if (is_cost_function_updated_)
+        {
+            updated_any = true;
+            is_cost_function_updated_ = false;
+            
+            // reset search strategy
+            search_strategy.reset();
+        }
+
+        // if the potential field has been changed, update the initial function value and derivative
+        if (updated_any)
+        {
+            f_value = f(x);
+            g = der(x);
         }
 
         s = search_strategy.get_next_direction(x, f_value, g);
@@ -342,7 +363,7 @@ void OptimizerThread::optimizeDlib(
         // DEBUG: print cost functions
         /*
         optimizationPrecomputation();
-        for (int i=0; i<NUM_COST_FUNCTIONS; i++)
+        for (int i=0; i<cost_functions_.size(); i++)
         {
             const double c = cost_functions_[i]->cost();
             printf("%.9lf ", c);

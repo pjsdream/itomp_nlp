@@ -111,8 +111,7 @@ private:
 
     // thread
     std::thread thread_;
-    std::atomic_bool thread_stop_mutex_;
-    bool thread_stop_requested_;
+    std::atomic_bool thread_stop_requested_;
 
     // precomputation
     void optimizationPrecomputation();
