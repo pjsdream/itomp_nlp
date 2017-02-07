@@ -53,6 +53,11 @@ public:
         return collision_shapes_;
     }
 
+    inline const std::vector<Eigen::Affine3d> getCollisionOrigins() const
+    {
+        return collision_origins_;
+    }
+
     inline int getNumChild() const
     {
         return child_joints_.size();

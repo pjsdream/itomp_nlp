@@ -21,7 +21,7 @@ void Mesh::setTriangles(const std::vector<Eigen::Vector3i>& triangles)
     triangles_ = triangles;
 }
 
-AABB Mesh::getAABB()
+AABB Mesh::getAABB() const
 {
     Eigen::Vector3d lower = vertices_[0];
     Eigen::Vector3d upper = vertices_[0];

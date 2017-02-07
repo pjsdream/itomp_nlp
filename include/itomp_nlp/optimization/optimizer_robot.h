@@ -84,6 +84,11 @@ public:
     {
         return joints_.size() - 1;
     }
+
+    inline int getNumLinks() const
+    {
+        return links_.size();
+    }
     
     void setLinkJoints(const std::vector<Link>& links, const std::vector<Joint>& joints);
 

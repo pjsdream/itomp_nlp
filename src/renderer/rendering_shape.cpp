@@ -6,6 +6,8 @@
 #include <itomp_nlp/shape/capsule.h>
 #include <itomp_nlp/shape/mesh.h>
 
+#include <itomp_nlp/renderer/renderer.h>
+
 
 namespace itomp
 {
@@ -13,6 +15,7 @@ namespace itomp
 RenderingShape::RenderingShape(Renderer* renderer)
     : GLBase(renderer)
 {
+    renderer->addShape(this);
 }
 
 void RenderingShape::setMaterial(Material* material)

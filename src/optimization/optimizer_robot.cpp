@@ -4,6 +4,8 @@
 #include <itomp_nlp/robot/prismatic_joint.h>
 #include <itomp_nlp/robot/fixed_joint.h>
 
+#include <iostream>
+
 
 namespace itomp
 {

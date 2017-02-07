@@ -17,7 +17,7 @@ public:
 
     OptimizerRobotLoader();
 
-    void addAABBList(const std::vector<std::string> aabb_list);
+    void addAABBList(const std::vector<std::string>& aabb_list);
 
     OptimizerRobot* loadRobot(RobotModel* robot_model, RobotState* robot_state, const std::vector<std::string>& active_joint_names);
 

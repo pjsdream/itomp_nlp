@@ -29,6 +29,11 @@ public:
         return new OBB(*this);
     }
 
+    inline const Eigen::Vector3d& getSize() const
+    {
+        return size_;
+    }
+
 private:
 
     // extents

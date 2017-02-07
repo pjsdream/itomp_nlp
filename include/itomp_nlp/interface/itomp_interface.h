@@ -37,6 +37,11 @@ public:
         return robot_state_;
     }
 
+    inline OptimizerRobot* getOptimizerRobot()
+    {
+        return optimizer_robot_;
+    }
+
     inline int getNumInterpolatedVariables()
     {
         return optimizer_.getNumInterpolatedVariables();

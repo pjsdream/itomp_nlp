@@ -17,7 +17,7 @@ OptimizerRobotLoader::OptimizerRobotLoader()
 {
 }
 
-void OptimizerRobotLoader::addAABBList(const std::vector<std::string> aabb_list)
+void OptimizerRobotLoader::addAABBList(const std::vector<std::string>& aabb_list)
 {
     aabb_lists_.push_back(aabb_list);
     is_aabb_encountered_.push_back(false);
@@ -128,6 +128,7 @@ void OptimizerRobotLoader::loadRobotRecursive(const Link* link, const Eigen::Aff
             aabb_link_id_[i] = optimizer_links_.size() - 1;
 
             const std::vector<Shape*> shapes = link->getCollisionShapes();
+            const std::vector<Eigen::Affine3d> collision_origins = link->getCollisionOrigins();
             AABB& aabb = aabbs_[i];
 
 
@@ -135,14 +136,17 @@ void OptimizerRobotLoader::loadRobotRecursive(const Link* link, const Eigen::Aff
             {
                 // TODO: collision shapes for other types than mesh
 
-                Mesh* mesh = dynamic_cast<Mesh*>(shapes[j]);
+                const Mesh* mesh = dynamic_cast<const Mesh*>(shapes[j]);
+                const Eigen::Affine3d& origin = collision_origins[j];
+
                 if (mesh != 0)
                 {
                     AABB shape_aabb = mesh->getAABB();
 
                     // apply translation
                     // TODO: apply orientation
-                    shape_aabb.translate(transform.translation());
+                    shape_aabb.translate(origin.translation());
+                    shape_aabb.translate(current_transform.translation());
 
                     if (!is_aabb_encountered_[i])
                     {

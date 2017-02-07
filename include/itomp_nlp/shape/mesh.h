@@ -29,7 +29,7 @@ public:
     void setVertices(const std::vector<Eigen::Vector3d>& vertices);
     void setTriangles(const std::vector<Eigen::Vector3i>& triangles);
 
-    AABB getAABB();
+    AABB getAABB() const;
 
 private:
 

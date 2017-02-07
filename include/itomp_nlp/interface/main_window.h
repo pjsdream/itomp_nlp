@@ -8,6 +8,7 @@
 #include <itomp_nlp/renderer/robot_renderer.h>
 
 #include <itomp_nlp/renderer/rendering_robot.h>
+#include <itomp_nlp/renderer/rendering_box.h>
 
 #include <itomp_nlp/interface/itomp_interface.h>
 
@@ -32,8 +33,13 @@ private:
     Renderer* renderer_;
 
     std::vector<RenderingRobot*> rendering_robots_;
+    std::vector<RenderingBox*> rendering_boxes_;
+
+    Material* grey_;
 
     ItompInterface* itomp_interface_;
+
+    OptimizerRobot* forward_kinematics_;
 };
 
 }
