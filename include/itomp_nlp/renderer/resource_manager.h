@@ -22,8 +22,6 @@ public:
 
     Object* importFile(const std::string& filename);
 
-    Texture* loadTexture(const std::string& filename);
-
     void cleanUp();
 
 private:

@@ -68,7 +68,7 @@ public:
         diffuse_texture_ = texture;
     }
 
-    inline Texture* getDiffuseTexture()
+    inline Texture* getDiffuseTexture() const
     {
         return diffuse_texture_;
     }

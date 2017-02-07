@@ -125,7 +125,7 @@ Object* ResourceManager::importFile(const std::string& filename)
             const int idx = filename.find_last_of("/\\");
             const std::string texture_filename = idx == std::string::npos ? path.C_Str() : filename.substr(0, idx) + "/" + path.C_Str();
 
-            material->setDiffuseTexture( loadTexture(texture_filename) );
+            //material->setDiffuseTexture( loadTexture(texture_filename) );
         }
 
         else
@@ -199,35 +199,6 @@ void* ResourceManager::mapElementBuffer(int bytes)
 void ResourceManager::unmapElementBuffer()
 {
     gl_->glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
-}
-
-Texture* ResourceManager::loadTexture(const std::string& filename)
-{
-    // load png file
-    std::vector<unsigned char> image;
-    unsigned int width, height;
-    unsigned int error = lodepng::decode(image, width, height, filename);
-
-    // if there's an error, display it
-    if (error)
-        fprintf(stderr, "decoder error %u: %s\n", error, lodepng_error_text(error));
-
-    // load image to OpenGL
-    GLuint texture;
-    gl_->glGenTextures(1, &texture);
-    gl_->glBindTexture(GL_TEXTURE_2D, texture);
-    gl_->glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.data());
-
-    gl_->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    gl_->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    gl_->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    gl_->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    gl_->glGenerateMipmap(GL_TEXTURE_2D);
-
-    textures_.push_back(texture);
-
-    return new Texture(texture);
 }
 
 }

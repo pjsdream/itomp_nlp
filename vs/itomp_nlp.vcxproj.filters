@@ -297,6 +297,12 @@
     <ClCompile Include="..\src\renderer\rendering_kinect_human.cpp">
       <Filter>RenderingShape</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_robot.cpp">
+      <Filter>RenderingShape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_mesh_manager.cpp">
+      <Filter>RenderingShape</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -587,6 +593,12 @@
       <Filter>Kinect</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_kinect_human.h">
+      <Filter>RenderingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_robot.h">
+      <Filter>RenderingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_mesh_manager.h">
       <Filter>RenderingShape</Filter>
     </ClInclude>
   </ItemGroup>

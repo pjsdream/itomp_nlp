@@ -36,9 +36,10 @@ int main(int argc, char** argv)
     */
 
     QApplication app(argc, argv);
-    //itomp::MainWindow* main_window = new itomp::MainWindow();
-    //main_window->show();
+    itomp::MainWindow* main_window = new itomp::MainWindow();
+    main_window->show();
     
+    /*
     itomp::Renderer* renderer = new itomp::Renderer();
     
     itomp::Material* material = new itomp::Material();
@@ -49,6 +50,7 @@ int main(int argc, char** argv)
     renderer->addShape(kinect_human);
 
     renderer->show();
+    */
 
     app.exec();
 

@@ -16,11 +16,34 @@ public:
 
     RenderingMesh(Renderer* renderer, Mesh* mesh);
     RenderingMesh(Renderer* renderer, const std::string& filename);
+    ~RenderingMesh();
 
     virtual void draw(LightShader* shader);
 
+    inline void setTransformation(const Eigen::Affine3f& transformation)
+    {
+        transformation_ = transformation.matrix();
+    }
+
+    inline void setTransformation(const Eigen::Matrix4f& transformation)
+    {
+        transformation_ = transformation;
+    }
+
 private:
     
+    std::string filename_;
+
+    void initializeBuffers();
+
+    Material* material_;
+
+    Eigen::Matrix4f transformation_;
+
+    GLuint vao_;
+    std::vector<GLuint> vbos_;
+
+    int num_triangles_;
 };
 
 }

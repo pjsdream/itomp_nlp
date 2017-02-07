@@ -35,7 +35,7 @@ public:
 
 private:
     
-    static const int num_interpolations_ = 8;
+    static const int num_interpolations_ = 16;
     static const int num_triangles_ = 2 * num_interpolations_ * (4 * num_interpolations_ - 4);
 
     void updateBuffers();

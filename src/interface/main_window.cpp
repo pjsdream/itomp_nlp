@@ -31,11 +31,16 @@ MainWindow::MainWindow()
     timer->setInterval(33);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateNextFrame()));
 
-    // renderer robots
-    addRobot( itomp_interface_->getRobotModel() );
+    // rendering
     const int num_interpolated_variables = itomp_interface_->getNumInterpolatedVariables();
+    RobotModel* robot_model = itomp_interface_->getRobotModel();
+
     for (int i=0; i<num_interpolated_variables; i++)
-        addRobotEntity(0);
+    {
+        RenderingRobot* rendering_robot = new RenderingRobot(renderer_, robot_model);
+        renderer_->addShape(rendering_robot);
+        rendering_robots_.push_back(rendering_robot);
+    }
 
     timer->start();
 }
@@ -53,26 +58,11 @@ void MainWindow::updateNextFrame()
         for (int j=0; j<itomp_interface_->getActiveJointNames().size(); j++)
             robot_state.setPosition(itomp_interface_->getActiveJointNames()[j], optimizer_robot_trajectory(j));
 
-        setRobotEntity(0, i, &robot_state);
+        // add robots renderer
+        rendering_robots_[i]->setRobotState(robot_state);
     }
 
     renderer_->update();
-}
-
-void MainWindow::addRobot(RobotModel* robot_model)
-{
-    RobotRenderer* robot_renderer = new RobotRenderer(renderer_, robot_model);
-    robot_renderers_.push_back(robot_renderer);
-}
-
-void MainWindow::addRobotEntity(int robot_index)
-{
-    robot_entities_.push_back( robot_renderers_[robot_index]->addRobotEntity() );
-}
-
-void MainWindow::setRobotEntity(int robot_index, int entity_id, RobotState* robot_state)
-{
-    robot_renderers_[robot_index]->setRobotEntity(robot_entities_[entity_id], robot_state);
 }
 
 }

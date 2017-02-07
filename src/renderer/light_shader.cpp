@@ -96,6 +96,9 @@ void LightShader::loadMaterial(const Material* material)
 
         if (material->hasDiffuseTexture())
         {
+            gl_->glActiveTexture(GL_TEXTURE0);
+            gl_->glBindTexture(GL_TEXTURE_2D, material->getDiffuseTexture()->getTexture());
+
             loadUniform(location_has_texture_, true);
         }
         else

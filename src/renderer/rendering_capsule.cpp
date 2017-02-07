@@ -180,8 +180,6 @@ void RenderingCapsule::updateBuffers()
 
 void RenderingCapsule::draw(LightShader* shader)
 {
-    gl_ = renderer_->getGLFunctions();
-
     if (need_update_buffer_)
         updateBuffers();
 

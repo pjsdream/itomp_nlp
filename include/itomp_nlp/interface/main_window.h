@@ -7,6 +7,8 @@
 #include <itomp_nlp/renderer/renderer.h>
 #include <itomp_nlp/renderer/robot_renderer.h>
 
+#include <itomp_nlp/renderer/rendering_robot.h>
+
 #include <itomp_nlp/interface/itomp_interface.h>
 
 
@@ -21,10 +23,6 @@ public:
 
     MainWindow();
 
-    void addRobot(RobotModel* robot_model);
-    void addRobotEntity(int robot_index);
-    void setRobotEntity(int robot_index, int entity_id, RobotState* robot_state);
-    
 protected slots:
 
     void updateNextFrame();
@@ -33,10 +31,9 @@ private:
 
     Renderer* renderer_;
 
-    ItompInterface* itomp_interface_;
+    std::vector<RenderingRobot*> rendering_robots_;
 
-    std::vector<RobotRenderer*> robot_renderers_;
-    std::vector<int> robot_entities_;
+    ItompInterface* itomp_interface_;
 };
 
 }
