@@ -52,6 +52,11 @@ public:
         return active_joint_names_;
     }
 
+    inline const Scene* getScene() const
+    {
+        return optimizer_.getScene();
+    }
+
     // TODO: trajectory output type
     Eigen::MatrixXd getBestTrajectory();
 

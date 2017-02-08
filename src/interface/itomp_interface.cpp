@@ -2,6 +2,10 @@
 
 #include <itomp_nlp/robot/urdf_parser.h>
 
+#include <itomp_nlp/shape/obb.h>
+
+#include <itomp_nlp/optimization/dynamic_kf_human_obstacle.h>
+
 
 namespace itomp
 {
@@ -150,6 +154,30 @@ void ItompInterface::initializeResources()
     optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d(0, -1, 0,  0.5));
     optimizer_.addRepulsion(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector3d(0.95, 0.01, 0.71), 0.2);
     */
+
+    // static obstacles
+    Eigen::Affine3d table_center;
+    table_center.setIdentity();
+    table_center.translate(Eigen::Vector3d(0.7, 0, 0.8));
+    OBB* table = new OBB(1, 2, 0.1, table_center);
+
+    StaticObstacle* table_obstacle = new StaticObstacle();
+    table_obstacle->addShape(table);
+
+    optimizer_.addStaticObstacle(table_obstacle);
+
+    Eigen::Affine3d camera_transform;
+    camera_transform.setIdentity();
+    camera_transform.translate(Eigen::Vector3d(0, 0, 1));
+    camera_transform.rotate(Eigen::AngleAxisd(M_PI/2, Eigen::Vector3d(0, 0, 1)));
+    camera_transform.rotate(Eigen::AngleAxisd(M_PI/2, Eigen::Vector3d(1, 0, 0)));
+
+    for (int i=0; i<KinectDevice::bodyCount(); i++)
+    {
+        DynamicKFHumanObstacle* human_obstacle = new DynamicKFHumanObstacle(i);
+        human_obstacle->setCameraTransform(camera_transform);
+        optimizer_.addDynamicObstacle(human_obstacle);
+    }
 }
 
 Eigen::MatrixXd ItompInterface::getBestTrajectory()
@@ -189,6 +217,9 @@ void ItompInterface::costFunctionChanged(int id, const std::string& type, std::v
 
     else if (type == "smoothness")
         optimizer_.setSmoothnessCost(id, values[0]);
+
+    else if (type == "collision")
+        optimizer_.setCollisionCost(id, values[0]);
 
     else if (type == "goal")
     {

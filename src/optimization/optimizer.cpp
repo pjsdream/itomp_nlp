@@ -17,10 +17,22 @@ namespace itomp
 
 Optimizer::Optimizer()
 {
+    scene_ = new Scene();
 }
 
 Optimizer::~Optimizer()
 {
+    delete scene_;
+}
+
+void Optimizer::addStaticObstacle(StaticObstacle* obstacle)
+{
+    scene_->addStaticObstacle(obstacle);
+}
+
+void Optimizer::addDynamicObstacle(DynamicObstacle* obstacle)
+{
+    scene_->addDynamicObstacle(obstacle);
 }
 
 void Optimizer::setOptions(const OptimizerOptions& options)
@@ -55,6 +67,12 @@ void Optimizer::setZeroCost(int id)
 void Optimizer::setSmoothnessCost(int id, double weight)
 {
     SmoothnessCost* cost = new SmoothnessCost(optimization_thread_, weight);
+    optimization_thread_.pushCostFunctionRequest(id, cost);
+}
+
+void Optimizer::setCollisionCost(int id, double weight)
+{
+    CollisionCost* cost = new CollisionCost(optimization_thread_, weight);
     optimization_thread_.pushCostFunctionRequest(id, cost);
 }
 

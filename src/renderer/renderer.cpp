@@ -38,6 +38,20 @@ void Renderer::addShape(RenderingShape* shape)
     rendering_shapes_.push_back(shape);
 }
 
+void Renderer::deleteShape(RenderingShape* shape)
+{
+    // TODO: currently O(n)
+    for (int i=0; i<rendering_shapes_.size(); i++)
+    {
+        if (rendering_shapes_[i] == shape)
+        {
+            rendering_shapes_[i] = rendering_shapes_[rendering_shapes_.size() - 1];
+            rendering_shapes_.pop_back();
+            break;
+        }
+    }
+}
+
 int Renderer::registerMeshFile(const std::string& filename)
 {
     Object* object = resource_manager_->importFile(filename);

@@ -51,4 +51,4 @@ private:
 }
 
 
-#endif // ITOMP_SHAPE_AABB_H
+#endif // ITOMP_SHAPE_CAPSULE_H

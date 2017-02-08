@@ -20,6 +20,7 @@ class RenderingShape : public GLBase
 public:
 
     RenderingShape(Renderer* renderer);
+    ~RenderingShape();
     
     virtual void draw(LightShader* shader) = 0;
 

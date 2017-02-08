@@ -8,6 +8,7 @@ const std::vector<std::pair<std::string, int> > ItompCostFunctionWidget::cost_ty
 {
     {"zero", 0},
     {"smoothness", 1},
+    {"collision", 1},
     {"goal", 4},
 };
 

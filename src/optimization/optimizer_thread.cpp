@@ -149,6 +149,7 @@ void OptimizerThread::prepare()
 
     // interpolated variables
     interpolated_variables_.resize(dof_, num_interpolations * 2);
+    interpolated_variables_.setZero();
 
     // hermite interpolation coefficients
     const double T = trajectory_duration_ / num_waypoints_;

@@ -18,6 +18,11 @@ RenderingShape::RenderingShape(Renderer* renderer)
     renderer->addShape(this);
 }
 
+RenderingShape::~RenderingShape()
+{
+    renderer_->deleteShape(this);
+}
+
 void RenderingShape::setMaterial(Material* material)
 {
     material_ = material;

@@ -57,6 +57,7 @@ public:
     void setEntityTransform(int entity_id, const Eigen::Affine3d& transform);
 
     void addShape(RenderingShape* shape);
+    void deleteShape(RenderingShape* shape);
 
 protected:
 

@@ -33,7 +33,10 @@ private:
     Renderer* renderer_;
 
     std::vector<RenderingRobot*> rendering_robots_;
-    std::vector<RenderingBox*> rendering_boxes_;
+    std::vector<RenderingBox*> rendering_boxes_; // for robot obbs
+
+    std::vector<RenderingShape*> rendering_static_obstacles_;
+    std::vector<RenderingShape*> rendering_dynamic_obstacles_;
 
     Material* grey_;
 
