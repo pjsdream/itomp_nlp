@@ -40,7 +40,7 @@ public:
     Optimizer();
     ~Optimizer();
 
-    inline const Scene* getScene() const
+    inline Scene* getScene() const
     {
         return scene_;
     }
@@ -73,6 +73,7 @@ public:
     Eigen::MatrixXd getBestTrajectory();
 
     void moveForwardOneTimestep();
+    void updateScene();
 
 private:
 

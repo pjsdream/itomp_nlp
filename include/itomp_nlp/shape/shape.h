@@ -21,6 +21,8 @@ public:
         return new Shape(*this);
     }
 
+    virtual double getPenetrationDepth(Shape* shape) const;
+
     inline void setTransform(const Eigen::Affine3d& transform)
     {
         transform_ = transform;

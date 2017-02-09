@@ -43,6 +43,8 @@ public:
     OptimizerThread();
     ~OptimizerThread();
 
+    void updateScene();
+
     inline int getNumInterpolatedVariables() const
     {
         return interpolated_variables_.cols() / 2;
@@ -75,6 +77,8 @@ public:
     void setInitialRobotState(const Eigen::VectorXd& position, const Eigen::VectorXd& velocity);
 
     void pushCostFunctionRequest(int id, Cost* cost);
+
+    double getInterpolationIndexToTime(int interpolation_idx);
 
     // TODO: output format. Currently, returns interpolated joint positions and velocities
     Eigen::MatrixXd getBestTrajectory();

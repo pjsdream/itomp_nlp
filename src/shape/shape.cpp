@@ -18,6 +18,11 @@ Shape::~Shape()
 {
 }
 
+double Shape::getPenetrationDepth(Shape* shape) const
+{
+    return 0.;
+}
+
 void Shape::applyTransform(const Eigen::Affine3d& transform)
 {
     transform_ = transform * transform_;

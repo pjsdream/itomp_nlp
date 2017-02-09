@@ -1,6 +1,7 @@
 #include <itomp_nlp/shape/obb.h>
 
 #include <itomp_nlp/shape/aabb.h>
+#include <itomp_nlp/shape/capsule2.h>
 
 
 namespace itomp
@@ -36,5 +37,29 @@ OBB::OBB(const Eigen::Vector3d& size, const Eigen::Affine3d& transform)
     , size_(size)
 {
 }
+
+double OBB::getPenetrationDepth(Shape* shape)
+{
+    OBB* obb = dynamic_cast<OBB*>(shape);
+    if (obb != 0)
+        return getPenetrationDepth(obb);
+
+    Capsule2* capsule = dynamic_cast<Capsule2*>(shape);
+    if (capsule != 0)
+        return getPenetrationDepth(capsule);
+
+    return 0.;
+}
+
+double OBB::getPenetrationDepth(OBB* obb)
+{
+    return 0.;
+}
+
+double OBB::getPenetrationDepth(Capsule2* capsule)
+{
+    return 0.;
+}
+
 
 }

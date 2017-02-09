@@ -9,6 +9,7 @@ namespace itomp
 {
 
 class AABB;
+class Capsule2;
 
 class OBB : public Shape
 {
@@ -28,6 +29,10 @@ public:
     {
         return new OBB(*this);
     }
+
+    virtual double getPenetrationDepth(Shape* shape);
+    double getPenetrationDepth(OBB* obb);
+    double getPenetrationDepth(Capsule2* capsule);
 
     inline const Eigen::Vector3d& getSize() const
     {

@@ -52,7 +52,7 @@ public:
         return active_joint_names_;
     }
 
-    inline const Scene* getScene() const
+    inline Scene* getScene() const
     {
         return optimizer_.getScene();
     }

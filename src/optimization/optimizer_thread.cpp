@@ -110,6 +110,16 @@ OptimizerThread::~OptimizerThread()
 {
 }
 
+void OptimizerThread::updateScene()
+{
+    for (int i=0; i<cost_functions_.size(); i++)
+    {
+        CollisionCost* cost = dynamic_cast<CollisionCost*>(cost_functions_[i]);
+        if (cost != 0)
+            cost->updateSceneObstacles();
+    }
+}
+
 void OptimizerThread::pushCostFunctionRequest(int id, Cost* cost)
 {
     cost_function_request_mutex_.lock();
@@ -498,6 +508,11 @@ void OptimizerThread::computeGradientDirect()
 
     // restore interpolation variables modified by central difference method
     optimizationPrecomputation();
+}
+
+double OptimizerThread::getInterpolationIndexToTime(int interpolation_idx)
+{
+    return timestep_ * (1. + (double)interpolation_idx / (num_waypoints_ * (num_waypoint_interpolations_ + 1)));
 }
 
 void OptimizerThread::computeGradientChainRule()

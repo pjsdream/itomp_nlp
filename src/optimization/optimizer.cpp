@@ -72,7 +72,8 @@ void Optimizer::setSmoothnessCost(int id, double weight)
 
 void Optimizer::setCollisionCost(int id, double weight)
 {
-    CollisionCost* cost = new CollisionCost(optimization_thread_, weight);
+    CollisionCost* cost = new CollisionCost(optimization_thread_, scene_, weight);
+    cost->updateSceneObstacles();
     optimization_thread_.pushCostFunctionRequest(id, cost);
 }
 
@@ -102,6 +103,11 @@ Eigen::MatrixXd Optimizer::getBestTrajectory()
 void Optimizer::moveForwardOneTimestep()
 {
     optimization_thread_.moveForwardOneTimestep();
+}
+
+void Optimizer::updateScene()
+{
+    optimization_thread_.updateScene();
 }
 
 }

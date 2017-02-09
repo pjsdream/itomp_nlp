@@ -208,6 +208,7 @@ void ItompInterface::stopMotionPlanning()
 void ItompInterface::moveTrajectoryForwardOneTimestep()
 {
     optimizer_.moveForwardOneTimestep();
+    optimizer_.updateScene();
 }
 
 void ItompInterface::costFunctionChanged(int id, const std::string& type, std::vector<double> values)

@@ -105,7 +105,7 @@ void MainWindow::updateNextFrame()
     }
 
     // update scene rendering
-    const Scene* scene = itomp_interface_->getScene();
+    Scene* scene = itomp_interface_->getScene();
     const std::vector<StaticObstacle*> static_obstacles = scene->getStaticObstacles();
 
     int static_obstacle_idx = 0;

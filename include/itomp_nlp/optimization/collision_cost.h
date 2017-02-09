@@ -4,6 +4,8 @@
 
 #include <itomp_nlp/optimization/cost.h>
 
+#include <itomp_nlp/optimization/scene.h>
+
 
 namespace itomp
 {
@@ -12,7 +14,7 @@ class CollisionCost : public Cost
 {
 public:
 
-    CollisionCost(OptimizerThread& optimizer, double weight);
+    CollisionCost(OptimizerThread& optimizer, Scene* scene, double weight);
 
     inline virtual Cost* clone() const
     {
@@ -22,7 +24,15 @@ public:
     virtual double cost();
     virtual double cost(int idx);
 
+    void setScene(Scene* scene);
+    void updateSceneObstacles();
+
 private:
+
+    Scene* scene_;
+
+    std::vector<Shape*> static_shapes_;
+    std::vector<std::vector<Shape*> > dynamic_shapes_;
 };
 
 }
