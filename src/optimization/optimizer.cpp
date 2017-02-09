@@ -110,4 +110,14 @@ void Optimizer::updateScene()
     optimization_thread_.updateScene();
 }
 
+double Optimizer::getBestTrajectoryCost()
+{
+    return optimization_thread_.getBestTrajectoryCost();
+}
+
+void Optimizer::changeGoalCost()
+{
+    optimization_thread_.changeGoalCost();
+}
+
 }

@@ -37,6 +37,11 @@ public:
 
     void setGoalPosition(int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& goal_position);
 
+    inline Eigen::Vector3d getGoalPosition() const
+    {
+        return goal_position_.goal_position;
+    }
+
 private:
 
     Goal goal_position_;

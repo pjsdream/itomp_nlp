@@ -75,6 +75,9 @@ public:
     void moveForwardOneTimestep();
     void updateScene();
 
+    double getBestTrajectoryCost();
+    void changeGoalCost();
+
 private:
 
     OptimizerThread optimization_thread_;

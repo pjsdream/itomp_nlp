@@ -88,6 +88,9 @@ public:
 
     void moveForwardOneTimestep();
 
+    double getBestTrajectoryCost();
+    void changeGoalCost();
+
 private:
 
     // should be called in the created thread
@@ -140,6 +143,7 @@ private:
     Eigen::MatrixXd best_waypoint_variables_;
     Eigen::MatrixXd best_interpolated_variables_pass_;
     Eigen::MatrixXd best_interpolated_variables_;
+    std::atomic<double> best_trajectory_cost_;
 
     // update while optimizing
     void updateWhileOptimizing();

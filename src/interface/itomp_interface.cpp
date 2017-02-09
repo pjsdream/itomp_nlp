@@ -156,6 +156,7 @@ void ItompInterface::initializeResources()
     */
 
     // static obstacles
+    /*
     Eigen::Affine3d table_center;
     table_center.setIdentity();
     table_center.translate(Eigen::Vector3d(0.7, 0, 0.8));
@@ -165,6 +166,7 @@ void ItompInterface::initializeResources()
     table_obstacle->addShape(table);
 
     optimizer_.addStaticObstacle(table_obstacle);
+    */
 
     Eigen::Affine3d camera_transform;
     camera_transform.setIdentity();
@@ -213,6 +215,11 @@ void ItompInterface::moveTrajectoryForwardOneTimestep()
 
     optimizer_.moveForwardOneTimestep();
     optimizer_.updateScene();
+
+    // change goal cost when reached to the goal
+    const double threshold = 0.1;
+    if (optimizer_.getBestTrajectoryCost() <= threshold)
+        optimizer_.changeGoalCost();
 }
 
 void ItompInterface::costFunctionChanged(int id, const std::string& type, std::vector<double> values)
