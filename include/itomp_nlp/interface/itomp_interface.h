@@ -13,6 +13,8 @@
 #include <itomp_nlp/optimization/optimizer.h>
 #include <itomp_nlp/optimization/optimizer_robot_loader.h>
 
+#include <itomp_nlp/optimization/dynamic_kf_human_obstacle.h>
+
 #include <itomp_nlp/interface/itomp_cost_functions_widget.h>
 
 
@@ -78,6 +80,7 @@ private:
     Optimizer optimizer_;
     std::vector<std::string> active_joint_names_;
     std::vector<std::vector<std::string> > aabb_lists_;
+    std::vector<DynamicKFHumanObstacle*> human_obstacles_;
 
     bool is_optimizing_;
 

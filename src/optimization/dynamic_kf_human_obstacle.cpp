@@ -121,10 +121,13 @@ DynamicKFHumanObstacle::~DynamicKFHumanObstacle()
         delete capsules_[i];
 }
 
-std::vector<Shape*> DynamicKFHumanObstacle::getShapes(double t)
+void DynamicKFHumanObstacle::update()
 {
     predictor_->predict();
+}
 
+std::vector<Shape*> DynamicKFHumanObstacle::getShapes(double t)
+{
     std::vector<Shape*> shapes_;
 
     if (predictor_->isBodyPredicted())

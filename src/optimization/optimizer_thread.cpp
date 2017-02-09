@@ -372,7 +372,6 @@ void OptimizerThread::optimizeDlib(
         storeBestWaypointVariables();
         
         // DEBUG: print cost functions
-        /*
         optimizationPrecomputation();
         for (int i=0; i<cost_functions_.size(); i++)
         {
@@ -380,7 +379,6 @@ void OptimizerThread::optimizeDlib(
             printf("%.9lf ", c);
         }
         printf("\n");
-        */
     }
 }
 

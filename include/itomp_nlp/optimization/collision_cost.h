@@ -24,7 +24,6 @@ public:
     virtual double cost();
     virtual double cost(int idx);
 
-    void setScene(Scene* scene);
     void updateSceneObstacles();
 
 private:

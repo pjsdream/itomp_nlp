@@ -130,7 +130,7 @@ void ItompInterface::initializeResources()
     options.trajectory_duration = 3.0;
     options.timestep = 0.5;
     options.num_waypoints = 6;
-    options.num_waypoint_interpolations = 8;
+    options.num_waypoint_interpolations = 3;
 
     optimizer_.setRobot(optimizer_robot_);
     optimizer_.setOptions(options);
@@ -177,6 +177,7 @@ void ItompInterface::initializeResources()
         DynamicKFHumanObstacle* human_obstacle = new DynamicKFHumanObstacle(i);
         human_obstacle->setCameraTransform(camera_transform);
         optimizer_.addDynamicObstacle(human_obstacle);
+        human_obstacles_.push_back(human_obstacle);
     }
 }
 
@@ -207,6 +208,9 @@ void ItompInterface::stopMotionPlanning()
 
 void ItompInterface::moveTrajectoryForwardOneTimestep()
 {
+    for (int i=0; i<human_obstacles_.size(); i++)
+        human_obstacles_[i]->update();
+
     optimizer_.moveForwardOneTimestep();
     optimizer_.updateScene();
 }

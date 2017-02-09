@@ -26,6 +26,8 @@ public:
 
     virtual std::vector<Shape*> getShapes(double t);
 
+    void update();
+
 private:
 
     static const std::vector<double> radii_;

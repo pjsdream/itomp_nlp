@@ -30,9 +30,9 @@ public:
         return new OBB(*this);
     }
 
-    virtual double getPenetrationDepth(Shape* shape);
-    double getPenetrationDepth(OBB* obb);
-    double getPenetrationDepth(Capsule2* capsule);
+    virtual double getPenetrationDepth(Shape* shape) const;
+    double getPenetrationDepth(OBB* obb) const;
+    double getPenetrationDepth(Capsule2* capsule) const;
 
     inline const Eigen::Vector3d& getSize() const
     {
@@ -40,6 +40,8 @@ public:
     }
 
 private:
+
+    double distanceToPointNoTransform(const Eigen::Vector3d& p) const;
 
     // extents
     Eigen::Vector3d size_;

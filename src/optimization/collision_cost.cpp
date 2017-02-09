@@ -23,7 +23,6 @@ double CollisionCost::cost()
 
 double CollisionCost::cost(int idx)
 {
-    // TODO
     double cost = 0.;
 
     OptimizerRobot* robot = optimizer_.forward_kinematics_robots_[idx];
@@ -48,21 +47,28 @@ double CollisionCost::cost(int idx)
 
 void CollisionCost::updateSceneObstacles()
 {
+    scene_->lock();
+
     const std::vector<StaticObstacle*> static_obstacles = scene_->getStaticObstacles();
 
+    for (int i=0; i<static_shapes_.size(); i++)
+        delete static_shapes_[i];
     static_shapes_.clear();
+
     for (int i=0; i<static_obstacles.size(); i++)
     {
         const std::vector<Shape*>& static_shapes = static_obstacles[i]->getShapes();
         for (int j=0; j<static_shapes.size(); j++)
-            static_shapes_.push_back(static_shapes[j]);
+            static_shapes_.push_back(static_shapes[j]->clone());
     }
 
     const std::vector<DynamicObstacle*> dynamic_obstacles = scene_->getDynamicObstacles();
-    
+
     dynamic_shapes_.resize( optimizer_.getNumInterpolatedVariables() );
     for (int i=0; i<optimizer_.getNumInterpolatedVariables(); i++)
     {
+        for (int j=0; j<dynamic_shapes_[i].size(); j++)
+            delete dynamic_shapes_[i][j];
         dynamic_shapes_[i].clear();
 
         for (int j=0; j<dynamic_obstacles.size(); j++)
@@ -70,10 +76,12 @@ void CollisionCost::updateSceneObstacles()
             const double time = optimizer_.getInterpolationIndexToTime(i);
             const std::vector<Shape*> dynamic_shapes = dynamic_obstacles[j]->getShapes(time);
 
-            for (int k=0; k<dynamic_shapes.size(); i++)
-                dynamic_shapes_[i].push_back(dynamic_shapes[k]);
+            for (int k=0; k<dynamic_shapes.size(); k++)
+                dynamic_shapes_[i].push_back(dynamic_shapes[k]->clone());
         }
     }
+
+    scene_->unlock();
 }
 
 }

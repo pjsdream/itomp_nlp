@@ -25,15 +25,16 @@ public:
 
     inline const std::vector<StaticObstacle*> getStaticObstacles()
     {
-        std::lock_guard<std::mutex> lock(mutex_);
         return static_obstacles_;
     }
 
     inline const std::vector<DynamicObstacle*> getDynamicObstacles()
     {
-        std::lock_guard<std::mutex> lock(mutex_);
         return dynamic_obstacles_;
     }
+
+    void lock();
+    void unlock();
 
 private:
 
