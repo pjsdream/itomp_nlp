@@ -2,6 +2,8 @@
 
 #include <itomp_nlp/shape/capsule2.h>
 
+#include <itomp_nlp/renderer/rendering_kinect_human.h>
+
 #include <QTimer>
 
 
@@ -46,13 +48,15 @@ MainWindow::MainWindow()
     forward_kinematics_ = itomp_interface_->getOptimizerRobot();
 
     grey_ = new Material();
-    grey_->setDiffuseColor(Eigen::Vector4f(0.8, 0.8, 0.8, 1));
+    grey_->setDiffuseColor(Eigen::Vector4f(0.3, 0.3, 0.3, 1));
 
     timer->start();
 }
 
 void MainWindow::updateNextFrame()
 {
+    KinectDevice::getInstance()->update();
+
     // update robot trajectory to renderer
     Eigen::MatrixXd trajectory = itomp_interface_->getBestTrajectory();
     

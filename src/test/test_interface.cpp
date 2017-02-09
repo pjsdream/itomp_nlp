@@ -47,9 +47,6 @@ int main(int argc, char** argv)
 
     itomp::RenderingKinectHuman* kinect_human = new itomp::RenderingKinectHuman(renderer);
     kinect_human->setMaterial(material);
-    renderer->addShape(kinect_human);
-
-    renderer->show();
     */
 
     app.exec();
