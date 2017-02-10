@@ -14,7 +14,7 @@ class CollisionCost : public Cost
 {
 public:
 
-    CollisionCost(OptimizerThread& optimizer, Scene* scene, double weight);
+    CollisionCost(OptimizerThread& optimizer, double weight);
 
     inline virtual Cost* clone() const
     {

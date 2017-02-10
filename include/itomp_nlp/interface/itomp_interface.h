@@ -44,11 +44,6 @@ public:
         return optimizer_robot_;
     }
 
-    inline int getNumInterpolatedVariables()
-    {
-        return optimizer_.getNumInterpolatedVariables();
-    }
-
     inline const std::vector<std::string>& getActiveJointNames()
     {
         return active_joint_names_;

@@ -48,9 +48,9 @@ void Optimizer::setInitialRobotState(const Eigen::VectorXd& position, const Eige
     optimization_thread_.setInitialRobotState(position, velocity);
 }
 
-void Optimizer::setRobot(OptimizerRobot* robot)
+void Optimizer::setRobot(RobotModel* robot)
 {
-    optimization_thread_.setRobot(robot);
+    // TODO
 }
 
 void Optimizer::prepare()
@@ -72,8 +72,7 @@ void Optimizer::setSmoothnessCost(int id, double weight)
 
 void Optimizer::setCollisionCost(int id, double weight)
 {
-    CollisionCost* cost = new CollisionCost(optimization_thread_, scene_, weight);
-    cost->updateSceneObstacles();
+    CollisionCost* cost = new CollisionCost(optimization_thread_, weight);
     optimization_thread_.pushCostFunctionRequest(id, cost);
 }
 
@@ -103,21 +102,6 @@ Eigen::MatrixXd Optimizer::getBestTrajectory()
 void Optimizer::moveForwardOneTimestep()
 {
     optimization_thread_.moveForwardOneTimestep();
-}
-
-void Optimizer::updateScene()
-{
-    optimization_thread_.updateScene();
-}
-
-double Optimizer::getBestTrajectoryCost()
-{
-    return optimization_thread_.getBestTrajectoryCost();
-}
-
-void Optimizer::changeGoalCost()
-{
-    optimization_thread_.changeGoalCost();
 }
 
 }

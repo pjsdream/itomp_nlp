@@ -606,23 +606,4 @@ void OptimizerThread::forwardKinematics()
     }
 }
 
-double OptimizerThread::getBestTrajectoryCost()
-{
-    return best_trajectory_cost_;
-}
-
-void OptimizerThread::changeGoalCost()
-{
-    for (int i=0; i<cost_functions_.size(); i++)
-    {
-        GoalCost* cost = dynamic_cast<GoalCost*>(cost_functions_[i]);
-        if (cost != 0)
-        {
-            Eigen::Vector3d goal = cost->getGoalPosition();
-            goal(1) *= -1.;
-            cost->setGoalPosition(7, Eigen::Vector3d(0.1, 0, 0), goal);
-        }
-    }
-}
-
 }

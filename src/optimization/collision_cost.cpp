@@ -5,9 +5,8 @@
 namespace itomp
 {
 
-CollisionCost::CollisionCost(OptimizerThread& optimizer, Scene* scene, double weight)
+CollisionCost::CollisionCost(OptimizerThread& optimizer, double weight)
     : Cost(optimizer, weight)
-    , scene_(scene)
 {
 }
     
@@ -15,8 +14,10 @@ double CollisionCost::cost()
 {
     double c = 0.;
 
+    /*
     for (int i=0; i<optimizer_.forward_kinematics_robots_.size(); i++)
         c += cost(i);
+        */
 
     return c;
 }
@@ -25,6 +26,7 @@ double CollisionCost::cost(int idx)
 {
     double cost = 0.;
 
+    /*
     OptimizerRobot* robot = optimizer_.forward_kinematics_robots_[idx];
 
     for (int i=0; i<robot->getNumLinks(); i++)
@@ -41,12 +43,14 @@ double CollisionCost::cost(int idx)
                 cost += robot_shape->getPenetrationDepth(dynamic_shapes_[idx][k]);
         }
     }
+    */
 
     return cost * weight_;
 }
 
 void CollisionCost::updateSceneObstacles()
 {
+    /*
     scene_->lock();
 
     const std::vector<StaticObstacle*> static_obstacles = scene_->getStaticObstacles();
@@ -78,6 +82,7 @@ void CollisionCost::updateSceneObstacles()
     }
 
     scene_->unlock();
+    */
 }
 
 }

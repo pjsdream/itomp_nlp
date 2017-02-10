@@ -36,12 +36,12 @@ MainWindow::MainWindow()
     connect(timer, SIGNAL(timeout()), this, SLOT(updateNextFrame()));
 
     // rendering
-    const int num_interpolated_variables = itomp_interface_->getNumInterpolatedVariables();
+    const int num_interpolated_variables = 1; // TODO
     RobotModel* robot_model = itomp_interface_->getRobotModel();
 
     for (int i=0; i<num_interpolated_variables; i++)
     {
-        //RenderingRobot* rendering_robot = new RenderingRobot(renderer_, robot_model);
+        //RenderingRobot* rendering_robot = new RenderingRobot(rend erer_, robot_model);
         //rendering_robots_.push_back(rendering_robot);
     }
 

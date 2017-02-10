@@ -64,9 +64,12 @@ void ItompInterface::initializeResources()
     // default robot state
     robot_state_ = new RobotState(robot_model_);
     robot_state_->setPosition("torso_lift_joint", 0.35);
+    robot_state_->setPosition("r_gripper_finger_joint", 0.025);
+    robot_state_->setPosition("l_gripper_finger_joint", 0.025);
 
     active_joint_names_ = 
     {
+        "torso_lift_joint",
         "shoulder_pan_joint",
         "shoulder_lift_joint",
         "upperarm_roll_joint",
@@ -83,6 +86,8 @@ void ItompInterface::initializeResources()
         },
         {
             "torso_lift_link",
+        },
+        {
             "torso_fixed_link",
         },
         {
@@ -132,7 +137,7 @@ void ItompInterface::initializeResources()
     options.num_waypoints = 6;
     options.num_waypoint_interpolations = 3;
 
-    optimizer_.setRobot(optimizer_robot_);
+    optimizer_.setRobot(robot_model_);
     optimizer_.setOptions(options);
     optimizer_.prepare();
 
@@ -141,19 +146,6 @@ void ItompInterface::initializeResources()
     position.setZero();
     velocity.setZero();
     optimizer_.setInitialRobotState(position, velocity);
-
-    // end effector link id = 7
-    //optimizer_.setGoalPosition(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector3d(0.5, 0.5, 1));
-    //optimizer_.setGoalVelocity(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector3d(0.5, 0.5, 1), Eigen::Vector3d(0, 0, -0.2));
-    /*
-    optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d(0, 0,  1, -0.7));
-    optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d(0, 0, -1,  0.72));
-    optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d( 1, 0, 0, -0.5));
-    optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d(-1, 0, 0,  1.0));
-    optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d(0,  1, 0,  0.5));
-    optimizer_.addGoalRegionPlane(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector4d(0, -1, 0,  0.5));
-    optimizer_.addRepulsion(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector3d(0.95, 0.01, 0.71), 0.2);
-    */
 
     // static obstacles
     /*
@@ -214,12 +206,6 @@ void ItompInterface::moveTrajectoryForwardOneTimestep()
         human_obstacles_[i]->update();
 
     optimizer_.moveForwardOneTimestep();
-    optimizer_.updateScene();
-
-    // change goal cost when reached to the goal
-    const double threshold = 0.1;
-    if (optimizer_.getBestTrajectoryCost() <= threshold)
-        optimizer_.changeGoalCost();
 }
 
 void ItompInterface::costFunctionChanged(int id, const std::string& type, std::vector<double> values)

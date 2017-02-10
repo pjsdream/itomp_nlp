@@ -40,26 +40,24 @@ public:
     Optimizer();
     ~Optimizer();
 
+    // initialization
+    void setOptions(const OptimizerOptions& options);
+    void setRobot(RobotModel* robot);
+    void prepare();
+
+    // scene
+    void addStaticObstacle(StaticObstacle* obstacle);
+    void addDynamicObstacle(DynamicObstacle* obstacle);
+    
     inline Scene* getScene() const
     {
         return scene_;
     }
 
-    inline int getNumInterpolatedVariables()
-    {
-        return optimization_thread_.getNumInterpolatedVariables();
-    }
-
-    void addStaticObstacle(StaticObstacle* obstacle);
-    void addDynamicObstacle(DynamicObstacle* obstacle);
-
-    void setOptions(const OptimizerOptions& options);
-    void setRobot(OptimizerRobot* robot);
-
-    void prepare();
-
+    // initial robot state. updates the robot state for next timestep
     void setInitialRobotState(const Eigen::VectorXd& position, const Eigen::VectorXd& velocity);
 
+    // cost functions
     void setZeroCost(int id);
     void setSmoothnessCost(int id, double weight);
     void setCollisionCost(int id, double weight);
@@ -73,10 +71,6 @@ public:
     Eigen::MatrixXd getBestTrajectory();
 
     void moveForwardOneTimestep();
-    void updateScene();
-
-    double getBestTrajectoryCost();
-    void changeGoalCost();
 
 private:
 
