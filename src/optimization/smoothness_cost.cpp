@@ -27,8 +27,7 @@ double SmoothnessCost::cost(int idx)
     // velocity
     for (int j=0; j<optimizer_.interpolated_variables_.rows(); j++)
     {
-        const double& q = optimizer_.interpolated_variables_(j, idx*2+1);
-
+        const double q = optimizer_.interpolated_variables_(j, idx*2+1);
         cost += q*q;
     }
 

@@ -27,6 +27,7 @@ public:
     friend class VelocityCost;
     friend class GoalRegionCost;
     friend class RepulsiveCost;
+    friend class GraspCost;
 
 private:
 
@@ -89,7 +90,6 @@ public:
     void moveForwardOneTimestep();
 
     double getBestTrajectoryCost();
-    void changeGoalCost();
 
 private:
 

@@ -76,7 +76,6 @@ public:
     void updateScene();
 
     double getBestTrajectoryCost();
-    void changeGoalCost();
 
 private:
 

@@ -74,6 +74,8 @@ void ItompInterface::initializeResources()
         "forearm_roll_joint",
         "wrist_flex_joint",
         "wrist_roll_joint",
+        "r_gripper_finger_joint",
+        "l_gripper_finger_joint",
     };
 
     aabb_lists_ = 
@@ -215,11 +217,6 @@ void ItompInterface::moveTrajectoryForwardOneTimestep()
 
     optimizer_.moveForwardOneTimestep();
     optimizer_.updateScene();
-
-    // change goal cost when reached to the goal
-    const double threshold = 0.1;
-    if (optimizer_.getBestTrajectoryCost() <= threshold)
-        optimizer_.changeGoalCost();
 }
 
 void ItompInterface::costFunctionChanged(int id, const std::string& type, std::vector<double> values)
