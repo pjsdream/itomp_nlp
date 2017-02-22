@@ -1,3 +1,5 @@
+#define _USE_MATH_DEFINES
+ 
 #include <itomp_nlp/renderer/rendering_capsule.h>
 
 #include <itomp_nlp/renderer/renderer.h>

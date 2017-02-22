@@ -179,6 +179,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\main_window.h"
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_interface.h" -o "..\src\GeneratedFiles\moc_itomp_interface.cpp"
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_cost_function_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp"
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_cost_functions_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_nlp_widget.h" -o "..\src\GeneratedFiles\moc_itomp_nlp_widget.cpp"
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
     </PreBuildEvent>
     <Lib>
@@ -210,6 +211,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\interface\itomp_cost_functions_widget.cpp" />
     <ClCompile Include="..\src\interface\itomp_cost_function_widget.cpp" />
     <ClCompile Include="..\src\interface\itomp_interface.cpp" />
+    <ClCompile Include="..\src\interface\itomp_nlp_widget.cpp" />
     <ClCompile Include="..\src\interface\main_window.cpp" />
     <ClCompile Include="..\src\kinect\kf_human_motion_prediction.cpp" />
     <ClCompile Include="..\src\kinect\kinect.cpp" />
@@ -319,6 +321,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_functions_widget.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_function_widget.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_interface.h" />
+    <ClInclude Include="..\include\itomp_nlp\interface\itomp_nlp_widget.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\main_window.h" />
     <ClInclude Include="..\include\itomp_nlp\kinect\kf_human_motion_prediction.h" />
     <ClInclude Include="..\include\itomp_nlp\kinect\kinect.h" />

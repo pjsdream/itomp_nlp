@@ -333,6 +333,9 @@
     <ClCompile Include="..\src\optimization\grasp_cost.cpp">
       <Filter>Optimization\Cost</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\interface\itomp_nlp_widget.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -657,6 +660,9 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\optimization\grasp_cost.h">
       <Filter>Optimization\Cost</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\interface\itomp_nlp_widget.h">
+      <Filter>Interface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
