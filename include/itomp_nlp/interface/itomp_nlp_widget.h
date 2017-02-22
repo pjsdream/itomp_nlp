@@ -4,10 +4,7 @@
 
 #include <QWidget>
 #include <QGridLayout>
-#include <QPushButton>
-#include <QComboBox>
-#include <QDoubleSpinBox>
-#include <QSignalMapper>
+#include <QTextEdit>
 
 #include <itomp_nlp/optimization/optimizer.h>
 
@@ -23,8 +20,18 @@ public:
 
     ItompNLPWidget(QWidget* parent = 0);
 
+signals:
+
+    void commandAdded(std::string);
+
+private slots:
+
+    void textChanged();
+
 private:
 
+    QGridLayout* layout_;
+    QTextEdit* text_edit_;
 };
 
 }

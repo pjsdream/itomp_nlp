@@ -42,6 +42,12 @@ ItompInterface::ItompInterface(QWidget* parent)
 
     layout_->addWidget(scroll_area_, 1, 0, 1, 2);
     
+    // text edit
+    nlp_widget_ = new ItompNLPWidget(this);
+    connect(nlp_widget_, SIGNAL(commandAdded(std::string)), this, SLOT(commandAdded(std::string)));
+
+    layout_->addWidget(nlp_widget_, 2, 0, 1, 2);
+
     // execution tmier
     execution_timer_ = new QTimer(this);
     execution_timer_->setInterval(500);
@@ -238,6 +244,11 @@ void ItompInterface::costFunctionChanged(int id, const std::string& type, std::v
         // hard-coded enffector information for fetch robot
         optimizer_.setGoalCost(id, values[0], 7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector3d(values[1], values[2], values[3]));
     }
+}
+
+void ItompInterface::commandAdded(std::string command)
+{
+    printf("command: %s\n", command.c_str());
 }
 
 }

@@ -336,6 +336,9 @@
     <ClCompile Include="..\src\interface\itomp_nlp_widget.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\GeneratedFiles\moc_itomp_nlp_widget.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">

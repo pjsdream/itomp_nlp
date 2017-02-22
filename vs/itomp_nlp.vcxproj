@@ -206,6 +206,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_itomp_interface.cpp" />
+    <ClCompile Include="..\src\GeneratedFiles\moc_itomp_nlp_widget.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_main_window.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_renderer.cpp" />
     <ClCompile Include="..\src\interface\itomp_cost_functions_widget.cpp" />

@@ -16,6 +16,7 @@
 #include <itomp_nlp/optimization/dynamic_kf_human_obstacle.h>
 
 #include <itomp_nlp/interface/itomp_cost_functions_widget.h>
+#include <itomp_nlp/interface/itomp_nlp_widget.h>
 
 
 namespace itomp
@@ -70,6 +71,8 @@ public slots:
 
     void costFunctionChanged(int id, const std::string& type, std::vector<double> values);
 
+    void commandAdded(std::string command);
+
 private:
 
     // resources
@@ -90,6 +93,8 @@ private:
 
     QScrollArea* scroll_area_;
     ItompCostFunctionsWidget* itomp_cost_functions_widget_;
+
+    ItompNLPWidget* nlp_widget_;
 
     QTimer* execution_timer_;
 };
