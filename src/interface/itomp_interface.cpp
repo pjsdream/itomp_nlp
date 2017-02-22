@@ -61,8 +61,8 @@ void ItompInterface::initializeResources()
 {
 #ifdef _WIN32
     URDFParser urdf_parser;
-    //urdf_parser.addPackageDirectoryMapping("fetch_description", "C:\\Users\\jaesungp\\Desktop\\documents\\fetch_ros\\fetch_description");
-    urdf_parser.addPackageDirectoryMapping("fetch_description", "C:\\Users\\pjsdr_000\\Desktop\\documents\\fetch_ros\\fetch_description");
+    urdf_parser.addPackageDirectoryMapping("fetch_description", "C:\\Users\\jaesungp\\Desktop\\documents\\fetch_ros\\fetch_description");
+    //urdf_parser.addPackageDirectoryMapping("fetch_description", "C:\\Users\\pjsdr_000\\Desktop\\documents\\fetch_ros\\fetch_description");
     robot_model_ = urdf_parser.parseURDF("../urdf/fetch.urdf");
 #else
     URDFParser urdf_parser;
@@ -72,6 +72,7 @@ void ItompInterface::initializeResources()
 
     // default robot state
     robot_state_ = new RobotState(robot_model_);
+    robot_state_->setPosition("shoulder_pan_joint", 0.79);
     robot_state_->setPosition("torso_lift_joint", 0.35);
 
     active_joint_names_ = 
@@ -178,6 +179,33 @@ void ItompInterface::initializeResources()
 
     optimizer_.addStaticObstacle(table_obstacle);
     */
+
+    Eigen::Affine3d obstacle_center;
+    obstacle_center.setIdentity();
+    obstacle_center.translate(Eigen::Vector3d(0.9, 0, 0.8));
+    OBB* shape1 = new OBB(0.5, 1, 0.1, obstacle_center);
+
+    obstacle_center.setIdentity();
+    obstacle_center.translate(Eigen::Vector3d(0.9, 0, 1.4));
+    OBB* shape2 = new OBB(0.5, 1, 0.1, obstacle_center);
+
+    obstacle_center.setIdentity();
+    obstacle_center.translate(Eigen::Vector3d(0.9, 0, 1.1));
+    OBB* shape3 = new OBB(0.5, 0.1, 0.6, obstacle_center);
+
+    Capsule2* shape4 = new Capsule2(Eigen::Vector3d(0.85, 0, 0.9), 0.1, Eigen::Vector3d(0.85, 0, 1.3), 0.1);
+    Capsule2* shape5 = new Capsule2(Eigen::Vector3d(0.85, 0, 0.9), 0.1, Eigen::Vector3d(1.05, 0, 1.3), 0.1);
+    Capsule2* shape6 = new Capsule2(Eigen::Vector3d(0.85, 0, 0.9), 0.1, Eigen::Vector3d(1.25, 0, 1.3), 0.1);
+
+    StaticObstacle* obstacle = new StaticObstacle();
+    obstacle->addShape(shape1);
+    obstacle->addShape(shape2);
+    obstacle->addShape(shape3);
+    obstacle->addShape(shape4);
+    obstacle->addShape(shape5);
+    obstacle->addShape(shape6);
+
+    optimizer_.addStaticObstacle(obstacle);
 
     Eigen::Affine3d camera_transform;
     camera_transform.setIdentity();
