@@ -35,4 +35,24 @@ const Eigen::Vector3d& Kinect::getBodyJointPosition(int body, KinectDevice::Join
     return device_->getBodyJointPosition(body, joint_type);
 }
 
+unsigned int Kinect::getMaxNumPointCloud()
+{
+    return device_->getMaxNumPointCloud();
+}
+
+unsigned int Kinect::getNumPointCloud()
+{
+    return device_->getNumPointCloud();
+}
+
+void Kinect::getGLPointCloudDepths(GLubyte* depth)
+{
+    device_->getGLPointCloudDepths(depth);
+}
+
+void Kinect::getGLPointCloudColors(GLubyte* color)
+{
+    device_->getGLPointCloudColors(color);
+}
+
 }

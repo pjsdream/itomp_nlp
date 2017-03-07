@@ -41,9 +41,18 @@ MainWindow::MainWindow()
 
     for (int i=0; i<num_interpolated_variables; i++)
     {
-        //RenderingRobot* rendering_robot = new RenderingRobot(renderer_, robot_model);
-        //rendering_robots_.push_back(rendering_robot);
+        RenderingRobot* rendering_robot = new RenderingRobot(renderer_, robot_model);
+        rendering_robots_.push_back(rendering_robot);
     }
+
+    // rendering point cloud
+    Eigen::Affine3d camera_transform;
+    camera_transform.setIdentity();
+    camera_transform.translate(Eigen::Vector3d(-0.5, 0, 1.2));
+    camera_transform.rotate(Eigen::AngleAxisd(M_PI/2, Eigen::Vector3d(0, 0, 1)));
+    camera_transform.rotate(Eigen::AngleAxisd(M_PI/2, Eigen::Vector3d(1, 0, 0)));
+    rendering_point_cloud_ = new RenderingKinectPoints(renderer_);
+    rendering_point_cloud_->setTransform(camera_transform);
 
     forward_kinematics_ = itomp_interface_->getOptimizerRobot();
 
@@ -70,9 +79,10 @@ void MainWindow::updateNextFrame()
             robot_state.setPosition(itomp_interface_->getActiveJointNames()[j], optimizer_robot_trajectory(j));
 
         // update robot state to renderer
-        //rendering_robots_[i]->setRobotState(robot_state);
+        rendering_robots_[i]->setRobotState(robot_state);
 
         // update collision boxes
+        /*
         forward_kinematics_->setPositions(trajectory.col(i*2));
         forward_kinematics_->setVelocities(trajectory.col(i*2+1));
         forward_kinematics_->forwardKinematics();
@@ -99,6 +109,7 @@ void MainWindow::updateNextFrame()
                 }
             }
         }
+        */
     }
 
     // remove unused rendering boxes
