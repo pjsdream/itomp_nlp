@@ -12,10 +12,10 @@
 namespace itomp
 {
 
-RenderingShape::RenderingShape(Renderer* renderer)
+RenderingShape::RenderingShape(Renderer* renderer, Renderer::ShaderType shader)
     : GLBase(renderer)
 {
-    renderer->addShape(this);
+    renderer->addShape(this, shader);
 }
 
 RenderingShape::~RenderingShape()
@@ -26,6 +26,14 @@ RenderingShape::~RenderingShape()
 void RenderingShape::setMaterial(Material* material)
 {
     material_ = material;
+}
+    
+void RenderingShape::draw(LightShader* shader)
+{
+}
+
+void RenderingShape::draw(ColorShader* shader)
+{
 }
 
 /*

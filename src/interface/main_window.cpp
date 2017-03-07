@@ -48,7 +48,7 @@ MainWindow::MainWindow()
     // rendering point cloud
     Eigen::Affine3d camera_transform;
     camera_transform.setIdentity();
-    camera_transform.translate(Eigen::Vector3d(0, 0, 1));
+    camera_transform.translate(Eigen::Vector3d(-0.5, 0, 1.2));
     camera_transform.rotate(Eigen::AngleAxisd(M_PI/2, Eigen::Vector3d(0, 0, 1)));
     camera_transform.rotate(Eigen::AngleAxisd(M_PI/2, Eigen::Vector3d(1, 0, 0)));
     rendering_point_cloud_ = new RenderingKinectPoints(renderer_);

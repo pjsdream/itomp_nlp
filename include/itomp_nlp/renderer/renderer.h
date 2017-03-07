@@ -15,6 +15,7 @@
 
 #include <itomp_nlp/renderer/static_shader.h>
 #include <itomp_nlp/renderer/light_shader.h>
+#include <itomp_nlp/renderer/color_shader.h>
 #include <itomp_nlp/renderer/normal_shader.h>
 #include <itomp_nlp/renderer/wireframe_shader.h>
 #include <itomp_nlp/renderer/light.h>
@@ -22,15 +23,23 @@
 
 #include <itomp_nlp/shape/mesh.h>
 
-#include <itomp_nlp/renderer/rendering_shape.h>
-
 
 namespace itomp
 {
 
+class RenderingShape;
+
 class Renderer : public QOpenGLWidget
 {
     Q_OBJECT
+
+public:
+
+    enum ShaderType
+    {
+        SHADER_TYPE_LIGHT = 0,
+        SHADER_TYPE_COLOR,
+    };
 
 private:
 
@@ -56,7 +65,7 @@ public:
     int addEntity(int object_id, const Eigen::Affine3d& transform);
     void setEntityTransform(int entity_id, const Eigen::Affine3d& transform);
 
-    void addShape(RenderingShape* shape);
+    void addShape(RenderingShape* shape, ShaderType shader = SHADER_TYPE_LIGHT);
     void deleteShape(RenderingShape* shape);
 
 protected:
@@ -89,6 +98,7 @@ private:
     NormalShader* normal_shader_;
     double normal_line_length_;
     WireframeShader* wireframe_shader_;
+    ColorShader* color_shader_;
 
     // objects
     std::vector<Object*> objects_;
@@ -98,6 +108,7 @@ private:
 
     // rendering shapes
     std::vector<RenderingShape*> rendering_shapes_;
+    std::vector<ShaderType> shader_types_;
 
     int last_mouse_x_;
     int last_mouse_y_;

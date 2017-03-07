@@ -1,5 +1,7 @@
 #include <itomp_nlp/renderer/renderer.h>
 
+#include <itomp_nlp/renderer/rendering_shape.h>
+
 #include <QMouseEvent>
 
 #include <iostream>
@@ -33,9 +35,10 @@ Renderer::~Renderer()
 {
 }
 
-void Renderer::addShape(RenderingShape* shape)
+void Renderer::addShape(RenderingShape* shape, ShaderType shader)
 {
     rendering_shapes_.push_back(shape);
+    shader_types_.push_back(shader);
 }
 
 void Renderer::deleteShape(RenderingShape* shape)
@@ -47,6 +50,9 @@ void Renderer::deleteShape(RenderingShape* shape)
         {
             rendering_shapes_[i] = rendering_shapes_[rendering_shapes_.size() - 1];
             rendering_shapes_.pop_back();
+
+            shader_types_[i] = shader_types_[shader_types_.size() - 1];
+            shader_types_.pop_back();
             break;
         }
     }
@@ -107,11 +113,6 @@ void Renderer::renderEntityWireframe(Entity* entity, WireframeShader* shader)
     object->draw();
 }
 
-void Renderer::renderShape(RenderingShape* shape, LightShader* shader)
-{
-    shape->draw(shader);
-}
-
 void Renderer::initializeGL()
 {
     gl_ = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
@@ -129,6 +130,8 @@ void Renderer::initializeGL()
     setNormalLineLength(0.01);
 
     wireframe_shader_ = new WireframeShader(this);
+
+    color_shader_ = new ColorShader(this);
 
     // default light
     Light* light;
@@ -159,9 +162,24 @@ void Renderer::paintGL()
     light_shader_->loadLights(lights_);
 
     for (int i=0; i<rendering_shapes_.size(); i++)
-        renderShape(rendering_shapes_[i], light_shader_);
+    {
+        if (shader_types_[i] == SHADER_TYPE_LIGHT)
+            rendering_shapes_[i]->draw(light_shader_);
+    }
 
     light_shader_->stop();
+
+    // color shader
+    color_shader_->start();
+    color_shader_->loadCamera(camera_);
+
+    for (int i=0; i<rendering_shapes_.size(); i++)
+    {
+        if (shader_types_[i] == SHADER_TYPE_COLOR)
+            rendering_shapes_[i]->draw(color_shader_);
+    }
+
+    color_shader_->stop();
 
     // normal shader
     /*

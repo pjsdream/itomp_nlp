@@ -62,7 +62,7 @@ void RenderingKinectPoints::draw(ColorShader* shader)
     
     shader->loadModelTransform(transform_);
 
-    gl_->glPointSize(3.0);
+    gl_->glPointSize(5.0);
     gl_->glBindVertexArray(vao_);
     gl_->glDrawArrays(GL_POINTS, 0, kinect_->getNumPointCloud());
 }
