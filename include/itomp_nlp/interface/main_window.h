@@ -9,6 +9,7 @@
 
 #include <itomp_nlp/renderer/rendering_robot.h>
 #include <itomp_nlp/renderer/rendering_box.h>
+#include <itomp_nlp/renderer/rendering_kinect_points.h>
 
 #include <itomp_nlp/interface/itomp_interface.h>
 
@@ -37,6 +38,8 @@ private:
 
     std::vector<RenderingShape*> rendering_static_obstacles_;
     std::vector<RenderingShape*> rendering_dynamic_obstacles_;
+
+    RenderingKinectPoints* rendering_point_cloud_;
 
     Material* grey_;
 

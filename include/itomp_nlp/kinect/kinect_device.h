@@ -6,6 +6,8 @@
 
 #include <Eigen/Dense>
 
+#include <QOpenGLFunctions_4_3_Core>
+
 
 /**
  * Kinect v2 tutorial: http://homes.cs.washington.edu/~edzhang/tutorials/kinect2/kinect4.html
@@ -81,6 +83,11 @@ public:
     bool isBodyTracked(int id);
 
     const Eigen::Vector3d& getBodyJointPosition(int body, JointType joint_type);
+    
+    unsigned int getMaxNumPointCloud();
+    unsigned int getNumPointCloud();
+    void getGLPointCloudDepths(GLubyte* depth);
+    void getGLPointCloudColors(GLubyte* color);
 
 private:
     
@@ -88,15 +95,18 @@ private:
     bool initializeDevice();
     
     void updateBodyData(IMultiSourceFrame* frame);
+    void updateDepthData(IMultiSourceFrame* frame);
+    void updateColorData(IMultiSourceFrame* frame);
 
     IKinectSensor* sensor_;             // Kinect sensor
     IMultiSourceFrameReader* reader_;   // Kinect data source
     ICoordinateMapper* mapper_;         // Converts between depth, color, and 3d coordinates
 
     std::vector<char> is_body_tracked_;
-
     std::vector<AlignedVector<Eigen::Vector3d> > body_joint_positions_;
     std::vector<std::vector<TrackingState> > body_joint_tracking_states_;
+    
+    unsigned int depth_buffer_size_;
 };
 
 }

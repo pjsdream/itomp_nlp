@@ -21,6 +21,11 @@ public:
     bool isBodyTracked(int id);
 
     const Eigen::Vector3d& getBodyJointPosition(int body, KinectDevice::JointType joint_type);
+    
+    unsigned int getMaxNumPointCloud();
+    unsigned int getNumPointCloud();
+    void getGLPointCloudDepths(GLubyte* depth);
+    void getGLPointCloudColors(GLubyte* color);
 
 private:
     

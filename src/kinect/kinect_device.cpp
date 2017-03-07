@@ -6,6 +6,14 @@
 namespace itomp
 {
 
+static const int width_ = 512;
+static const int height_ = 424;
+static const int colorwidth_ = 1920;
+static const int colorheight_ = 1080;
+static unsigned char rgb_image_[colorwidth_ * colorheight_ * 4]; // Stores RGB color image
+static ColorSpacePoint depth_to_rgb_[width_ * height_];     // Maps depth pixels to rgb pixels
+static CameraSpacePoint depth_to_xyz_[width_ * height_];    // Maps depth pixels to 3d coordinates
+
 KinectDevice* KinectDevice::instance_ = 0;
 
 KinectDevice* KinectDevice::getInstance()
@@ -63,6 +71,8 @@ void KinectDevice::update()
     if (SUCCEEDED(reader_->AcquireLatestFrame(&frame)))
     {
         updateBodyData(frame);
+        updateDepthData(frame);
+        updateColorData(frame);
         frame->Release();
     }
 }
@@ -132,6 +142,89 @@ void KinectDevice::updateBodyData(IMultiSourceFrame* frame)
     }
 
     body_frame->Release();
+}
+
+void KinectDevice::updateDepthData(IMultiSourceFrame* frame)
+{
+	IDepthFrame* depthframe;
+	IDepthFrameReference* frameref = NULL;
+	frame->get_DepthFrameReference(&frameref);
+	frameref->AcquireFrame(&depthframe);
+	if (frameref) frameref->Release();
+
+	if (!depthframe) return;
+
+	// get data from frame
+	unsigned int sz;
+	unsigned short* buf;
+	depthframe->AccessUnderlyingBuffer(&sz, &buf);
+
+	// Write vertex coordinates
+	mapper_->MapDepthFrameToCameraSpace(width_ * height_, buf, width_ * height_, depth_to_xyz_);
+    depth_buffer_size_ = sz;
+
+	// Fill in depth2rgb map
+	mapper_->MapDepthFrameToColorSpace(width_ * height_, buf, width_ * height_, depth_to_rgb_);
+	if (depthframe) depthframe->Release();
+}
+
+void KinectDevice::updateColorData(IMultiSourceFrame* frame)
+{
+	IColorFrame* colorframe;
+	IColorFrameReference* frameref = NULL;
+	frame->get_ColorFrameReference(&frameref);
+	frameref->AcquireFrame(&colorframe);
+	if (frameref) frameref->Release();
+
+	if (!colorframe) return;
+
+	// Get data from frame
+	colorframe->CopyConvertedFrameDataToArray(colorwidth_ * colorheight_ * 4, rgb_image_, ColorImageFormat_Rgba);
+
+	if (colorframe) colorframe->Release();
+}
+
+unsigned int KinectDevice::getMaxNumPointCloud()
+{
+    return width_ * height_;
+}
+
+unsigned int KinectDevice::getNumPointCloud()
+{
+    return depth_buffer_size_;
+}
+
+void KinectDevice::getGLPointCloudDepths(GLubyte* depth)
+{
+	float* fdepth = (float*)depth;
+	for (int i = 0; i < depth_buffer_size_; i++)
+    {
+		*fdepth++ = depth_to_xyz_[i].X;
+		*fdepth++ = depth_to_xyz_[i].Y;
+		*fdepth++ = depth_to_xyz_[i].Z;
+	}
+}
+
+void KinectDevice::getGLPointCloudColors(GLubyte* color)
+{
+	// Write color array for vertices
+	float* fcolor = (float*)color;
+	for (int i = 0; i < width_ * height_; i++) {
+		ColorSpacePoint p = depth_to_rgb_[i];
+		// Check if color pixel coordinates are in bounds
+		if (p.X < 0 || p.Y < 0 || p.X > colorwidth_ || p.Y > colorheight_) {
+			*fcolor++ = 0;
+			*fcolor++ = 0;
+			*fcolor++ = 0;
+		}
+		else {
+			int idx = (int)p.X + colorwidth_ * (int)p.Y;
+			*fcolor++ = rgb_image_[4*idx + 0]/255.;
+			*fcolor++ = rgb_image_[4*idx + 1]/255.;
+			*fcolor++ = rgb_image_[4*idx + 2]/255.;
+		}
+		// Don't copy alpha channel
+	}
 }
 
 bool KinectDevice::isBodyTracked(int id)

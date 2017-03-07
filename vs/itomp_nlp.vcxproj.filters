@@ -327,6 +327,12 @@
     <ClCompile Include="..\src\shape\capsule2.cpp">
       <Filter>Shape</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_kinect_points.cpp">
+      <Filter>RenderingShape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\color_shader.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -384,6 +390,12 @@
       <Filter>Shader</Filter>
     </None>
     <None Include="..\shader\wireframe.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\color.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\color.vert">
       <Filter>Shader</Filter>
     </None>
   </ItemGroup>
@@ -648,6 +660,12 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\shape\capsule2.h">
       <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_kinect_points.h">
+      <Filter>RenderingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\color_shader.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

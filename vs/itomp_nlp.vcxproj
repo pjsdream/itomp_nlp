@@ -240,6 +240,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\parsetree\parsetree_verb_node.cpp" />
     <ClCompile Include="..\src\parsetree\parsetree_vp_node.cpp" />
     <ClCompile Include="..\src\renderer\camera.cpp" />
+    <ClCompile Include="..\src\renderer\color_shader.cpp" />
     <ClCompile Include="..\src\renderer\entity.cpp" />
     <ClCompile Include="..\src\renderer\gl_base.cpp" />
     <ClCompile Include="..\src\renderer\light.cpp" />
@@ -250,6 +251,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\renderer\rendering_capsule.cpp" />
     <ClCompile Include="..\src\renderer\rendering_human.cpp" />
     <ClCompile Include="..\src\renderer\rendering_kinect_human.cpp" />
+    <ClCompile Include="..\src\renderer\rendering_kinect_points.cpp" />
     <ClCompile Include="..\src\renderer\rendering_mesh.cpp" />
     <ClCompile Include="..\src\renderer\rendering_mesh_manager.cpp" />
     <ClCompile Include="..\src\renderer\rendering_robot.cpp" />
@@ -285,6 +287,8 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
   <ItemGroup>
     <None Include="..\shader\build_lists.frag" />
     <None Include="..\shader\build_lists.vert" />
+    <None Include="..\shader\color.frag" />
+    <None Include="..\shader\color.vert" />
     <None Include="..\shader\light.frag" />
     <None Include="..\shader\light.vert" />
     <None Include="..\shader\line.frag" />
@@ -348,6 +352,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_verb_node.h" />
     <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_vp_node.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\camera.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\color_shader.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\entity.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\gl_base.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\light.h" />
@@ -357,6 +362,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_capsule.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_human.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_kinect_human.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_kinect_points.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_mesh.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_mesh_manager.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_robot.h" />
