@@ -77,6 +77,8 @@ public:
 
     double getBestTrajectoryCost();
 
+    void changeGoalCost();
+
 private:
 
     OptimizerThread optimization_thread_;

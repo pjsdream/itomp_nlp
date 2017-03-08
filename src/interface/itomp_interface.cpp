@@ -180,6 +180,7 @@ void ItompInterface::initializeResources()
     optimizer_.addStaticObstacle(table_obstacle);
     */
 
+    /*
     Eigen::Affine3d obstacle_center;
     obstacle_center.setIdentity();
     obstacle_center.translate(Eigen::Vector3d(0.9, 0, 0.8));
@@ -206,6 +207,7 @@ void ItompInterface::initializeResources()
     obstacle->addShape(shape6);
 
     optimizer_.addStaticObstacle(obstacle);
+    */
 
     Eigen::Affine3d camera_transform;
     camera_transform.setIdentity();
@@ -277,6 +279,7 @@ void ItompInterface::costFunctionChanged(int id, const std::string& type, std::v
 void ItompInterface::commandAdded(std::string command)
 {
     printf("command: %s\n", command.c_str());
+    optimizer_.changeGoalCost();
 }
 
 }

@@ -35,7 +35,7 @@ MainWindow::MainWindow()
     timer->setInterval(33);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateNextFrame()));
 
-    // rendering
+    // rendering robots
     const int num_interpolated_variables = itomp_interface_->getNumInterpolatedVariables();
     RobotModel* robot_model = itomp_interface_->getRobotModel();
 
@@ -58,6 +58,30 @@ MainWindow::MainWindow()
 
     grey_ = new Material();
     grey_->setDiffuseColor(Eigen::Vector4f(0.3, 0.3, 0.3, 1));
+    
+    brown_ = new Material();
+    brown_->setDiffuseColor(Eigen::Vector4f(139./255, 69./255, 19./255, 1.));
+
+    // rendering table
+    rendering_table_ = new RenderingBox(renderer_);
+    rendering_table_->setMaterial(brown_);
+    rendering_table_->setSize(Eigen::Vector3d(1, 2, 0.7));
+    rendering_table_->setTransform(Eigen::Affine3d(Eigen::Translation3d(0.8, 0, 0.35)));
+
+    // rendering objects
+    Material* red = new Material();
+    red->setDiffuseColor(Eigen::Vector4f(1, 0, 0, 1));
+
+    Material* blue = new Material();
+    blue->setDiffuseColor(Eigen::Vector4f(0, 0, 1, 1));
+
+    RenderingCapsule* capsule1 = new RenderingCapsule(renderer_);
+    capsule1->setMaterial(red);
+    capsule1->setCapsule(Eigen::Vector3d(0.7, 0.7, 0.7), 0.03, Eigen::Vector3d(0.7, 0.7, 0.8), 0.03);
+
+    RenderingCapsule* capsule2 = new RenderingCapsule(renderer_);
+    capsule2->setMaterial(blue);
+    capsule2->setCapsule(Eigen::Vector3d(0.7, -0.7, 0.7), 0.03, Eigen::Vector3d(0.7, -0.7, 0.8), 0.03);
 
     timer->start();
 }

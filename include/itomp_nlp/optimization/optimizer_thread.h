@@ -91,6 +91,8 @@ public:
 
     double getBestTrajectoryCost();
 
+    void changeGoalCost();
+
 private:
 
     // should be called in the created thread

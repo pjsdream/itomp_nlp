@@ -40,8 +40,10 @@ private:
     std::vector<RenderingShape*> rendering_dynamic_obstacles_;
 
     RenderingKinectPoints* rendering_point_cloud_;
+    RenderingBox* rendering_table_;
 
     Material* grey_;
+    Material* brown_;
 
     ItompInterface* itomp_interface_;
 
