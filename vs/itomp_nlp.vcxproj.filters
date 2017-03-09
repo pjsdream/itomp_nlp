@@ -330,9 +330,6 @@
     <ClCompile Include="..\src\optimization\smoothness_cost.cpp">
       <Filter>Optimization\Cost</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\optimization\grasp_cost.cpp">
-      <Filter>Optimization\Cost</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\interface\itomp_nlp_widget.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
@@ -344,6 +341,9 @@
     </ClCompile>
     <ClCompile Include="..\src\renderer\color_shader.cpp">
       <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\goal_orientation_cost.cpp">
+      <Filter>Optimization\Cost</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -673,9 +673,6 @@
     <ClInclude Include="..\include\itomp_nlp\optimization\smoothness_cost.h">
       <Filter>Optimization\Cost</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\optimization\grasp_cost.h">
-      <Filter>Optimization\Cost</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_nlp_widget.h">
       <Filter>Interface</Filter>
     </ClInclude>
@@ -684,6 +681,9 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\color_shader.h">
       <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\goal_orientation_cost.h">
+      <Filter>Optimization\Cost</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

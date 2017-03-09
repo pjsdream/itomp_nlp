@@ -31,9 +31,8 @@ double GoalCost::cost(int idx)
     const Eigen::Affine3d& link_transform = robot->getLinkWorldTransform(goal_position_.link_id);
     const Eigen::Vector3d ee_translation = link_transform * goal_position_.translation;
 
-    // ReLU-like objective function
     cost += (ee_translation - goal_position_.goal_position).squaredNorm();
-
+     
     return cost * weight_;
 }
 

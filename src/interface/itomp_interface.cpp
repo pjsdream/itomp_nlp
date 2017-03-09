@@ -72,8 +72,10 @@ void ItompInterface::initializeResources()
 
     // default robot state
     robot_state_ = new RobotState(robot_model_);
-    robot_state_->setPosition("shoulder_pan_joint", 0.79);
+    //robot_state_->setPosition("shoulder_pan_joint", 0.79);
     robot_state_->setPosition("torso_lift_joint", 0.35);
+    robot_state_->setPosition("r_gripper_finger_joint", 0.05);
+    robot_state_->setPosition("l_gripper_finger_joint", 0.05);
 
     active_joint_names_ = 
     {
@@ -84,8 +86,6 @@ void ItompInterface::initializeResources()
         "forearm_roll_joint",
         "wrist_flex_joint",
         "wrist_roll_joint",
-        "r_gripper_finger_joint",
-        "l_gripper_finger_joint",
     };
 
     aabb_lists_ = 
@@ -272,7 +272,17 @@ void ItompInterface::costFunctionChanged(int id, const std::string& type, std::v
     else if (type == "goal")
     {
         // hard-coded enffector information for fetch robot
-        optimizer_.setGoalCost(id, values[0], 7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector3d(values[1], values[2], values[3]));
+        optimizer_.setGoalCost(id, values[0], 7, Eigen::Vector3d(values[1], values[2], values[3]), Eigen::Vector3d(values[4], values[5], values[6]));
+    }
+
+    else if (type == "orientation")
+    {
+        Eigen::Quaterniond q(values[1], values[2], values[3], values[4]);
+        if (q.squaredNorm() < 1e-8)
+            q.setIdentity();
+
+        // hard-coded enffector information for fetch robot
+        optimizer_.setGoalOrientationCost(id, values[0], 7, q);
     }
 }
 

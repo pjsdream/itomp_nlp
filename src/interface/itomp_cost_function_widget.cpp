@@ -9,7 +9,8 @@ const std::vector<std::pair<std::string, int> > ItompCostFunctionWidget::cost_ty
     {"zero", 0},
     {"smoothness", 1},
     {"collision", 1},
-    {"goal", 4},
+    {"goal", 7},
+    {"orientation", 5},
 };
 
 ItompCostFunctionWidget::ItompCostFunctionWidget(int id, QWidget* parent)

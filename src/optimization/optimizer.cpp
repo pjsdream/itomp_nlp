@@ -3,6 +3,7 @@
 #include <itomp_nlp/optimization/smoothness_cost.h>
 #include <itomp_nlp/optimization/collision_cost.h>
 #include <itomp_nlp/optimization/goal_cost.h>
+#include <itomp_nlp/optimization/goal_orientation_cost.h>
 #include <itomp_nlp/optimization/velocity_cost.h>
 #include <itomp_nlp/optimization/goal_region_cost.h>
 #include <itomp_nlp/optimization/repulsive_cost.h>
@@ -81,6 +82,14 @@ void Optimizer::setGoalCost(int id, double weight, int link_id, const Eigen::Vec
 {
     GoalCost* cost = new GoalCost(optimization_thread_, weight);
     cost->setGoalPosition(link_id, translation, goal_position);
+
+    optimization_thread_.pushCostFunctionRequest(id, cost);
+}
+
+void Optimizer::setGoalOrientationCost(int id, double weight, int link_id, const Eigen::Quaterniond& quaternion)
+{
+    GoalOrientationCost* cost = new GoalOrientationCost(optimization_thread_, weight);
+    cost->setGoalOrientation(link_id, quaternion);
 
     optimization_thread_.pushCostFunctionRequest(id, cost);
 }

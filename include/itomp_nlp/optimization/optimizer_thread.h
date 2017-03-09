@@ -27,7 +27,7 @@ public:
     friend class VelocityCost;
     friend class GoalRegionCost;
     friend class RepulsiveCost;
-    friend class GraspCost;
+    friend class GoalOrientationCost;
 
 private:
 

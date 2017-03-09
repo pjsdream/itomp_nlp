@@ -64,6 +64,7 @@ public:
     void setSmoothnessCost(int id, double weight);
     void setCollisionCost(int id, double weight);
     void setGoalCost(int id, double weight, int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& goal_position);
+    void setGoalOrientationCost(int id, double weight, int link_id, const Eigen::Quaterniond& quaternion);
 
     // thread
     void startOptimizationThread();

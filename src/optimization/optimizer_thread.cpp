@@ -381,6 +381,12 @@ void OptimizerThread::optimizeDlib(
             printf("%.9lf ", c);
         }
         printf("total: %.9lf\n", total_cost);
+        
+        // DEBUG: endeffector (link 7) position print
+        /*
+        Eigen::Vector3d e = (*forward_kinematics_robots_.rbegin())->getLinkWorldTransform(7) * Eigen::Vector3d(0.1, 0, 0);
+        printf("link 7 position: %lf %lf %lf\n", e(0), e(1), e(2));
+        */
     }
 }
 
