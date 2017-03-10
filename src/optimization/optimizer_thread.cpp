@@ -377,7 +377,7 @@ void OptimizerThread::optimizeDlib(
         for (int i=0; i<cost_functions_.size(); i++)
         {
             const double c = cost_functions_[i]->cost();
-            total_cost = c;
+            total_cost += c;
             printf("%.9lf ", c);
         }
         printf("total: %.9lf\n", total_cost);
