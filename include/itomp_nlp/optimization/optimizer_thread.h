@@ -28,6 +28,7 @@ public:
     friend class GoalRegionCost;
     friend class RepulsiveCost;
     friend class GoalOrientationCost;
+    friend class GoalUpvectorCost;
 
 private:
 

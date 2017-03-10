@@ -1,3 +1,5 @@
+#define _USE_MATH_DEFINES
+ 
 #include <itomp_nlp/interface/main_window.h>
 
 #include <itomp_nlp/shape/capsule2.h>

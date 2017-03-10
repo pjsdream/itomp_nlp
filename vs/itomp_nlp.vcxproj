@@ -227,6 +227,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\optimization\goal_cost.cpp" />
     <ClCompile Include="..\src\optimization\goal_orientation_cost.cpp" />
     <ClCompile Include="..\src\optimization\goal_region_cost.cpp" />
+    <ClCompile Include="..\src\optimization\goal_upvector_cost.cpp" />
     <ClCompile Include="..\src\optimization\optimizer.cpp" />
     <ClCompile Include="..\src\optimization\optimizer_robot.cpp" />
     <ClCompile Include="..\src\optimization\optimizer_robot_loader.cpp" />
@@ -341,6 +342,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\optimization\goal_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\goal_orientation_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\goal_region_cost.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\goal_upvector_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\optimizer.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_robot.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_robot_loader.h" />

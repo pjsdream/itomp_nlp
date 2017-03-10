@@ -345,6 +345,9 @@
     <ClCompile Include="..\src\optimization\goal_orientation_cost.cpp">
       <Filter>Optimization\Cost</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\optimization\goal_upvector_cost.cpp">
+      <Filter>Optimization\Cost</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -683,6 +686,9 @@
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\optimization\goal_orientation_cost.h">
+      <Filter>Optimization\Cost</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\goal_upvector_cost.h">
       <Filter>Optimization\Cost</Filter>
     </ClInclude>
   </ItemGroup>
