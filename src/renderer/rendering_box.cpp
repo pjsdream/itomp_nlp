@@ -8,7 +8,6 @@ namespace itomp
 
 RenderingBox::RenderingBox(Renderer* renderer)
     : RenderingShape(renderer)
-    , transform_(Eigen::Matrix4f::Identity())
     , vao_(0)
 {
     setSize(Eigen::Vector3d(1, 1, 1));

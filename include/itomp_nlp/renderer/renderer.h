@@ -31,14 +31,6 @@ class Renderer : public QOpenGLWidget
 
 public:
 
-    enum ShaderType
-    {
-        SHADER_TYPE_LIGHT = 0,
-        SHADER_TYPE_COLOR,
-    };
-
-public:
-
     explicit Renderer(QWidget* parent = 0);
     ~Renderer();
 
@@ -47,7 +39,7 @@ public:
         return gl_;
     }
 
-    void addShape(RenderingShape* shape, ShaderType shader = SHADER_TYPE_LIGHT);
+    void addShape(RenderingShape* shape);
     void deleteShape(RenderingShape* shape);
 
 protected:
@@ -75,7 +67,6 @@ private:
 
     // rendering shapes
     std::vector<RenderingShape*> rendering_shapes_;
-    std::vector<ShaderType> shader_types_;
 
     int last_mouse_x_;
     int last_mouse_y_;

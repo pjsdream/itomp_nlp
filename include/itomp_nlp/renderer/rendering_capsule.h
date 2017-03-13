@@ -43,8 +43,6 @@ private:
     GLuint vao_;
     std::vector<GLuint> vbos_;
 
-    Eigen::Matrix4f transformation_;
-    
     bool need_update_buffer_;
     Eigen::Vector3f p_;
     Eigen::Vector3f q_;

@@ -42,8 +42,8 @@ void RenderingCapsule::updateBuffers()
     AlignedVector<Eigen::Vector3f> plane_vertices;
     AlignedVector<Eigen::Vector3f> plane_normals;
 
-    transformation_.setIdentity();
-    transformation_.block(0, 3, 3, 1) = p_;
+    transform_.setIdentity();
+    transform_.block(0, 3, 3, 1) = p_;
 
     const double d = (p_ - q_).norm();
     if (d <= rq_)
@@ -70,9 +70,9 @@ void RenderingCapsule::updateBuffers()
         else x = Eigen::Vector3f(0, 1, 0).cross(z).normalized();
         y = z.cross(x).normalized();
 
-        transformation_.block(0, 0, 3, 1) = x;
-        transformation_.block(0, 1, 3, 1) = y;
-        transformation_.block(0, 2, 3, 1) = z;
+        transform_.block(0, 0, 3, 1) = x;
+        transform_.block(0, 1, 3, 1) = y;
+        transform_.block(0, 2, 3, 1) = z;
 
         const double alpha = std::asin((rq_ - rp_) / d);
 
@@ -185,7 +185,7 @@ void RenderingCapsule::draw(LightShader* shader)
     if (need_update_buffer_)
         updateBuffers();
 
-    shader->loadModelTransform(transformation_);
+    shader->loadModelTransform(transform_);
     shader->loadMaterial(material_);
 
     gl_->glBindVertexArray(vao_);

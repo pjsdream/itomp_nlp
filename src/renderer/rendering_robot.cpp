@@ -35,7 +35,7 @@ void RenderingRobot::drawLinks(const Link* link, Eigen::Affine3d transform)
         RenderingMesh* mesh = RenderingMeshManager::getMesh(renderer_, visual_mesh_filename);
 
         const Eigen::Affine3d& visual_mesh_origin = visual_mesh_origins[i];
-        mesh->setTransformation((transform * visual_mesh_origin).cast<float>());
+        mesh->setTransform(transform * visual_mesh_origin);
         mesh->draw(shader_);
     }
 

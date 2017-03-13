@@ -7,9 +7,8 @@ namespace itomp
 {
 
 RenderingKinectPoints::RenderingKinectPoints(Renderer* renderer)
-    : RenderingShape(renderer, Renderer::SHADER_TYPE_COLOR)
+    : RenderingShape(renderer)
     , vao_(0)
-    , transform_(Eigen::Matrix4f::Identity())
 {
     kinect_ = new Kinect();
 }

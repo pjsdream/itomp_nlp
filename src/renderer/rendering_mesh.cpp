@@ -160,7 +160,7 @@ void RenderingMesh::draw(LightShader* shader)
         initializeBuffers();
 
     shader->loadMaterial(material_);
-    shader->loadModelTransform(transformation_);
+    shader->loadModelTransform(transform_);
 
     gl_->glBindVertexArray(vao_);
     gl_->glDrawArrays(GL_TRIANGLES, 0, num_triangles_ * 3);
