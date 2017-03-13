@@ -1,13 +1,23 @@
-#include <renderer/shader_program.h>
+#include <itomp_nlp/renderer/shader_program.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 ShaderProgram::ShaderProgram(Renderer* renderer, const std::string& vertex_filename, const std::string& fragment_filename)
     : GLBase(renderer)
 {
     vertex_shader_ = loadShader(vertex_filename, GL_VERTEX_SHADER);
+    fragment_shader_ = loadShader(fragment_filename, GL_FRAGMENT_SHADER);
+
+    shader_program_ = createShaderProgram();
+}
+
+ShaderProgram::ShaderProgram(Renderer* renderer, const std::string& vertex_filename, const std::string& geometry_filename, const std::string& fragment_filename)
+    : GLBase(renderer)
+{
+    vertex_shader_ = loadShader(vertex_filename, GL_VERTEX_SHADER);
+    geometry_shader_ = loadShader(geometry_filename, GL_GEOMETRY_SHADER);
     fragment_shader_ = loadShader(fragment_filename, GL_FRAGMENT_SHADER);
 
     shader_program_ = createShaderProgram();
@@ -42,6 +52,11 @@ void ShaderProgram::loadUniform(int location, float value)
 void ShaderProgram::loadUniform(int location, const Eigen::Vector3f& v)
 {
     gl_->glUniform3fv(location, 1, v.data());
+}
+
+void ShaderProgram::loadUniform(int location, const Eigen::Vector4f& v)
+{
+    gl_->glUniform4fv(location, 1, v.data());
 }
 
 void ShaderProgram::loadUniform(int location, bool value)
@@ -113,7 +128,14 @@ GLuint ShaderProgram::createShaderProgram()
 {
     GLuint program = gl_->glCreateProgram();
 
+    // vert
     gl_->glAttachShader(program, vertex_shader_);
+
+    // geom
+    if (geometry_shader_ != 0)
+        gl_->glAttachShader(program, geometry_shader_);
+
+    // frag
     gl_->glAttachShader(program, fragment_shader_);
     
     gl_->glLinkProgram(program);

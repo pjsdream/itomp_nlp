@@ -1,11 +1,15 @@
-#include <renderer/renderer.h>
+#include <itomp_nlp/renderer/renderer.h>
+
+#include <itomp_nlp/renderer/rendering_shape.h>
 
 #include <QMouseEvent>
 
 #include <iostream>
 
+#include <QTimer>
 
-namespace itomp_renderer
+
+namespace itomp
 {
 
 Renderer::Renderer(QWidget* parent)
@@ -19,35 +23,94 @@ Renderer::Renderer(QWidget* parent)
     setFormat(format);
 
     camera_.setOrtho();
-    camera_.setPerspective();
+    
+    // DEBUG: timer
+    QTimer* timer = new QTimer();
+    timer->setInterval(16);
+    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    timer->start();
 }
 
 Renderer::~Renderer()
 {
 }
 
-void Renderer::render(Entity* entity, StaticShader* shader)
+void Renderer::addShape(RenderingShape* shape, ShaderType shader)
 {
-    TexturedModel* textured_model = entity->getModel();
-    RawModel* raw_model = textured_model_->getModel();
+    rendering_shapes_.push_back(shape);
+    shader_types_.push_back(shader);
+}
 
-    gl_->glBindVertexArray(raw_model->getVAO());
+void Renderer::deleteShape(RenderingShape* shape)
+{
+    // TODO: currently O(n)
+    for (int i=0; i<rendering_shapes_.size(); i++)
+    {
+        if (rendering_shapes_[i] == shape)
+        {
+            rendering_shapes_[i] = rendering_shapes_[rendering_shapes_.size() - 1];
+            rendering_shapes_.pop_back();
 
-    gl_->glEnableVertexAttribArray(0);
-    gl_->glEnableVertexAttribArray(1);
+            shader_types_[i] = shader_types_[shader_types_.size() - 1];
+            shader_types_.pop_back();
+            break;
+        }
+    }
+}
 
+int Renderer::registerMeshFile(const std::string& filename)
+{
+    Object* object = resource_manager_->importFile(filename);
+    objects_.push_back(object);
+    return objects_.size() - 1;
+}
+
+int Renderer::addEntity(int object_id, const Eigen::Affine3d& transform)
+{
+    Entity* entity = new Entity(objects_[object_id], transform);
+    entities_.push_back(entity);
+    return entities_.size() - 1;
+}
+
+void Renderer::setEntityTransform(int entity_id, const Eigen::Affine3d& transform)
+{
+    entities_[entity_id]->setTransformation(transform);
+}
+
+void Renderer::renderObject(Object* object, LightShader* shader)
+{
+    Eigen::Affine3f transformation = Eigen::Affine3f::Identity();
+    shader->loadModelTransform(transformation.matrix());
+    shader->loadMaterial(object->getMaterial());
+    object->draw();
+}
+
+void Renderer::renderEntity(Entity* entity, LightShader* shader)
+{
+    Object* object = entity->getObject();
     Eigen::Affine3f transformation = entity->getTransformation().cast<float>();
-    shader->loadTransformationMatrix(transformation.matrix());
 
-    gl_->glActiveTexture(GL_TEXTURE0);
-    gl_->glBindTexture(GL_TEXTURE_2D, textured_model->getTexture()->getId());
+    shader->loadModelTransform(transformation.matrix());
+    shader->loadMaterial(object->getMaterial());
+    object->draw();
+}
 
-    gl_->glDrawElements(GL_TRIANGLES, raw_model->getNumVertices(), GL_UNSIGNED_INT, 0);
+void Renderer::renderEntityNormals(Entity* entity, NormalShader* shader)
+{
+    Object* object = entity->getObject();
+    Eigen::Affine3f transformation = entity->getTransformation().cast<float>();
 
-    gl_->glDisableVertexAttribArray(0);
-    gl_->glDisableVertexAttribArray(1);
+    shader->loadModelTransform(transformation.matrix());
+    object->draw(GL_POINTS);
+}
 
-    gl_->glBindVertexArray(0);
+void Renderer::renderEntityWireframe(Entity* entity, WireframeShader* shader)
+{
+    Object* object = entity->getObject();
+    Eigen::Affine3f transformation = entity->getTransformation().cast<float>();
+
+    shader->loadModelTransform(transformation.matrix());
+    object->draw();
 }
 
 void Renderer::initializeGL()
@@ -55,39 +118,27 @@ void Renderer::initializeGL()
     gl_ = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
 
     gl_->glEnable(GL_DEPTH_TEST);
-    gl_->glClearColor(0.5f, 1.0f, 1.0f, 1.0f);
+    gl_->glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
     gl_->glClearDepth(1.0f);
 
-    loader_ = new Loader(this);
+    resource_manager_ = new ResourceManager(this);
 
-    static_shader_ = new StaticShader(this);
+    // shaders
+    light_shader_ = new LightShader(this);
 
-    std::vector<double> vertices = {
-        -0.5, 0.5, 0,
-        -0.5, -0.5, 0,
-        0.5, -0.5, 0,
-        0.5, 0.5, 0,
-    };
+    normal_shader_ = new NormalShader(this);
+    setNormalLineLength(0.01);
 
-    std::vector<int> indices = {
-        0, 1, 3,
-        3, 1, 2,
-    };
+    wireframe_shader_ = new WireframeShader(this);
 
-    std::vector<double> texture_coords = {
-        0, 0, 
-        0, 1, 
-        1, 1, 
-        1, 0, 
-    };
+    color_shader_ = new ColorShader(this);
 
-    model_ = loader_->createRawModel(vertices, texture_coords, indices);
-    texture_ = new ModelTexture( loader_->loadTexture("texture/image.png") );
-    textured_model_ = new TexturedModel(model_, texture_);
-    entity_ = new Entity(textured_model_, Eigen::Affine3d::Identity());
-    entity_->getTransformation().translate( Eigen::Vector3d(0, 0, 0) );
-
-    loader_->loadDaeFile("../meshes/gripper_link.dae");
+    // default light
+    Light* light;
+    light = new Light(Eigen::Vector3d(-1, 0, 0));
+    light->setDiffuseColor(Eigen::Vector4f(1, 1, 1, 1));
+    light->setSpecularColor(Eigen::Vector4f(0, 0, 0, 1));
+    lights_.push_back(light);
 }
 
 void Renderer::resizeGL(int w, int h)
@@ -102,16 +153,54 @@ void Renderer::paintGL()
 {
     gl_->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    static_shader_->start();
+    // light direction from camera
+    lights_[0]->setPosition( - camera_.lookAtDirection() );
 
-    Eigen::Matrix4f projection = camera_.projectionMatrix().cast<float>();
-    static_shader_->loadProjectionMatrix(projection);
+    // light shader
+    light_shader_->start();
+    light_shader_->loadCamera(camera_);
+    light_shader_->loadLights(lights_);
 
-    entity_->getTransformation().translate( Eigen::Vector3d(0, 0, -0.1));
+    for (int i=0; i<rendering_shapes_.size(); i++)
+    {
+        if (shader_types_[i] == SHADER_TYPE_LIGHT)
+            rendering_shapes_[i]->draw(light_shader_);
+    }
 
-    render(entity_, static_shader_);
+    light_shader_->stop();
 
-    static_shader_->stop();
+    // color shader
+    color_shader_->start();
+    color_shader_->loadCamera(camera_);
+
+    for (int i=0; i<rendering_shapes_.size(); i++)
+    {
+        if (shader_types_[i] == SHADER_TYPE_COLOR)
+            rendering_shapes_[i]->draw(color_shader_);
+    }
+
+    color_shader_->stop();
+
+    // normal shader
+    /*
+    normal_shader_->start();
+    normal_shader_->loadCamera(camera_);
+    normal_shader_->loadLineLength(normal_line_length_);
+
+    for (int i=0; i<entities_.size(); i++)
+        renderEntityNormals(entities_[i], normal_shader_);
+
+    normal_shader_->stop();
+
+    // wireframe shader
+    wireframe_shader_->start();
+    wireframe_shader_->loadCamera(camera_);
+    
+    for (int i=0; i<rendering_shapes_.size(); i++)
+        renderShape(rendering_shapes_[i], wireframe_shader_);
+
+    wireframe_shader_->stop();
+    */
 }
 
 void Renderer::mousePressEvent(QMouseEvent* event)

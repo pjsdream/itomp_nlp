@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="App">
-      <UniqueIdentifier>{e7fca2d8-7586-4a70-9239-a1ab0a382a3d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shader">
       <UniqueIdentifier>{64e57dec-2db1-436b-a44b-7f645163e13f}</UniqueIdentifier>
     </Filter>
@@ -19,45 +16,57 @@
     <Filter Include="LodePNG">
       <UniqueIdentifier>{4d08e432-aaaf-467b-bf5d-69cecc282692}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shape">
+      <UniqueIdentifier>{c0a63067-d10b-41b1-9fa6-83da91092bbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{2af99639-e8b1-4eae-91a5-2ab898f55d0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TinyXML2">
+      <UniqueIdentifier>{e25e7a0f-d3f1-4cf9-8c1b-edc2bdf22780}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="URDF">
+      <UniqueIdentifier>{945d1111-13d6-4f09-a3c1-9bcc7ad17baf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Optimization">
+      <UniqueIdentifier>{587889d2-79f1-4171-ae2c-2c9b10fec032}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NLP">
+      <UniqueIdentifier>{e3dfff5b-c6d3-401f-a7c5-e4838d815769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{ae7bdb2b-7cfb-49b7-946d-148af9fe773b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NLP\crf">
+      <UniqueIdentifier>{63486c80-2282-4d63-998d-9d94273aa3c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NLP\parsetree">
+      <UniqueIdentifier>{f07e6600-d6fe-4753-9ae1-cc56e105cf45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderingShape">
+      <UniqueIdentifier>{53a525ac-7799-4878-8d74-c42007c8381a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kinect">
+      <UniqueIdentifier>{105ed8f6-f58f-48e8-9a94-d874dbd27da0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Optimization\Cost">
+      <UniqueIdentifier>{cdb761f1-575f-4562-91c7-135872468b2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\test\test_interface.cpp">
-      <Filter>App</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\renderer\camera.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\src\renderer\renderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\renderer\renderer_interface.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\GeneratedFiles\moc_renderer.cpp">
       <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\GeneratedFiles\moc_renderer_interface.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\renderer\raw_model.cpp">
-      <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\src\renderer\gl_base.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\src\renderer\shader_program.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\renderer\static_shader.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\renderer\loader.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\renderer\model_texture.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\renderer\textured_model.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\lib\lodepng.cpp">
@@ -66,44 +75,279 @@
     <ClCompile Include="..\src\renderer\entity.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\include\renderer\camera.h">
+    <ClCompile Include="..\src\renderer\light_shader.cpp">
       <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\renderer\renderer.h">
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\light.cpp">
       <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\renderer\renderer_interface.h">
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\material.cpp">
       <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\renderer\raw_model.h">
+    </ClCompile>
+    <ClCompile Include="..\src\shape\mesh.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\shape\shape.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\utils\conversion.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\object.cpp">
       <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\renderer\gl_base.h">
+    </ClCompile>
+    <ClCompile Include="..\src\utils\timing.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\resource_manager.cpp">
       <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\renderer\shader_program.h">
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\texture.cpp">
       <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\renderer\static_shader.h">
+    </ClCompile>
+    <ClCompile Include="..\lib\tinyxml2.cpp">
+      <Filter>TinyXML2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\robot\robot_model.cpp">
+      <Filter>Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\robot\robot_state.cpp">
+      <Filter>Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\robot\urdf_parser.cpp">
+      <Filter>Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\robot\joint.cpp">
+      <Filter>Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\robot\link.cpp">
+      <Filter>Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\robot\revolute_joint.cpp">
+      <Filter>Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\robot_renderer.cpp">
       <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\renderer\loader.h">
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\static_shader.cpp">
       <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\renderer\model_texture.h">
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\normal_shader.cpp">
       <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\renderer\textured_model.h">
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\wireframe_shader.cpp">
       <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\lodepng.h">
-      <Filter>LodePNG</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\renderer\entity.h">
+    </ClCompile>
+    <ClCompile Include="..\src\robot\continuous_joint.cpp">
+      <Filter>Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\shape\obb.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\shape\rigid_body.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\robot\prismatic_joint.cpp">
+      <Filter>Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\robot\fixed_joint.cpp">
+      <Filter>Robot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\shape\mesh_loader.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\shape\aabb.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\nlp\glove_pretrained_loader.cpp">
+      <Filter>NLP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\nlp\word_to_vector.cpp">
+      <Filter>NLP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\nlp\commands_to_cost.cpp">
+      <Filter>NLP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\interface\itomp_interface.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\interface\main_window.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\GeneratedFiles\moc_itomp_interface.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\GeneratedFiles\moc_main_window.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\interface\itomp_cost_function_widget.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\interface\itomp_cost_functions_widget.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crf\crf.cpp">
+      <Filter>NLP\crf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crf\crf_cost_functions_node.cpp">
+      <Filter>NLP\crf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crf\crf_factor.cpp">
+      <Filter>NLP\crf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crf\crf_grounding_node.cpp">
+      <Filter>NLP\crf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crf\crf_node.cpp">
+      <Filter>NLP\crf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crf\crf_phrase_node.cpp">
+      <Filter>NLP\crf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\parsetree\parsetree.cpp">
+      <Filter>NLP\parsetree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\parsetree\parsetree_node.cpp">
+      <Filter>NLP\parsetree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\parsetree\parsetree_noun_node.cpp">
+      <Filter>NLP\parsetree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\parsetree\parsetree_np_node.cpp">
+      <Filter>NLP\parsetree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\parsetree\parsetree_pp_node.cpp">
+      <Filter>NLP\parsetree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\parsetree\parsetree_verb_node.cpp">
+      <Filter>NLP\parsetree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\parsetree\parsetree_vp_node.cpp">
+      <Filter>NLP\parsetree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crf\crf_examples.cpp">
+      <Filter>NLP\crf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crf\crf_factor_manager.cpp">
+      <Filter>NLP\crf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crf\crf_grounding_cost_functions_factor.cpp">
+      <Filter>NLP\crf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crf\crf_groundings_factor.cpp">
+      <Filter>NLP\crf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crf\crf_phrase_grounding_factor.cpp">
+      <Filter>NLP\crf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\shape\capsule.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_capsule.cpp">
+      <Filter>RenderingShape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_mesh.cpp">
+      <Filter>RenderingShape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_shape.cpp">
+      <Filter>RenderingShape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_human.cpp">
+      <Filter>RenderingShape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_kinect_human.cpp">
+      <Filter>RenderingShape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_robot.cpp">
+      <Filter>RenderingShape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_mesh_manager.cpp">
+      <Filter>RenderingShape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_box.cpp">
+      <Filter>RenderingShape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\kinect\kf_human_motion_prediction.cpp">
+      <Filter>Kinect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\kinect\kinect_device.cpp">
+      <Filter>Kinect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\kinect\kinect.cpp">
+      <Filter>Kinect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\shape\capsule2.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\dynamic_kf_human_obstacle.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\dynamic_obstacle.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\optimizer.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\optimizer_robot.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\optimizer_robot_loader.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\optimizer_thread.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\scene.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\static_obstacle.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\collision_cost.cpp">
+      <Filter>Optimization\Cost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\cost.cpp">
+      <Filter>Optimization\Cost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\goal_cost.cpp">
+      <Filter>Optimization\Cost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\goal_region_cost.cpp">
+      <Filter>Optimization\Cost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\velocity_cost.cpp">
+      <Filter>Optimization\Cost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\repulsive_cost.cpp">
+      <Filter>Optimization\Cost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\smoothness_cost.cpp">
+      <Filter>Optimization\Cost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\interface\itomp_nlp_widget.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\GeneratedFiles\moc_itomp_nlp_widget.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_kinect_points.cpp">
+      <Filter>RenderingShape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\color_shader.cpp">
       <Filter>Renderer</Filter>
-    </ClInclude>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\goal_orientation_cost.cpp">
+      <Filter>Optimization\Cost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\goal_upvector_cost.cpp">
+      <Filter>Optimization\Cost</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -136,8 +380,316 @@
     <None Include="..\shader\static.vert">
       <Filter>Shader</Filter>
     </None>
-    <None Include="..\meshes\elbow_flex_link.dae">
-      <Filter>Robot</Filter>
+    <None Include="..\shader\light.frag">
+      <Filter>Shader</Filter>
     </None>
+    <None Include="..\shader\light.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\urdf\fetch.urdf">
+      <Filter>URDF</Filter>
+    </None>
+    <None Include="..\shader\normal.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\normal.geom">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\normal.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\wireframe.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\wireframe.geom">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\wireframe.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\color.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\color.vert">
+      <Filter>Shader</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\lib\lodepng.h">
+      <Filter>LodePNG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\utils\conversion.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\shape\shape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\shape\mesh.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\camera.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\entity.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\gl_base.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\light.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\light_shader.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\material.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\renderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\shader_program.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\object.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\utils\timing.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\resource_manager.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\texture.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\tinyxml2.h">
+      <Filter>TinyXML2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\robot\robot_model.h">
+      <Filter>Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\robot\robot_state.h">
+      <Filter>Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\robot\urdf_parser.h">
+      <Filter>Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\robot\joint.h">
+      <Filter>Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\robot\link.h">
+      <Filter>Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\robot\revolute_joint.h">
+      <Filter>Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\robot_renderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\static_shader.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\normal_shader.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\wireframe_shader.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\robot\continuous_joint.h">
+      <Filter>Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\shape\obb.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\shape\rigid_body.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\robot\prismatic_joint.h">
+      <Filter>Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\robot\fixed_joint.h">
+      <Filter>Robot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\shape\mesh_loader.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\shape\aabb.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\nlp\glove_pretrained_loader.h">
+      <Filter>NLP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\nlp\word_to_vector.h">
+      <Filter>NLP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\nlp\commands_to_cost.h">
+      <Filter>NLP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\interface\itomp_interface.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\interface\main_window.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_function_widget.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_functions_widget.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf.h">
+      <Filter>NLP\crf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_cost_functions_node.h">
+      <Filter>NLP\crf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_factor.h">
+      <Filter>NLP\crf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_grounding_node.h">
+      <Filter>NLP\crf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_node.h">
+      <Filter>NLP\crf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_phrase_node.h">
+      <Filter>NLP\crf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree.h">
+      <Filter>NLP\parsetree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_node.h">
+      <Filter>NLP\parsetree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_noun_node.h">
+      <Filter>NLP\parsetree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_np_node.h">
+      <Filter>NLP\parsetree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_pp_node.h">
+      <Filter>NLP\parsetree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_verb_node.h">
+      <Filter>NLP\parsetree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_vp_node.h">
+      <Filter>NLP\parsetree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_examples.h">
+      <Filter>NLP\crf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_factor_manager.h">
+      <Filter>NLP\crf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_grounding_cost_functions_factor.h">
+      <Filter>NLP\crf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_groundings_factor.h">
+      <Filter>NLP\crf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_phrase_grounding_factor.h">
+      <Filter>NLP\crf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\shape\capsule.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_capsule.h">
+      <Filter>RenderingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_mesh.h">
+      <Filter>RenderingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_shape.h">
+      <Filter>RenderingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_human.h">
+      <Filter>RenderingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_kinect_human.h">
+      <Filter>RenderingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_robot.h">
+      <Filter>RenderingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_mesh_manager.h">
+      <Filter>RenderingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_box.h">
+      <Filter>RenderingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\kinect\kf_human_motion_prediction.h">
+      <Filter>Kinect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\kinect\kinect_device.h">
+      <Filter>Kinect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\kinect\kinect.h">
+      <Filter>Kinect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\shape\capsule2.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\dynamic_kf_human_obstacle.h">
+      <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\dynamic_obstacle.h">
+      <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\optimizer.h">
+      <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_robot.h">
+      <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_robot_loader.h">
+      <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_thread.h">
+      <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\scene.h">
+      <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\static_obstacle.h">
+      <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\collision_cost.h">
+      <Filter>Optimization\Cost</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\cost.h">
+      <Filter>Optimization\Cost</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\goal_cost.h">
+      <Filter>Optimization\Cost</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\goal_region_cost.h">
+      <Filter>Optimization\Cost</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\velocity_cost.h">
+      <Filter>Optimization\Cost</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\repulsive_cost.h">
+      <Filter>Optimization\Cost</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\smoothness_cost.h">
+      <Filter>Optimization\Cost</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\interface\itomp_nlp_widget.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_kinect_points.h">
+      <Filter>RenderingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\color_shader.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\goal_orientation_cost.h">
+      <Filter>Optimization\Cost</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\goal_upvector_cost.h">
+      <Filter>Optimization\Cost</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
