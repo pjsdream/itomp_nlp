@@ -5,7 +5,7 @@
 #include <Eigen/Dense>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 class Camera

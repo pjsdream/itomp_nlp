@@ -1,7 +1,7 @@
 #include <itomp_nlp/renderer/static_shader.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 const std::string StaticShader::vertex_filename_ = "shader/static.vert";

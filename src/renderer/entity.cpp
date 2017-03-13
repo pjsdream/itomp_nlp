@@ -1,7 +1,7 @@
 #include <itomp_nlp/renderer/entity.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 Entity::Entity(Object* object)

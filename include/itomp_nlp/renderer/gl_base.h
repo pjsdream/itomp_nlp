@@ -5,7 +5,7 @@
 #include <QOpenGLFunctions_4_3_Core>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 class Renderer;

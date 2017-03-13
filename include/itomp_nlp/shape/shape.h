@@ -5,7 +5,7 @@
 #include <Eigen/Dense>
 
 
-namespace itomp_shape
+namespace itomp
 {
 
 class Shape
@@ -21,9 +21,12 @@ public:
         return new Shape(*this);
     }
 
+    virtual double getPenetrationDepth(Shape* shape) const;
+
     inline void setTransform(const Eigen::Affine3d& transform)
     {
         transform_ = transform;
+        inverse_transform_ = transform_.inverse();
     }
 
     inline const Eigen::Affine3d& getTransform() const
@@ -36,6 +39,7 @@ public:
 protected:
 
     Eigen::Affine3d transform_;
+    Eigen::Affine3d inverse_transform_;
 };
 
 }

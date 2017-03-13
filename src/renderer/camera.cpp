@@ -1,7 +1,9 @@
+#define _USE_MATH_DEFINES
+ 
 #include <itomp_nlp/renderer/camera.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 Camera::Camera()

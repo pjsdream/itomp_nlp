@@ -5,23 +5,24 @@
 #include <itomp_nlp/renderer/gl_base.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
-class Texture
+class Texture : public GLBase
 {
 public:
 
-    Texture(GLuint id);
+    Texture(Renderer* renderer, const std::string& filename);
+    ~Texture();
 
-    inline GLuint getId()
+    inline GLuint getTexture()
     {
-        return texture_id_;
+        return texture_;
     }
 
 private:
 
-    GLuint texture_id_;
+    GLuint texture_;
 };
 
 }

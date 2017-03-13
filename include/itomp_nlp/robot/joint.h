@@ -7,7 +7,7 @@
 #include <Eigen/Dense>
 
 
-namespace itomp_robot
+namespace itomp
 {
 
 class Link;

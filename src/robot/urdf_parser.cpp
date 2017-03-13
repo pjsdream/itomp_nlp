@@ -1,11 +1,12 @@
 #include <itomp_nlp/robot/urdf_parser.h>
 
 #include <itomp_nlp/robot/revolute_joint.h>
+#include <itomp_nlp/robot/prismatic_joint.h>
 
 #include <map>
 
 
-namespace itomp_robot
+namespace itomp
 {
 
 URDFParser::URDFParser()
@@ -118,15 +119,18 @@ RobotModel* URDFParser::parseURDF(const std::string& filename)
     while (joint_element != 0)
     {
         Joint* joint;
-        RevoluteJoint* revolute_joint;
+        RevoluteJoint* revolute_joint = 0;
+        PrismaticJoint* prismatic_joint = 0;
 
         std::string joint_type = joint_element->Attribute("type");
 
         if (joint_type == "revolute")
             joint = revolute_joint = new RevoluteJoint();
+        
+        if (joint_type == "prismatic")
+            joint = prismatic_joint = new PrismaticJoint();
 
         // TODO: other types
-        // currently revolute joint for all types
         else
             joint = revolute_joint = new RevoluteJoint();
         
@@ -150,9 +154,13 @@ RobotModel* URDFParser::parseURDF(const std::string& filename)
         tinyxml2::XMLElement* axis_element = joint_element->FirstChildElement("axis");
         Eigen::Vector3d axis;
         parseAxisElement(axis_element, axis);
-
-        if (revolute_joint) // TODO: other types of joints
+        
+        // TODO: axis for other types of joints
+        if (revolute_joint)
             revolute_joint->setAxis(axis);
+
+        else if (prismatic_joint)
+            prismatic_joint->setAxis(axis);
 
         // TODO: calibration
         // TODO: dynamics

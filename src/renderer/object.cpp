@@ -7,7 +7,7 @@
 #include <itomp_nlp/utils/timing.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 Object::Object(Renderer* renderer)
@@ -22,7 +22,7 @@ void Object::draw(GLuint primitive_type)
     if (material_->hasDiffuseTexture())
     {
         gl_->glActiveTexture(GL_TEXTURE0);
-        gl_->glBindTexture(GL_TEXTURE_2D, material_->getDiffuseTexture()->getId());
+        gl_->glBindTexture(GL_TEXTURE_2D, material_->getDiffuseTexture()->getTexture());
         gl_->glEnableVertexAttribArray(2);
     }
     else

@@ -7,7 +7,7 @@
 #include <itomp_nlp/renderer/texture.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 class Material
@@ -68,7 +68,7 @@ public:
         diffuse_texture_ = texture;
     }
 
-    inline Texture* getDiffuseTexture()
+    inline Texture* getDiffuseTexture() const
     {
         return diffuse_texture_;
     }

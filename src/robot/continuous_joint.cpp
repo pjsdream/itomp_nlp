@@ -1,7 +1,7 @@
 #include <itomp_nlp/robot/continuous_joint.h>
 
 
-namespace itomp_robot
+namespace itomp
 {
 
 ContinuousJoint::ContinuousJoint()

@@ -7,7 +7,7 @@
 #include <itomp_nlp/renderer/camera.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 class WireframeShader : public ShaderProgram

@@ -15,6 +15,7 @@
 
 #include <itomp_nlp/renderer/static_shader.h>
 #include <itomp_nlp/renderer/light_shader.h>
+#include <itomp_nlp/renderer/color_shader.h>
 #include <itomp_nlp/renderer/normal_shader.h>
 #include <itomp_nlp/renderer/wireframe_shader.h>
 #include <itomp_nlp/renderer/light.h>
@@ -23,12 +24,22 @@
 #include <itomp_nlp/shape/mesh.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
+
+class RenderingShape;
 
 class Renderer : public QOpenGLWidget
 {
     Q_OBJECT
+
+public:
+
+    enum ShaderType
+    {
+        SHADER_TYPE_LIGHT = 0,
+        SHADER_TYPE_COLOR,
+    };
 
 private:
 
@@ -52,6 +63,10 @@ public:
 
     int registerMeshFile(const std::string& filename);
     int addEntity(int object_id, const Eigen::Affine3d& transform);
+    void setEntityTransform(int entity_id, const Eigen::Affine3d& transform);
+
+    void addShape(RenderingShape* shape, ShaderType shader = SHADER_TYPE_LIGHT);
+    void deleteShape(RenderingShape* shape);
 
 protected:
 
@@ -69,6 +84,8 @@ private:
     void renderEntityNormals(Entity* entity, NormalShader* shader);
     void renderEntityWireframe(Entity* entity, WireframeShader* shader);
 
+    void renderShape(RenderingShape* shape, LightShader* shader);
+
     Camera camera_;
 
     QOpenGLFunctions_4_3_Core* gl_;
@@ -81,12 +98,17 @@ private:
     NormalShader* normal_shader_;
     double normal_line_length_;
     WireframeShader* wireframe_shader_;
+    ColorShader* color_shader_;
 
     // objects
     std::vector<Object*> objects_;
 
     // entities to be drawn
     std::vector<Entity*> entities_;
+
+    // rendering shapes
+    std::vector<RenderingShape*> rendering_shapes_;
+    std::vector<ShaderType> shader_types_;
 
     int last_mouse_x_;
     int last_mouse_y_;

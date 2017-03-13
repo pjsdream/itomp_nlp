@@ -4,7 +4,7 @@
 #include <itomp_nlp/robot/joint.h>
 
 
-namespace itomp_robot
+namespace itomp
 {
 
 RobotState::RobotState(const RobotModel* robot_model)

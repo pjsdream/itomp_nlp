@@ -1,11 +1,15 @@
 #include <itomp_nlp/renderer/renderer.h>
 
+#include <itomp_nlp/renderer/rendering_shape.h>
+
 #include <QMouseEvent>
 
 #include <iostream>
 
+#include <QTimer>
 
-namespace itomp_renderer
+
+namespace itomp
 {
 
 Renderer::Renderer(QWidget* parent)
@@ -19,10 +23,39 @@ Renderer::Renderer(QWidget* parent)
     setFormat(format);
 
     camera_.setOrtho();
+    
+    // DEBUG: timer
+    QTimer* timer = new QTimer();
+    timer->setInterval(16);
+    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    timer->start();
 }
 
 Renderer::~Renderer()
 {
+}
+
+void Renderer::addShape(RenderingShape* shape, ShaderType shader)
+{
+    rendering_shapes_.push_back(shape);
+    shader_types_.push_back(shader);
+}
+
+void Renderer::deleteShape(RenderingShape* shape)
+{
+    // TODO: currently O(n)
+    for (int i=0; i<rendering_shapes_.size(); i++)
+    {
+        if (rendering_shapes_[i] == shape)
+        {
+            rendering_shapes_[i] = rendering_shapes_[rendering_shapes_.size() - 1];
+            rendering_shapes_.pop_back();
+
+            shader_types_[i] = shader_types_[shader_types_.size() - 1];
+            shader_types_.pop_back();
+            break;
+        }
+    }
 }
 
 int Renderer::registerMeshFile(const std::string& filename)
@@ -37,6 +70,11 @@ int Renderer::addEntity(int object_id, const Eigen::Affine3d& transform)
     Entity* entity = new Entity(objects_[object_id], transform);
     entities_.push_back(entity);
     return entities_.size() - 1;
+}
+
+void Renderer::setEntityTransform(int entity_id, const Eigen::Affine3d& transform)
+{
+    entities_[entity_id]->setTransformation(transform);
 }
 
 void Renderer::renderObject(Object* object, LightShader* shader)
@@ -93,6 +131,8 @@ void Renderer::initializeGL()
 
     wireframe_shader_ = new WireframeShader(this);
 
+    color_shader_ = new ColorShader(this);
+
     // default light
     Light* light;
     light = new Light(Eigen::Vector3d(-1, 0, 0));
@@ -121,10 +161,25 @@ void Renderer::paintGL()
     light_shader_->loadCamera(camera_);
     light_shader_->loadLights(lights_);
 
-    for (int i=0; i<entities_.size(); i++)
-        renderEntity(entities_[i], light_shader_);
+    for (int i=0; i<rendering_shapes_.size(); i++)
+    {
+        if (shader_types_[i] == SHADER_TYPE_LIGHT)
+            rendering_shapes_[i]->draw(light_shader_);
+    }
 
     light_shader_->stop();
+
+    // color shader
+    color_shader_->start();
+    color_shader_->loadCamera(camera_);
+
+    for (int i=0; i<rendering_shapes_.size(); i++)
+    {
+        if (shader_types_[i] == SHADER_TYPE_COLOR)
+            rendering_shapes_[i]->draw(color_shader_);
+    }
+
+    color_shader_->stop();
 
     // normal shader
     /*
@@ -140,9 +195,9 @@ void Renderer::paintGL()
     // wireframe shader
     wireframe_shader_->start();
     wireframe_shader_->loadCamera(camera_);
-
-    for (int i=0; i<entities_.size(); i++)
-        renderEntityWireframe(entities_[i], wireframe_shader_);
+    
+    for (int i=0; i<rendering_shapes_.size(); i++)
+        renderShape(rendering_shapes_[i], wireframe_shader_);
 
     wireframe_shader_->stop();
     */

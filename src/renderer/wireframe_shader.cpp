@@ -1,7 +1,7 @@
 #include <itomp_nlp/renderer/wireframe_shader.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 const std::string WireframeShader::vertex_filename_ = "shader/wireframe.vert";

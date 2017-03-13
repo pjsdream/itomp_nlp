@@ -39,13 +39,13 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -74,15 +74,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\bin\</OutDir>
-    <TargetName>$(ProjectName)d</TargetName>
+    <OutDir>..\lib\</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\bin\</OutDir>
+    <OutDir>..\lib\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -103,9 +103,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\include;..\lib;C:\lib\assimp-3.3.1\include;$(QTDIR)\include;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;release;$(QTDIR)\mkspecs\win32-msvc2015;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;..\lib;C:\lib\assimp-3.3.1\include;$(QTDIR)\include;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;$(QTDIR)\mkspecs\win32-msvc2015;$(KINECTSDK20_DIR)inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <DisableSpecificWarnings>4577;4996</DisableSpecificWarnings>
@@ -119,10 +119,18 @@
     <PreBuildEvent>
       <Command>mkdir ..\src\GeneratedFiles
 xcopy ..\shader ..\bin\shader /S /E /I /Y &gt; nul
-xcopy ..\texture ..\bin\texture /S /E /I /Y &gt; nul
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer_interface.h" -o "..\src\GeneratedFiles\moc_renderer_interface.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\main_window.h" -o "..\src\GeneratedFiles\moc_main_window.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_interface.h" -o "..\src\GeneratedFiles\moc_itomp_interface.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_cost_function_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_cost_functions_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp"
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
     </PreBuildEvent>
+    <Lib>
+      <AdditionalDependencies>kinect20.lib;assimp-vc140-mt.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5OpenGL.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>..\lib;$(QTDIR)\lib;$(KINECTSDK20_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -151,7 +159,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\include;..\lib;C:\lib\assimp-3.3.1\include;$(QTDIR)\include;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;release;$(QTDIR)\mkspecs\win32-msvc2015;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;..\lib;C:\lib\assimp-3.3.1\include;$(QTDIR)\include;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;$(QTDIR)\mkspecs\win32-msvc2015;$(KINECTSDK20_DIR)inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <DisableSpecificWarnings>4577;4996</DisableSpecificWarnings>
@@ -167,31 +175,96 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <PreBuildEvent>
       <Command>mkdir ..\src\GeneratedFiles
 xcopy ..\shader ..\bin\shader /S /E /I /Y &gt; nul
-xcopy ..\texture ..\bin\texture /S /E /I /Y &gt; nul
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer_interface.h" -o "..\src\GeneratedFiles\moc_renderer_interface.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\main_window.h" -o "..\src\GeneratedFiles\moc_main_window.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_interface.h" -o "..\src\GeneratedFiles\moc_itomp_interface.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_cost_function_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_cost_functions_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp"
+$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_nlp_widget.h" -o "..\src\GeneratedFiles\moc_itomp_nlp_widget.cpp"
 $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
     </PreBuildEvent>
+    <Lib>
+      <AdditionalDependencies>kinect20.lib;assimp-vc140-mt.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5OpenGL.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>..\lib;$(QTDIR)\lib;$(KINECTSDK20_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\lodepng.cpp" />
     <ClCompile Include="..\lib\tinyxml2.cpp" />
+    <ClCompile Include="..\src\crf\crf.cpp" />
+    <ClCompile Include="..\src\crf\crf_cost_functions_node.cpp" />
+    <ClCompile Include="..\src\crf\crf_factor.cpp" />
+    <ClCompile Include="..\src\crf\crf_examples.cpp" />
+    <ClCompile Include="..\src\crf\crf_factor_manager.cpp" />
+    <ClCompile Include="..\src\crf\crf_groundings_factor.cpp" />
+    <ClCompile Include="..\src\crf\crf_grounding_cost_functions_factor.cpp" />
+    <ClCompile Include="..\src\crf\crf_grounding_node.cpp" />
+    <ClCompile Include="..\src\crf\crf_node.cpp" />
+    <ClCompile Include="..\src\crf\crf_phrase_grounding_factor.cpp" />
+    <ClCompile Include="..\src\crf\crf_phrase_node.cpp" />
+    <ClCompile Include="..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp" />
+    <ClCompile Include="..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp" />
+    <ClCompile Include="..\src\GeneratedFiles\moc_itomp_interface.cpp" />
+    <ClCompile Include="..\src\GeneratedFiles\moc_itomp_nlp_widget.cpp" />
+    <ClCompile Include="..\src\GeneratedFiles\moc_main_window.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_renderer.cpp" />
-    <ClCompile Include="..\src\GeneratedFiles\moc_renderer_interface.cpp" />
+    <ClCompile Include="..\src\interface\itomp_cost_functions_widget.cpp" />
+    <ClCompile Include="..\src\interface\itomp_cost_function_widget.cpp" />
+    <ClCompile Include="..\src\interface\itomp_interface.cpp" />
+    <ClCompile Include="..\src\interface\itomp_nlp_widget.cpp" />
+    <ClCompile Include="..\src\interface\main_window.cpp" />
+    <ClCompile Include="..\src\kinect\kf_human_motion_prediction.cpp" />
+    <ClCompile Include="..\src\kinect\kinect.cpp" />
+    <ClCompile Include="..\src\kinect\kinect_device.cpp" />
+    <ClCompile Include="..\src\nlp\glove_pretrained_loader.cpp" />
+    <ClCompile Include="..\src\nlp\commands_to_cost.cpp" />
+    <ClCompile Include="..\src\nlp\word_to_vector.cpp" />
+    <ClCompile Include="..\src\optimization\collision_cost.cpp" />
+    <ClCompile Include="..\src\optimization\cost.cpp" />
+    <ClCompile Include="..\src\optimization\dynamic_kf_human_obstacle.cpp" />
+    <ClCompile Include="..\src\optimization\dynamic_obstacle.cpp" />
+    <ClCompile Include="..\src\optimization\goal_cost.cpp" />
+    <ClCompile Include="..\src\optimization\goal_orientation_cost.cpp" />
+    <ClCompile Include="..\src\optimization\goal_region_cost.cpp" />
+    <ClCompile Include="..\src\optimization\goal_upvector_cost.cpp" />
     <ClCompile Include="..\src\optimization\optimizer.cpp" />
     <ClCompile Include="..\src\optimization\optimizer_robot.cpp" />
     <ClCompile Include="..\src\optimization\optimizer_robot_loader.cpp" />
+    <ClCompile Include="..\src\optimization\optimizer_thread.cpp" />
+    <ClCompile Include="..\src\optimization\repulsive_cost.cpp" />
+    <ClCompile Include="..\src\optimization\scene.cpp" />
+    <ClCompile Include="..\src\optimization\smoothness_cost.cpp" />
+    <ClCompile Include="..\src\optimization\static_obstacle.cpp" />
+    <ClCompile Include="..\src\optimization\velocity_cost.cpp" />
+    <ClCompile Include="..\src\parsetree\parsetree.cpp" />
+    <ClCompile Include="..\src\parsetree\parsetree_node.cpp" />
+    <ClCompile Include="..\src\parsetree\parsetree_noun_node.cpp" />
+    <ClCompile Include="..\src\parsetree\parsetree_np_node.cpp" />
+    <ClCompile Include="..\src\parsetree\parsetree_pp_node.cpp" />
+    <ClCompile Include="..\src\parsetree\parsetree_verb_node.cpp" />
+    <ClCompile Include="..\src\parsetree\parsetree_vp_node.cpp" />
     <ClCompile Include="..\src\renderer\camera.cpp" />
+    <ClCompile Include="..\src\renderer\color_shader.cpp" />
     <ClCompile Include="..\src\renderer\entity.cpp" />
     <ClCompile Include="..\src\renderer\gl_base.cpp" />
     <ClCompile Include="..\src\renderer\light.cpp" />
     <ClCompile Include="..\src\renderer\light_shader.cpp" />
     <ClCompile Include="..\src\renderer\material.cpp" />
     <ClCompile Include="..\src\renderer\normal_shader.cpp" />
+    <ClCompile Include="..\src\renderer\rendering_box.cpp" />
+    <ClCompile Include="..\src\renderer\rendering_capsule.cpp" />
+    <ClCompile Include="..\src\renderer\rendering_human.cpp" />
+    <ClCompile Include="..\src\renderer\rendering_kinect_human.cpp" />
+    <ClCompile Include="..\src\renderer\rendering_kinect_points.cpp" />
+    <ClCompile Include="..\src\renderer\rendering_mesh.cpp" />
+    <ClCompile Include="..\src\renderer\rendering_mesh_manager.cpp" />
+    <ClCompile Include="..\src\renderer\rendering_robot.cpp" />
+    <ClCompile Include="..\src\renderer\rendering_shape.cpp" />
     <ClCompile Include="..\src\renderer\robot_renderer.cpp" />
     <ClCompile Include="..\src\renderer\texture.cpp" />
     <ClCompile Include="..\src\renderer\object.cpp" />
     <ClCompile Include="..\src\renderer\resource_manager.cpp" />
-    <ClCompile Include="..\src\renderer\renderer_interface.cpp" />
     <ClCompile Include="..\src\renderer\renderer.cpp" />
     <ClCompile Include="..\src\renderer\shader_program.cpp" />
     <ClCompile Include="..\src\renderer\static_shader.cpp" />
@@ -206,18 +279,21 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\robot\robot_state.cpp" />
     <ClCompile Include="..\src\robot\urdf_parser.cpp" />
     <ClCompile Include="..\src\shape\aabb.cpp" />
+    <ClCompile Include="..\src\shape\capsule.cpp" />
+    <ClCompile Include="..\src\shape\capsule2.cpp" />
     <ClCompile Include="..\src\shape\mesh.cpp" />
     <ClCompile Include="..\src\shape\mesh_loader.cpp" />
     <ClCompile Include="..\src\shape\obb.cpp" />
     <ClCompile Include="..\src\shape\rigid_body.cpp" />
     <ClCompile Include="..\src\shape\shape.cpp" />
-    <ClCompile Include="..\src\test\test_interface.cpp" />
     <ClCompile Include="..\src\utils\conversion.cpp" />
     <ClCompile Include="..\src\utils\timing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag" />
     <None Include="..\shader\build_lists.vert" />
+    <None Include="..\shader\color.frag" />
+    <None Include="..\shader\color.vert" />
     <None Include="..\shader\light.frag" />
     <None Include="..\shader\light.vert" />
     <None Include="..\shader\line.frag" />
@@ -237,22 +313,74 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <None Include="..\urdf\fetch.urdf" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\itomp_nlp\crf\crf.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_cost_functions_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_factor.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_examples.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_factor_manager.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_groundings_factor.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_grounding_cost_functions_factor.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_grounding_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_phrase_grounding_factor.h" />
+    <ClInclude Include="..\include\itomp_nlp\crf\crf_phrase_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_functions_widget.h" />
+    <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_function_widget.h" />
+    <ClInclude Include="..\include\itomp_nlp\interface\itomp_interface.h" />
+    <ClInclude Include="..\include\itomp_nlp\interface\itomp_nlp_widget.h" />
+    <ClInclude Include="..\include\itomp_nlp\interface\main_window.h" />
+    <ClInclude Include="..\include\itomp_nlp\kinect\kf_human_motion_prediction.h" />
+    <ClInclude Include="..\include\itomp_nlp\kinect\kinect.h" />
+    <ClInclude Include="..\include\itomp_nlp\kinect\kinect_device.h" />
+    <ClInclude Include="..\include\itomp_nlp\nlp\glove_pretrained_loader.h" />
+    <ClInclude Include="..\include\itomp_nlp\nlp\commands_to_cost.h" />
+    <ClInclude Include="..\include\itomp_nlp\nlp\word_to_vector.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\collision_cost.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\cost.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\dynamic_kf_human_obstacle.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\dynamic_obstacle.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\goal_cost.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\goal_orientation_cost.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\goal_region_cost.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\goal_upvector_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\optimizer.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_robot.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_robot_loader.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\optimizer_thread.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\repulsive_cost.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\scene.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\smoothness_cost.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\static_obstacle.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\velocity_cost.h" />
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree.h" />
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_noun_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_np_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_pp_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_verb_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_vp_node.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\camera.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\color_shader.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\entity.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\gl_base.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\light.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\light_shader.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\normal_shader.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_box.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_capsule.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_human.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_kinect_human.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_kinect_points.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_mesh.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_mesh_manager.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_robot.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_shape.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\resource_manager.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\material.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\robot_renderer.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\texture.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\object.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\renderer.h" />
-    <ClInclude Include="..\include\itomp_nlp\renderer\renderer_interface.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\shader_program.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\static_shader.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\wireframe_shader.h" />
@@ -266,6 +394,8 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\robot\robot_state.h" />
     <ClInclude Include="..\include\itomp_nlp\robot\urdf_parser.h" />
     <ClInclude Include="..\include\itomp_nlp\shape\aabb.h" />
+    <ClInclude Include="..\include\itomp_nlp\shape\capsule.h" />
+    <ClInclude Include="..\include\itomp_nlp\shape\capsule2.h" />
     <ClInclude Include="..\include\itomp_nlp\shape\mesh.h" />
     <ClInclude Include="..\include\itomp_nlp\shape\mesh_loader.h" />
     <ClInclude Include="..\include\itomp_nlp\shape\obb.h" />

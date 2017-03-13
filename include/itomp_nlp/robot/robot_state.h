@@ -6,7 +6,7 @@
 #include <map>
 
 
-namespace itomp_robot
+namespace itomp
 {
 
 class RobotModel;

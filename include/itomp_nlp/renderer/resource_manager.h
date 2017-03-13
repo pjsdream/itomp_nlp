@@ -8,8 +8,10 @@
 #include <itomp_nlp/renderer/gl_base.h>
 #include <itomp_nlp/renderer/object.h>
 
+#include <itomp_nlp/shape/capsule.h>
 
-namespace itomp_renderer
+
+namespace itomp
 {
 
 class ResourceManager : public GLBase
@@ -19,8 +21,6 @@ public:
     ResourceManager(Renderer* renderer);
 
     Object* importFile(const std::string& filename);
-
-    Texture* loadTexture(const std::string& filename);
 
     void cleanUp();
 

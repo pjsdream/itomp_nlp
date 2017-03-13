@@ -2,12 +2,12 @@
 #include <cstdlib>
 #include <stdio.h>
 
-#include <itomp_nlp/renderer/renderer_interface.h>
+#include <itomp_nlp/nlp/glove_pretrained_loader.h>
+#include <itomp_nlp/nlp/commands_to_cost.h>
 
-#include <itomp_nlp/robot/urdf_parser.h>
+#include <itomp_nlp/interface/main_window.h>
 
-#include <itomp_nlp/optimization/optimizer.h>
-#include <itomp_nlp/optimization/optimizer_robot_loader.h>
+#include <itomp_nlp/renderer/rendering_kinect_human.h>
 
 
 int main(int argc, char** argv)
@@ -15,84 +15,39 @@ int main(int argc, char** argv)
     setbuf(stdout, NULL);
     setbuf(stderr, NULL);
 
+    /*
+    itomp_nlp::GlovePretrainedLoader glove_pretrained_loader;
+#ifdef WIN32
+    itomp_nlp::WordToVector* word_to_vector = glove_pretrained_loader.loadGlovePretrainedData("C:\\lib\\glove.6B\\glove.6B.50d.txt");
+#else
+    itomp_nlp::WordToVector* word_to_vector = glove_pretrained_loader.loadGlovePretrainedData("/playpen/jaesungp/lib/glove.6B/glove.6B.50d.txt");
+#endif
+
+    itomp_nlp::CommandsToCost commands_to_cost(word_to_vector);
+    commands_to_cost.analyzeCosts("move");
+    commands_to_cost.analyzeCosts("pull");
+    commands_to_cost.analyzeCosts("push");
+    commands_to_cost.analyzeCosts("thrust");
+    commands_to_cost.analyzeCosts("slow");
+    commands_to_cost.analyzeCosts("vertically");
+    commands_to_cost.analyzeCosts("horizontally");
+
+    delete word_to_vector;
+    */
+
     QApplication app(argc, argv);
-    itomp_renderer::RendererInterface* renderer_interface = new itomp_renderer::RendererInterface();
+    itomp::MainWindow* main_window = new itomp::MainWindow();
+    main_window->show();
+    
+    /*
+    itomp::Renderer* renderer = new itomp::Renderer();
+    
+    itomp::Material* material = new itomp::Material();
+    material->setDiffuseColor(Eigen::Vector4f(0.5, 0.5, 0.5, 1));
 
-    itomp_robot::URDFParser urdf_parser;
-    urdf_parser.addPackageDirectoryMapping("fetch_description", "..");
-    itomp_robot::RobotModel* robot_model = urdf_parser.parseURDF("../urdf/fetch.urdf");
-
-    // default robot state
-    itomp_robot::RobotState* robot_state = new itomp_robot::RobotState(robot_model);
-
-    std::vector<std::string> active_joint_names = 
-    {
-        "shoulder_pan_joint",
-        "shoulder_lift_joint",
-        "upperarm_roll_joint",
-        "elbow_flex_joint",
-        "forearm_roll_joint",
-        "wrist_flex_joint",
-        "wrist_roll_joint",
-    };
-
-    std::vector<std::vector<std::string> > aabb_lists = 
-    {
-        {
-            "base_link",
-        },
-        {
-            "torso_lift_link",
-            "torso_fixed_link",
-        },
-        {
-            "head_pan_link",
-            "head_tilt_link",
-        },
-        {
-            "shoulder_pan_link",
-        },
-        {
-            "shoulder_lift_link",
-        },
-        {
-            "upperarm_roll_link",
-        },
-        {
-            "elbow_flex_link",
-        },
-        {
-            "forearm_roll_link",
-        },
-        {
-            "wrist_flex_link",
-        },
-        {
-            "wrist_roll_link",
-            "gripper_link",
-        },
-        {
-            "r_gripper_finger_link",
-        },
-        {
-            "l_gripper_finger_link",
-        },
-    };
-
-    itomp_optimization::OptimizerRobotLoader optimizer_robot_loader;
-
-    for (int i=0; i<aabb_lists.size(); i++)
-        optimizer_robot_loader.addAABBList(aabb_lists[i]);
-
-    itomp_optimization::OptimizerRobot* optimizer_robot = optimizer_robot_loader.loadRobot(robot_model, robot_state, active_joint_names);
-
-    itomp_optimization::Optimizer optimizer;
-    optimizer.setRobot(optimizer_robot);
-
-    renderer_interface->addRobot(robot_model);
-    renderer_interface->addRobotEntity(0);
-
-    renderer_interface->show();
+    itomp::RenderingKinectHuman* kinect_human = new itomp::RenderingKinectHuman(renderer);
+    kinect_human->setMaterial(material);
+    */
 
     app.exec();
 

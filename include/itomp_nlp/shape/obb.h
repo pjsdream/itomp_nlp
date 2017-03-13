@@ -5,10 +5,11 @@
 #include <itomp_nlp/shape/shape.h>
 
 
-namespace itomp_shape
+namespace itomp
 {
 
 class AABB;
+class Capsule2;
 
 class OBB : public Shape
 {
@@ -29,7 +30,18 @@ public:
         return new OBB(*this);
     }
 
+    virtual double getPenetrationDepth(Shape* shape) const;
+    double getPenetrationDepth(OBB* obb) const;
+    double getPenetrationDepth(Capsule2* capsule) const;
+
+    inline const Eigen::Vector3d& getSize() const
+    {
+        return size_;
+    }
+
 private:
+
+    double distanceToPointNoTransform(const Eigen::Vector3d& p) const;
 
     // extents
     Eigen::Vector3d size_;

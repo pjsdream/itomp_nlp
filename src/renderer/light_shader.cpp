@@ -1,7 +1,7 @@
 #include <itomp_nlp/renderer/light_shader.h>
 
 
-namespace itomp_renderer
+namespace itomp
 {
 
 const std::string LightShader::vertex_filename_ = "shader/light.vert";
@@ -83,22 +83,32 @@ void LightShader::loadLights(const std::vector<Light*>& lights)
 
 void LightShader::loadMaterial(const Material* material)
 {
-    const Eigen::Vector4f specular_color = material->getSpecularColor();
-
-    loadUniform(location_material_specular_color_, specular_color);
-    loadUniform(location_shininess_, material->getShininess());
-
-    if (material->hasDiffuseTexture())
+    if (material == 0)
     {
-        loadUniform(location_has_texture_, true);
     }
+
     else
     {
-        loadUniform(location_has_texture_, false);
+        const Eigen::Vector4f specular_color = material->getSpecularColor();
 
-        const Eigen::Vector4f diffuse_color = material->getDiffuseColor();
+        loadUniform(location_material_specular_color_, specular_color);
+        loadUniform(location_shininess_, material->getShininess());
 
-        loadUniform(location_material_diffuse_color_, diffuse_color);
+        if (material->hasDiffuseTexture())
+        {
+            gl_->glActiveTexture(GL_TEXTURE0);
+            gl_->glBindTexture(GL_TEXTURE_2D, material->getDiffuseTexture()->getTexture());
+
+            loadUniform(location_has_texture_, true);
+        }
+        else
+        {
+            loadUniform(location_has_texture_, false);
+
+            const Eigen::Vector4f diffuse_color = material->getDiffuseColor();
+
+            loadUniform(location_material_diffuse_color_, diffuse_color);
+        }
     }
 }
 
