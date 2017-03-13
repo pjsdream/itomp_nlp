@@ -72,9 +72,6 @@
     <ClCompile Include="..\lib\lodepng.cpp">
       <Filter>LodePNG</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\renderer\entity.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\renderer\light_shader.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
@@ -93,14 +90,8 @@
     <ClCompile Include="..\src\utils\conversion.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\renderer\object.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\utils\timing.cpp">
       <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\renderer\resource_manager.cpp">
-      <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\src\renderer\texture.cpp">
       <Filter>Renderer</Filter>
@@ -125,9 +116,6 @@
     </ClCompile>
     <ClCompile Include="..\src\robot\revolute_joint.cpp">
       <Filter>Robot</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\renderer\robot_renderer.cpp">
-      <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\src\renderer\static_shader.cpp">
       <Filter>Renderer</Filter>
@@ -430,9 +418,6 @@
     <ClInclude Include="..\include\itomp_nlp\renderer\camera.h">
       <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\renderer\entity.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\gl_base.h">
       <Filter>Renderer</Filter>
     </ClInclude>
@@ -451,14 +436,8 @@
     <ClInclude Include="..\include\itomp_nlp\renderer\shader_program.h">
       <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\renderer\object.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\utils\timing.h">
       <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\renderer\resource_manager.h">
-      <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\texture.h">
       <Filter>Renderer</Filter>
@@ -483,9 +462,6 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\robot\revolute_joint.h">
       <Filter>Robot</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\renderer\robot_renderer.h">
-      <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\static_shader.h">
       <Filter>Renderer</Filter>

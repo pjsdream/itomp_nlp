@@ -246,7 +246,6 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\parsetree\parsetree_vp_node.cpp" />
     <ClCompile Include="..\src\renderer\camera.cpp" />
     <ClCompile Include="..\src\renderer\color_shader.cpp" />
-    <ClCompile Include="..\src\renderer\entity.cpp" />
     <ClCompile Include="..\src\renderer\gl_base.cpp" />
     <ClCompile Include="..\src\renderer\light.cpp" />
     <ClCompile Include="..\src\renderer\light_shader.cpp" />
@@ -261,10 +260,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\renderer\rendering_mesh_manager.cpp" />
     <ClCompile Include="..\src\renderer\rendering_robot.cpp" />
     <ClCompile Include="..\src\renderer\rendering_shape.cpp" />
-    <ClCompile Include="..\src\renderer\robot_renderer.cpp" />
     <ClCompile Include="..\src\renderer\texture.cpp" />
-    <ClCompile Include="..\src\renderer\object.cpp" />
-    <ClCompile Include="..\src\renderer\resource_manager.cpp" />
     <ClCompile Include="..\src\renderer\renderer.cpp" />
     <ClCompile Include="..\src\renderer\shader_program.cpp" />
     <ClCompile Include="..\src\renderer\static_shader.cpp" />
@@ -361,7 +357,6 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_vp_node.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\camera.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\color_shader.h" />
-    <ClInclude Include="..\include\itomp_nlp\renderer\entity.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\gl_base.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\light.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\light_shader.h" />
@@ -375,11 +370,8 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_mesh_manager.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_robot.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_shape.h" />
-    <ClInclude Include="..\include\itomp_nlp\renderer\resource_manager.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\material.h" />
-    <ClInclude Include="..\include\itomp_nlp\renderer\robot_renderer.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\texture.h" />
-    <ClInclude Include="..\include\itomp_nlp\renderer\object.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\renderer.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\shader_program.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\static_shader.h" />

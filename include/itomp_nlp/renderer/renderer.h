@@ -9,10 +9,6 @@
 
 #include <itomp_nlp/renderer/camera.h>
 
-#include <itomp_nlp/renderer/resource_manager.h>
-
-#include <itomp_nlp/renderer/entity.h>
-
 #include <itomp_nlp/renderer/static_shader.h>
 #include <itomp_nlp/renderer/light_shader.h>
 #include <itomp_nlp/renderer/color_shader.h>
@@ -41,11 +37,6 @@ public:
         SHADER_TYPE_COLOR,
     };
 
-private:
-
-    static const int MAX_FRAMEBUFFER_WIDTH = 2048;
-    static const int MAX_FRAMEBUFFER_HEIGHT = 2048;
-
 public:
 
     explicit Renderer(QWidget* parent = 0);
@@ -55,15 +46,6 @@ public:
     {
         return gl_;
     }
-
-    inline void setNormalLineLength(double length)
-    {
-        normal_line_length_ = length;
-    }
-
-    int registerMeshFile(const std::string& filename);
-    int addEntity(int object_id, const Eigen::Affine3d& transform);
-    void setEntityTransform(int entity_id, const Eigen::Affine3d& transform);
 
     void addShape(RenderingShape* shape, ShaderType shader = SHADER_TYPE_LIGHT);
     void deleteShape(RenderingShape* shape);
@@ -79,19 +61,10 @@ protected:
 
 private:
 
-    void renderObject(Object* object, LightShader* shader);
-    void renderEntity(Entity* entity, LightShader* shader);
-    void renderEntityNormals(Entity* entity, NormalShader* shader);
-    void renderEntityWireframe(Entity* entity, WireframeShader* shader);
-
-    void renderShape(RenderingShape* shape, LightShader* shader);
-
     Camera camera_;
 
     QOpenGLFunctions_4_3_Core* gl_;
     
-    ResourceManager* resource_manager_;
-
     // shaders
     LightShader* light_shader_;
     std::vector<Light*> lights_;
@@ -99,12 +72,6 @@ private:
     double normal_line_length_;
     WireframeShader* wireframe_shader_;
     ColorShader* color_shader_;
-
-    // objects
-    std::vector<Object*> objects_;
-
-    // entities to be drawn
-    std::vector<Entity*> entities_;
 
     // rendering shapes
     std::vector<RenderingShape*> rendering_shapes_;

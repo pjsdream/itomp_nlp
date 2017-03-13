@@ -58,61 +58,6 @@ void Renderer::deleteShape(RenderingShape* shape)
     }
 }
 
-int Renderer::registerMeshFile(const std::string& filename)
-{
-    Object* object = resource_manager_->importFile(filename);
-    objects_.push_back(object);
-    return objects_.size() - 1;
-}
-
-int Renderer::addEntity(int object_id, const Eigen::Affine3d& transform)
-{
-    Entity* entity = new Entity(objects_[object_id], transform);
-    entities_.push_back(entity);
-    return entities_.size() - 1;
-}
-
-void Renderer::setEntityTransform(int entity_id, const Eigen::Affine3d& transform)
-{
-    entities_[entity_id]->setTransformation(transform);
-}
-
-void Renderer::renderObject(Object* object, LightShader* shader)
-{
-    Eigen::Affine3f transformation = Eigen::Affine3f::Identity();
-    shader->loadModelTransform(transformation.matrix());
-    shader->loadMaterial(object->getMaterial());
-    object->draw();
-}
-
-void Renderer::renderEntity(Entity* entity, LightShader* shader)
-{
-    Object* object = entity->getObject();
-    Eigen::Affine3f transformation = entity->getTransformation().cast<float>();
-
-    shader->loadModelTransform(transformation.matrix());
-    shader->loadMaterial(object->getMaterial());
-    object->draw();
-}
-
-void Renderer::renderEntityNormals(Entity* entity, NormalShader* shader)
-{
-    Object* object = entity->getObject();
-    Eigen::Affine3f transformation = entity->getTransformation().cast<float>();
-
-    shader->loadModelTransform(transformation.matrix());
-    object->draw(GL_POINTS);
-}
-
-void Renderer::renderEntityWireframe(Entity* entity, WireframeShader* shader)
-{
-    Object* object = entity->getObject();
-    Eigen::Affine3f transformation = entity->getTransformation().cast<float>();
-
-    shader->loadModelTransform(transformation.matrix());
-    object->draw();
-}
-
 void Renderer::initializeGL()
 {
     gl_ = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
@@ -121,13 +66,11 @@ void Renderer::initializeGL()
     gl_->glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
     gl_->glClearDepth(1.0f);
 
-    resource_manager_ = new ResourceManager(this);
-
     // shaders
     light_shader_ = new LightShader(this);
 
     normal_shader_ = new NormalShader(this);
-    setNormalLineLength(0.01);
+    normal_line_length_ = 0.01;
 
     wireframe_shader_ = new WireframeShader(this);
 

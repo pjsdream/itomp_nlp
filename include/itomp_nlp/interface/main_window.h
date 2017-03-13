@@ -5,7 +5,6 @@
 #include <QMainWindow>
 
 #include <itomp_nlp/renderer/renderer.h>
-#include <itomp_nlp/renderer/robot_renderer.h>
 
 #include <itomp_nlp/renderer/rendering_robot.h>
 #include <itomp_nlp/renderer/rendering_box.h>
