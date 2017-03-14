@@ -119,7 +119,8 @@ Eigen::Matrix4d Camera::ortho() const
     Eigen::Matrix4d mat = Eigen::Matrix4d::Identity();
     mat(0, 0) = 1. / (aspect_ * d);
     mat(1, 1) = 1. / d;
-    mat(2, 2) = -1e-3;
+    mat(2, 2) = -2. / (far_ - near_);
+    mat(2, 3) = -(far_ + near_) / (far_ - near_);
 
     return mat;
 }

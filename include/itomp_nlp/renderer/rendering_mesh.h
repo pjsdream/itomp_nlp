@@ -19,6 +19,7 @@ public:
     ~RenderingMesh();
 
     virtual void draw(LightShader* shader);
+    virtual void draw(ShadowmapShader* shader);
 
 private:
     
@@ -28,6 +29,8 @@ private:
 
     GLuint vao_;
     std::vector<GLuint> vbos_;
+
+    bool has_tex_coords_;
 
     int num_triangles_;
 };

@@ -84,6 +84,7 @@ void RenderingMesh::initializeBuffers()
             gl_->glEnableVertexAttribArray(2);
             
             vbos_.push_back(vbo);
+            has_tex_coords_ = true;
         }
 
         if (mesh->HasFaces())
@@ -166,6 +167,22 @@ void RenderingMesh::draw(LightShader* shader)
     shader->loadModelTransform(transform_);
 
     gl_->glBindVertexArray(vao_);
+    gl_->glEnableVertexAttribArray(1);
+    if (has_tex_coords_)
+        gl_->glEnableVertexAttribArray(2);
+    gl_->glDrawArrays(GL_TRIANGLES, 0, num_triangles_ * 3);
+}
+
+void RenderingMesh::draw(ShadowmapShader* shader)
+{
+    if (vao_ == 0)
+        initializeBuffers();
+
+    shader->loadModelTransform(transform_);
+
+    gl_->glBindVertexArray(vao_);
+    gl_->glDisableVertexAttribArray(1);
+    gl_->glDisableVertexAttribArray(2);
     gl_->glDrawArrays(GL_TRIANGLES, 0, num_triangles_ * 3);
 }
 

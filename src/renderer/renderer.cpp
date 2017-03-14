@@ -14,6 +14,7 @@ namespace itomp
 
 Renderer::Renderer(QWidget* parent)
     : QOpenGLWidget(parent)
+    , shadowmap_shader_(0)
 {
     QSurfaceFormat format;
     format.setDepthBufferSize(24);
@@ -22,7 +23,7 @@ Renderer::Renderer(QWidget* parent)
     format.setProfile(QSurfaceFormat::CoreProfile);
     setFormat(format);
 
-    camera_.setOrtho();
+    camera_.setPerspective();
     
     // DEBUG: timer
     QTimer* timer = new QTimer();
@@ -57,7 +58,7 @@ void Renderer::deleteShape(RenderingShape* shape)
 void Renderer::initializeGL()
 {
     gl_ = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
-
+    
     gl_->glEnable(GL_DEPTH_TEST);
     gl_->glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
     gl_->glClearDepth(1.0f);
@@ -71,6 +72,11 @@ void Renderer::initializeGL()
     wireframe_shader_ = new WireframeShader(this);
 
     color_shader_ = new ColorShader(this);
+
+    light_shadow_shader_ = new LightShadowShader(this);
+    
+    if (shadowmap_shader_ == 0)
+        shadowmap_shader_ = new ShadowmapShader(this);
 
     // default light
     Light* light;
@@ -95,7 +101,31 @@ void Renderer::paintGL()
     // light direction from camera
     //lights_[0]->setPosition( - camera_.lookAtDirection() );
 
+    // shadowmap shader
+    shadowmap_shader_->start();
+    shadowmap_shader_->loadLight(lights_[0]);
+    
+    for (int i=0; i<rendering_shapes_.size(); i++)
+        rendering_shapes_[i]->draw(shadowmap_shader_);
+
+    shadowmap_shader_->stop();
+
+    // restore viewport
+    gl_->glViewport(0, 0, width(), height());
+
+    // light shadow shader
+    light_shadow_shader_->start();
+    light_shadow_shader_->bindShadowmapTexture( shadowmap_shader_->getShadowmapTextureId() );
+    light_shadow_shader_->loadCamera(camera_);
+    light_shadow_shader_->loadLights(lights_);
+    
+    for (int i=0; i<rendering_shapes_.size(); i++)
+        rendering_shapes_[i]->draw(light_shadow_shader_);
+
+    light_shadow_shader_->stop();
+
     // light shader
+    /*
     light_shader_->start();
     light_shader_->loadCamera(camera_);
     light_shader_->loadLights(lights_);
@@ -104,8 +134,10 @@ void Renderer::paintGL()
         rendering_shapes_[i]->draw(light_shader_);
 
     light_shader_->stop();
+    */
 
     // color shader
+    /*
     color_shader_->start();
     color_shader_->loadCamera(camera_);
 
@@ -113,6 +145,7 @@ void Renderer::paintGL()
         rendering_shapes_[i]->draw(color_shader_);
 
     color_shader_->stop();
+    */
 
     // normal shader
     /*

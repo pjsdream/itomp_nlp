@@ -14,6 +14,8 @@
 #include <itomp_nlp/renderer/color_shader.h>
 #include <itomp_nlp/renderer/normal_shader.h>
 #include <itomp_nlp/renderer/wireframe_shader.h>
+#include <itomp_nlp/renderer/shadowmap_shader.h>
+#include <itomp_nlp/renderer/light_shadow_shader.h>
 #include <itomp_nlp/renderer/light.h>
 #include <itomp_nlp/renderer/material.h>
 
@@ -64,6 +66,9 @@ private:
     double normal_line_length_;
     WireframeShader* wireframe_shader_;
     ColorShader* color_shader_;
+    
+    LightShadowShader* light_shadow_shader_;
+    ShadowmapShader* shadowmap_shader_;
 
     // rendering shapes
     std::vector<RenderingShape*> rendering_shapes_;

@@ -339,6 +339,12 @@
     <ClCompile Include="..\src\renderer\rendering_plane.cpp">
       <Filter>RenderingShape</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\renderer\light_shadow_shader.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\shadowmap_shader.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -402,6 +408,18 @@
       <Filter>Shader</Filter>
     </None>
     <None Include="..\shader\color.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\shadowmap.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\shadowmap.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\light_shadow.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\light_shadow.vert">
       <Filter>Shader</Filter>
     </None>
   </ItemGroup>
@@ -672,6 +690,12 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_plane.h">
       <Filter>RenderingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\light_shadow_shader.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\shadowmap_shader.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

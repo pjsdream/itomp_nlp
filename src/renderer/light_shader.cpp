@@ -15,6 +15,13 @@ LightShader::LightShader(Renderer* renderer)
     getAllUniformLocations();
 }
 
+LightShader::LightShader(Renderer* renderer, const std::string& vertex_filename, const std::string& fragment_filename)
+    : ShaderProgram(renderer, vertex_filename, fragment_filename)
+{
+    bindAttributes();
+    getAllUniformLocations();
+}
+
 void LightShader::bindAttributes()
 {
     bindAttribute(0, "position");

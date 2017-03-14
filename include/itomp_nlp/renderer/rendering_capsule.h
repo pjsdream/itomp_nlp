@@ -30,6 +30,7 @@ public:
     ~RenderingCapsule();
 
     virtual void draw(LightShader* shader);
+    virtual void draw(ShadowmapShader* shader);
     
     void setCapsule(const Eigen::Vector3d& p, double rp, const Eigen::Vector3d& q, double rq);
 

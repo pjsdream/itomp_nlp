@@ -249,6 +249,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\renderer\gl_base.cpp" />
     <ClCompile Include="..\src\renderer\light.cpp" />
     <ClCompile Include="..\src\renderer\light_shader.cpp" />
+    <ClCompile Include="..\src\renderer\light_shadow_shader.cpp" />
     <ClCompile Include="..\src\renderer\material.cpp" />
     <ClCompile Include="..\src\renderer\normal_shader.cpp" />
     <ClCompile Include="..\src\renderer\rendering_box.cpp" />
@@ -261,6 +262,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\renderer\rendering_plane.cpp" />
     <ClCompile Include="..\src\renderer\rendering_robot.cpp" />
     <ClCompile Include="..\src\renderer\rendering_shape.cpp" />
+    <ClCompile Include="..\src\renderer\shadowmap_shader.cpp" />
     <ClCompile Include="..\src\renderer\texture.cpp" />
     <ClCompile Include="..\src\renderer\renderer.cpp" />
     <ClCompile Include="..\src\renderer\shader_program.cpp" />
@@ -293,6 +295,8 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <None Include="..\shader\color.vert" />
     <None Include="..\shader\light.frag" />
     <None Include="..\shader\light.vert" />
+    <None Include="..\shader\light_shadow.frag" />
+    <None Include="..\shader\light_shadow.vert" />
     <None Include="..\shader\line.frag" />
     <None Include="..\shader\line.vert" />
     <None Include="..\shader\mesh.frag" />
@@ -302,6 +306,8 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <None Include="..\shader\normal.vert" />
     <None Include="..\shader\resolve_lists.frag" />
     <None Include="..\shader\resolve_lists.vert" />
+    <None Include="..\shader\shadowmap.frag" />
+    <None Include="..\shader\shadowmap.vert" />
     <None Include="..\shader\static.frag" />
     <None Include="..\shader\static.vert" />
     <None Include="..\shader\wireframe.frag" />
@@ -361,6 +367,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\renderer\gl_base.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\light.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\light_shader.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\light_shadow_shader.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\normal_shader.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_box.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_capsule.h" />
@@ -373,6 +380,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_robot.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_shape.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\material.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\shadowmap_shader.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\texture.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\renderer.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\shader_program.h" />

@@ -36,4 +36,8 @@ void RenderingShape::draw(ColorShader* shader)
 {
 }
 
+void RenderingShape::draw(ShadowmapShader* shader)
+{
+}
+
 }

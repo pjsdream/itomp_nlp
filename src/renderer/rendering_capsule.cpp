@@ -189,6 +189,19 @@ void RenderingCapsule::draw(LightShader* shader)
     shader->loadMaterial(material_);
 
     gl_->glBindVertexArray(vao_);
+    gl_->glEnableVertexAttribArray(1);
+    gl_->glDrawArrays(GL_TRIANGLES, 0, num_triangles_ * 3);
+}
+
+void RenderingCapsule::draw(ShadowmapShader* shader)
+{
+    if (need_update_buffer_)
+        updateBuffers();
+
+    shader->loadModelTransform(transform_);
+
+    gl_->glBindVertexArray(vao_);
+    gl_->glDisableVertexAttribArray(1);
     gl_->glDrawArrays(GL_TRIANGLES, 0, num_triangles_ * 3);
 }
 
