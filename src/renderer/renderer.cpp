@@ -103,21 +103,32 @@ void Renderer::paintGL()
 
     // shadowmap shader
     shadowmap_shader_->start();
-    shadowmap_shader_->loadLight(lights_[0]);
     
-    for (int i=0; i<rendering_shapes_.size(); i++)
-        rendering_shapes_[i]->draw(shadowmap_shader_);
+    GLint screen_fbo;
+    gl_->glGetIntegerv(GL_FRAMEBUFFER_BINDING, &screen_fbo);
+
+    for (int i=0; i<lights_.size(); i++)
+    {
+        shadowmap_shader_->bindTexture(i);
+        shadowmap_shader_->loadLight(lights_[i]);
+    
+        for (int j=0; j<rendering_shapes_.size(); j++)
+            rendering_shapes_[j]->draw(shadowmap_shader_);
+    }
 
     shadowmap_shader_->stop();
+    gl_->glBindFramebuffer(GL_FRAMEBUFFER, screen_fbo);
 
     // restore viewport
     gl_->glViewport(0, 0, width(), height());
 
     // light shadow shader
     light_shadow_shader_->start();
-    light_shadow_shader_->bindShadowmapTexture( shadowmap_shader_->getShadowmapTextureId() );
     light_shadow_shader_->loadCamera(camera_);
     light_shadow_shader_->loadLights(lights_);
+
+    for (int i=0; i<lights_.size(); i++)
+        light_shadow_shader_->bindShadowmapTexture(i, shadowmap_shader_->getShadowmapTextureId(i));
     
     for (int i=0; i<rendering_shapes_.size(); i++)
         rendering_shapes_[i]->draw(light_shadow_shader_);

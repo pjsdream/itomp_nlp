@@ -16,6 +16,8 @@ class ShadowmapShader : public ShaderProgram
 {
 private:
 
+    static const int MAX_NUM_LIGHTS = 8;
+
     static const GLuint SHADOW_WIDTH = 1024;
     static const GLuint SHADOW_HEIGHT = 1024;
 
@@ -28,15 +30,14 @@ public:
     
     virtual void bindAttributes();
 
-    virtual void start();
-    virtual void stop();
+    void bindTexture(int light_index);
 
     void loadModelTransform(const Eigen::Matrix4f& m);
     void loadLight(const Light* light);
 
-    inline GLuint getShadowmapTextureId()
+    inline GLuint getShadowmapTextureId(int light_index)
     {
-        return depth_texture_;
+        return depth_texture_[light_index];
     }
 
 protected:
@@ -54,9 +55,8 @@ private:
     // framebuffer object
     void initializeFrameBuffer();
 
-    GLint screen_fbo_;
-    GLuint fbo_;
-    GLuint depth_texture_;
+    GLuint fbo_[MAX_NUM_LIGHTS];
+    GLuint depth_texture_[MAX_NUM_LIGHTS];
 };
 
 }

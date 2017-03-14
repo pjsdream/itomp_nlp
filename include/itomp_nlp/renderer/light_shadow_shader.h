@@ -19,7 +19,7 @@ public:
 
     LightShadowShader(Renderer* renderer);
 
-    void bindShadowmapTexture(GLuint texture);
+    void bindShadowmapTexture(int light_index, GLuint texture);
 
     virtual void loadLights(const std::vector<Light*>& lights);
     
@@ -28,13 +28,15 @@ protected:
     virtual void getAllUniformLocations();
 
 private:
-    
+
+    void loadTextureSamplers();
+
     Camera camera_;
 
     GLuint location_texture_sampler_;
-    GLuint location_shadow_map_;
+    GLuint location_shadow_map_[MAX_NUM_LIGHTS];
 
-    GLuint location_light_projection_view_;
+    GLuint location_light_projection_view_[MAX_NUM_LIGHTS];
 };
 
 }

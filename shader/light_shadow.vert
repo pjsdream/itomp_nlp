@@ -7,12 +7,10 @@ in vec2 texture_coords;
 uniform mat4 model;
 uniform mat4 projection;
 uniform mat4 view;
-uniform mat4 light_projection_view;
 
 out vec3 surface_position;
 out vec3 surface_normal;
 out vec2 pass_texture_coords;
-out vec3 surface_position_light;
 
 void main()
 {
@@ -21,7 +19,6 @@ void main()
     surface_position = vec3(world_position);
     surface_normal = mat3(model) * normal;
     pass_texture_coords = texture_coords;
-    surface_position_light = vec3(light_projection_view * world_position);
 
     gl_Position = projection * view * world_position;
 }

@@ -19,8 +19,8 @@ public:
 
     virtual void bindAttributes() = 0;
 
-    virtual void start();
-    virtual void stop();
+    void start();
+    void stop();
     void cleanUp();
     
     void loadUniform(int location, float value);
