@@ -72,19 +72,25 @@ OBB::EigenAlignedVector<Eigen::Vector3d> OBB::getEndpoints() const
 double OBB::getPenetrationDepth(OBB* obb) const
 {
     // find normal candidates
-    Eigen::Matrix<double, 3, 6> axes;
     Eigen::Matrix<double, 3, 15> normals;
 
-    axes.block(0, 0, 3, 3) = transform_.linear();
-    axes.block(0, 3, 3, 3) = obb->getTransform().linear();
+    const Eigen::Matrix3d R1 = transform_.linear();
+    const Eigen::Matrix3d R2 = obb->getTransform().linear();
     
     int normal_idx = 0;
-    for (int i=0; i<6; i++)
+
+    for (int i=0; i<3; i++)
+        normals.col(normal_idx++) = R1.col(i);
+
+    for (int i=0; i<3; i++)
+        normals.col(normal_idx++) = R2.col(i);
+
+    for (int i=0; i<3; i++)
     {
-        const Eigen::Vector3d c1 = axes.col(i);
-        for (int j=i+1; j<6; j++)
+        const Eigen::Vector3d c1 = R1.col(i);
+        for (int j=0; j<3; j++)
         {
-            const Eigen::Vector3d c2 = axes.col(j);
+            const Eigen::Vector3d c2 = R2.col(j);
 
             if (std::abs(c1.dot(c2)) >= 1 - 1e-6)
                 normals.col(normal_idx++) = c1;
