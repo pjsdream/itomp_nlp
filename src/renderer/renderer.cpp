@@ -24,6 +24,7 @@ Renderer::Renderer(QWidget* parent)
     setFormat(format);
 
     camera_.setPerspective();
+    camera_.lookAt(Eigen::Vector3d(2, 0, 2), Eigen::Vector3d(0, 0, 0));
     
     // DEBUG: timer
     QTimer* timer = new QTimer();
