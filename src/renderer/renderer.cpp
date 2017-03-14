@@ -74,7 +74,7 @@ void Renderer::initializeGL()
 
     // default light
     Light* light;
-    light = new Light(Eigen::Vector3d(-1, 0, 0));
+    light = new Light(Eigen::Vector3d(9, -1, 10));
     light->setDiffuseColor(Eigen::Vector4f(1, 1, 1, 1));
     light->setSpecularColor(Eigen::Vector4f(0, 0, 0, 1));
     lights_.push_back(light);
@@ -93,7 +93,7 @@ void Renderer::paintGL()
     gl_->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // light direction from camera
-    lights_[0]->setPosition( - camera_.lookAtDirection() );
+    //lights_[0]->setPosition( - camera_.lookAtDirection() );
 
     // light shader
     light_shader_->start();

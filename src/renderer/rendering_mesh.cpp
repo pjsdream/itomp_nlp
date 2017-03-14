@@ -133,7 +133,10 @@ void RenderingMesh::initializeBuffers()
             const int idx = filename_.find_last_of("/\\");
             const std::string texture_filename = idx == std::string::npos ? path.C_Str() : filename_.substr(0, idx) + "/" + path.C_Str();
 
-            material_->setDiffuseTexture( new Texture(renderer_, texture_filename) );
+            Texture* texture = new Texture(renderer_);
+            texture->loadFile(texture_filename);
+
+            material_->setDiffuseTexture(texture);
         }
 
         else

@@ -258,6 +258,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClCompile Include="..\src\renderer\rendering_kinect_points.cpp" />
     <ClCompile Include="..\src\renderer\rendering_mesh.cpp" />
     <ClCompile Include="..\src\renderer\rendering_mesh_manager.cpp" />
+    <ClCompile Include="..\src\renderer\rendering_plane.cpp" />
     <ClCompile Include="..\src\renderer\rendering_robot.cpp" />
     <ClCompile Include="..\src\renderer\rendering_shape.cpp" />
     <ClCompile Include="..\src\renderer\texture.cpp" />
@@ -368,6 +369,7 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_kinect_points.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_mesh.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_mesh_manager.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_plane.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_robot.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_shape.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\material.h" />

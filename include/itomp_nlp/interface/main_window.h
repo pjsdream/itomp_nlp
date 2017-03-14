@@ -9,6 +9,7 @@
 #include <itomp_nlp/renderer/rendering_robot.h>
 #include <itomp_nlp/renderer/rendering_box.h>
 #include <itomp_nlp/renderer/rendering_kinect_points.h>
+#include <itomp_nlp/renderer/rendering_plane.h>
 
 #include <itomp_nlp/interface/itomp_interface.h>
 

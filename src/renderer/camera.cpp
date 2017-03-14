@@ -13,10 +13,11 @@ Camera::Camera()
     , sensitivity_translation_(0.001)
     , sensitivity_rotation_(0.001)
     , sensitivity_zoom_(0.001)
-    , fovy_(90.)
+    , fovy_(60.)
     , aspect_(4. / 3.)
     , near_(0.1)
     , far_(1000.)
+    , projection_type_(ORTHO)
 {
 }
 
