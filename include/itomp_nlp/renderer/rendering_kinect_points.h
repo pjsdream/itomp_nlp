@@ -19,14 +19,7 @@ public:
 
     virtual void draw(ColorShader* shader);
 
-    inline void setTransform(const Eigen::Affine3d& transform)
-    {
-        transform_ = transform.matrix().cast<float>();
-    }
-    
 private:
-    
-    Eigen::Matrix4f transform_;
     
     Kinect* kinect_;
 

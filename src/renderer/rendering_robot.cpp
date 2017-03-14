@@ -18,7 +18,16 @@ RenderingRobot::RenderingRobot(Renderer* renderer, RobotModel* robot_model)
 
 void RenderingRobot::draw(LightShader* shader)
 {
-    shader_ = shader;
+    light_shader_ = shader;
+    shadowmap_shader_ = 0;
+
+    drawLinks(robot_model_->getRootLink(), Eigen::Affine3d::Identity());
+}
+
+void RenderingRobot::draw(ShadowmapShader* shader)
+{
+    light_shader_ = 0;
+    shadowmap_shader_ = shader;
 
     drawLinks(robot_model_->getRootLink(), Eigen::Affine3d::Identity());
 }
@@ -35,8 +44,12 @@ void RenderingRobot::drawLinks(const Link* link, Eigen::Affine3d transform)
         RenderingMesh* mesh = RenderingMeshManager::getMesh(renderer_, visual_mesh_filename);
 
         const Eigen::Affine3d& visual_mesh_origin = visual_mesh_origins[i];
-        mesh->setTransformation((transform * visual_mesh_origin).cast<float>());
-        mesh->draw(shader_);
+        mesh->setTransform(transform * visual_mesh_origin);
+
+        if (light_shader_)
+            mesh->draw(light_shader_);
+        else if (shadowmap_shader_)
+            mesh->draw(shadowmap_shader_);
     }
 
     for (int i=0; i<link->getNumChild(); i++)

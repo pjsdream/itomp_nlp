@@ -35,7 +35,7 @@ ItompInterface::ItompInterface(QWidget* parent)
     itomp_cost_functions_widget_ = new ItompCostFunctionsWidget(this);
     connect(itomp_cost_functions_widget_, SIGNAL(costFunctionChanged(int, const std::string&, std::vector<double>)),
             this, SLOT(costFunctionChanged(int, const std::string&, std::vector<double>)));
-
+    
     scroll_area_ = new QScrollArea(this);
     scroll_area_->setWidget(itomp_cost_functions_widget_);
     scroll_area_->setWidgetResizable(true);
@@ -61,8 +61,8 @@ void ItompInterface::initializeResources()
 {
 #ifdef _WIN32
     URDFParser urdf_parser;
-    //urdf_parser.addPackageDirectoryMapping("fetch_description", "C:\\Users\\jaesungp\\Desktop\\documents\\fetch_ros\\fetch_description");
-    urdf_parser.addPackageDirectoryMapping("fetch_description", "C:\\Users\\pjsdr_000\\Desktop\\documents\\fetch_ros\\fetch_description");
+    urdf_parser.addPackageDirectoryMapping("fetch_description", "C:\\Users\\jaesungp\\Desktop\\documents\\fetch_ros\\fetch_description");
+    //urdf_parser.addPackageDirectoryMapping("fetch_description", "C:\\Users\\pjsdr_000\\Desktop\\documents\\fetch_ros\\fetch_description");
     robot_model_ = urdf_parser.parseURDF("../urdf/fetch.urdf");
 #else
     URDFParser urdf_parser;
@@ -284,6 +284,9 @@ void ItompInterface::costFunctionChanged(int id, const std::string& type, std::v
         // hard-coded enffector information for fetch robot
         optimizer_.setGoalOrientationCost(id, values[0], 7, q);
     }
+
+    else if (type == "upvector")
+        optimizer_.setGoalUpvectorCost(id, values[0], 7, Eigen::Vector3d(values[1], values[2], values[3]));
 }
 
 void ItompInterface::commandAdded(std::string command)

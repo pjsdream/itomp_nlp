@@ -19,16 +19,7 @@ public:
     ~RenderingMesh();
 
     virtual void draw(LightShader* shader);
-
-    inline void setTransformation(const Eigen::Affine3f& transformation)
-    {
-        transformation_ = transformation.matrix();
-    }
-
-    inline void setTransformation(const Eigen::Matrix4f& transformation)
-    {
-        transformation_ = transformation;
-    }
+    virtual void draw(ShadowmapShader* shader);
 
 private:
     
@@ -36,12 +27,10 @@ private:
 
     void initializeBuffers();
 
-    Material* material_;
-
-    Eigen::Matrix4f transformation_;
-
     GLuint vao_;
     std::vector<GLuint> vbos_;
+
+    bool has_tex_coords_;
 
     int num_triangles_;
 };

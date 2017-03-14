@@ -11,18 +11,27 @@ namespace itomp
 class Texture : public GLBase
 {
 public:
-
-    Texture(Renderer* renderer, const std::string& filename);
+    
+    Texture(Renderer* renderer);
     ~Texture();
 
-    inline GLuint getTexture()
-    {
-        return texture_;
-    }
+    void loadFile(const std::string& filename);
+
+    void setImage(unsigned int width, unsigned int height, const std::vector<unsigned char>& image);
+
+    GLuint getTexture();
 
 private:
 
+    void updateBuffers();
+
     GLuint texture_;
+
+    unsigned int width_;
+    unsigned int height_;
+    std::vector<unsigned char> image_;
+
+    bool need_update_buffers_;
 };
 
 }

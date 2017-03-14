@@ -26,13 +26,9 @@ public:
     ~RenderingBox();
 
     virtual void draw(LightShader* shader);
+    virtual void draw(ShadowmapShader* shader);
     
     void setSize(const Eigen::Vector3d& size);
-
-    inline void setTransform(const Eigen::Affine3d& transform)
-    {
-        transform_ = transform.matrix().cast<float>();
-    }
 
 private:
     
@@ -44,7 +40,6 @@ private:
     GLuint vao_;
     std::vector<GLuint> vbos_;
 
-    Eigen::Matrix4f transform_;
     Eigen::Vector3d size_;
 };
 

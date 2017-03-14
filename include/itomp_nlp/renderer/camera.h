@@ -4,7 +4,6 @@
 
 #include <Eigen/Dense>
 
-
 namespace itomp
 {
 
@@ -45,6 +44,16 @@ public:
     inline void setSensitivityZoom(double sensitivity)
     {
         sensitivity_zoom_ = sensitivity;
+    }
+
+    inline void setNear(double n)
+    {
+        near_ = n;
+    }
+
+    inline void setFar(double f)
+    {
+        far_ = f;
     }
 
     void lookAt(const Eigen::Vector3d& eye, const Eigen::Vector3d center);

@@ -85,6 +85,30 @@ MainWindow::MainWindow()
     capsule2->setMaterial(blue);
     capsule2->setCapsule(Eigen::Vector3d(0.7, -0.7, 0.7), 0.03, Eigen::Vector3d(0.7, -0.7, 0.8), 0.03);
 
+    
+    std::vector<unsigned char> checkerboard_image = 
+    {
+        0xFF, 0xFF, 0xFF, 0xFF,  0xCF, 0xCF, 0xCF, 0xFF,
+        0xCF, 0xCF, 0xCF, 0xFF,  0xFF, 0xFF, 0xFF, 0xFF,
+    };
+
+    Texture* checkerboard_texture = new Texture(renderer_);
+    checkerboard_texture->setImage(2, 2, checkerboard_image);
+
+    Material* checkerboard = new Material();
+    checkerboard->setDiffuseTexture(checkerboard_texture);
+
+    RenderingPlane* plane = new RenderingPlane(renderer_);
+    plane->setMaterial(checkerboard);
+
+    RenderingPlane* plane2 = new RenderingPlane(renderer_);
+    Eigen::Affine3d yzx;
+    yzx.setIdentity();
+    yzx.translate(Eigen::Vector3d(-2, 0, 0));
+    yzx.rotate(Eigen::AngleAxisd(M_PI / 2., Eigen::Vector3d(0, 1, 0)));
+    plane2->setTransform(yzx);
+    plane2->setMaterial(checkerboard);
+
     timer->start();
 }
 

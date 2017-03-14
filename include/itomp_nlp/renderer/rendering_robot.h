@@ -24,6 +24,7 @@ public:
     RenderingRobot(Renderer* renderer, RobotModel* robot_model);
 
     virtual void draw(LightShader* shader);
+    virtual void draw(ShadowmapShader* shader);
 
     void setRobotState(const RobotState& robot_state);
     
@@ -35,7 +36,8 @@ private:
     void drawLinks(const Link* link, Eigen::Affine3d transform);
 
     // intermediate variables
-    LightShader* shader_;
+    LightShader* light_shader_;
+    ShadowmapShader* shadowmap_shader_;
 };
 
 }

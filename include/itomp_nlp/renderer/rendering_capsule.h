@@ -30,6 +30,7 @@ public:
     ~RenderingCapsule();
 
     virtual void draw(LightShader* shader);
+    virtual void draw(ShadowmapShader* shader);
     
     void setCapsule(const Eigen::Vector3d& p, double rp, const Eigen::Vector3d& q, double rq);
 
@@ -43,8 +44,6 @@ private:
     GLuint vao_;
     std::vector<GLuint> vbos_;
 
-    Eigen::Matrix4f transformation_;
-    
     bool need_update_buffer_;
     Eigen::Vector3f p_;
     Eigen::Vector3f q_;
