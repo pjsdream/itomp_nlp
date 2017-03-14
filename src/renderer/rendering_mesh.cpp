@@ -84,6 +84,7 @@ void RenderingMesh::initializeBuffers()
             gl_->glEnableVertexAttribArray(2);
             
             vbos_.push_back(vbo);
+            has_tex_coords_ = true;
         }
 
         if (mesh->HasFaces())
@@ -133,7 +134,10 @@ void RenderingMesh::initializeBuffers()
             const int idx = filename_.find_last_of("/\\");
             const std::string texture_filename = idx == std::string::npos ? path.C_Str() : filename_.substr(0, idx) + "/" + path.C_Str();
 
-            material_->setDiffuseTexture( new Texture(renderer_, texture_filename) );
+            Texture* texture = new Texture(renderer_);
+            texture->loadFile(texture_filename);
+
+            material_->setDiffuseTexture(texture);
         }
 
         else
@@ -160,9 +164,25 @@ void RenderingMesh::draw(LightShader* shader)
         initializeBuffers();
 
     shader->loadMaterial(material_);
-    shader->loadModelTransform(transformation_);
+    shader->loadModelTransform(transform_);
 
     gl_->glBindVertexArray(vao_);
+    gl_->glEnableVertexAttribArray(1);
+    if (has_tex_coords_)
+        gl_->glEnableVertexAttribArray(2);
+    gl_->glDrawArrays(GL_TRIANGLES, 0, num_triangles_ * 3);
+}
+
+void RenderingMesh::draw(ShadowmapShader* shader)
+{
+    if (vao_ == 0)
+        initializeBuffers();
+
+    shader->loadModelTransform(transform_);
+
+    gl_->glBindVertexArray(vao_);
+    gl_->glDisableVertexAttribArray(1);
+    gl_->glDisableVertexAttribArray(2);
     gl_->glDrawArrays(GL_TRIANGLES, 0, num_triangles_ * 3);
 }
 

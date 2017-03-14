@@ -72,9 +72,6 @@
     <ClCompile Include="..\lib\lodepng.cpp">
       <Filter>LodePNG</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\renderer\entity.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\renderer\light_shader.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
@@ -93,14 +90,8 @@
     <ClCompile Include="..\src\utils\conversion.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\renderer\object.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\utils\timing.cpp">
       <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\renderer\resource_manager.cpp">
-      <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\src\renderer\texture.cpp">
       <Filter>Renderer</Filter>
@@ -125,9 +116,6 @@
     </ClCompile>
     <ClCompile Include="..\src\robot\revolute_joint.cpp">
       <Filter>Robot</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\renderer\robot_renderer.cpp">
-      <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\src\renderer\static_shader.cpp">
       <Filter>Renderer</Filter>
@@ -348,6 +336,15 @@
     <ClCompile Include="..\src\optimization\goal_upvector_cost.cpp">
       <Filter>Optimization\Cost</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_plane.cpp">
+      <Filter>RenderingShape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\light_shadow_shader.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\shadowmap_shader.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -413,6 +410,18 @@
     <None Include="..\shader\color.vert">
       <Filter>Shader</Filter>
     </None>
+    <None Include="..\shader\shadowmap.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\shadowmap.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\light_shadow.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\shader\light_shadow.vert">
+      <Filter>Shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\lodepng.h">
@@ -428,9 +437,6 @@
       <Filter>Shape</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\camera.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\renderer\entity.h">
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\gl_base.h">
@@ -451,14 +457,8 @@
     <ClInclude Include="..\include\itomp_nlp\renderer\shader_program.h">
       <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\renderer\object.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\utils\timing.h">
       <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\renderer\resource_manager.h">
-      <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\texture.h">
       <Filter>Renderer</Filter>
@@ -483,9 +483,6 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\robot\revolute_joint.h">
       <Filter>Robot</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\itomp_nlp\renderer\robot_renderer.h">
-      <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\static_shader.h">
       <Filter>Renderer</Filter>
@@ -690,6 +687,15 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\optimization\goal_upvector_cost.h">
       <Filter>Optimization\Cost</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_plane.h">
+      <Filter>RenderingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\light_shadow_shader.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\shadowmap_shader.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -14,9 +14,11 @@ namespace itomp
 
 class LightShader : public ShaderProgram
 {
-private:
+protected:
 
     static const int MAX_NUM_LIGHTS = 8;
+
+private:
 
     static const std::string vertex_filename_;
     static const std::string fragment_filename_;
@@ -24,13 +26,14 @@ private:
 public:
 
     LightShader(Renderer* renderer);
+    LightShader(Renderer* renderer, const std::string& vertex_filename, const std::string& fragment_filename);
     
     virtual void bindAttributes();
 
     void loadModelTransform(const Eigen::Matrix4f& m);
     void loadCamera(const Camera& camera);
 
-    void loadLights(const std::vector<Light*>& light);
+    virtual void loadLights(const std::vector<Light*>& lights);
 
     void loadMaterial(const Material* material);
 

@@ -14,6 +14,7 @@ namespace itomp
 
 Renderer::Renderer(QWidget* parent)
     : QOpenGLWidget(parent)
+    , shadowmap_shader_(0)
 {
     QSurfaceFormat format;
     format.setDepthBufferSize(24);
@@ -22,7 +23,8 @@ Renderer::Renderer(QWidget* parent)
     format.setProfile(QSurfaceFormat::CoreProfile);
     setFormat(format);
 
-    camera_.setOrtho();
+    camera_.setPerspective();
+    camera_.lookAt(Eigen::Vector3d(2, 0, 2), Eigen::Vector3d(0, 0, 0));
     
     // DEBUG: timer
     QTimer* timer = new QTimer();
@@ -35,10 +37,9 @@ Renderer::~Renderer()
 {
 }
 
-void Renderer::addShape(RenderingShape* shape, ShaderType shader)
+void Renderer::addShape(RenderingShape* shape)
 {
     rendering_shapes_.push_back(shape);
-    shader_types_.push_back(shader);
 }
 
 void Renderer::deleteShape(RenderingShape* shape)
@@ -50,92 +51,37 @@ void Renderer::deleteShape(RenderingShape* shape)
         {
             rendering_shapes_[i] = rendering_shapes_[rendering_shapes_.size() - 1];
             rendering_shapes_.pop_back();
-
-            shader_types_[i] = shader_types_[shader_types_.size() - 1];
-            shader_types_.pop_back();
             break;
         }
     }
 }
 
-int Renderer::registerMeshFile(const std::string& filename)
-{
-    Object* object = resource_manager_->importFile(filename);
-    objects_.push_back(object);
-    return objects_.size() - 1;
-}
-
-int Renderer::addEntity(int object_id, const Eigen::Affine3d& transform)
-{
-    Entity* entity = new Entity(objects_[object_id], transform);
-    entities_.push_back(entity);
-    return entities_.size() - 1;
-}
-
-void Renderer::setEntityTransform(int entity_id, const Eigen::Affine3d& transform)
-{
-    entities_[entity_id]->setTransformation(transform);
-}
-
-void Renderer::renderObject(Object* object, LightShader* shader)
-{
-    Eigen::Affine3f transformation = Eigen::Affine3f::Identity();
-    shader->loadModelTransform(transformation.matrix());
-    shader->loadMaterial(object->getMaterial());
-    object->draw();
-}
-
-void Renderer::renderEntity(Entity* entity, LightShader* shader)
-{
-    Object* object = entity->getObject();
-    Eigen::Affine3f transformation = entity->getTransformation().cast<float>();
-
-    shader->loadModelTransform(transformation.matrix());
-    shader->loadMaterial(object->getMaterial());
-    object->draw();
-}
-
-void Renderer::renderEntityNormals(Entity* entity, NormalShader* shader)
-{
-    Object* object = entity->getObject();
-    Eigen::Affine3f transformation = entity->getTransformation().cast<float>();
-
-    shader->loadModelTransform(transformation.matrix());
-    object->draw(GL_POINTS);
-}
-
-void Renderer::renderEntityWireframe(Entity* entity, WireframeShader* shader)
-{
-    Object* object = entity->getObject();
-    Eigen::Affine3f transformation = entity->getTransformation().cast<float>();
-
-    shader->loadModelTransform(transformation.matrix());
-    object->draw();
-}
-
 void Renderer::initializeGL()
 {
     gl_ = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
-
+    
     gl_->glEnable(GL_DEPTH_TEST);
     gl_->glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
     gl_->glClearDepth(1.0f);
-
-    resource_manager_ = new ResourceManager(this);
 
     // shaders
     light_shader_ = new LightShader(this);
 
     normal_shader_ = new NormalShader(this);
-    setNormalLineLength(0.01);
+    normal_line_length_ = 0.01;
 
     wireframe_shader_ = new WireframeShader(this);
 
     color_shader_ = new ColorShader(this);
 
+    light_shadow_shader_ = new LightShadowShader(this);
+    
+    if (shadowmap_shader_ == 0)
+        shadowmap_shader_ = new ShadowmapShader(this);
+
     // default light
     Light* light;
-    light = new Light(Eigen::Vector3d(-1, 0, 0));
+    light = new Light(Eigen::Vector3d(9, -1, 10));
     light->setDiffuseColor(Eigen::Vector4f(1, 1, 1, 1));
     light->setSpecularColor(Eigen::Vector4f(0, 0, 0, 1));
     lights_.push_back(light);
@@ -154,32 +100,64 @@ void Renderer::paintGL()
     gl_->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // light direction from camera
-    lights_[0]->setPosition( - camera_.lookAtDirection() );
+    //lights_[0]->setPosition( - camera_.lookAtDirection() );
+
+    // shadowmap shader
+    shadowmap_shader_->start();
+    
+    GLint screen_fbo;
+    gl_->glGetIntegerv(GL_FRAMEBUFFER_BINDING, &screen_fbo);
+
+    for (int i=0; i<lights_.size(); i++)
+    {
+        shadowmap_shader_->bindTexture(i);
+        shadowmap_shader_->loadLight(lights_[i]);
+    
+        for (int j=0; j<rendering_shapes_.size(); j++)
+            rendering_shapes_[j]->draw(shadowmap_shader_);
+    }
+
+    shadowmap_shader_->stop();
+    gl_->glBindFramebuffer(GL_FRAMEBUFFER, screen_fbo);
+
+    // restore viewport
+    gl_->glViewport(0, 0, width(), height());
+
+    // light shadow shader
+    light_shadow_shader_->start();
+    light_shadow_shader_->loadCamera(camera_);
+    light_shadow_shader_->loadLights(lights_);
+
+    for (int i=0; i<lights_.size(); i++)
+        light_shadow_shader_->bindShadowmapTexture(i, shadowmap_shader_->getShadowmapTextureId(i));
+    
+    for (int i=0; i<rendering_shapes_.size(); i++)
+        rendering_shapes_[i]->draw(light_shadow_shader_);
+
+    light_shadow_shader_->stop();
 
     // light shader
+    /*
     light_shader_->start();
     light_shader_->loadCamera(camera_);
     light_shader_->loadLights(lights_);
 
     for (int i=0; i<rendering_shapes_.size(); i++)
-    {
-        if (shader_types_[i] == SHADER_TYPE_LIGHT)
-            rendering_shapes_[i]->draw(light_shader_);
-    }
+        rendering_shapes_[i]->draw(light_shader_);
 
     light_shader_->stop();
+    */
 
     // color shader
+    /*
     color_shader_->start();
     color_shader_->loadCamera(camera_);
 
     for (int i=0; i<rendering_shapes_.size(); i++)
-    {
-        if (shader_types_[i] == SHADER_TYPE_COLOR)
-            rendering_shapes_[i]->draw(color_shader_);
-    }
+        rendering_shapes_[i]->draw(color_shader_);
 
     color_shader_->stop();
+    */
 
     // normal shader
     /*

@@ -8,7 +8,6 @@ namespace itomp
 
 RenderingBox::RenderingBox(Renderer* renderer)
     : RenderingShape(renderer)
-    , transform_(Eigen::Matrix4f::Identity())
     , vao_(0)
 {
     setSize(Eigen::Vector3d(1, 1, 1));
@@ -114,6 +113,19 @@ void RenderingBox::draw(LightShader* shader)
     shader->loadMaterial(material_);
 
     gl_->glBindVertexArray(vao_);
+    gl_->glEnableVertexAttribArray(1);
+    gl_->glDrawArrays(GL_TRIANGLES, 0, 36);
+}
+
+void RenderingBox::draw(ShadowmapShader* shader)
+{
+    if (need_update_buffer_)
+        updateBuffers();
+
+    shader->loadModelTransform(transform_);
+
+    gl_->glBindVertexArray(vao_);
+    gl_->glDisableVertexAttribArray(1);
     gl_->glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 

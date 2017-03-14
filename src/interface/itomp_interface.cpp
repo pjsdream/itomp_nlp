@@ -35,7 +35,7 @@ ItompInterface::ItompInterface(QWidget* parent)
     itomp_cost_functions_widget_ = new ItompCostFunctionsWidget(this);
     connect(itomp_cost_functions_widget_, SIGNAL(costFunctionChanged(int, const std::string&, std::vector<double>)),
             this, SLOT(costFunctionChanged(int, const std::string&, std::vector<double>)));
-
+    
     scroll_area_ = new QScrollArea(this);
     scroll_area_->setWidget(itomp_cost_functions_widget_);
     scroll_area_->setWidgetResizable(true);
