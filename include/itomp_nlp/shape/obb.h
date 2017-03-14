@@ -4,6 +4,8 @@
 
 #include <itomp_nlp/shape/shape.h>
 
+#include <vector>
+
 
 namespace itomp
 {
@@ -13,10 +15,14 @@ class Capsule2;
 
 class OBB : public Shape
 {
+private:
+    
+    template<class T>
+    using EigenAlignedVector = std::vector<T, Eigen::aligned_allocator<T> >;
+
 public:
 
     /// box [-x/2, x/2] x [-y/2, y/2] x [-z/2, z/2]
-    OBB(double x, double y, double z);
     OBB(double x, double y, double z, const Eigen::Affine3d& transform = Eigen::Affine3d::Identity());
 
     OBB(const AABB& aabb);
@@ -42,6 +48,8 @@ public:
 private:
 
     double distanceToPointNoTransform(const Eigen::Vector3d& p) const;
+
+    EigenAlignedVector<Eigen::Vector3d> getEndpoints() const;
 
     // extents
     Eigen::Vector3d size_;

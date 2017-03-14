@@ -168,17 +168,15 @@ void ItompInterface::initializeResources()
     */
 
     // static obstacles
-    /*
     Eigen::Affine3d table_center;
     table_center.setIdentity();
-    table_center.translate(Eigen::Vector3d(0.7, 0, 0.8));
-    OBB* table = new OBB(1, 2, 0.1, table_center);
+    table_center.translate(Eigen::Vector3d(0.8, 0, 0.35));
+    OBB* table = new OBB(1, 2, 0.7, table_center);
 
     StaticObstacle* table_obstacle = new StaticObstacle();
     table_obstacle->addShape(table);
 
     optimizer_.addStaticObstacle(table_obstacle);
-    */
 
     /*
     Eigen::Affine3d obstacle_center;

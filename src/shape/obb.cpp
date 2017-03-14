@@ -3,15 +3,11 @@
 #include <itomp_nlp/shape/aabb.h>
 #include <itomp_nlp/shape/capsule2.h>
 
+#include <iostream>
+
 
 namespace itomp
 {
-
-OBB::OBB(double x, double y, double z)
-    : Shape()
-    , size_(x, y, z)
-{
-}
 
 OBB::OBB(double x, double y, double z, const Eigen::Affine3d& transform)
     : Shape(transform)
@@ -51,9 +47,100 @@ double OBB::getPenetrationDepth(Shape* shape) const
     return 0.;
 }
 
+OBB::EigenAlignedVector<Eigen::Vector3d> OBB::getEndpoints() const
+{
+    static EigenAlignedVector<Eigen::Vector3d> base_endpoints = 
+    {
+        Eigen::Vector3d(-0.5, -0.5, -0.5),
+        Eigen::Vector3d(-0.5, -0.5,  0.5),
+        Eigen::Vector3d(-0.5,  0.5, -0.5),
+        Eigen::Vector3d(-0.5,  0.5,  0.5),
+        Eigen::Vector3d( 0.5, -0.5, -0.5),
+        Eigen::Vector3d( 0.5, -0.5,  0.5),
+        Eigen::Vector3d( 0.5,  0.5, -0.5),
+        Eigen::Vector3d( 0.5,  0.5,  0.5),
+    };
+    
+    EigenAlignedVector<Eigen::Vector3d> endpoints(8);
+
+    for (int i=0; i<8; i++)
+        endpoints[i] = transform_ * (size_.cwiseProduct(base_endpoints[i]));
+
+    return endpoints;
+}
+
 double OBB::getPenetrationDepth(OBB* obb) const
 {
-    return 0.;
+    // find normal candidates
+    Eigen::Matrix<double, 3, 6> axes;
+    Eigen::Matrix<double, 3, 15> normals;
+
+    axes.block(0, 0, 3, 3) = transform_.linear();
+    axes.block(0, 3, 3, 3) = obb->getTransform().linear();
+    
+    int normal_idx = 0;
+    for (int i=0; i<6; i++)
+    {
+        const Eigen::Vector3d c1 = axes.col(i);
+        for (int j=i+1; j<6; j++)
+        {
+            const Eigen::Vector3d c2 = axes.col(j);
+
+            if (std::abs(c1.dot(c2)) >= 1 - 1e-6)
+                normals.col(normal_idx++) = c1;
+            else
+                normals.col(normal_idx++) = c1.cross(c2).normalized();
+        }
+    }
+
+    // endpoints
+    EigenAlignedVector<Eigen::Vector3d> endpoints[2];
+    endpoints[0] = getEndpoints();
+    endpoints[1] = obb->getEndpoints();
+
+    // endpoint projection
+    const double sign[2] = {1, -1};
+    double proj_min_endpoints[2][15];
+    double proj_max_endpoints[2][15];
+    double proj_min[15];
+    double proj_max[15];
+
+    for (int i=0; i<2; i++)
+    {
+        for (int j=0; j<15; j++)
+        {
+            for (int k=0; k<endpoints[i].size(); k++)
+            {
+                const double proj = sign[i] * endpoints[i][k].dot(normals.col(j));
+                if (k==0 || proj_min_endpoints[i][j] > proj)
+                    proj_min_endpoints[i][j] = proj;
+                if (k==0 || proj_max_endpoints[i][j] < proj)
+                    proj_max_endpoints[i][j] = proj;
+            }
+        }
+    }
+
+    for (int i=0; i<15; i++)
+    {
+        proj_min[i] = proj_min_endpoints[0][i] + proj_min_endpoints[1][i];
+        proj_max[i] = proj_max_endpoints[0][i] + proj_max_endpoints[1][i];
+    }
+
+    // compute penetration depth
+    double min_dist = 1e10;
+    for (int i=0; i<15; i++)
+    {
+        // outside determination
+        if (proj_min[i] * proj_max[i] >= 0)
+            return 0.;
+         
+        if (min_dist > -proj_min[i])
+            min_dist = -proj_min[i];
+        if (min_dist > proj_max[i])
+            min_dist = proj_max[i];
+    }
+
+    return min_dist;
 }
 
 double OBB::getPenetrationDepth(Capsule2* capsule) const
