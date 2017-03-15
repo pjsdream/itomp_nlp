@@ -19,8 +19,6 @@ private:
     struct GoalVelocity
     {
         int link_id;
-        Eigen::Vector3d translation;
-        Eigen::Vector3d goal_position;
         Eigen::Vector3d velocity;
     };
 
@@ -36,11 +34,11 @@ public:
     virtual double cost();
     virtual double cost(int idx);
 
-    void addGoalVelocity(int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& goal_position, const Eigen::Vector3d& velocity);
+    void setGoalVelocity(int link_id, const Eigen::Vector3d& velocity);
 
 private:
 
-    std::vector<GoalVelocity> velocities_;
+    GoalVelocity goal_;
 
     double f(double x);
 };

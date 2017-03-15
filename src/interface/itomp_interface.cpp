@@ -287,6 +287,9 @@ void ItompInterface::costFunctionChanged(int id, const std::string& type, std::v
 
     else if (type == "upvector")
         optimizer_.setGoalUpvectorCost(id, values[0], 7, Eigen::Vector3d(values[1], values[2], values[3]));
+
+    else if (type == "velocity")
+        optimizer_.setVelocityCost(id, values[0], 7, Eigen::Vector3d(values[1], values[2], values[3]));
 }
 
 void ItompInterface::commandAdded(std::string command)

@@ -103,6 +103,14 @@ void Optimizer::setGoalUpvectorCost(int id, double weight, int link_id, const Ei
     optimization_thread_.pushCostFunctionRequest(id, cost);
 }
 
+void Optimizer::setVelocityCost(int id, double weight, int link_id, const Eigen::Vector3d& velocity)
+{
+    VelocityCost* cost = new VelocityCost(optimization_thread_, weight);
+    cost->setGoalVelocity(link_id, velocity);
+
+    optimization_thread_.pushCostFunctionRequest(id, cost);
+}
+
 void Optimizer::startOptimizationThread()
 {
     optimization_thread_.start();
