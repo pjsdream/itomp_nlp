@@ -69,6 +69,11 @@ OptimizerRobot::OptimizerRobot(const OptimizerRobot& robot)
     }
 }
 
+bool OptimizerRobot::needSelfCollisionChecking(int link_id1, int link_id2) const
+{
+    return std::abs(link_id1 - link_id2) > 2;
+}
+
 void OptimizerRobot::setLinkJoints(const std::vector<Link>& links, const std::vector<Joint>& joints)
 {
     links_ = links;
