@@ -119,11 +119,12 @@
     <PreBuildEvent>
       <Command>mkdir ..\src\GeneratedFiles
 xcopy ..\shader ..\bin\shader /S /E /I /Y &gt; nul
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\main_window.h" -o "..\src\GeneratedFiles\moc_main_window.cpp"
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_interface.h" -o "..\src\GeneratedFiles\moc_itomp_interface.cpp"
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_cost_function_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp"
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_cost_functions_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp"
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
+winmoc.exe "..\include\itomp_nlp\interface\main_window.h" -o "..\src\GeneratedFiles\moc_main_window.cpp"
+winmoc.exe "..\include\itomp_nlp\interface\itomp_interface.h" -o "..\src\GeneratedFiles\moc_itomp_interface.cpp"
+winmoc.exe "..\include\itomp_nlp\interface\itomp_cost_function_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp"
+winmoc.exe "..\include\itomp_nlp\interface\itomp_cost_functions_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp"
+winmoc.exe "..\include\itomp_nlp\interface\itomp_nlp_widget.h" -o "..\src\GeneratedFiles\moc_itomp_nlp_widget.cpp"
+winmoc.exe "..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
     </PreBuildEvent>
     <Lib>
       <AdditionalDependencies>kinect20.lib;assimp-vc140-mt.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5OpenGL.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -175,12 +176,12 @@ $(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o 
     <PreBuildEvent>
       <Command>mkdir ..\src\GeneratedFiles
 xcopy ..\shader ..\bin\shader /S /E /I /Y &gt; nul
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\main_window.h" -o "..\src\GeneratedFiles\moc_main_window.cpp"
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_interface.h" -o "..\src\GeneratedFiles\moc_itomp_interface.cpp"
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_cost_function_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp"
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_cost_functions_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp"
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\interface\itomp_nlp_widget.h" -o "..\src\GeneratedFiles\moc_itomp_nlp_widget.cpp"
-$(QTDIR)\bin\moc.exe "$(ProjectDir)..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
+winmoc.exe "..\include\itomp_nlp\interface\main_window.h" -o "..\src\GeneratedFiles\moc_main_window.cpp"
+winmoc.exe "..\include\itomp_nlp\interface\itomp_interface.h" -o "..\src\GeneratedFiles\moc_itomp_interface.cpp"
+winmoc.exe "..\include\itomp_nlp\interface\itomp_cost_function_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp"
+winmoc.exe "..\include\itomp_nlp\interface\itomp_cost_functions_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp"
+winmoc.exe "..\include\itomp_nlp\interface\itomp_nlp_widget.h" -o "..\src\GeneratedFiles\moc_itomp_nlp_widget.cpp"
+winmoc.exe "..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
     </PreBuildEvent>
     <Lib>
       <AdditionalDependencies>kinect20.lib;assimp-vc140-mt.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5OpenGL.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
