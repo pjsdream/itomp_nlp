@@ -76,6 +76,8 @@ public:
 
     void prepare();
 
+    void resetWaypoints();
+
     void setInitialRobotState(const Eigen::VectorXd& position, const Eigen::VectorXd& velocity);
 
     void pushCostFunctionRequest(int id, Cost* cost);

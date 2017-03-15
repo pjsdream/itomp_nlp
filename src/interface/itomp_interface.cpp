@@ -29,8 +29,12 @@ ItompInterface::ItompInterface(QWidget* parent)
     stop_button_ = new QPushButton("Stop", this);
     connect(stop_button_, SIGNAL(clicked()), this, SLOT(stopMotionPlanning()));
 
+    reset_button_ = new QPushButton("Reset", this);
+    connect(reset_button_, SIGNAL(clicked()), this, SLOT(resetMotionPlanning()));
+
     layout_->addWidget(start_button_, 0, 0);
     layout_->addWidget(stop_button_, 0, 1);
+    layout_->addWidget(reset_button_, 0, 2);
 
     itomp_cost_functions_widget_ = new ItompCostFunctionsWidget(this);
     connect(itomp_cost_functions_widget_, SIGNAL(costFunctionChanged(int, const std::string&, std::vector<double>)),
@@ -41,14 +45,14 @@ ItompInterface::ItompInterface(QWidget* parent)
     scroll_area_->setWidgetResizable(true);
 
     layout_->setRowStretch(1, 1);
-    layout_->addWidget(scroll_area_, 1, 0, 1, 2);
+    layout_->addWidget(scroll_area_, 1, 0, 1, 3);
     
     // text edit
     nlp_widget_ = new ItompNLPWidget(this);
     connect(nlp_widget_, SIGNAL(commandAdded(std::string)), this, SLOT(commandAdded(std::string)));
     
     layout_->setRowStretch(2, 0);
-    layout_->addWidget(nlp_widget_, 2, 0, 1, 2);
+    layout_->addWidget(nlp_widget_, 2, 0, 1, 3);
 
     // execution tmier
     execution_timer_ = new QTimer(this);
@@ -246,6 +250,24 @@ void ItompInterface::stopMotionPlanning()
         is_optimizing_ = false;
         optimizer_.stopOptimizationThread();
         execution_timer_->stop();
+    }
+}
+
+void ItompInterface::resetMotionPlanning()
+{
+    if (is_optimizing_)
+    {
+        optimizer_.stopOptimizationThread();
+        execution_timer_->stop();
+
+        optimizer_.resetWaypoints();
+
+        execution_timer_->start();
+        optimizer_.startOptimizationThread();
+    }
+    else
+    {
+        optimizer_.resetWaypoints();
     }
 }
 

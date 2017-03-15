@@ -60,6 +60,11 @@ void Optimizer::prepare()
     optimization_thread_.prepare();
 }
 
+void Optimizer::resetWaypoints()
+{
+    optimization_thread_.resetWaypoints();
+}
+
 void Optimizer::setZeroCost(int id)
 {
     Cost* cost = new Cost(optimization_thread_, 0.0);
