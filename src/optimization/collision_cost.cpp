@@ -35,10 +35,16 @@ double CollisionCost::cost(int idx)
             Shape* robot_shape = robot_shapes[j];
 
             for (int k=0; k<static_shapes_.size(); k++)
-                cost += robot_shape->getPenetrationDepth(static_shapes_[k]);
+            {
+                const double d = robot_shape->getPenetrationDepth(static_shapes_[k]);
+                cost += d*d;
+            }
 
             for (int k=0; k<dynamic_shapes_[idx].size(); k++)
-                cost += robot_shape->getPenetrationDepth(dynamic_shapes_[idx][k]);
+            {
+                const double d = robot_shape->getPenetrationDepth(dynamic_shapes_[idx][k]);
+                cost += d*d;
+            }
         }
     }
 
