@@ -40,12 +40,14 @@ ItompInterface::ItompInterface(QWidget* parent)
     scroll_area_->setWidget(itomp_cost_functions_widget_);
     scroll_area_->setWidgetResizable(true);
 
+    layout_->setRowStretch(1, 1);
     layout_->addWidget(scroll_area_, 1, 0, 1, 2);
     
     // text edit
     nlp_widget_ = new ItompNLPWidget(this);
     connect(nlp_widget_, SIGNAL(commandAdded(std::string)), this, SLOT(commandAdded(std::string)));
-
+    
+    layout_->setRowStretch(2, 0);
     layout_->addWidget(nlp_widget_, 2, 0, 1, 2);
 
     // execution tmier
@@ -61,8 +63,8 @@ void ItompInterface::initializeResources()
 {
 #ifdef _WIN32
     URDFParser urdf_parser;
-    urdf_parser.addPackageDirectoryMapping("fetch_description", "C:\\Users\\jaesungp\\Desktop\\documents\\fetch_ros\\fetch_description");
-    //urdf_parser.addPackageDirectoryMapping("fetch_description", "C:\\Users\\pjsdr_000\\Desktop\\documents\\fetch_ros\\fetch_description");
+    //urdf_parser.addPackageDirectoryMapping("fetch_description", "C:\\Users\\jaesungp\\Desktop\\documents\\fetch_ros\\fetch_description");
+    urdf_parser.addPackageDirectoryMapping("fetch_description", "C:\\Users\\pjsdr_000\\Desktop\\documents\\fetch_ros\\fetch_description");
     robot_model_ = urdf_parser.parseURDF("../urdf/fetch.urdf");
 #else
     URDFParser urdf_parser;

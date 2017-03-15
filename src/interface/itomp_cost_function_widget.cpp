@@ -33,8 +33,13 @@ void ItompCostFunctionWidget::selectCostType(int index)
 {
     clearValues();
 
+    const int num_max_cols = 4;
+
     for (int i=0; i<cost_types_[index].second; i++)
     {
+        const int row = i / num_max_cols;
+        const int col = i % num_max_cols;
+
         QDoubleSpinBox* double_spin_box = new QDoubleSpinBox(this);
         double_spin_box->setRange(-100., 100.);
         double_spin_box->setDecimals(6);
@@ -43,8 +48,8 @@ void ItompCostFunctionWidget::selectCostType(int index)
 
         values_.push_back(double_spin_box);
 
-        layout_->setColumnStretch(i+1, 1);
-        layout_->addWidget(double_spin_box, 0, i + 1);
+        layout_->setColumnStretch(col + 1, 1);
+        layout_->addWidget(double_spin_box, row, col + 1);
     }
 
     slotValueChanged();
