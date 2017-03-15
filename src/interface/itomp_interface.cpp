@@ -67,8 +67,7 @@ void ItompInterface::initializeResources()
 {
 #ifdef _WIN32
     URDFParser urdf_parser;
-    //urdf_parser.addPackageDirectoryMapping("fetch_description", "C:\\Users\\jaesungp\\Desktop\\documents\\fetch_ros\\fetch_description");
-    urdf_parser.addPackageDirectoryMapping("fetch_description", "C:\\Users\\pjsdr_000\\Desktop\\documents\\fetch_ros\\fetch_description");
+    urdf_parser.addPackageDirectoryMapping("fetch_description", "..\\..\\fetch_ros\\fetch_description");
     robot_model_ = urdf_parser.parseURDF("../urdf/fetch.urdf");
 #else
     URDFParser urdf_parser;
@@ -145,9 +144,9 @@ void ItompInterface::initializeResources()
     optimizer_robot_ = optimizer_robot_loader.loadRobot(robot_model_, robot_state_, active_joint_names_);
 
     OptimizerOptions options;
-    options.trajectory_duration = 3.0;
+    options.trajectory_duration = 2.0;
     options.timestep = 0.5;
-    options.num_waypoints = 6;
+    options.num_waypoints = 4;
     options.num_waypoint_interpolations = 3;
 
     optimizer_.setRobot(optimizer_robot_);

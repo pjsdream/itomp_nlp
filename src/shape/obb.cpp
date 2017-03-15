@@ -71,79 +71,67 @@ OBB::EigenAlignedVector<Eigen::Vector3d> OBB::getEndpoints() const
 
 double OBB::getPenetrationDepth(OBB* obb) const
 {
+    // half extents
+    Eigen::VectorXd sizes(6);
+    sizes.block(0, 0, 3, 1) = size_ / 2.;
+    sizes.block(3, 0, 3, 1) = obb->size_ / 2.;
+
     // find normal candidates
     Eigen::Matrix<double, 3, 15> normals;
-
-    const Eigen::Matrix3d R1 = transform_.linear();
-    const Eigen::Matrix3d R2 = obb->getTransform().linear();
     
-    int normal_idx = 0;
-
-    for (int i=0; i<3; i++)
-        normals.col(normal_idx++) = R1.col(i);
-
-    for (int i=0; i<3; i++)
-        normals.col(normal_idx++) = R2.col(i);
-
+    normals.block(0, 0, 3, 3) = transform_.linear();
+    normals.block(0, 3, 3, 3) = obb->getTransform().linear();
+    
+    Eigen::Matrix3d outer;
+    outer(0, 0) = 0.;
+    outer(1, 1) = 0.;
+    outer(2, 2) = 0.;
     for (int i=0; i<3; i++)
     {
-        const Eigen::Vector3d c1 = R1.col(i);
-        for (int j=0; j<3; j++)
-        {
-            const Eigen::Vector3d c2 = R2.col(j);
+        outer(1, 0) = normals(2, i);
+        outer(2, 0) = -normals(1, i);
+        outer(0, 1) = -normals(2, i);
+        outer(2, 1) = normals(0, i);
+        outer(0, 2) = normals(1, i);
+        outer(1, 2) = -normals(0, i);
 
-            if (std::abs(c1.dot(c2)) >= 1 - 1e-6)
-                normals.col(normal_idx++) = c1;
-            else
-                normals.col(normal_idx++) = c1.cross(c2).normalized();
-        }
+        normals.block(0, (i+2)*3, 3, 3).noalias() = outer * normals.block(0, 3, 3, 3);
     }
-
-    // endpoints
-    EigenAlignedVector<Eigen::Vector3d> endpoints[2];
-    endpoints[0] = getEndpoints();
-    endpoints[1] = obb->getEndpoints();
 
     // endpoint projection
     const double sign[2] = {1, -1};
-    double proj_min_endpoints[2][15];
-    double proj_max_endpoints[2][15];
-    double proj_min[15];
-    double proj_max[15];
-
-    for (int i=0; i<2; i++)
-    {
-        for (int j=0; j<15; j++)
-        {
-            for (int k=0; k<endpoints[i].size(); k++)
-            {
-                const double proj = sign[i] * endpoints[i][k].dot(normals.col(j));
-                if (k==0 || proj_min_endpoints[i][j] > proj)
-                    proj_min_endpoints[i][j] = proj;
-                if (k==0 || proj_max_endpoints[i][j] < proj)
-                    proj_max_endpoints[i][j] = proj;
-            }
-        }
-    }
-
-    for (int i=0; i<15; i++)
-    {
-        proj_min[i] = proj_min_endpoints[0][i] + proj_min_endpoints[1][i];
-        proj_max[i] = proj_max_endpoints[0][i] + proj_max_endpoints[1][i];
-    }
-
-    // compute penetration depth
+    double proj_min_endpoints;
+    double proj_max_endpoints;
     double min_dist = 1e10;
+    
     for (int i=0; i<15; i++)
     {
-        // outside determination
-        if (proj_min[i] * proj_max[i] >= 0)
-            return 0.;
+        const Eigen::Vector3d& v = normals.col(i);
+        const double norm = v.norm();
+        if (norm > 1e-4)
+        {
+            proj_min_endpoints = v.dot(transform_.translation() - obb->transform_.translation());
+            proj_max_endpoints = proj_min_endpoints;
+
+            for (int j=0; j<6; j++)
+            {
+                const double d = std::abs(v.dot(normals.col(j)));
+                proj_min_endpoints -= d * sizes(j);
+                proj_max_endpoints += d * sizes(j);
+            }
+
+            // outside determination
+            if (proj_min_endpoints * proj_max_endpoints >= 0)
+                return 0.;
+
+            proj_min_endpoints /= norm;
+            proj_max_endpoints /= norm;
          
-        if (min_dist > -proj_min[i])
-            min_dist = -proj_min[i];
-        if (min_dist > proj_max[i])
-            min_dist = proj_max[i];
+            if (min_dist > -proj_min_endpoints)
+                min_dist = -proj_min_endpoints;
+            if (min_dist > proj_max_endpoints)
+                min_dist = proj_max_endpoints;
+        }
     }
 
     return min_dist;
