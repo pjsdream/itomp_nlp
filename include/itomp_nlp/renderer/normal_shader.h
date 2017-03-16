@@ -24,7 +24,8 @@ public:
 
     virtual void bindAttributes();
 
-    void loadModelTransform(const Eigen::Matrix4f& m);
+    virtual void loadModelTransform(const Eigen::Matrix4f& m);
+
     void loadCamera(const Camera& camera);
     void loadLineLength(float length);
 

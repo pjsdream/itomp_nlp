@@ -34,7 +34,7 @@ public:
     void deleteEdge(int i, int j);
     void deleteAllEdges();
 
-    virtual void draw(LightShader* shader);
+    virtual void draw(ShaderProgram* shader);
     
 private:
     

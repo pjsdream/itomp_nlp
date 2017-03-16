@@ -35,8 +35,8 @@ void RenderingKinectPoints::updateBuffers()
 
         gl_->glBindBuffer(GL_ARRAY_BUFFER, vbos_[1]);
         gl_->glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * kinect_->getMaxNumPointCloud(), (void*)0, GL_DYNAMIC_DRAW);
-        gl_->glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
-        gl_->glEnableVertexAttribArray(1);
+        gl_->glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, 0);
+        gl_->glEnableVertexAttribArray(3);
     }
 
     gl_->glBindVertexArray(vao_);
@@ -53,7 +53,7 @@ void RenderingKinectPoints::updateBuffers()
     
 }
 
-void RenderingKinectPoints::draw(ColorShader* shader)
+void RenderingKinectPoints::draw(ShaderProgram* shader)
 {
     kinect_->update();
 

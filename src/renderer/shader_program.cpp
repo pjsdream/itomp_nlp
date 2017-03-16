@@ -6,6 +6,7 @@ namespace itomp
 
 ShaderProgram::ShaderProgram(Renderer* renderer, const std::string& vertex_filename, const std::string& fragment_filename)
     : GLBase(renderer)
+    , geometry_shader_(0)
 {
     vertex_shader_ = loadShader(vertex_filename, GL_VERTEX_SHADER);
     fragment_shader_ = loadShader(fragment_filename, GL_FRAGMENT_SHADER);
@@ -23,6 +24,19 @@ ShaderProgram::ShaderProgram(Renderer* renderer, const std::string& vertex_filen
     shader_program_ = createShaderProgram();
 }
 
+ShaderProgram::~ShaderProgram()
+{
+    stop();
+
+    gl_->glDetachShader(shader_program_, vertex_shader_);
+    gl_->glDetachShader(shader_program_, geometry_shader_);
+    gl_->glDetachShader(shader_program_, fragment_shader_);
+    gl_->glDeleteShader(vertex_shader_);
+    gl_->glDeleteShader(geometry_shader_);
+    gl_->glDeleteShader(fragment_shader_);
+    gl_->glDeleteProgram(shader_program_);
+}
+
 void ShaderProgram::start()
 {
     gl_->glUseProgram(shader_program_);
@@ -31,17 +45,6 @@ void ShaderProgram::start()
 void ShaderProgram::stop()
 {
     gl_->glUseProgram(0);
-}
-
-void ShaderProgram::cleanUp()
-{
-    stop();
-
-    gl_->glDetachShader(shader_program_, vertex_shader_);
-    gl_->glDetachShader(shader_program_, fragment_shader_);
-    gl_->glDeleteShader(vertex_shader_);
-    gl_->glDeleteShader(fragment_shader_);
-    gl_->glDeleteProgram(shader_program_);
 }
 
 void ShaderProgram::loadUniform(int location, float value)
@@ -115,7 +118,7 @@ GLuint ShaderProgram::loadShader(const std::string& filename, GLuint shader_type
 
         GLchar* log = new GLchar[len+1];
         gl_->glGetShaderInfoLog(shader, len, &len, log);
-        fprintf(stderr, "Shader compilation failed: %s\n", log);
+        fprintf(stderr, "Shader compilation failed:\n%s\n", log);
         delete log;
 
         return 0;
@@ -150,9 +153,9 @@ GLuint ShaderProgram::createShaderProgram()
 
         GLchar* log = new GLchar[len+1];
         gl_->glGetProgramInfoLog(program, len, &len, log);
-        fprintf(stderr, "Shader linking failed: %s\n", log);
+        fprintf(stderr, "Shader linking failed:\n%s\n", log);
         delete log;
-
+        
         return 0;
     }
     

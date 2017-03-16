@@ -59,10 +59,13 @@ MainWindow::MainWindow()
     forward_kinematics_ = itomp_interface_->getOptimizerRobot();
 
     grey_ = new Material();
-    grey_->setDiffuseColor(Eigen::Vector4f(0.3, 0.3, 0.3, 1));
+    grey_->setAmbient(Eigen::Vector3f(0.3, 0.3, 0.3));
+    grey_->setDiffuse(Eigen::Vector3f(0.3, 0.3, 0.3));
     
     brown_ = new Material();
-    brown_->setDiffuseColor(Eigen::Vector4f(139./255, 69./255, 19./255, 1.));
+    brown_->setAmbient(Eigen::Vector3f(139./255, 69./255, 19./255));
+    brown_->setDiffuse(Eigen::Vector3f(139./255, 69./255, 19./255));
+    brown_->setShininess(2.0);
 
     // rendering table
     rendering_table_ = new RenderingBox(renderer_);
@@ -72,10 +75,12 @@ MainWindow::MainWindow()
 
     // rendering objects
     Material* red = new Material();
-    red->setDiffuseColor(Eigen::Vector4f(1, 0, 0, 1));
+    red->setAmbient(Eigen::Vector3f(1, 0, 0));
+    red->setDiffuse(Eigen::Vector3f(1, 0, 0));
 
     Material* blue = new Material();
-    blue->setDiffuseColor(Eigen::Vector4f(0, 0, 1, 1));
+    blue->setAmbient(Eigen::Vector3f(0, 0, 1));
+    blue->setDiffuse(Eigen::Vector3f(0, 0, 1));
 
     RenderingCapsule* capsule1 = new RenderingCapsule(renderer_);
     capsule1->setMaterial(red);
@@ -96,6 +101,7 @@ MainWindow::MainWindow()
     checkerboard_texture->setImage(2, 2, checkerboard_image);
 
     Material* checkerboard = new Material();
+    checkerboard->setAmbient(Eigen::Vector3f(1, 1, 1));
     checkerboard->setDiffuseTexture(checkerboard_texture);
 
     RenderingPlane* plane = new RenderingPlane(renderer_);

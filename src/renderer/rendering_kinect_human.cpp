@@ -76,7 +76,7 @@ void RenderingKinectHuman::updateBuffers()
     }
 }
 
-void RenderingKinectHuman::draw(LightShader* shader)
+void RenderingKinectHuman::draw(ShaderProgram* shader)
 {
     kinect_->update();
 

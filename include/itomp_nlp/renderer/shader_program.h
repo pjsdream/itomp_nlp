@@ -4,6 +4,8 @@
 
 #include <itomp_nlp/renderer/gl_base.h>
 
+#include <itomp_nlp/renderer/material.h>
+
 #include <Eigen/Dense>
 
 
@@ -16,12 +18,10 @@ public:
 
     ShaderProgram(Renderer* renderer, const std::string& vertex_filename, const std::string& fragment_filename);
     ShaderProgram(Renderer* renderer, const std::string& vertex_filename, const std::string& geometry_filename, const std::string& fragment_filename);
-
-    virtual void bindAttributes() = 0;
+    ~ShaderProgram();
 
     void start();
     void stop();
-    void cleanUp();
     
     void loadUniform(int location, float value);
     void loadUniform(int locatiom, const Eigen::Vector3f& v);
@@ -29,8 +29,12 @@ public:
     void loadUniform(int location, bool value);
     void loadUniform(int location, const Eigen::Matrix4f& m);
 
-protected:
+    virtual void loadModelTransform(const Eigen::Matrix4f& m) {}
+    virtual void loadMaterial(const Material* material) {}
 
+protected:
+    
+    virtual void bindAttributes() = 0;
     virtual void getAllUniformLocations() = 0;
 
     void bindAttribute(int attribute, const std::string& variable_name);

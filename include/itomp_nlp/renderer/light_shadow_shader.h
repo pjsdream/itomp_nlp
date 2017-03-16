@@ -34,9 +34,9 @@ private:
     Camera camera_;
 
     GLuint location_texture_sampler_;
-    GLuint location_shadow_map_[MAX_NUM_LIGHTS];
+    GLuint location_directional_light_shadow_map_[MAX_NUM_LIGHTS];
 
-    GLuint location_light_projection_view_[MAX_NUM_LIGHTS];
+    GLuint location_directional_light_projection_view_[MAX_NUM_LIGHTS];
 };
 
 }

@@ -14,7 +14,6 @@ namespace itomp
 
 Renderer::Renderer(QWidget* parent)
     : QOpenGLWidget(parent)
-    , shadowmap_shader_(0)
 {
     QSurfaceFormat format;
     format.setDepthBufferSize(24);
@@ -76,14 +75,15 @@ void Renderer::initializeGL()
 
     light_shadow_shader_ = new LightShadowShader(this);
     
-    if (shadowmap_shader_ == 0)
-        shadowmap_shader_ = new ShadowmapShader(this);
+    shadowmap_shader_ = new ShadowmapShader(this);
 
     // default light
     Light* light;
     light = new Light(Eigen::Vector3d(9, -1, 10));
-    light->setDiffuseColor(Eigen::Vector4f(1, 1, 1, 1));
-    light->setSpecularColor(Eigen::Vector4f(0, 0, 0, 1));
+    light->setDirectional();
+    light->setAmbient(Eigen::Vector3f(0.2, 0.2, 0.2));
+    light->setDiffuse(Eigen::Vector3f(0.8, 0.8, 0.8));
+    light->setSpecular(Eigen::Vector3f(1, 1, 1));
     lights_.push_back(light);
 }
 

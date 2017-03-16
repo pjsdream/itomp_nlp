@@ -32,8 +32,9 @@ public:
 
     void bindTexture(int light_index);
 
-    void loadModelTransform(const Eigen::Matrix4f& m);
     void loadLight(const Light* light);
+    
+    virtual void loadModelTransform(const Eigen::Matrix4f& m);
 
     inline GLuint getShadowmapTextureId(int light_index)
     {

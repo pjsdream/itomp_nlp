@@ -25,8 +25,7 @@ public:
     RenderingBox(Renderer* renderer);
     ~RenderingBox();
 
-    virtual void draw(LightShader* shader);
-    virtual void draw(ShadowmapShader* shader);
+    virtual void draw(ShaderProgram* shader);
     
     void setSize(const Eigen::Vector3d& size);
 

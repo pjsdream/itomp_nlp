@@ -298,8 +298,6 @@ winmoc.exe "..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\
     <None Include="..\shader\light.vert" />
     <None Include="..\shader\light_shadow.frag" />
     <None Include="..\shader\light_shadow.vert" />
-    <None Include="..\shader\line.frag" />
-    <None Include="..\shader\line.vert" />
     <None Include="..\shader\mesh.frag" />
     <None Include="..\shader\mesh.vert" />
     <None Include="..\shader\normal.frag" />
