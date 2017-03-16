@@ -7,12 +7,6 @@
 namespace itomp
 {
 
-OBB::OBB(double x, double y, double z)
-    : Shape()
-    , size_(x, y, z)
-{
-}
-
 OBB::OBB(double x, double y, double z, const Eigen::Affine3d& transform)
     : Shape(transform)
     , size_(x, y, z)
@@ -51,9 +45,93 @@ double OBB::getPenetrationDepth(Shape* shape) const
     return 0.;
 }
 
+OBB::EigenAlignedVector<Eigen::Vector3d> OBB::getEndpoints() const
+{
+    static EigenAlignedVector<Eigen::Vector3d> base_endpoints = 
+    {
+        Eigen::Vector3d(-0.5, -0.5, -0.5),
+        Eigen::Vector3d(-0.5, -0.5,  0.5),
+        Eigen::Vector3d(-0.5,  0.5, -0.5),
+        Eigen::Vector3d(-0.5,  0.5,  0.5),
+        Eigen::Vector3d( 0.5, -0.5, -0.5),
+        Eigen::Vector3d( 0.5, -0.5,  0.5),
+        Eigen::Vector3d( 0.5,  0.5, -0.5),
+        Eigen::Vector3d( 0.5,  0.5,  0.5),
+    };
+    
+    EigenAlignedVector<Eigen::Vector3d> endpoints(8);
+
+    for (int i=0; i<8; i++)
+        endpoints[i] = transform_ * (size_.cwiseProduct(base_endpoints[i]));
+
+    return endpoints;
+}
+
 double OBB::getPenetrationDepth(OBB* obb) const
 {
-    return 0.;
+    // half extents
+    Eigen::VectorXd sizes(6);
+    sizes.block(0, 0, 3, 1) = size_ / 2.;
+    sizes.block(3, 0, 3, 1) = obb->size_ / 2.;
+
+    // find normal candidates
+    Eigen::Matrix<double, 3, 15> normals;
+    
+    normals.block(0, 0, 3, 3) = transform_.linear();
+    normals.block(0, 3, 3, 3) = obb->getTransform().linear();
+    
+    Eigen::Matrix3d outer;
+    outer(0, 0) = 0.;
+    outer(1, 1) = 0.;
+    outer(2, 2) = 0.;
+    for (int i=0; i<3; i++)
+    {
+        outer(1, 0) = normals(2, i);
+        outer(2, 0) = -normals(1, i);
+        outer(0, 1) = -normals(2, i);
+        outer(2, 1) = normals(0, i);
+        outer(0, 2) = normals(1, i);
+        outer(1, 2) = -normals(0, i);
+
+        normals.block(0, (i+2)*3, 3, 3).noalias() = outer * normals.block(0, 3, 3, 3);
+    }
+
+    // endpoint projection
+    double proj_min_endpoints;
+    double proj_max_endpoints;
+    double min_dist = 1e10;
+    
+    for (int i=0; i<15; i++)
+    {
+        const Eigen::Vector3d& v = normals.col(i);
+        const double norm = v.norm();
+        if (norm > 1e-4)
+        {
+            proj_min_endpoints = v.dot(transform_.translation() - obb->transform_.translation());
+            proj_max_endpoints = proj_min_endpoints;
+
+            for (int j=0; j<6; j++)
+            {
+                const double d = std::abs(v.dot(normals.col(j)));
+                proj_min_endpoints -= d * sizes(j);
+                proj_max_endpoints += d * sizes(j);
+            }
+
+            // outside determination
+            if (proj_min_endpoints * proj_max_endpoints >= 0)
+                return 0.;
+
+            proj_min_endpoints /= norm;
+            proj_max_endpoints /= norm;
+         
+            if (min_dist > -proj_min_endpoints)
+                min_dist = -proj_min_endpoints;
+            if (min_dist > proj_max_endpoints)
+                min_dist = proj_max_endpoints;
+        }
+    }
+
+    return min_dist;
 }
 
 double OBB::getPenetrationDepth(Capsule2* capsule) const
