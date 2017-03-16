@@ -19,6 +19,11 @@ public:
 
     void addAABBList(const std::vector<std::string>& aabb_list);
 
+    inline void setAABBOffset(double offset)
+    {
+        aabb_offset_ = Eigen::Vector3d(offset, offset, offset);
+    }
+
     OptimizerRobot* loadRobot(RobotModel* robot_model, RobotState* robot_state, const std::vector<std::string>& active_joint_names);
 
 private:
@@ -27,6 +32,7 @@ private:
 
     std::vector<std::vector<std::string> > aabb_lists_;
     std::vector<AABB> aabbs_;
+    Eigen::Vector3d aabb_offset_;
     std::vector<char> is_aabb_encountered_;
     std::vector<int> aabb_link_id_;
 

@@ -17,6 +17,7 @@ ROS catkin setup
 * assimp 3.3.1 (http://www.assimp.org/, http://www.assimp.org/lib_html/index.html)
 * Fetch-ros (https://github.com/fetchrobotics/fetch_ros)
 * GloVe pre-trained word-to-vector data (http://nlp.stanford.edu/projects/glove/, glove.6B.zip)
+* winmoc (https://github.com/pjsdream/winmoc) for compile and build
 
 Copy the following lib files to lib/ folder
 * lodepng.cpp
@@ -35,6 +36,9 @@ Copy the following dll files to bin/ folder
 * Qt5Widgets.dll
 * assimp-vc140-mt.lib
 * assimp-vc140-mt.dll
+
+Copy the following exe file to vs/ folder
+* winmoc.exe (might want to change Qt path)
 
 ### Linux
 Nothing to do.

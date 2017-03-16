@@ -143,6 +143,10 @@ void OptimizerRobotLoader::loadRobotRecursive(const Link* link, const Eigen::Aff
                 {
                     AABB shape_aabb = mesh->getAABB();
 
+                    // extend by aabb_offset_
+                    shape_aabb.setLower( shape_aabb.getLower() - aabb_offset_ );
+                    shape_aabb.setUpper( shape_aabb.getUpper() + aabb_offset_ );
+
                     // apply translation
                     // TODO: apply orientation
                     shape_aabb.translate(origin.translation());

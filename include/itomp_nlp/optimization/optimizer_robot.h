@@ -110,6 +110,8 @@ public:
         return link_world_transforms_[idx];
     }
 
+    bool needSelfCollisionChecking(int link_id1, int link_id2) const;
+
     Eigen::Vector3d getWorldVelocity(int link_idx, const Eigen::Vector3d& local_position);
 
 private:

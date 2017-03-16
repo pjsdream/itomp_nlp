@@ -29,8 +29,12 @@ ItompInterface::ItompInterface(QWidget* parent)
     stop_button_ = new QPushButton("Stop", this);
     connect(stop_button_, SIGNAL(clicked()), this, SLOT(stopMotionPlanning()));
 
+    reset_button_ = new QPushButton("Reset", this);
+    connect(reset_button_, SIGNAL(clicked()), this, SLOT(resetMotionPlanning()));
+
     layout_->addWidget(start_button_, 0, 0);
     layout_->addWidget(stop_button_, 0, 1);
+    layout_->addWidget(reset_button_, 0, 2);
 
     itomp_cost_functions_widget_ = new ItompCostFunctionsWidget(this);
     connect(itomp_cost_functions_widget_, SIGNAL(costFunctionChanged(int, const std::string&, std::vector<double>)),
@@ -40,13 +44,15 @@ ItompInterface::ItompInterface(QWidget* parent)
     scroll_area_->setWidget(itomp_cost_functions_widget_);
     scroll_area_->setWidgetResizable(true);
 
-    layout_->addWidget(scroll_area_, 1, 0, 1, 2);
+    layout_->setRowStretch(1, 1);
+    layout_->addWidget(scroll_area_, 1, 0, 1, 3);
     
     // text edit
     nlp_widget_ = new ItompNLPWidget(this);
     connect(nlp_widget_, SIGNAL(commandAdded(std::string)), this, SLOT(commandAdded(std::string)));
-
-    layout_->addWidget(nlp_widget_, 2, 0, 1, 2);
+    
+    layout_->setRowStretch(2, 0);
+    layout_->addWidget(nlp_widget_, 2, 0, 1, 3);
 
     // execution tmier
     execution_timer_ = new QTimer(this);
@@ -61,8 +67,7 @@ void ItompInterface::initializeResources()
 {
 #ifdef _WIN32
     URDFParser urdf_parser;
-    urdf_parser.addPackageDirectoryMapping("fetch_description", "C:\\Users\\jaesungp\\Desktop\\documents\\fetch_ros\\fetch_description");
-    //urdf_parser.addPackageDirectoryMapping("fetch_description", "C:\\Users\\pjsdr_000\\Desktop\\documents\\fetch_ros\\fetch_description");
+    urdf_parser.addPackageDirectoryMapping("fetch_description", "..\\..\\fetch_ros\\fetch_description");
     robot_model_ = urdf_parser.parseURDF("../urdf/fetch.urdf");
 #else
     URDFParser urdf_parser;
@@ -139,9 +144,9 @@ void ItompInterface::initializeResources()
     optimizer_robot_ = optimizer_robot_loader.loadRobot(robot_model_, robot_state_, active_joint_names_);
 
     OptimizerOptions options;
-    options.trajectory_duration = 3.0;
+    options.trajectory_duration = 2.0;
     options.timestep = 0.5;
-    options.num_waypoints = 6;
+    options.num_waypoints = 4;
     options.num_waypoint_interpolations = 3;
 
     optimizer_.setRobot(optimizer_robot_);
@@ -168,17 +173,15 @@ void ItompInterface::initializeResources()
     */
 
     // static obstacles
-    /*
     Eigen::Affine3d table_center;
     table_center.setIdentity();
-    table_center.translate(Eigen::Vector3d(0.7, 0, 0.8));
-    OBB* table = new OBB(1, 2, 0.1, table_center);
+    table_center.translate(Eigen::Vector3d(0.8, 0, 0.35));
+    OBB* table = new OBB(1, 2, 0.7, table_center);
 
     StaticObstacle* table_obstacle = new StaticObstacle();
     table_obstacle->addShape(table);
 
     optimizer_.addStaticObstacle(table_obstacle);
-    */
 
     /*
     Eigen::Affine3d obstacle_center;
@@ -249,6 +252,24 @@ void ItompInterface::stopMotionPlanning()
     }
 }
 
+void ItompInterface::resetMotionPlanning()
+{
+    if (is_optimizing_)
+    {
+        optimizer_.stopOptimizationThread();
+        execution_timer_->stop();
+
+        optimizer_.resetWaypoints();
+
+        execution_timer_->start();
+        optimizer_.startOptimizationThread();
+    }
+    else
+    {
+        optimizer_.resetWaypoints();
+    }
+}
+
 void ItompInterface::moveTrajectoryForwardOneTimestep()
 {
     for (int i=0; i<human_obstacles_.size(); i++)
@@ -287,6 +308,9 @@ void ItompInterface::costFunctionChanged(int id, const std::string& type, std::v
 
     else if (type == "upvector")
         optimizer_.setGoalUpvectorCost(id, values[0], 7, Eigen::Vector3d(values[1], values[2], values[3]));
+
+    else if (type == "velocity")
+        optimizer_.setVelocityCost(id, values[0], 7, Eigen::Vector3d(values[1], values[2], values[3]));
 }
 
 void ItompInterface::commandAdded(std::string command)

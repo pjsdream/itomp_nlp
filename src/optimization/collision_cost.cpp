@@ -35,10 +35,41 @@ double CollisionCost::cost(int idx)
             Shape* robot_shape = robot_shapes[j];
 
             for (int k=0; k<static_shapes_.size(); k++)
-                cost += robot_shape->getPenetrationDepth(static_shapes_[k]);
+            {
+                const double d = robot_shape->getPenetrationDepth(static_shapes_[k]);
+                cost += d*d;
+            }
 
             for (int k=0; k<dynamic_shapes_[idx].size(); k++)
-                cost += robot_shape->getPenetrationDepth(dynamic_shapes_[idx][k]);
+            {
+                const double d = robot_shape->getPenetrationDepth(dynamic_shapes_[idx][k]);
+                cost += d*d;
+            }
+        }
+    }
+
+    // self collision cost
+    for (int i=0; i<robot->getNumLinks(); i++)
+    {
+        const std::vector<Shape*>& robot_shapes_1 = robot->getCollisionShapes(i);
+        for (int j=i+1; j<robot->getNumLinks(); j++)
+        {
+            if (robot->needSelfCollisionChecking(i, j))
+            {
+                const std::vector<Shape*>& robot_shapes_2 = robot->getCollisionShapes(j);
+
+                for (int k=0; k<robot_shapes_1.size(); k++)
+                {
+                    Shape* robot_shape_1 = robot_shapes_1[k];
+                    for (int l=0; l<robot_shapes_2.size(); l++)
+                    {
+                        Shape* robot_shape_2 = robot_shapes_2[l];
+
+                        const double d = robot_shape_1->getPenetrationDepth(robot_shape_2);
+                        cost += d*d;
+                    }
+                }
+            }
         }
     }
 
