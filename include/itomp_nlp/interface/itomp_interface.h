@@ -67,6 +67,7 @@ public slots:
 
     void startMotionPlanning();
     void stopMotionPlanning();
+    void resetMotionPlanning();
     void moveTrajectoryForwardOneTimestep();
 
     void costFunctionChanged(int id, const std::string& type, std::vector<double> values);
@@ -90,6 +91,7 @@ private:
     QGridLayout* layout_;
     QPushButton* start_button_;
     QPushButton* stop_button_;
+    QPushButton* reset_button_;
 
     QScrollArea* scroll_area_;
     ItompCostFunctionsWidget* itomp_cost_functions_widget_;

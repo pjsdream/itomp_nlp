@@ -58,6 +58,8 @@ public:
 
     void prepare();
 
+    void resetWaypoints();
+
     void setInitialRobotState(const Eigen::VectorXd& position, const Eigen::VectorXd& velocity);
 
     void setZeroCost(int id);
@@ -66,6 +68,7 @@ public:
     void setGoalCost(int id, double weight, int link_id, const Eigen::Vector3d& translation, const Eigen::Vector3d& goal_position);
     void setGoalOrientationCost(int id, double weight, int link_id, const Eigen::Quaterniond& quaternion);
     void setGoalUpvectorCost(int id, double weight, int link_id, const Eigen::Vector3d& upvector);
+    void setVelocityCost(int id, double weight, int link_id, const Eigen::Vector3d& velocity);
 
     // thread
     void startOptimizationThread();

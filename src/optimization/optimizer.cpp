@@ -60,6 +60,11 @@ void Optimizer::prepare()
     optimization_thread_.prepare();
 }
 
+void Optimizer::resetWaypoints()
+{
+    optimization_thread_.resetWaypoints();
+}
+
 void Optimizer::setZeroCost(int id)
 {
     Cost* cost = new Cost(optimization_thread_, 0.0);
@@ -99,6 +104,14 @@ void Optimizer::setGoalUpvectorCost(int id, double weight, int link_id, const Ei
 {
     GoalUpvectorCost* cost = new GoalUpvectorCost(optimization_thread_, weight);
     cost->setGoalUpvector(link_id, upvector);
+
+    optimization_thread_.pushCostFunctionRequest(id, cost);
+}
+
+void Optimizer::setVelocityCost(int id, double weight, int link_id, const Eigen::Vector3d& velocity)
+{
+    VelocityCost* cost = new VelocityCost(optimization_thread_, weight);
+    cost->setGoalVelocity(link_id, velocity);
 
     optimization_thread_.pushCostFunctionRequest(id, cost);
 }

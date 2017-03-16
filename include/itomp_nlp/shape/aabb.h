@@ -25,6 +25,16 @@ public:
         return new AABB(*this);
     }
 
+    inline void setLower(const Eigen::Vector3d& lower)
+    {
+        lower_ = lower;
+    }
+
+    inline void setUpper(const Eigen::Vector3d& upper)
+    {
+        upper_ = upper;
+    }
+
     inline const Eigen::Vector3d& getLower() const
     {
         return lower_;

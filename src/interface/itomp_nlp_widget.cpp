@@ -8,8 +8,12 @@ ItompNLPWidget::ItompNLPWidget(QWidget* parent)
     : QWidget(parent)
 {
     layout_ = new QGridLayout(this);
+    setLayout(layout_);
+
+    const int num_lines = 5;
 
     text_edit_ = new QTextEdit(this);
+    text_edit_->setMaximumHeight( QFontMetrics(text_edit_->font()).lineSpacing() * num_lines );
     connect(text_edit_, SIGNAL(textChanged()), this, SLOT(textChanged()));
 
     layout_->addWidget(text_edit_, 0, 0);

@@ -143,6 +143,11 @@ void OptimizerThread::setRobot(OptimizerRobot* robot)
     robot_ = robot->clone();
 }
 
+void OptimizerThread::resetWaypoints()
+{
+    waypoint_variables_.setZero();
+}
+
 void OptimizerThread::prepare()
 {
     // forward kinematics robot model
@@ -234,6 +239,10 @@ void OptimizerThread::moveForwardOneTimestep()
 void OptimizerThread::threadEnter()
 {
     //optimizeGradientDescent();
+    
+    // copy waypoint variables to dlib vector storage
+    const int num_variables_per_waypoint = dof_ * 2;
+    memcpy(dlib_waypoint_variables_.begin(), waypoint_variables_.data() + num_variables_per_waypoint, sizeof(double) * num_variables_per_waypoint * num_waypoints_);
 
     optimizeDlib(bfgs_search_strategy(),
                  std::bind(&OptimizerThread::dlibCost, this, std::placeholders::_1),
@@ -329,7 +338,7 @@ void OptimizerThread::optimizeDlib(
 
             // update current solution x
             const int num_variables_per_waypoint = dof_ * 2;
-            memcpy(waypoint_variables_.data() + num_variables_per_waypoint, x.begin(), num_variables_per_waypoint * num_waypoints_);
+            memcpy(waypoint_variables_.data() + num_variables_per_waypoint, x.begin(), sizeof(double) * num_variables_per_waypoint * num_waypoints_);
 
             // reset search strategy
             search_strategy.reset();
