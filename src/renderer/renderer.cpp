@@ -76,14 +76,24 @@ void Renderer::initializeGL()
     light_shadow_shader_ = new LightShadowShader(this);
     
     shadowmap_shader_ = new ShadowmapShader(this);
+    shadowmap_point_shader_ = new ShadowmapPointShader(this);
 
     // default light
     Light* light;
     light = new Light(Eigen::Vector3d(9, -1, 10));
     light->setDirectional();
     light->setAmbient(Eigen::Vector3f(0.2, 0.2, 0.2));
-    light->setDiffuse(Eigen::Vector3f(0.8, 0.8, 0.8));
+    light->setDiffuse(Eigen::Vector3f(0.4, 0.4, 0.4));
     light->setSpecular(Eigen::Vector3f(1, 1, 1));
+    lights_.push_back(light);
+
+    // point light
+    light = new Light(Eigen::Vector3d(2, 0, 2));
+    light->setPoint();
+    light->setAmbient(Eigen::Vector3f(0.2, 0.2, 0.2));
+    light->setDiffuse(Eigen::Vector3f(0.4, 0.4, 0.4));
+    light->setSpecular(Eigen::Vector3f(1, 1, 1));
+    light->setAttenuation(Eigen::Vector3f(1, 0.045, 0.0075));
     lights_.push_back(light);
 }
 
@@ -101,35 +111,75 @@ void Renderer::paintGL()
     
     // light direction from camera
     //lights_[0]->setPosition( - camera_.lookAtDirection() );
-
-    // shadowmap shader
-    shadowmap_shader_->start();
     
     GLint screen_fbo;
     gl_->glGetIntegerv(GL_FRAMEBUFFER_BINDING, &screen_fbo);
 
+    // shadowmap shader
+    shadowmap_shader_->start();
+
+    int didx = 0;
     for (int i=0; i<lights_.size(); i++)
     {
-        shadowmap_shader_->bindTexture(i);
-        shadowmap_shader_->loadLight(lights_[i]);
+        if (lights_[i]->isDirectional())
+        {
+            shadowmap_shader_->bindTexture(didx);
+            shadowmap_shader_->loadLight(lights_[i]);
     
-        for (int j=0; j<rendering_shapes_.size(); j++)
-            rendering_shapes_[j]->draw(shadowmap_shader_);
+            for (int j=0; j<rendering_shapes_.size(); j++)
+                rendering_shapes_[j]->draw(shadowmap_shader_);
+
+            didx++;
+        }
     }
 
     shadowmap_shader_->stop();
-    gl_->glBindFramebuffer(GL_FRAMEBUFFER, screen_fbo);
 
-    // restore viewport
+    // shadowmap point shader
+    shadowmap_point_shader_->start();
+
+    int pidx = 0;
+    for (int i=0; i<lights_.size(); i++)
+    {
+        if (lights_[i]->isPoint())
+        {
+            shadowmap_point_shader_->bindTexture(pidx);
+            shadowmap_point_shader_->loadLight(lights_[i]);
+    
+            for (int j=0; j<rendering_shapes_.size(); j++)
+                rendering_shapes_[j]->draw(shadowmap_point_shader_);
+
+            pidx++;
+        }
+    }
+
+    shadowmap_point_shader_->stop();
+
+    // restore framebuffer and viewport
+    gl_->glBindFramebuffer(GL_FRAMEBUFFER, screen_fbo);
     gl_->glViewport(0, 0, width(), height());
 
     // light shadow shader
     light_shadow_shader_->start();
     light_shadow_shader_->loadCamera(camera_);
     light_shadow_shader_->loadLights(lights_);
-
+    
+    didx = 0;
+    pidx = 0;
     for (int i=0; i<lights_.size(); i++)
-        light_shadow_shader_->bindShadowmapTexture(i, shadowmap_shader_->getShadowmapTextureId(i));
+    {
+        if (lights_[i]->isDirectional())
+        {
+            light_shadow_shader_->bindShadowmapTextureDirectional(didx, shadowmap_shader_->getShadowmapTextureId(didx));
+            didx++;
+        }
+
+        else if (lights_[i]->isPoint())
+        {
+            light_shadow_shader_->bindShadowmapTexturePoint(pidx, shadowmap_point_shader_->getShadowmapTextureId(pidx));
+            pidx++;
+        }
+    }
     
     for (int i=0; i<rendering_shapes_.size(); i++)
         rendering_shapes_[i]->draw(light_shadow_shader_);

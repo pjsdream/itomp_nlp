@@ -21,10 +21,17 @@ Camera::Camera()
 {
 }
 
-void Camera::lookAt(const Eigen::Vector3d& eye, const Eigen::Vector3d center)
+void Camera::lookAt(const Eigen::Vector3d& eye, const Eigen::Vector3d& center)
 {
     eye_ = eye;
     center_ = center;
+}
+
+void Camera::lookAt(const Eigen::Vector3d& eye, const Eigen::Vector3d& center, const Eigen::Vector3d& up)
+{
+    eye_ = eye;
+    center_ = center;
+    up_ = up;
 }
 
 void Camera::translatePixel(int dx, int dy)

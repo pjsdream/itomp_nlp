@@ -26,12 +26,16 @@ LightShadowShader::LightShadowShader(Renderer* renderer)
 
 void LightShadowShader::getAllUniformLocations()
 {
+    location_far_plane_ = getUniformLocation("far_plane");
+
     for (int i=0; i<MAX_NUM_LIGHTS; i++)
     {
         const std::string array_index = "[" + std::to_string(i) + "]";
         
         location_directional_light_projection_view_[i] = getUniformLocation("directional_lights" + array_index + ".projection_view");
         location_directional_light_shadow_map_[i] = getUniformLocation("directional_lights" + array_index + ".shadow_map");
+        
+        location_point_light_shadow_map_[i] = getUniformLocation("point_lights" + array_index + ".shadow_map");
     }
 }
 
@@ -41,12 +45,21 @@ void LightShadowShader::loadTextureSamplers()
 
     for (int i=0; i<MAX_NUM_LIGHTS; i++)
         gl_->glUniform1i(location_directional_light_shadow_map_[i], i + 1);
+
+    for (int i=0; i<MAX_NUM_LIGHTS; i++)
+        gl_->glUniform1i(location_point_light_shadow_map_[i], i + MAX_NUM_LIGHTS + 1);
 }
 
-void LightShadowShader::bindShadowmapTexture(int light_index, GLuint texture)
+void LightShadowShader::bindShadowmapTextureDirectional(int light_index, GLuint texture)
 {
     gl_->glActiveTexture(GL_TEXTURE1 + light_index);
     gl_->glBindTexture(GL_TEXTURE_2D, texture);
+}
+
+void LightShadowShader::bindShadowmapTexturePoint(int light_index, GLuint texture)
+{
+    gl_->glActiveTexture(GL_TEXTURE1 + MAX_NUM_LIGHTS + light_index);
+    gl_->glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
 }
 
 void LightShadowShader::loadLights(const std::vector<Light*>& lights)
@@ -70,6 +83,8 @@ void LightShadowShader::loadLights(const std::vector<Light*>& lights)
             didx++;
         }
     }
+
+    loadUniform(location_far_plane_, 10.0f);
 }
 
 }

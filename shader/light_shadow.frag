@@ -29,6 +29,8 @@ struct PointLight
     vec3 specular;
 
     vec3 attenuation;
+
+    samplerCube shadow_map;  // shadowmap
 };
 
 struct Material
@@ -44,6 +46,7 @@ struct Material
 
 uniform DirectionalLight directional_lights[8];
 uniform PointLight point_lights[8];
+uniform float far_plane;
 
 uniform vec3 eye_position;
 uniform Material material;
@@ -75,6 +78,19 @@ float shadowCalculationDirectional(vec4 position_light, const DirectionalLight l
         }
         shadow /= 9.0;
     }
+
+    return shadow;
+}
+
+float shadowCalculationPoint(vec3 frag_position, const PointLight light)
+{
+    vec3 frag_to_light = frag_position - light.position;
+    float closest_depth = texture(light.shadow_map, frag_to_light).r;
+    closest_depth *= far_plane;
+    float current_depth = length(frag_to_light);
+
+    const float bias = 0.05;
+    float shadow = current_depth - bias > closest_depth ? 1.0 : 0.0;
 
     return shadow;
 }
@@ -146,7 +162,7 @@ void main()
 
             float attenuation = 1.f / (point_lights[i].attenuation.x + point_lights[i].attenuation.y * d + point_lights[i].attenuation.z * d * d);
 
-            float shadow = 0.f;
+            float shadow = shadowCalculationPoint(surface_position, point_lights[i]);
 
             total_color += (ambient + (1.f - shadow) * (diffuse + specular)) * attenuation;
         }

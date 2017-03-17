@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Shader">
-      <UniqueIdentifier>{64e57dec-2db1-436b-a44b-7f645163e13f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Renderer">
       <UniqueIdentifier>{a757fcc4-a606-4c26-bc1c-89058723e233}</UniqueIdentifier>
     </Filter>
@@ -54,6 +51,9 @@
     </Filter>
     <Filter Include="Renderer\RenderingShape">
       <UniqueIdentifier>{53a525ac-7799-4878-8d74-c42007c8381a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Shader">
+      <UniqueIdentifier>{64e57dec-2db1-436b-a44b-7f645163e13f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -348,76 +348,88 @@
     <ClCompile Include="..\src\renderer\color_shader.cpp">
       <Filter>Renderer\Shader Programs</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\renderer\shadowmap_point_shader.cpp">
+      <Filter>Renderer\Shader Programs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\build_lists.vert">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\mesh.frag">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\mesh.vert">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\resolve_lists.frag">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\resolve_lists.vert">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\static.frag">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\static.vert">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\urdf\fetch.urdf">
       <Filter>URDF</Filter>
     </None>
     <None Include="..\shader\normal.frag">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\normal.geom">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\normal.vert">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\wireframe.frag">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\wireframe.geom">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\wireframe.vert">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\color.frag">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\color.vert">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\shadowmap.frag">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\shadowmap.vert">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\light_shadow.frag">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\light_shadow.vert">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\light.frag">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\light.vert">
-      <Filter>Shader</Filter>
+      <Filter>Renderer\Shader</Filter>
+    </None>
+    <None Include="..\shader\shadowmap_point.frag">
+      <Filter>Renderer\Shader</Filter>
+    </None>
+    <None Include="..\shader\shadowmap_point.vert">
+      <Filter>Renderer\Shader</Filter>
+    </None>
+    <None Include="..\shader\shadowmap_point.geom">
+      <Filter>Renderer\Shader</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -692,6 +704,9 @@
       <Filter>Renderer\Shader Programs</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\color_shader.h">
+      <Filter>Renderer\Shader Programs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\shadowmap_point_shader.h">
       <Filter>Renderer\Shader Programs</Filter>
     </ClInclude>
   </ItemGroup>

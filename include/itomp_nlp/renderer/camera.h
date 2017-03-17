@@ -26,6 +26,11 @@ public:
         aspect_ = aspect;
     }
 
+    inline void setFovy(double fovy)
+    {
+        fovy_ = fovy;
+    }
+
     inline void setPerspective()
     {
         projection_type_ = PERSPECTIVE;
@@ -56,7 +61,8 @@ public:
         far_ = f;
     }
 
-    void lookAt(const Eigen::Vector3d& eye, const Eigen::Vector3d center);
+    void lookAt(const Eigen::Vector3d& eye, const Eigen::Vector3d& center);
+    void lookAt(const Eigen::Vector3d& eye, const Eigen::Vector3d& center, const Eigen::Vector3d& up);
 
     void translatePixel(int dx, int dy);
     void rotatePixel(int dx, int dy);

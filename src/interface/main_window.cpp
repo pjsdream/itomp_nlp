@@ -65,7 +65,7 @@ MainWindow::MainWindow()
     brown_ = new Material();
     brown_->setAmbient(Eigen::Vector3f(139./255, 69./255, 19./255));
     brown_->setDiffuse(Eigen::Vector3f(139./255, 69./255, 19./255));
-    brown_->setShininess(2.0);
+    brown_->setSpecular(Eigen::Vector3f::Zero());
 
     // rendering table
     rendering_table_ = new RenderingBox(renderer_);
@@ -103,6 +103,7 @@ MainWindow::MainWindow()
     Material* checkerboard = new Material();
     checkerboard->setAmbient(Eigen::Vector3f(1, 1, 1));
     checkerboard->setDiffuseTexture(checkerboard_texture);
+    checkerboard->setSpecular(Eigen::Vector3f::Zero());
 
     RenderingPlane* plane = new RenderingPlane(renderer_);
     plane->setMaterial(checkerboard);
