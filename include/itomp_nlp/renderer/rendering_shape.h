@@ -28,6 +28,8 @@ public:
     
     virtual void draw(ShaderProgram* shader);
 
+    float getAlpha();
+
     inline void setMaterial(Material* material)
     {
         material_ = material;

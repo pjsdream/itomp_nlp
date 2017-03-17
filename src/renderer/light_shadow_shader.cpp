@@ -24,6 +24,20 @@ LightShadowShader::LightShadowShader(Renderer* renderer)
     stop();
 }
 
+LightShadowShader::LightShadowShader(Renderer* renderer, const std::string& vertex_filename, const std::string& fragment_filename)
+    : LightShader(renderer, vertex_filename, fragment_filename)
+{
+    getAllUniformLocations();
+
+    camera_.setOrtho();
+    camera_.setNear(0.0);
+    camera_.setFar(3.0);
+
+    start();
+    loadTextureSamplers();
+    stop();
+}
+
 void LightShadowShader::getAllUniformLocations()
 {
     location_far_plane_ = getUniformLocation("far_plane");

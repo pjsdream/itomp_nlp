@@ -54,6 +54,7 @@ void LightShader::getAllUniformLocations()
     }
     location_eye_position_ = getUniformLocation("eye_position");
     
+    location_material_alpha_ = getUniformLocation("material.alpha");
     location_material_ambient_ = getUniformLocation("material.ambient");
     location_material_diffuse_ = getUniformLocation("material.diffuse");
     location_material_specular_ = getUniformLocation("material.specular");
@@ -119,6 +120,7 @@ void LightShader::loadLights(const std::vector<Light*>& lights)
             loadUniform(location_point_light_diffuse_[pidx], diffuse);
             loadUniform(location_point_light_specular_[pidx], specular);
             loadUniform(location_point_light_attenuation_[pidx], attenuation);
+
             pidx++;
         }
     }
@@ -128,6 +130,10 @@ void LightShader::loadMaterial(const Material* material)
 {
     if (material == 0)
     {
+        loadUniform(location_material_has_texture_, false);
+        loadUniform(location_material_alpha_, 1.0f);
+
+        printf("material = 0\n");
     }
 
     else
@@ -135,17 +141,18 @@ void LightShader::loadMaterial(const Material* material)
         const Eigen::Vector3f& ambient = material->getAmbient();
         const Eigen::Vector3f& specular = material->getSpecular();
         
+        loadUniform(location_material_alpha_, material->getAlpha());
         loadUniform(location_material_ambient_, ambient);
         loadUniform(location_material_specular_, specular);
         loadUniform(location_material_shininess_, material->getShininess());
-
+        
         if (material->hasDiffuseTexture())
         {
-            gl_->glUniform1i(location_material_diffuse_texture_, 0);
-
-            gl_->glActiveTexture(GL_TEXTURE0);
+            gl_->glActiveTexture(GL_TEXTURE2);
+            gl_->glUniform1i(location_material_diffuse_texture_, 2);
             gl_->glBindTexture(GL_TEXTURE_2D, material->getDiffuseTexture()->getTexture());
-            
+            gl_->glActiveTexture(GL_TEXTURE0);
+
             loadUniform(location_material_has_texture_, true);
         }
         else

@@ -82,6 +82,10 @@ GLint ShaderProgram::getUniformLocation(const std::string& uniform_name)
     return gl_->glGetUniformLocation(shader_program_, uniform_name.c_str());
 }
 
+void ShaderProgram::getAllUniformLocations()
+{
+}
+
 GLuint ShaderProgram::loadShader(const std::string& filename, GLuint shader_type)
 {
     FILE* fp = fopen(filename.c_str(), "rb");

@@ -17,6 +17,8 @@
 #include <itomp_nlp/renderer/shadowmap_shader.h>
 #include <itomp_nlp/renderer/shadowmap_point_shader.h>
 #include <itomp_nlp/renderer/light_shadow_shader.h>
+#include <itomp_nlp/renderer/light_oit_shader.h>
+#include <itomp_nlp/renderer/oit_resolve_shader.h>
 #include <itomp_nlp/renderer/light.h>
 #include <itomp_nlp/renderer/material.h>
 
@@ -71,6 +73,8 @@ private:
     LightShadowShader* light_shadow_shader_;
     ShadowmapShader* shadowmap_shader_;
     ShadowmapPointShader* shadowmap_point_shader_;
+    LightOITShader* light_oit_shader_;
+    OITResolveShader* oit_resolve_shader_;
 
     // rendering shapes
     std::vector<RenderingShape*> rendering_shapes_;

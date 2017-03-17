@@ -60,7 +60,8 @@ void main(void)
 
     }
 
-    vec4 final_color = vec4(1.0);
+
+    vec4 final_color = vec4(1.f);
 
     for (i = 0; i < fragment_count; i++)
     {
@@ -71,5 +72,22 @@ void main(void)
     }
 
     color = final_color;
-    // color = vec4(float(fragment_count) / float(MAX_FRAGMENTS));
+    //color = vec4(float(fragment_count) / float(MAX_FRAGMENTS));
+
+
+/*
+    vec4 final_color = vec4(1.0);
+    float last_alpha = 1.f;
+
+    for (i = 0; i < fragment_count; i++)
+    {
+        vec4 modulator = unpackUnorm4x8(fragment_list[i].y);
+        vec4 additive_component = unpackUnorm4x8(fragment_list[i].w);
+
+        final_color = mix(final_color, modulator, modulator.a);// + additive_component;
+        last_alpha = modulator.a;
+    }
+
+    color = vec4(last_alpha, 0, 0, 1.f);
+*/
 }

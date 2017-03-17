@@ -20,7 +20,7 @@ public:
     ShaderProgram(Renderer* renderer, const std::string& vertex_filename, const std::string& geometry_filename, const std::string& fragment_filename);
     ~ShaderProgram();
 
-    void start();
+    virtual void start();
     void stop();
     
     void loadUniform(int location, float value);
@@ -35,7 +35,7 @@ public:
 protected:
     
     virtual void bindAttributes() = 0;
-    virtual void getAllUniformLocations() = 0;
+    virtual void getAllUniformLocations();
 
     void bindAttribute(int attribute, const std::string& variable_name);
 

@@ -32,4 +32,13 @@ void RenderingShape::draw(ShaderProgram* shader)
 {
 }
 
+float RenderingShape::getAlpha()
+{
+    if (material_ == 0)
+        return 1.f;
+
+    else
+        return material_->getAlpha();
+}
+
 }

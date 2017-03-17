@@ -58,6 +58,7 @@ protected:
 
     GLuint location_eye_position_;
     
+    GLuint location_material_alpha_;
     GLuint location_material_ambient_;
     GLuint location_material_diffuse_;
     GLuint location_material_specular_;

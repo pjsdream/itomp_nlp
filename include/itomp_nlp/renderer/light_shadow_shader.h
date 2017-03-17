@@ -18,6 +18,7 @@ private:
 public:
 
     LightShadowShader(Renderer* renderer);
+    LightShadowShader(Renderer* renderer, const std::string& vertex_filename, const std::string& fragment_filename);
 
     void bindShadowmapTextureDirectional(int light_index, GLuint texture);
     void bindShadowmapTexturePoint(int light_index, GLuint texture);

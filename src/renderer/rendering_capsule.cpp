@@ -130,22 +130,22 @@ void RenderingCapsule::updateBuffers()
 
             if (j==0)
             {
-                vertices.push_back(v0); vertices.push_back(v1); vertices.push_back(v3);
-                normals .push_back(n0); normals .push_back(n1); normals .push_back(n3);
+                vertices.push_back(v0); vertices.push_back(v3); vertices.push_back(v1);
+                normals .push_back(n0); normals .push_back(n3); normals .push_back(n1);
             }
 
             else if (j == plane_vertices.size() - 2)
             {
-                vertices.push_back(v0); vertices.push_back(v1); vertices.push_back(v2);
-                normals .push_back(n0); normals .push_back(n1); normals .push_back(n2);
+                vertices.push_back(v0); vertices.push_back(v2); vertices.push_back(v1);
+                normals .push_back(n0); normals .push_back(n2); normals .push_back(n1);
             }
 
             else
             {
-                vertices.push_back(v0); vertices.push_back(v1); vertices.push_back(v3);
-                normals .push_back(n0); normals .push_back(n1); normals .push_back(n3);
-                vertices.push_back(v0); vertices.push_back(v3); vertices.push_back(v2);
-                normals .push_back(n0); normals .push_back(n3); normals .push_back(n2);
+                vertices.push_back(v0); vertices.push_back(v3); vertices.push_back(v1);
+                normals .push_back(n0); normals .push_back(n3); normals .push_back(n1);
+                vertices.push_back(v0); vertices.push_back(v2); vertices.push_back(v3);
+                normals .push_back(n0); normals .push_back(n2); normals .push_back(n3);
             }
         }
     }

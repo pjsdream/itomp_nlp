@@ -41,7 +41,8 @@ MainWindow::MainWindow()
     const int num_interpolated_variables = itomp_interface_->getNumInterpolatedVariables();
     RobotModel* robot_model = itomp_interface_->getRobotModel();
 
-    for (int i=0; i<num_interpolated_variables; i++)
+    //for (int i=0; i<num_interpolated_variables; i++)
+    for (int i=0; i<1; i++)
     {
         RenderingRobot* rendering_robot = new RenderingRobot(renderer_, robot_model);
         rendering_robots_.push_back(rendering_robot);
@@ -61,6 +62,7 @@ MainWindow::MainWindow()
     grey_ = new Material();
     grey_->setAmbient(Eigen::Vector3f(0.3, 0.3, 0.3));
     grey_->setDiffuse(Eigen::Vector3f(0.3, 0.3, 0.3));
+    grey_->setAlpha(0.25f);
     
     brown_ = new Material();
     brown_->setAmbient(Eigen::Vector3f(139./255, 69./255, 19./255));
@@ -68,19 +70,22 @@ MainWindow::MainWindow()
     brown_->setSpecular(Eigen::Vector3f::Zero());
 
     // rendering table
+    const double margin = 0.01;
     rendering_table_ = new RenderingBox(renderer_);
     rendering_table_->setMaterial(brown_);
-    rendering_table_->setSize(Eigen::Vector3d(1, 2, 0.7));
+    rendering_table_->setSize(Eigen::Vector3d(1 - margin, 2 - margin, 0.7 - margin)); // shrinked by margin for rendering bounding box
     rendering_table_->setTransform(Eigen::Affine3d(Eigen::Translation3d(0.8, 0, 0.35)));
 
     // rendering objects
     Material* red = new Material();
     red->setAmbient(Eigen::Vector3f(1, 0, 0));
     red->setDiffuse(Eigen::Vector3f(1, 0, 0));
+    red->setAlpha(0.25f);
 
     Material* blue = new Material();
     blue->setAmbient(Eigen::Vector3f(0, 0, 1));
     blue->setDiffuse(Eigen::Vector3f(0, 0, 1));
+    blue->setAlpha(0.25f);
 
     RenderingCapsule* capsule1 = new RenderingCapsule(renderer_);
     capsule1->setMaterial(red);
@@ -127,19 +132,19 @@ void MainWindow::updateNextFrame()
     Eigen::MatrixXd trajectory = itomp_interface_->getBestTrajectory();
     
     int box_idx = 0;
-    for (int i=0; i<trajectory.cols() / 2; i++)
+    //for (int i=0; i<trajectory.cols() / 2; i++)
+    for (int i=0; i<1; i++)
     {
         Eigen::VectorXd optimizer_robot_trajectory = trajectory.col(i*2);
-
+        
         RobotState robot_state(*itomp_interface_->getRobotState());
         for (int j=0; j<itomp_interface_->getActiveJointNames().size(); j++)
             robot_state.setPosition(itomp_interface_->getActiveJointNames()[j], optimizer_robot_trajectory(j));
-
+        
         // update robot state to renderer
         rendering_robots_[i]->setRobotState(robot_state);
 
         // update collision boxes
-        /*
         forward_kinematics_->setPositions(trajectory.col(i*2));
         forward_kinematics_->setVelocities(trajectory.col(i*2+1));
         forward_kinematics_->forwardKinematics();
@@ -166,7 +171,6 @@ void MainWindow::updateNextFrame()
                 }
             }
         }
-        */
     }
 
     // remove unused rendering boxes

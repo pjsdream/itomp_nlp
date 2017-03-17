@@ -351,6 +351,12 @@
     <ClCompile Include="..\src\renderer\shadowmap_point_shader.cpp">
       <Filter>Renderer\Shader Programs</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\renderer\light_oit_shader.cpp">
+      <Filter>Renderer\Shader Programs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\oit_resolve_shader.cpp">
+      <Filter>Renderer\Shader Programs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -429,6 +435,12 @@
       <Filter>Renderer\Shader</Filter>
     </None>
     <None Include="..\shader\shadowmap_point.geom">
+      <Filter>Renderer\Shader</Filter>
+    </None>
+    <None Include="..\shader\light_oit.frag">
+      <Filter>Renderer\Shader</Filter>
+    </None>
+    <None Include="..\shader\light_oit.vert">
       <Filter>Renderer\Shader</Filter>
     </None>
   </ItemGroup>
@@ -707,6 +719,12 @@
       <Filter>Renderer\Shader Programs</Filter>
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\shadowmap_point_shader.h">
+      <Filter>Renderer\Shader Programs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\light_oit_shader.h">
+      <Filter>Renderer\Shader Programs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\oit_resolve_shader.h">
       <Filter>Renderer\Shader Programs</Filter>
     </ClInclude>
   </ItemGroup>

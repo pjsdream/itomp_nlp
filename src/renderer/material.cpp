@@ -12,7 +12,7 @@ Material::Material()
     , specular_(0.5, 0.5, 0.5)
     , shininess_(32.)
     , diffuse_texture_(0)
-    , alpha_(1)
+    , alpha_(1.f)
 {
 }
 

@@ -63,6 +63,9 @@ void Renderer::initializeGL()
     gl_->glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
     gl_->glClearDepth(1.0f);
 
+    gl_->glDisable(GL_CULL_FACE);
+
+
     // shaders
     light_shader_ = new LightShader(this);
 
@@ -77,6 +80,10 @@ void Renderer::initializeGL()
     
     shadowmap_shader_ = new ShadowmapShader(this);
     shadowmap_point_shader_ = new ShadowmapPointShader(this);
+
+    light_oit_shader_ = new LightOITShader(this);
+
+    oit_resolve_shader_ = new OITResolveShader(this);
 
     // default light
     Light* light;
@@ -109,6 +116,7 @@ void Renderer::paintGL()
 {
     gl_->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
+    /*
     // light direction from camera
     //lights_[0]->setPosition( - camera_.lookAtDirection() );
     
@@ -127,7 +135,8 @@ void Renderer::paintGL()
             shadowmap_shader_->loadLight(lights_[i]);
     
             for (int j=0; j<rendering_shapes_.size(); j++)
-                rendering_shapes_[j]->draw(shadowmap_shader_);
+                if (rendering_shapes_[j]->getAlpha() != 1.f)
+                    rendering_shapes_[j]->draw(shadowmap_shader_);
 
             didx++;
         }
@@ -147,7 +156,8 @@ void Renderer::paintGL()
             shadowmap_point_shader_->loadLight(lights_[i]);
     
             for (int j=0; j<rendering_shapes_.size(); j++)
-                rendering_shapes_[j]->draw(shadowmap_point_shader_);
+                if (rendering_shapes_[j]->getAlpha() == 1.f)
+                    rendering_shapes_[j]->draw(shadowmap_point_shader_);
 
             pidx++;
         }
@@ -182,9 +192,33 @@ void Renderer::paintGL()
     }
     
     for (int i=0; i<rendering_shapes_.size(); i++)
-        rendering_shapes_[i]->draw(light_shadow_shader_);
+        if (rendering_shapes_[i]->getAlpha() != 1.f)
+            rendering_shapes_[i]->draw(light_shadow_shader_);
 
     light_shadow_shader_->stop();
+    */
+
+    // light oit shader
+    light_oit_shader_->start();
+    light_oit_shader_->loadCamera(camera_);
+    light_oit_shader_->loadLights(lights_);
+    
+    gl_->glDisable(GL_DEPTH_TEST);
+    gl_->glEnable(GL_BLEND);
+    gl_->glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    for (int i=0; i<rendering_shapes_.size(); i++)
+        rendering_shapes_[i]->draw(light_oit_shader_);
+    
+    gl_->glDisable(GL_BLEND);
+
+    light_oit_shader_->stop();
+
+    // oit resolve shader
+    oit_resolve_shader_->start();
+    oit_resolve_shader_->resolve();
+    oit_resolve_shader_->stop();
+    gl_->glEnable(GL_DEPTH_TEST);
 
     // light shader
     /*

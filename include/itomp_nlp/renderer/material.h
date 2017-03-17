@@ -57,6 +57,16 @@ public:
         return shininess_;
     }
 
+    inline float getAlpha() const
+    {
+        return alpha_;
+    }
+
+    inline void setAlpha(float alpha)
+    {
+        alpha_ = alpha;
+    }
+
     inline void setShininess(float shininess)
     {
         shininess_ = shininess;
@@ -78,7 +88,7 @@ private:
     Eigen::Vector3f diffuse_;
     Eigen::Vector3f specular_;
 
-    bool alpha_;
+    float alpha_;
 
     bool has_diffuse_texture_;
 

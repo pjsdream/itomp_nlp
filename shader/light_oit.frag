@@ -1,10 +1,14 @@
 #version 430 core
 
-layout (early_fragment_tests) in;
-
 in vec3 surface_position;
 in vec3 surface_normal;
 in vec2 pass_texture_coords;
+
+// OIT buffers
+layout (binding = 0, r32ui) uniform uimage2D head_pointer_image;
+layout (binding = 1, rgba32ui) uniform writeonly uimageBuffer list_buffer;
+
+layout (binding = 0, offset = 0) uniform atomic_uint list_counter;
 
 struct DirectionalLight
 {
@@ -15,9 +19,6 @@ struct DirectionalLight
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
-
-    mat4 projection_view;  // from light source
-    sampler2D shadow_map;  // shadowmap
 };
 
 struct PointLight
@@ -31,8 +32,6 @@ struct PointLight
     vec3 specular;
 
     vec3 attenuation;
-
-    samplerCube shadow_map;  // shadowmap
 };
 
 struct Material
@@ -42,7 +41,7 @@ struct Material
     vec3 specular;
     float shininess;
 
-    float alpha;
+    float alpha; // opaqueness
 
     bool has_texture;
     sampler2D diffuse_texture;
@@ -50,57 +49,20 @@ struct Material
 
 uniform DirectionalLight directional_lights[8];
 uniform PointLight point_lights[8];
-uniform float far_plane;
 
 uniform vec3 eye_position;
 uniform Material material;
 
-out vec4 out_color;
-
-float shadowCalculationDirectional(vec4 position_light, const DirectionalLight light)
-{
-    vec3 projCoords = position_light.xyz / position_light.w;
-    projCoords = projCoords * 0.5f + 0.5f;
-
-    // Get depth of current fragment from light's perspective
-    float currentDepth = projCoords.z;
-
-    // Check whether current frag pos is in shadow
-    const float bias = max(0.05f * (1.f - dot(normalize(surface_normal), normalize(light.position))), 0.005f);
-
-    float shadow = 0.0;
-    if (projCoords.z <= 1.0f)
-    {
-        vec2 texelSize = 1.0 / textureSize(light.shadow_map, 0);
-        for(int x = -1; x <= 1; ++x)
-        {
-            for(int y = -1; y <= 1; ++y)
-            {
-                float pcfDepth = texture(light.shadow_map, projCoords.xy + vec2(x, y) * texelSize).r; 
-                shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;        
-            }    
-        }
-        shadow /= 9.0;
-    }
-
-    return shadow;
-}
-
-float shadowCalculationPoint(vec3 frag_position, const PointLight light)
-{
-    vec3 frag_to_light = frag_position - light.position;
-    float closest_depth = texture(light.shadow_map, frag_to_light).r;
-    closest_depth *= far_plane;
-    float current_depth = length(frag_to_light);
-
-    const float bias = 0.05;
-    float shadow = current_depth - bias > closest_depth ? 1.0 : 0.0;
-
-    return shadow;
-}
-
 void main()
 {
+    // OIT variables
+    uint index;
+    uint old_head;
+    uvec4 item;
+
+    index = atomicCounterIncrement(list_counter);
+    old_head = imageAtomicExchange(head_pointer_image, ivec2(gl_FragCoord.xy), uint(index));
+
     vec3 material_final_ambient;
     vec3 material_final_diffuse;
 
@@ -138,9 +100,7 @@ void main()
             vec3 diffuse = directional_lights[i].diffuse * material_final_diffuse * diffuse_strength;
             vec3 specular = directional_lights[i].specular * material.specular * specular_strength;
 
-            float shadow = shadowCalculationDirectional(directional_lights[i].projection_view * vec4(surface_position, 1.0f), directional_lights[i]);
-
-            total_color += ambient + (1.f - shadow) * (diffuse + specular);
+            total_color += ambient + diffuse + specular;
         }
     }
 
@@ -166,11 +126,17 @@ void main()
 
             float attenuation = 1.f / (point_lights[i].attenuation.x + point_lights[i].attenuation.y * d + point_lights[i].attenuation.z * d * d);
 
-            float shadow = shadowCalculationPoint(surface_position, point_lights[i]);
-
-            total_color += (ambient + (1.f - shadow) * (diffuse + specular)) * attenuation;
+            total_color += (ambient + diffuse + specular) * attenuation;
         }
     }
 
-    out_color = vec4(total_color, material.alpha);
+    // OIT buffer
+    vec4 modulator = vec4(total_color, material.alpha);
+
+    item.x = old_head;
+    item.y = packUnorm4x8(modulator);
+    item.z = floatBitsToUint(gl_FragCoord.z);
+    item.w = 0;
+
+    imageStore(list_buffer, int(index), item);
 }
