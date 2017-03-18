@@ -79,6 +79,10 @@ private:
     // rendering shapes
     std::vector<RenderingShape*> rendering_shapes_;
 
+    // opaque buffers
+    GLuint opaque_fbo_;
+    GLuint opaque_textures_[2]; // color and depth buffers
+
     int last_mouse_x_;
     int last_mouse_y_;
 };

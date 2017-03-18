@@ -20,10 +20,25 @@ layout (location = 0) out vec4 color;
 // Temporary array used for sorting fragments
 uvec4 fragment_list[MAX_FRAGMENTS];
 
+// opaque textures
+uniform sampler2D opaque_color;
+uniform sampler2D opaque_depth;
+//layout (binding = 2, rgba8) uniform image2D opaque_color;
+//layout (binding = 3, r32ui) uniform image2D opaque_depth;
+
 void main(void)
 {
     uint current_index;
     uint fragment_count = 0;
+
+    // opaque fragment from texture
+    uvec4 opaque_fragment;
+    opaque_fragment.y = packUnorm4x8(vec4(texture(opaque_color, vec2(gl_FragCoord.x / 800, gl_FragCoord.y / 600)).xyz, 1.f));
+    opaque_fragment.z = floatBitsToUint(texture(opaque_depth, vec2(gl_FragCoord.x / 800, gl_FragCoord.y / 600)).r);
+    //opaque_fragment.y = packUnorm4x8(vec4(imageLoad(opaque_color, ivec2(gl_FragCoord).xy).rgb, 1.f));
+    //opaque_fragment.z = floatBitsToUint(imageLoad(opaque_depth, ivec2(gl_FragCoord).xy).r);
+    fragment_list[fragment_count] = opaque_fragment;
+    fragment_count++;
 
     current_index = imageLoad(head_pointer_image, ivec2(gl_FragCoord).xy).x;
 
@@ -39,7 +54,6 @@ void main(void)
 
     if (fragment_count > 1)
     {
-
         for (i = 0; i < fragment_count - 1; i++)
         {
             for (j = i + 1; j < fragment_count; j++)
@@ -73,6 +87,8 @@ void main(void)
 
     color = final_color;
     //color = vec4(float(fragment_count) / float(MAX_FRAGMENTS));
+    //color = vec4(vec3(texture(opaque_color, vec2(gl_FragCoord.x / 800, gl_FragCoord.y / 600)).r), 1.f);
+    //color = vec4(vec3(texture(opaque_depth, vec2(gl_FragCoord.x / 800, gl_FragCoord.y / 600)).r), 1.f);
 
 
 /*

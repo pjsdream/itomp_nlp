@@ -14,7 +14,11 @@ namespace itomp
 
 Renderer::Renderer(QWidget* parent)
     : QOpenGLWidget(parent)
+    , opaque_fbo_(0)
 {
+    opaque_textures_[0] = 0;
+    opaque_textures_[1] = 0;
+
     QSurfaceFormat format;
     format.setDepthBufferSize(24);
     format.setStencilBufferSize(8);
@@ -84,7 +88,7 @@ void Renderer::initializeGL()
     light_oit_shader_ = new LightOITShader(this);
 
     oit_resolve_shader_ = new OITResolveShader(this);
-
+    
     // default light
     Light* light;
     light = new Light(Eigen::Vector3d(9, -1, 10));
@@ -109,14 +113,37 @@ void Renderer::resizeGL(int w, int h)
     gl_->glViewport(0, 0, w, h);
 
     camera_.setAspect( (double)w / h );
+
+    // recreate opaque fbo
+    if (gl_->glIsFramebuffer(opaque_fbo_))
+        gl_->glDeleteFramebuffers(1, &opaque_fbo_);
+    if (gl_->glIsTexture(opaque_textures_[0]))
+        gl_->glDeleteTextures(2, opaque_textures_);
+
+    gl_->glGenFramebuffers(1, &opaque_fbo_);
+    gl_->glGenTextures(2, opaque_textures_);
+
+    gl_->glBindFramebuffer(GL_FRAMEBUFFER, opaque_fbo_);
+
+    gl_->glBindTexture(GL_TEXTURE_2D, opaque_textures_[0]);
+    gl_->glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+    gl_->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    gl_->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    gl_->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, opaque_textures_[0], 0);
+
+    gl_->glBindTexture(GL_TEXTURE_2D, opaque_textures_[1]);
+    gl_->glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, w, h, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, NULL);
+    gl_->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    gl_->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    gl_->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, opaque_textures_[1], 0);
+
+    gl_->glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
     update();
 }
 
 void Renderer::paintGL()
-{
-    gl_->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    /*
+{    
     // light direction from camera
     //lights_[0]->setPosition( - camera_.lookAtDirection() );
     
@@ -135,7 +162,7 @@ void Renderer::paintGL()
             shadowmap_shader_->loadLight(lights_[i]);
     
             for (int j=0; j<rendering_shapes_.size(); j++)
-                if (rendering_shapes_[j]->getAlpha() != 1.f)
+                if (rendering_shapes_[j]->getAlpha() == 1.f)
                     rendering_shapes_[j]->draw(shadowmap_shader_);
 
             didx++;
@@ -165,9 +192,12 @@ void Renderer::paintGL()
 
     shadowmap_point_shader_->stop();
 
-    // restore framebuffer and viewport
-    gl_->glBindFramebuffer(GL_FRAMEBUFFER, screen_fbo);
+    // restore viewport
     gl_->glViewport(0, 0, width(), height());
+    
+    // render opaque objects first on an off-screen framebuffer
+    gl_->glBindFramebuffer(GL_FRAMEBUFFER, opaque_fbo_);
+    gl_->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // light shadow shader
     light_shadow_shader_->start();
@@ -192,11 +222,14 @@ void Renderer::paintGL()
     }
     
     for (int i=0; i<rendering_shapes_.size(); i++)
-        if (rendering_shapes_[i]->getAlpha() != 1.f)
+        if (rendering_shapes_[i]->getAlpha() == 1.f)
             rendering_shapes_[i]->draw(light_shadow_shader_);
 
     light_shadow_shader_->stop();
-    */
+
+    // restore to screen framebuffer
+    gl_->glBindFramebuffer(GL_FRAMEBUFFER, screen_fbo);
+    gl_->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // light oit shader
     light_oit_shader_->start();
@@ -208,7 +241,8 @@ void Renderer::paintGL()
     gl_->glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     for (int i=0; i<rendering_shapes_.size(); i++)
-        rendering_shapes_[i]->draw(light_oit_shader_);
+        if (rendering_shapes_[i]->getAlpha() < 1.f)
+            rendering_shapes_[i]->draw(light_oit_shader_);
     
     gl_->glDisable(GL_BLEND);
 
@@ -216,6 +250,7 @@ void Renderer::paintGL()
 
     // oit resolve shader
     oit_resolve_shader_->start();
+    oit_resolve_shader_->bindOpaqueTextures(opaque_textures_[0], opaque_textures_[1]);
     oit_resolve_shader_->resolve();
     oit_resolve_shader_->stop();
     gl_->glEnable(GL_DEPTH_TEST);

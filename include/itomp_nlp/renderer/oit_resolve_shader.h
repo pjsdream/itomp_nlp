@@ -22,16 +22,24 @@ public:
 
     void resolve();
 
+    void bindOpaqueTextures(GLuint color_texture, GLuint depth_texture);
+
 protected:
     
 private:
 
     virtual void bindAttributes();
+    virtual void getAllUniformLocations();
 
     void initializeQuadBuffer();
 
+    // quad
     GLuint vao_;
     GLuint vbo_;
+
+    // textures
+    GLuint location_color_texture_;
+    GLuint location_depth_texture_;
 };
 
 }

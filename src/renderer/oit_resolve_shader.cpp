@@ -17,6 +17,7 @@ OITResolveShader::OITResolveShader(Renderer* renderer)
     , vao_(0)
 {
     bindAttributes();
+    getAllUniformLocations();
 }
 
 OITResolveShader::~OITResolveShader()
@@ -28,6 +29,25 @@ OITResolveShader::~OITResolveShader()
 void OITResolveShader::bindAttributes()
 {
     bindAttribute(0, "position");
+}
+
+void OITResolveShader::getAllUniformLocations()
+{
+    location_color_texture_ = getUniformLocation("opaque_color");
+    location_depth_texture_ = getUniformLocation("opaque_depth");
+}
+
+void OITResolveShader::bindOpaqueTextures(GLuint color_texture, GLuint depth_texture)
+{
+    gl_->glActiveTexture(GL_TEXTURE2);
+    gl_->glUniform1i(location_color_texture_, 2);
+    gl_->glBindTexture(GL_TEXTURE_2D, color_texture);
+
+    gl_->glActiveTexture(GL_TEXTURE3);
+    gl_->glUniform1i(location_depth_texture_, 3);
+    gl_->glBindTexture(GL_TEXTURE_2D, depth_texture);
+
+    gl_->glActiveTexture(GL_TEXTURE0);
 }
 
 void OITResolveShader::initializeQuadBuffer()
