@@ -250,6 +250,7 @@ void Renderer::paintGL()
 
     // oit resolve shader
     oit_resolve_shader_->start();
+    oit_resolve_shader_->setScreenSize(width(), height());
     oit_resolve_shader_->bindOpaqueTextures(opaque_textures_[0], opaque_textures_[1]);
     oit_resolve_shader_->resolve();
     oit_resolve_shader_->stop();

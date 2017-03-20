@@ -24,6 +24,8 @@ public:
 
     void bindOpaqueTextures(GLuint color_texture, GLuint depth_texture);
 
+    void setScreenSize(int w, int h);
+
 protected:
     
 private:
@@ -40,6 +42,10 @@ private:
     // textures
     GLuint location_color_texture_;
     GLuint location_depth_texture_;
+
+    // screen size
+    GLuint location_screen_width_;
+    GLuint location_screen_height_;
 };
 
 }

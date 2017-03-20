@@ -47,6 +47,11 @@ void ShaderProgram::stop()
     gl_->glUseProgram(0);
 }
 
+void ShaderProgram::loadUniform(int location, int value)
+{
+    gl_->glUniform1i(location, value);
+}
+
 void ShaderProgram::loadUniform(int location, float value)
 {
     gl_->glUniform1f(location, value);

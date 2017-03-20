@@ -33,6 +33,9 @@ void OITResolveShader::bindAttributes()
 
 void OITResolveShader::getAllUniformLocations()
 {
+    location_screen_width_ = getUniformLocation("screen_width");
+    location_screen_height_ = getUniformLocation("screen_height");
+
     location_color_texture_ = getUniformLocation("opaque_color");
     location_depth_texture_ = getUniformLocation("opaque_depth");
 }
@@ -48,6 +51,12 @@ void OITResolveShader::bindOpaqueTextures(GLuint color_texture, GLuint depth_tex
     gl_->glBindTexture(GL_TEXTURE_2D, depth_texture);
 
     gl_->glActiveTexture(GL_TEXTURE0);
+}
+
+void OITResolveShader::setScreenSize(int w, int h)
+{
+    loadUniform(location_screen_width_, w);
+    loadUniform(location_screen_height_, h);
 }
 
 void OITResolveShader::initializeQuadBuffer()

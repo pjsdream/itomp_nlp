@@ -23,6 +23,7 @@ public:
     virtual void start();
     void stop();
     
+    void loadUniform(int location, int value);
     void loadUniform(int location, float value);
     void loadUniform(int locatiom, const Eigen::Vector3f& v);
     void loadUniform(int location, const Eigen::Vector4f& v);

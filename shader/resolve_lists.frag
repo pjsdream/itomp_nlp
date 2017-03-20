@@ -23,8 +23,10 @@ uvec4 fragment_list[MAX_FRAGMENTS];
 // opaque textures
 uniform sampler2D opaque_color;
 uniform sampler2D opaque_depth;
-//layout (binding = 2, rgba8) uniform image2D opaque_color;
-//layout (binding = 3, r32ui) uniform image2D opaque_depth;
+
+// screen size for computing texture coords
+uniform int screen_width;
+uniform int screen_height;
 
 void main(void)
 {
@@ -32,11 +34,10 @@ void main(void)
     uint fragment_count = 0;
 
     // opaque fragment from texture
+    vec2 tex_coords = vec2(gl_FragCoord.x / screen_width, gl_FragCoord.y / screen_height);
     uvec4 opaque_fragment;
-    opaque_fragment.y = packUnorm4x8(vec4(texture(opaque_color, vec2(gl_FragCoord.x / 800, gl_FragCoord.y / 600)).xyz, 1.f));
-    opaque_fragment.z = floatBitsToUint(texture(opaque_depth, vec2(gl_FragCoord.x / 800, gl_FragCoord.y / 600)).r);
-    //opaque_fragment.y = packUnorm4x8(vec4(imageLoad(opaque_color, ivec2(gl_FragCoord).xy).rgb, 1.f));
-    //opaque_fragment.z = floatBitsToUint(imageLoad(opaque_depth, ivec2(gl_FragCoord).xy).r);
+    opaque_fragment.y = packUnorm4x8(vec4(texture(opaque_color, tex_coords).xyz, 1.f));
+    opaque_fragment.z = floatBitsToUint(texture(opaque_depth, tex_coords).r);
     fragment_list[fragment_count] = opaque_fragment;
     fragment_count++;
 
@@ -87,23 +88,4 @@ void main(void)
 
     color = final_color;
     //color = vec4(float(fragment_count) / float(MAX_FRAGMENTS));
-    //color = vec4(vec3(texture(opaque_color, vec2(gl_FragCoord.x / 800, gl_FragCoord.y / 600)).r), 1.f);
-    //color = vec4(vec3(texture(opaque_depth, vec2(gl_FragCoord.x / 800, gl_FragCoord.y / 600)).r), 1.f);
-
-
-/*
-    vec4 final_color = vec4(1.0);
-    float last_alpha = 1.f;
-
-    for (i = 0; i < fragment_count; i++)
-    {
-        vec4 modulator = unpackUnorm4x8(fragment_list[i].y);
-        vec4 additive_component = unpackUnorm4x8(fragment_list[i].w);
-
-        final_color = mix(final_color, modulator, modulator.a);// + additive_component;
-        last_alpha = modulator.a;
-    }
-
-    color = vec4(last_alpha, 0, 0, 1.f);
-*/
 }
