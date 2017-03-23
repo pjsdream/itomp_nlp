@@ -130,22 +130,22 @@ void RenderingCapsule::updateBuffers()
 
             if (j==0)
             {
-                vertices.push_back(v0); vertices.push_back(v1); vertices.push_back(v3);
-                normals .push_back(n0); normals .push_back(n1); normals .push_back(n3);
+                vertices.push_back(v0); vertices.push_back(v3); vertices.push_back(v1);
+                normals .push_back(n0); normals .push_back(n3); normals .push_back(n1);
             }
 
             else if (j == plane_vertices.size() - 2)
             {
-                vertices.push_back(v0); vertices.push_back(v1); vertices.push_back(v2);
-                normals .push_back(n0); normals .push_back(n1); normals .push_back(n2);
+                vertices.push_back(v0); vertices.push_back(v2); vertices.push_back(v1);
+                normals .push_back(n0); normals .push_back(n2); normals .push_back(n1);
             }
 
             else
             {
-                vertices.push_back(v0); vertices.push_back(v1); vertices.push_back(v3);
-                normals .push_back(n0); normals .push_back(n1); normals .push_back(n3);
-                vertices.push_back(v0); vertices.push_back(v3); vertices.push_back(v2);
-                normals .push_back(n0); normals .push_back(n3); normals .push_back(n2);
+                vertices.push_back(v0); vertices.push_back(v3); vertices.push_back(v1);
+                normals .push_back(n0); normals .push_back(n3); normals .push_back(n1);
+                vertices.push_back(v0); vertices.push_back(v2); vertices.push_back(v3);
+                normals .push_back(n0); normals .push_back(n2); normals .push_back(n3);
             }
         }
     }
@@ -180,7 +180,7 @@ void RenderingCapsule::updateBuffers()
     need_update_buffer_ = false;
 }
 
-void RenderingCapsule::draw(LightShader* shader)
+void RenderingCapsule::draw(ShaderProgram* shader)
 {
     if (need_update_buffer_)
         updateBuffers();
@@ -189,19 +189,6 @@ void RenderingCapsule::draw(LightShader* shader)
     shader->loadMaterial(material_);
 
     gl_->glBindVertexArray(vao_);
-    gl_->glEnableVertexAttribArray(1);
-    gl_->glDrawArrays(GL_TRIANGLES, 0, num_triangles_ * 3);
-}
-
-void RenderingCapsule::draw(ShadowmapShader* shader)
-{
-    if (need_update_buffer_)
-        updateBuffers();
-
-    shader->loadModelTransform(transform_);
-
-    gl_->glBindVertexArray(vao_);
-    gl_->glDisableVertexAttribArray(1);
     gl_->glDrawArrays(GL_TRIANGLES, 0, num_triangles_ * 3);
 }
 

@@ -16,45 +16,55 @@ public:
 
     Material();
 
-    inline const Eigen::Vector4f& getAmbientColor() const
+    inline const Eigen::Vector3f& getAmbient() const
     {
-        return ambient_color_;
+        return ambient_;
     }
 
-    inline const Eigen::Vector4f& getDiffuseColor() const
+    inline const Eigen::Vector3f& getDiffuse() const
     {
-        return diffuse_color_;
+        return diffuse_;
     }
 
-    inline const Eigen::Vector4f& getSpecularColor() const
+    inline const Eigen::Vector3f& getSpecular() const
     {
-        return specular_color_;
+        return specular_;
     }
 
-    inline void setAmbientColor(const Eigen::Vector4f& color)
+    inline void setAmbient(const Eigen::Vector3f& color)
     {
-        ambient_color_ = color;
+        ambient_ = color;
     }
 
-    inline void setDiffuseColor(const Eigen::Vector4f& color)
+    inline void setDiffuse(const Eigen::Vector3f& color)
     {
         has_diffuse_texture_ = false;
-        diffuse_color_ = color;
+        diffuse_ = color;
     }
 
-    inline void setSpecularColor(const Eigen::Vector4f& color)
+    inline void setSpecular(const Eigen::Vector3f& color)
     {
-        specular_color_ = color;
+        specular_ = color;
     }
 
     inline bool hasDiffuseTexture() const
     {
-        return has_diffuse_texture_;
+        return diffuse_texture_ != 0;
     }
 
     inline float getShininess() const
     {
         return shininess_;
+    }
+
+    inline float getAlpha() const
+    {
+        return alpha_;
+    }
+
+    inline void setAlpha(float alpha)
+    {
+        alpha_ = alpha;
     }
 
     inline void setShininess(float shininess)
@@ -64,7 +74,6 @@ public:
 
     inline void setDiffuseTexture(Texture* texture)
     {
-        has_diffuse_texture_ = true;
         diffuse_texture_ = texture;
     }
 
@@ -75,9 +84,11 @@ public:
 
 private:
     
-    Eigen::Vector4f ambient_color_;
-    Eigen::Vector4f diffuse_color_;
-    Eigen::Vector4f specular_color_;
+    Eigen::Vector3f ambient_;
+    Eigen::Vector3f diffuse_;
+    Eigen::Vector3f specular_;
+
+    float alpha_;
 
     bool has_diffuse_texture_;
 

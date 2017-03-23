@@ -17,7 +17,7 @@ public:
     RenderingKinectPoints(Renderer* renderer);
     ~RenderingKinectPoints();
 
-    virtual void draw(ColorShader* shader);
+    virtual void draw(ShaderProgram* shader);
 
 private:
     

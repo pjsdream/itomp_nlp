@@ -1,5 +1,5 @@
-#ifndef ITOMP_RENDERER_SHADOWMAP_SHADER_H
-#define ITOMP_RENDERER_SHADOWMAP_SHADER_H
+#ifndef ITOMP_RENDERER_SHADOWMAP_POINT_SHADER_H
+#define ITOMP_RENDERER_SHADOWMAP_POINT_SHADER_H
 
 
 #include <itomp_nlp/renderer/shader_program.h>
@@ -12,21 +12,22 @@
 namespace itomp
 {
 
-class ShadowmapShader : public ShaderProgram
+class ShadowmapPointShader : public ShaderProgram
 {
 private:
 
     static const int MAX_NUM_LIGHTS = 8;
 
-    static const GLuint SHADOW_WIDTH = 1024;
-    static const GLuint SHADOW_HEIGHT = 1024;
+    static const GLuint SHADOW_WIDTH = 512;
+    static const GLuint SHADOW_HEIGHT = 512;
 
     static const std::string vertex_filename_;
+    static const std::string geometry_filename_;
     static const std::string fragment_filename_;
 
 public:
 
-    ShadowmapShader(Renderer* renderer);
+    ShadowmapPointShader(Renderer* renderer);
     
     virtual void bindAttributes();
 
@@ -50,8 +51,11 @@ private:
     Camera camera_;
 
     GLuint location_model_;
-    GLuint location_view_;
-    GLuint location_projection_;
+    
+    GLuint location_light_position_;
+    GLuint location_far_plane_;
+
+    GLuint location_shadow_matrices_[6];
 
     // framebuffer object
     void initializeFrameBuffer();
@@ -63,4 +67,4 @@ private:
 }
 
 
-#endif // ITOMP_RENDERER_SHADOWMAP_SHADER_H
+#endif // ITOMP_RENDERER_SHADOWMAP_POINT_SHADER_H

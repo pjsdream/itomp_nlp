@@ -30,6 +30,7 @@ void RenderingBox::addFace(AlignedVector<Eigen::Vector3f>& vertices, AlignedVect
     const int zidx = normal(0) != 0 ? 0 : normal(1) != 0 ? 1 : 2;
     const int xidx = (zidx+1)%3;
     const int yidx = (xidx+1)%3;
+    const float sign = normal(zidx);
 
     static AlignedVector<Eigen::Vector2f> rectangle = 
     {
@@ -55,8 +56,16 @@ void RenderingBox::addFace(AlignedVector<Eigen::Vector3f>& vertices, AlignedVect
         rectangle3d.push_back(v);
     }
 
-    vertices.push_back(rectangle3d[0]); vertices.push_back(rectangle3d[1]); vertices.push_back(rectangle3d[2]);
-    vertices.push_back(rectangle3d[0]); vertices.push_back(rectangle3d[2]); vertices.push_back(rectangle3d[3]);
+    if (sign > 0)
+    {
+        vertices.push_back(rectangle3d[0]); vertices.push_back(rectangle3d[1]); vertices.push_back(rectangle3d[2]);
+        vertices.push_back(rectangle3d[0]); vertices.push_back(rectangle3d[2]); vertices.push_back(rectangle3d[3]);
+    }
+    else
+    {
+        vertices.push_back(rectangle3d[0]); vertices.push_back(rectangle3d[2]); vertices.push_back(rectangle3d[1]);
+        vertices.push_back(rectangle3d[0]); vertices.push_back(rectangle3d[3]); vertices.push_back(rectangle3d[2]);
+    }
 
     for (int i=0; i<6; i++)
         normals.push_back(normal);
@@ -104,7 +113,7 @@ void RenderingBox::updateBuffers()
     need_update_buffer_ = false;
 }
 
-void RenderingBox::draw(LightShader* shader)
+void RenderingBox::draw(ShaderProgram* shader)
 {
     if (need_update_buffer_)
         updateBuffers();
@@ -113,19 +122,6 @@ void RenderingBox::draw(LightShader* shader)
     shader->loadMaterial(material_);
 
     gl_->glBindVertexArray(vao_);
-    gl_->glEnableVertexAttribArray(1);
-    gl_->glDrawArrays(GL_TRIANGLES, 0, 36);
-}
-
-void RenderingBox::draw(ShadowmapShader* shader)
-{
-    if (need_update_buffer_)
-        updateBuffers();
-
-    shader->loadModelTransform(transform_);
-
-    gl_->glBindVertexArray(vao_);
-    gl_->glDisableVertexAttribArray(1);
     gl_->glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 

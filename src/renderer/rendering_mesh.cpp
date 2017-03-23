@@ -121,8 +121,8 @@ void RenderingMesh::initializeBuffers()
         imported_material->Get(AI_MATKEY_COLOR_SPECULAR, specular_color);
         imported_material->Get(AI_MATKEY_SHININESS, shininess);
 
-        material_->setAmbientColor( Eigen::Vector4f(ambient_color.r, ambient_color.g, ambient_color.b, ambient_color.a) );
-        material_->setSpecularColor( Eigen::Vector4f(specular_color.r, specular_color.g, specular_color.b, specular_color.a) );
+        material_->setAmbient( Eigen::Vector3f(ambient_color.r, ambient_color.g, ambient_color.b) );
+        material_->setSpecular( Eigen::Vector3f(specular_color.r, specular_color.g, specular_color.b) );
 
         if (imported_material->GetTextureCount(aiTextureType_DIFFUSE) >= 1)
         {
@@ -142,13 +142,13 @@ void RenderingMesh::initializeBuffers()
 
         else
         {
-            material_->setDiffuseColor( Eigen::Vector4f(0.5, 0.5, 0.5, 1) );
+            material_->setDiffuse( Eigen::Vector3f(0.5, 0.5, 0.5) );
         }
     }
 
     else
     {
-        material_->setDiffuseColor( Eigen::Vector4f(0.5, 0.5, 0.5, 1) );
+        material_->setDiffuse( Eigen::Vector3f(0.5, 0.5, 0.5) );
     }
 }
 
@@ -158,7 +158,7 @@ RenderingMesh::~RenderingMesh()
     gl_->glDeleteBuffers(vbos_.size(), &vbos_[0]);
 }
 
-void RenderingMesh::draw(LightShader* shader)
+void RenderingMesh::draw(ShaderProgram* shader)
 {
     if (vao_ == 0)
         initializeBuffers();
@@ -167,22 +167,6 @@ void RenderingMesh::draw(LightShader* shader)
     shader->loadModelTransform(transform_);
 
     gl_->glBindVertexArray(vao_);
-    gl_->glEnableVertexAttribArray(1);
-    if (has_tex_coords_)
-        gl_->glEnableVertexAttribArray(2);
-    gl_->glDrawArrays(GL_TRIANGLES, 0, num_triangles_ * 3);
-}
-
-void RenderingMesh::draw(ShadowmapShader* shader)
-{
-    if (vao_ == 0)
-        initializeBuffers();
-
-    shader->loadModelTransform(transform_);
-
-    gl_->glBindVertexArray(vao_);
-    gl_->glDisableVertexAttribArray(1);
-    gl_->glDisableVertexAttribArray(2);
     gl_->glDrawArrays(GL_TRIANGLES, 0, num_triangles_ * 3);
 }
 

@@ -4,11 +4,11 @@
 namespace itomp
 {
 
-std::map<std::string, RenderingMesh*> RenderingMeshManager::meshes_;
+std::unordered_map<std::string, RenderingMesh*> RenderingMeshManager::meshes_;
 
 RenderingMesh* RenderingMeshManager::getMesh(Renderer* renderer, const std::string& filename)
 {
-    std::map<std::string, RenderingMesh*>::iterator it = meshes_.find(filename);
+    std::unordered_map<std::string, RenderingMesh*>::iterator it = meshes_.find(filename);
     if (it != meshes_.end())
         return it->second;
 

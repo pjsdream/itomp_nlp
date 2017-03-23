@@ -16,8 +16,7 @@ public:
     RenderingPlane(Renderer* renderer);
     ~RenderingPlane();
 
-    virtual void draw(LightShader* shader);
-    virtual void draw(ShadowmapShader* shader);
+    virtual void draw(ShaderProgram* shader);
     
 private:
     

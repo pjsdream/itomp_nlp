@@ -11,6 +11,8 @@ const std::string ShadowmapShader::fragment_filename_ = "shader/shadowmap.frag";
 ShadowmapShader::ShadowmapShader(Renderer* renderer)
     : ShaderProgram(renderer, vertex_filename_, fragment_filename_)
 {
+    fbo_[0] = 0;
+
     bindAttributes();
     getAllUniformLocations();
     

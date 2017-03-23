@@ -5,9 +5,12 @@ namespace itomp
 {
 
 Light::Light(const Eigen::Vector3d& position)
-    : position_(position)
-    , diffuse_color_(Eigen::Vector4f(1, 1, 1, 1))
-    , specular_color_(Eigen::Vector4f(0, 0, 0, 1))
+    : light_type_(LightType::Point)
+    , position_(position)
+    , ambient_(1, 1, 1)
+    , diffuse_(1, 1, 1)
+    , specular_(0, 0, 0)
+    , attenuation_(1, 0, 0)
 {
 }
 
