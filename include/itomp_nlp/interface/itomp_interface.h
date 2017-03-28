@@ -2,6 +2,8 @@
 #define ITOMP_INTERFACE_ITOMP_INTERFACE_H
 
 
+#include <itomp_nlp/network/trajectory_publisher.h>
+
 #include <QWidget>
 
 #include <QGridLayout>
@@ -87,6 +89,8 @@ private:
     std::vector<DynamicKFHumanObstacle*> human_obstacles_;
 
     bool is_optimizing_;
+
+    TrajectoryPublisher trajectory_publisher_;
 
     QGridLayout* layout_;
     QPushButton* start_button_;

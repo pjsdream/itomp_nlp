@@ -275,6 +275,8 @@ void ItompInterface::moveTrajectoryForwardOneTimestep()
     for (int i=0; i<human_obstacles_.size(); i++)
         human_obstacles_[i]->update();
 
+    // publish trajectory
+
     optimizer_.moveForwardOneTimestep();
     optimizer_.updateScene();
 }

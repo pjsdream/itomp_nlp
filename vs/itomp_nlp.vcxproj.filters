@@ -52,6 +52,9 @@
     <Filter Include="Optimization\Cost">
       <UniqueIdentifier>{cdb761f1-575f-4562-91c7-135872468b2a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{fd27ca37-36f6-4217-b9e8-e6a240e75c3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\renderer\camera.cpp">
@@ -344,6 +347,15 @@
     </ClCompile>
     <ClCompile Include="..\src\renderer\shadowmap_shader.cpp">
       <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\optimization\trajectory.cpp">
+      <Filter>Optimization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\network\trajectory_publisher.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\network\trajectory_subscriber.cpp">
+      <Filter>Network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -696,6 +708,15 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\renderer\shadowmap_shader.h">
       <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\optimization\trajectory.h">
+      <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\network\trajectory_publisher.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\network\trajectory_subscriber.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -184,7 +184,7 @@ winmoc.exe "..\include\itomp_nlp\interface\itomp_nlp_widget.h" -o "..\src\Genera
 winmoc.exe "..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
     </PreBuildEvent>
     <Lib>
-      <AdditionalDependencies>kinect20.lib;assimp-vc140-mt.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5OpenGL.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libzmq.lib;kinect20.lib;assimp-vc140-mt.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5OpenGL.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>..\lib;$(QTDIR)\lib;$(KINECTSDK20_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -218,6 +218,8 @@ winmoc.exe "..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\
     <ClCompile Include="..\src\kinect\kf_human_motion_prediction.cpp" />
     <ClCompile Include="..\src\kinect\kinect.cpp" />
     <ClCompile Include="..\src\kinect\kinect_device.cpp" />
+    <ClCompile Include="..\src\network\trajectory_publisher.cpp" />
+    <ClCompile Include="..\src\network\trajectory_subscriber.cpp" />
     <ClCompile Include="..\src\nlp\glove_pretrained_loader.cpp" />
     <ClCompile Include="..\src\nlp\commands_to_cost.cpp" />
     <ClCompile Include="..\src\nlp\word_to_vector.cpp" />
@@ -237,6 +239,7 @@ winmoc.exe "..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\
     <ClCompile Include="..\src\optimization\scene.cpp" />
     <ClCompile Include="..\src\optimization\smoothness_cost.cpp" />
     <ClCompile Include="..\src\optimization\static_obstacle.cpp" />
+    <ClCompile Include="..\src\optimization\trajectory.cpp" />
     <ClCompile Include="..\src\optimization\velocity_cost.cpp" />
     <ClCompile Include="..\src\parsetree\parsetree.cpp" />
     <ClCompile Include="..\src\parsetree\parsetree_node.cpp" />
@@ -336,6 +339,8 @@ winmoc.exe "..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\
     <ClInclude Include="..\include\itomp_nlp\kinect\kf_human_motion_prediction.h" />
     <ClInclude Include="..\include\itomp_nlp\kinect\kinect.h" />
     <ClInclude Include="..\include\itomp_nlp\kinect\kinect_device.h" />
+    <ClInclude Include="..\include\itomp_nlp\network\trajectory_publisher.h" />
+    <ClInclude Include="..\include\itomp_nlp\network\trajectory_subscriber.h" />
     <ClInclude Include="..\include\itomp_nlp\nlp\glove_pretrained_loader.h" />
     <ClInclude Include="..\include\itomp_nlp\nlp\commands_to_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\nlp\word_to_vector.h" />
@@ -355,6 +360,7 @@ winmoc.exe "..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\
     <ClInclude Include="..\include\itomp_nlp\optimization\scene.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\smoothness_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\static_obstacle.h" />
+    <ClInclude Include="..\include\itomp_nlp\optimization\trajectory.h" />
     <ClInclude Include="..\include\itomp_nlp\optimization\velocity_cost.h" />
     <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree.h" />
     <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_node.h" />
