@@ -20,6 +20,21 @@ public:
 
     std::string serialize() const;
 
+    inline const std::vector<std::string>& getJointNames() const
+    {
+        return joint_names_;
+    }
+
+    inline double getDuration() const
+    {
+        return duration_;
+    }
+
+    inline const Eigen::MatrixXd& getTrajectory() const
+    {
+        return trajectory_;
+    }
+
 private:
 
     std::vector<std::string> joint_names_;

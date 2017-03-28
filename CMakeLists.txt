@@ -20,6 +20,7 @@ add_custom_target(dummy_${PROJECT_NAME} SOURCES ${extra_files})
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  actionlib
 )
 
 ## System dependencies are found with CMake's conventions
@@ -30,23 +31,6 @@ find_package(cmake_modules REQUIRED)
 
 # eigen
 find_package(Eigen REQUIRED)
-
-# assimp
-find_package(assimp REQUIRED VERSION 3.3.1)
-
-# Qt5
-# Find includes in corresponding build directories
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-# Instruct CMake to run moc automatically when needed
-set(CMAKE_AUTOMOC ON)
-# Find the Qt library
-set(CMAKE_PREFIX_PATH "/home/jaesungp/Qt/5.7/gcc_64")
-find_package(Qt5Widgets)
-find_package(Qt5OpenGL)
-add_definitions(${Qt5Widgets_DEFINITIONS})
-add_definitions(${Qt5OpenGL_DEFINITIONS})
-include_directories(${Qt5Widgets_INCLUDE_DIRS})
-include_directories(${Qt5OpenGL_INCLUDE_DIRS})
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -154,104 +138,10 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${Eigen_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
-  ${ASSIMP_INCLUDE_DIRS}
 )
 
-# Qt5 moc
-qt5_wrap_cpp(interface_moc
-  include/itomp_nlp/interface/itomp_interface.h
-  include/itomp_nlp/interface/main_window.h
-  include/itomp_nlp/renderer/renderer.h
-)
-
-# collect .h files
-file(GLOB_RECURSE itomp_HEADER_FILES
-  include/itomp_nlp/*.h
-  lib/*.h
-)
-file(GLOB_RECURSE itomp_EXCLUDING_HEADER_FILES
-  include/itomp_nlp/interface/itomp_interface.h
-  include/itomp_nlp/interface/main_window.h
-  include/itomp_nlp/renderer/renderer.h
-)
-list(REMOVE_ITEM itomp_HEADER_FILES
-  ${itomp_EXCLUDING_HEADER_FILES}
-)
-
-## Declare a C++ library
-add_library(itomp_nlp
-  # renderer
-  src/renderer/camera.cpp
-  src/renderer/entity.cpp
-  src/renderer/gl_base.cpp
-  src/renderer/light.cpp
-  src/renderer/light_shader.cpp
-  src/renderer/material.cpp
-  src/renderer/normal_shader.cpp
-  src/renderer/object.cpp
-  src/renderer/renderer.cpp
-  src/renderer/resource_manager.cpp
-  src/renderer/robot_renderer.cpp
-  src/renderer/shader_program.cpp
-  src/renderer/static_shader.cpp
-  src/renderer/texture.cpp
-  src/renderer/wireframe_shader.cpp
-  ${interface_moc}
-
-  # shape
-  src/shape/aabb.cpp
-  src/shape/mesh.cpp
-  src/shape/mesh_loader.cpp
-  src/shape/obb.cpp
-  src/shape/rigid_body.cpp
-  src/shape/shape.cpp
-
-  # robot
-  src/robot/continuous_joint.cpp
-  src/robot/fixed_joint.cpp
-  src/robot/joint.cpp
-  src/robot/link.cpp
-  src/robot/prismatic_joint.cpp
-  src/robot/revolute_joint.cpp
-  src/robot/robot_model.cpp
-  src/robot/robot_state.cpp
-  src/robot/urdf_parser.cpp
-
-  # optimization
-  src/optimization/optimizer.cpp
-  src/optimization/optimizer_robot.cpp
-  src/optimization/optimizer_robot_loader.cpp
-  src/optimization/optimizer_thread.cpp
-  src/optimization/cost.cpp
-  src/optimization/collision_cost.cpp
-  src/optimization/goal_cost.cpp
-  src/optimization/goal_region_cost.cpp
-  src/optimization/repulsive_cost.cpp
-  src/optimization/smoothness_cost.cpp
-  src/optimization/velocity_cost.cpp
-
-  # interface
-  src/interface/itomp_interface.cpp
-  src/interface/main_window.cpp
-
-  # utils
-  src/utils/conversion.cpp
-  src/utils/timing.cpp
-
-  # lodepng
-  lib/lodepng.cpp
-
-  # tinyxml2
-  lib/tinyxml2.cpp
-
-  # header files for QtCreator import
-  ${itomp_HEADER_FILES}
-)
-
-target_link_libraries(itomp_nlp
-  ${Qt5Widgets_LIBRARIES}
-  ${Qt5OpenGL_LIBRARIES}
-  ${ASSIMP_LIBRARIES}
+link_directories(
+  /usr/local/lib
 )
 
 ## Add cmake target dependencies of the library
@@ -260,8 +150,19 @@ target_link_libraries(itomp_nlp
 # add_dependencies(itomp_nlp ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(test_interface
-  src/test/test_interface.cpp
+add_executable(itomp_traj_execute
+  include/itomp_nlp/network/trajectory_subscriber.h
+  include/itomp_nlp/optimization/trajectory.h
+  include/itomp_nlp/ros/fetch.h
+
+  src/network/trajectory_subscriber.cpp
+  src/optimization/trajectory.cpp
+  src/ros/fetch.cpp
+  src/ros/trajectory_executor.cpp
+
+  # zmq
+  lib/zmq.h
+  lib/zmq.hpp
 )
 
 ## Add cmake target dependencies of the executable
@@ -269,13 +170,12 @@ add_executable(test_interface
 # add_dependencies(itomp_nlp_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(test_interface
-  itomp_nlp
+target_link_libraries(itomp_traj_execute
+  zmq
   ${catkin_LIBRARIES}
 )
 
-# copy shaders
-file(COPY shader/ DESTINATION ${CATKIN_DEVEL_PREFIX}/lib/${PROJECT_NAME}/shader)
+message(${catkin_LIBRARIES})
 
 #############
 ## Install ##

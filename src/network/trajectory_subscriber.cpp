@@ -8,7 +8,8 @@ TrajectorySubscriber::TrajectorySubscriber(const std::string& ip)
     : zmq_context_(1)
     , zmq_subscriber_(zmq_context_, ZMQ_SUB)
 {
-    zmq_subscriber_.connect("tcp://" + ip + ":54321");
+    std::string address = "tcp://" + ip + ":54321";
+    zmq_subscriber_.connect(address.c_str());
     zmq_subscriber_.setsockopt(ZMQ_SUBSCRIBE, "", 0);
 }
 
