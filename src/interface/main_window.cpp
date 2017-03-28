@@ -50,17 +50,26 @@ MainWindow::MainWindow()
     // rendering point cloud
     Eigen::Affine3d camera_transform;
     camera_transform.setIdentity();
-    camera_transform.translate(Eigen::Vector3d(-0.5, 0, 1.2));
-    camera_transform.rotate(Eigen::AngleAxisd(M_PI/2, Eigen::Vector3d(0, 0, 1)));
+    camera_transform.translate(Eigen::Vector3d(1.5, 1.6, 0.9));
+    camera_transform.rotate(Eigen::AngleAxisd(0, Eigen::Vector3d(0, 0, 1)));
     camera_transform.rotate(Eigen::AngleAxisd(M_PI/2, Eigen::Vector3d(1, 0, 0)));
     rendering_point_cloud_ = new RenderingKinectPoints(renderer_);
     rendering_point_cloud_->setTransform(camera_transform);
+
+    Material* black = new Material();
+    black->setDiffuseColor(Eigen::Vector4f(0, 0, 0, 1));
+
+    RenderingBox* rendering_camera = new RenderingBox(renderer_);
+    rendering_camera->setMaterial(black);
+    rendering_camera->setTransform(camera_transform);
+    rendering_camera->setSize(Eigen::Vector3d(0.2, 0.05, 0.05));
 
     forward_kinematics_ = itomp_interface_->getOptimizerRobot();
 
     grey_ = new Material();
     grey_->setDiffuseColor(Eigen::Vector4f(0.3, 0.3, 0.3, 1));
     
+    /*
     brown_ = new Material();
     brown_->setDiffuseColor(Eigen::Vector4f(139./255, 69./255, 19./255, 1.));
 
@@ -84,6 +93,7 @@ MainWindow::MainWindow()
     RenderingCapsule* capsule2 = new RenderingCapsule(renderer_);
     capsule2->setMaterial(blue);
     capsule2->setCapsule(Eigen::Vector3d(0.7, -0.7, 0.7), 0.03, Eigen::Vector3d(0.7, -0.7, 0.8), 0.03);
+    */
 
     
     std::vector<unsigned char> checkerboard_image = 
@@ -228,7 +238,7 @@ void MainWindow::updateNextFrame()
 
                 RenderingCapsule* rendering_capsule = dynamic_cast<RenderingCapsule*>(rendering_dynamic_obstacles_[dynamic_obstacle_idx]);
                 rendering_capsule->setMaterial(grey_);
-                rendering_capsule->setCapsule(capsule->getP(), capsule->getRp(), capsule->getQ(), capsule->getRq());
+                rendering_capsule->setCapsule(capsule->getP(), capsule->getRp() - 0.2, capsule->getQ(), capsule->getRq() - 0.2);
                 dynamic_obstacle_idx++;
             }
         }

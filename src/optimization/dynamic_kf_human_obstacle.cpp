@@ -140,8 +140,8 @@ std::vector<Shape*> DynamicKFHumanObstacle::getShapes(double t)
             Eigen::Vector3d p0 = camera_transform_ * predictor_->getPredictedBodyJointPosition(t, type0);
             Eigen::Vector3d p1 = camera_transform_ * predictor_->getPredictedBodyJointPosition(t, type1);
 
-            const double& r0 = radii_[type0];
-            const double& r1 = radii_[type1];
+            const double& r0 = radii_[type0] + 0.2;
+            const double& r1 = radii_[type1] + 0.2;
 
             capsules_[i]->setCapsule(p0, r0, p1, r1);
         }

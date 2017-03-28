@@ -173,6 +173,7 @@ void ItompInterface::initializeResources()
     */
 
     // static obstacles
+    /*
     Eigen::Affine3d table_center;
     table_center.setIdentity();
     table_center.translate(Eigen::Vector3d(0.8, 0, 0.35));
@@ -183,7 +184,6 @@ void ItompInterface::initializeResources()
 
     optimizer_.addStaticObstacle(table_obstacle);
 
-    /*
     Eigen::Affine3d obstacle_center;
     obstacle_center.setIdentity();
     obstacle_center.translate(Eigen::Vector3d(0.9, 0, 0.8));
@@ -214,8 +214,8 @@ void ItompInterface::initializeResources()
 
     Eigen::Affine3d camera_transform;
     camera_transform.setIdentity();
-    camera_transform.translate(Eigen::Vector3d(-0.5, 0, 1.2));
-    camera_transform.rotate(Eigen::AngleAxisd(M_PI/2, Eigen::Vector3d(0, 0, 1)));
+    camera_transform.translate(Eigen::Vector3d(1.5, 1.6, 0.9));
+    camera_transform.rotate(Eigen::AngleAxisd(0, Eigen::Vector3d(0, 0, 1)));
     camera_transform.rotate(Eigen::AngleAxisd(M_PI/2, Eigen::Vector3d(1, 0, 0)));
 
     for (int i=0; i<KinectDevice::bodyCount(); i++)
@@ -276,9 +276,16 @@ void ItompInterface::moveTrajectoryForwardOneTimestep()
         human_obstacles_[i]->update();
 
     // publish trajectory
+    Trajectory trajectory(active_joint_names_, 2.0, optimizer_.getBestTrajectory());
+    trajectory_publisher_.publish(trajectory);
 
     optimizer_.moveForwardOneTimestep();
     optimizer_.updateScene();
+
+    // change goal cost when reached to the goal
+    const double threshold = 0.1;
+    if (optimizer_.getBestTrajectoryCost() <= threshold)
+        optimizer_.changeGoalCost();
 }
 
 void ItompInterface::costFunctionChanged(int id, const std::string& type, std::vector<double> values)
