@@ -357,6 +357,15 @@
     <ClCompile Include="..\src\network\trajectory_subscriber.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\parsetree\sentence_to_parsetree.cpp">
+      <Filter>NLP\parsetree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\interface\itomp_datagen_widget.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\GeneratedFiles\moc_itomp_datagen_widget.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -717,6 +726,12 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\network\trajectory_subscriber.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\parsetree\sentence_to_parsetree.h">
+      <Filter>NLP\parsetree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\interface\itomp_datagen_widget.h">
+      <Filter>Interface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

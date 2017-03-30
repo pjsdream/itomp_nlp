@@ -41,10 +41,20 @@ MainWindow::MainWindow()
     const int num_interpolated_variables = itomp_interface_->getNumInterpolatedVariables();
     RobotModel* robot_model = itomp_interface_->getRobotModel();
 
+    Material* white = new Material();
+    white->setDiffuseColor(Eigen::Vector4f(1, 1, 1, 1));
+    white->setSpecularColor(Eigen::Vector4f(1, 1, 1, 1));
+    white->setShininess(2);
+
     for (int i=0; i<num_interpolated_variables; i++)
     {
         RenderingRobot* rendering_robot = new RenderingRobot(renderer_, robot_model);
         rendering_robots_.push_back(rendering_robot);
+
+        RenderingBox* rendering_box = new RenderingBox(renderer_);
+        rendering_box->setSize(Eigen::Vector3d(0.1, 0.1, 0.1));
+        rendering_box->setMaterial(white);
+        rendering_objects_.push_back(rendering_box);
     }
 
     // rendering point cloud
@@ -55,7 +65,9 @@ MainWindow::MainWindow()
     camera_transform.rotate(Eigen::AngleAxisd(M_PI/2, Eigen::Vector3d(1, 0, 0)));
     rendering_point_cloud_ = new RenderingKinectPoints(renderer_);
     rendering_point_cloud_->setTransform(camera_transform);
-
+    
+    // rendering kinect
+    /*
     Material* black = new Material();
     black->setDiffuseColor(Eigen::Vector4f(0, 0, 0, 1));
 
@@ -63,13 +75,13 @@ MainWindow::MainWindow()
     rendering_camera->setMaterial(black);
     rendering_camera->setTransform(camera_transform);
     rendering_camera->setSize(Eigen::Vector3d(0.2, 0.05, 0.05));
+    */
 
     forward_kinematics_ = itomp_interface_->getOptimizerRobot();
 
     grey_ = new Material();
     grey_->setDiffuseColor(Eigen::Vector4f(0.3, 0.3, 0.3, 1));
     
-    /*
     brown_ = new Material();
     brown_->setDiffuseColor(Eigen::Vector4f(139./255, 69./255, 19./255, 1.));
 
@@ -80,6 +92,7 @@ MainWindow::MainWindow()
     rendering_table_->setTransform(Eigen::Affine3d(Eigen::Translation3d(0.8, 0, 0.35)));
 
     // rendering objects
+    /*
     Material* red = new Material();
     red->setDiffuseColor(Eigen::Vector4f(1, 0, 0, 1));
 
@@ -94,6 +107,17 @@ MainWindow::MainWindow()
     capsule2->setMaterial(blue);
     capsule2->setCapsule(Eigen::Vector3d(0.7, -0.7, 0.7), 0.03, Eigen::Vector3d(0.7, -0.7, 0.8), 0.03);
     */
+
+    // rendering laptop
+    Eigen::Affine3d laptop_transform;
+    laptop_transform.setIdentity();
+    laptop_transform.translate(Eigen::Vector3d(0.8, 0.1, 0.71));
+    laptop_transform.rotate(Eigen::AngleAxisd(1, Eigen::Vector3d(0, 0, 1)));
+
+    rendering_laptop_ = new RenderingBox(renderer_);
+    rendering_laptop_->setMaterial(white);
+    rendering_laptop_->setTransform(laptop_transform);
+    rendering_laptop_->setSize(Eigen::Vector3d(0.4, 0.3, 0.02));
 
     
     std::vector<unsigned char> checkerboard_image = 
@@ -170,6 +194,15 @@ void MainWindow::updateNextFrame()
             }
         }
         */
+
+        // update endeffector transform
+        forward_kinematics_->setPositions(trajectory.col(i*2));
+        forward_kinematics_->setVelocities(trajectory.col(i*2+1));
+        forward_kinematics_->forwardKinematics();
+
+        Eigen::Affine3d transform = forward_kinematics_->getLinkWorldTransform(7);
+        transform.translate(Eigen::Vector3d(0.2, 0, 0));
+        rendering_objects_[i]->setTransform(transform);
     }
 
     // remove unused rendering boxes

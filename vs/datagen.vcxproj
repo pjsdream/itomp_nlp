@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8BD0E7C2-BE9D-4EF6-AA0D-8677B9AD427F}</ProjectGuid>
+    <ProjectGuid>{3054A489-CA8C-4B60-81AE-27405DCD94A4}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>test_renderer</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
@@ -157,7 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\test\test_interface.cpp" />
+    <ClCompile Include="..\src\test\datagen.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

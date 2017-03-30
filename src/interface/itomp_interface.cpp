@@ -173,7 +173,6 @@ void ItompInterface::initializeResources()
     */
 
     // static obstacles
-    /*
     Eigen::Affine3d table_center;
     table_center.setIdentity();
     table_center.translate(Eigen::Vector3d(0.8, 0, 0.35));
@@ -183,7 +182,8 @@ void ItompInterface::initializeResources()
     table_obstacle->addShape(table);
 
     optimizer_.addStaticObstacle(table_obstacle);
-
+    
+    /*
     Eigen::Affine3d obstacle_center;
     obstacle_center.setIdentity();
     obstacle_center.translate(Eigen::Vector3d(0.9, 0, 0.8));
@@ -283,9 +283,11 @@ void ItompInterface::moveTrajectoryForwardOneTimestep()
     optimizer_.updateScene();
 
     // change goal cost when reached to the goal
+    /*
     const double threshold = 0.1;
     if (optimizer_.getBestTrajectoryCost() <= threshold)
         optimizer_.changeGoalCost();
+        */
 }
 
 void ItompInterface::costFunctionChanged(int id, const std::string& type, std::vector<double> values)
@@ -326,6 +328,23 @@ void ItompInterface::commandAdded(std::string command)
 {
     printf("command: %s\n", command.c_str());
     optimizer_.changeGoalCost();
+
+    if (command.find("Don't") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 0.3);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.9, -0.3, 0.78));
+        optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
+    }
+
+    else if (command.find("Place") != std::string::npos ||
+             command.find("Put") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 0.3);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.9, 0.0, 0.78));
+        optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
+    }
 }
 
 }

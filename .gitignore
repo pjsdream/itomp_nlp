@@ -253,3 +253,7 @@ paket-files/
 
 # dependencies
 lib
+
+# learning
+data
+models

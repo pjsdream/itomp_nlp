@@ -103,7 +103,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>QT_NO_KEYWORDS;QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\include;..\lib;C:\lib\assimp-3.3.1\include;$(QTDIR)\include;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;$(QTDIR)\mkspecs\win32-msvc2015;$(KINECTSDK20_DIR)inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -121,16 +121,17 @@
 xcopy ..\shader ..\bin\shader /S /E /I /Y &gt; nul
 winmoc.exe "..\include\itomp_nlp\interface\main_window.h" -o "..\src\GeneratedFiles\moc_main_window.cpp"
 winmoc.exe "..\include\itomp_nlp\interface\itomp_interface.h" -o "..\src\GeneratedFiles\moc_itomp_interface.cpp"
+winmoc.exe "..\include\itomp_nlp\interface\itomp_datagen_widget.h" -o "..\src\GeneratedFiles\moc_itomp_datagen_widget.cpp"
 winmoc.exe "..\include\itomp_nlp\interface\itomp_cost_function_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp"
 winmoc.exe "..\include\itomp_nlp\interface\itomp_cost_functions_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp"
 winmoc.exe "..\include\itomp_nlp\interface\itomp_nlp_widget.h" -o "..\src\GeneratedFiles\moc_itomp_nlp_widget.cpp"
 winmoc.exe "..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\moc_renderer.cpp"</Command>
     </PreBuildEvent>
     <Lib>
-      <AdditionalDependencies>kinect20.lib;assimp-vc140-mt.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5OpenGL.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libzmq.lib;kinect20.lib;assimp-vc140-mt.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5OpenGL.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>..\lib;$(QTDIR)\lib;$(KINECTSDK20_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\lib;$(KINECTSDK20_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -158,7 +159,7 @@ winmoc.exe "..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>QT_NO_KEYWORDS;QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\include;..\lib;C:\lib\assimp-3.3.1\include;$(QTDIR)\include;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;$(QTDIR)\mkspecs\win32-msvc2015;$(KINECTSDK20_DIR)inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -178,6 +179,7 @@ winmoc.exe "..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\
 xcopy ..\shader ..\bin\shader /S /E /I /Y &gt; nul
 winmoc.exe "..\include\itomp_nlp\interface\main_window.h" -o "..\src\GeneratedFiles\moc_main_window.cpp"
 winmoc.exe "..\include\itomp_nlp\interface\itomp_interface.h" -o "..\src\GeneratedFiles\moc_itomp_interface.cpp"
+winmoc.exe "..\include\itomp_nlp\interface\itomp_datagen_widget.h" -o "..\src\GeneratedFiles\moc_itomp_datagen_widget.cpp"
 winmoc.exe "..\include\itomp_nlp\interface\itomp_cost_function_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp"
 winmoc.exe "..\include\itomp_nlp\interface\itomp_cost_functions_widget.h" -o "..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp"
 winmoc.exe "..\include\itomp_nlp\interface\itomp_nlp_widget.h" -o "..\src\GeneratedFiles\moc_itomp_nlp_widget.cpp"
@@ -187,7 +189,7 @@ winmoc.exe "..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\
       <AdditionalDependencies>libzmq.lib;kinect20.lib;assimp-vc140-mt.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5OpenGL.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>..\lib;$(QTDIR)\lib;$(KINECTSDK20_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\lib;$(KINECTSDK20_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -206,12 +208,14 @@ winmoc.exe "..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\
     <ClCompile Include="..\src\crf\crf_phrase_node.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_itomp_cost_functions_widget.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_itomp_cost_function_widget.cpp" />
+    <ClCompile Include="..\src\GeneratedFiles\moc_itomp_datagen_widget.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_itomp_interface.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_itomp_nlp_widget.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_main_window.cpp" />
     <ClCompile Include="..\src\GeneratedFiles\moc_renderer.cpp" />
     <ClCompile Include="..\src\interface\itomp_cost_functions_widget.cpp" />
     <ClCompile Include="..\src\interface\itomp_cost_function_widget.cpp" />
+    <ClCompile Include="..\src\interface\itomp_datagen_widget.cpp" />
     <ClCompile Include="..\src\interface\itomp_interface.cpp" />
     <ClCompile Include="..\src\interface\itomp_nlp_widget.cpp" />
     <ClCompile Include="..\src\interface\main_window.cpp" />
@@ -248,6 +252,7 @@ winmoc.exe "..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\
     <ClCompile Include="..\src\parsetree\parsetree_pp_node.cpp" />
     <ClCompile Include="..\src\parsetree\parsetree_verb_node.cpp" />
     <ClCompile Include="..\src\parsetree\parsetree_vp_node.cpp" />
+    <ClCompile Include="..\src\parsetree\sentence_to_parsetree.cpp" />
     <ClCompile Include="..\src\renderer\camera.cpp" />
     <ClCompile Include="..\src\renderer\color_shader.cpp" />
     <ClCompile Include="..\src\renderer\gl_base.cpp" />
@@ -333,6 +338,7 @@ winmoc.exe "..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\
     <ClInclude Include="..\include\itomp_nlp\crf\crf_phrase_node.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_functions_widget.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_cost_function_widget.h" />
+    <ClInclude Include="..\include\itomp_nlp\interface\itomp_datagen_widget.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_interface.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_nlp_widget.h" />
     <ClInclude Include="..\include\itomp_nlp\interface\main_window.h" />
@@ -369,6 +375,7 @@ winmoc.exe "..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\
     <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_pp_node.h" />
     <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_verb_node.h" />
     <ClInclude Include="..\include\itomp_nlp\parsetree\parsetree_vp_node.h" />
+    <ClInclude Include="..\include\itomp_nlp\parsetree\sentence_to_parsetree.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\camera.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\color_shader.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\gl_base.h" />

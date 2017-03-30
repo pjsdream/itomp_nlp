@@ -65,7 +65,7 @@ public:
     // TODO: trajectory output type
     Eigen::MatrixXd getBestTrajectory();
 
-public slots:
+public Q_SLOTS:
 
     void startMotionPlanning();
     void stopMotionPlanning();

@@ -2,12 +2,7 @@
 #include <cstdlib>
 #include <stdio.h>
 
-#include <itomp_nlp/nlp/glove_pretrained_loader.h>
-#include <itomp_nlp/nlp/commands_to_cost.h>
-
 #include <itomp_nlp/interface/main_window.h>
-
-#include <itomp_nlp/renderer/rendering_kinect_human.h>
 
 
 int main(int argc, char** argv)

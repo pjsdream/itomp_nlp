@@ -27,11 +27,11 @@ public:
 
     ItompCostFunctionWidget(int id, QWidget* parent = 0);
 
-signals:
+Q_SIGNALS:
 
     void valueChanged(int id, const std::string& cost_type, std::vector<double> coefficients);
     
-public slots:
+public Q_SLOTS:
 
     void slotValueChanged();
     void selectCostType(int index);

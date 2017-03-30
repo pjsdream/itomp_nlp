@@ -20,11 +20,11 @@ public:
 
     ItompNLPWidget(QWidget* parent = 0);
 
-signals:
+Q_SIGNALS:
 
     void commandAdded(std::string);
 
-private slots:
+private Q_SLOTS:
 
     void textChanged();
 

@@ -76,7 +76,7 @@ void ItompCostFunctionWidget::slotValueChanged()
     for (int i=0; i<values_.size(); i++)
         coefficients.push_back( values_[i]->value() );
 
-    emit valueChanged(id_, cost_types_[combo_box_index].first, coefficients);
+    Q_EMIT valueChanged(id_, cost_types_[combo_box_index].first, coefficients);
 }
 
 }

@@ -29,10 +29,10 @@ void ItompNLPWidget::textChanged()
     size_t idx = s.find_last_of('\n');
 
     if (idx == std::string::npos)
-        emit commandAdded(s);
+        Q_EMIT commandAdded(s);
 
     else
-        emit commandAdded(s.substr(idx + 1));
+        Q_EMIT commandAdded(s.substr(idx + 1));
 }
 
 }

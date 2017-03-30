@@ -25,7 +25,7 @@ public:
 
     MainWindow();
 
-protected slots:
+protected Q_SLOTS:
 
     void updateNextFrame();
 
@@ -41,6 +41,8 @@ private:
 
     RenderingKinectPoints* rendering_point_cloud_;
     RenderingBox* rendering_table_;
+    RenderingBox* rendering_laptop_;
+    std::vector<RenderingBox*> rendering_objects_;
 
     Material* grey_;
     Material* brown_;
