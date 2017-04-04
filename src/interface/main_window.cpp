@@ -42,8 +42,8 @@ MainWindow::MainWindow()
     RobotModel* robot_model = itomp_interface_->getRobotModel();
 
     Material* white = new Material();
-    white->setDiffuseColor(Eigen::Vector4f(1, 1, 1, 1));
-    white->setSpecularColor(Eigen::Vector4f(1, 1, 1, 1));
+    white->setDiffuse(Eigen::Vector3f(1, 1, 1));
+    white->setSpecular(Eigen::Vector3f(1, 1, 1));
     white->setShininess(2);
 
     for (int i=0; i<num_interpolated_variables; i++)
@@ -165,8 +165,8 @@ void MainWindow::updateNextFrame()
     Eigen::MatrixXd trajectory = itomp_interface_->getBestTrajectory();
     
     int box_idx = 0;
-    //for (int i=0; i<trajectory.cols() / 2; i++)
-    for (int i=0; i<1; i++)
+    for (int i=0; i<trajectory.cols() / 2; i++)
+    //for (int i=0; i<1; i++)
     {
         Eigen::VectorXd optimizer_robot_trajectory = trajectory.col(i*2);
         
@@ -204,7 +204,6 @@ void MainWindow::updateNextFrame()
                 }
             }
         }
-        */
 
         // update endeffector transform
         forward_kinematics_->setPositions(trajectory.col(i*2));

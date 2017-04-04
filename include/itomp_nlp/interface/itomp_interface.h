@@ -94,8 +94,6 @@ private:
 
     bool is_optimizing_;
 
-    TrajectoryPublisher trajectory_publisher_;
-
     QGridLayout* layout_;
     QPushButton* start_button_;
     QPushButton* stop_button_;

@@ -366,6 +366,15 @@
     <ClCompile Include="..\src\GeneratedFiles\moc_itomp_datagen_widget.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\renderer\light_oit_shader.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\oit_resolve_shader.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\renderer\shadowmap_point_shader.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -732,6 +741,15 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\interface\itomp_datagen_widget.h">
       <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\oit_resolve_shader.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\shadowmap_point_shader.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\light_oit_shader.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

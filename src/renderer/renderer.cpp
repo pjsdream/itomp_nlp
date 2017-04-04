@@ -269,6 +269,7 @@ void Renderer::paintGL()
     */
 
     // color shader
+    /*
     color_shader_->start();
     color_shader_->loadCamera(camera_);
 
@@ -276,6 +277,7 @@ void Renderer::paintGL()
         rendering_shapes_[i]->draw(color_shader_);
 
     color_shader_->stop();
+    */
 
     // normal shader
     /*
