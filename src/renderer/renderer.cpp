@@ -14,8 +14,11 @@ namespace itomp
 
 Renderer::Renderer(QWidget* parent)
     : QOpenGLWidget(parent)
-    , shadowmap_shader_(0)
+    , opaque_fbo_(0)
 {
+    opaque_textures_[0] = 0;
+    opaque_textures_[1] = 0;
+
     QSurfaceFormat format;
     format.setDepthBufferSize(24);
     format.setStencilBufferSize(8);
@@ -64,6 +67,9 @@ void Renderer::initializeGL()
     gl_->glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
     gl_->glClearDepth(1.0f);
 
+    gl_->glDisable(GL_CULL_FACE);
+
+
     // shaders
     light_shader_ = new LightShader(this);
 
@@ -76,14 +82,29 @@ void Renderer::initializeGL()
 
     light_shadow_shader_ = new LightShadowShader(this);
     
-    if (shadowmap_shader_ == 0)
-        shadowmap_shader_ = new ShadowmapShader(this);
+    shadowmap_shader_ = new ShadowmapShader(this);
+    shadowmap_point_shader_ = new ShadowmapPointShader(this);
 
+    light_oit_shader_ = new LightOITShader(this);
+
+    oit_resolve_shader_ = new OITResolveShader(this);
+    
     // default light
     Light* light;
     light = new Light(Eigen::Vector3d(9, -1, 10));
-    light->setDiffuseColor(Eigen::Vector4f(1, 1, 1, 1));
-    light->setSpecularColor(Eigen::Vector4f(0, 0, 0, 1));
+    light->setDirectional();
+    light->setAmbient(Eigen::Vector3f(0.2, 0.2, 0.2));
+    light->setDiffuse(Eigen::Vector3f(0.4, 0.4, 0.4));
+    light->setSpecular(Eigen::Vector3f(1, 1, 1));
+    lights_.push_back(light);
+
+    // point light
+    light = new Light(Eigen::Vector3d(2, 0, 2));
+    light->setPoint();
+    light->setAmbient(Eigen::Vector3f(0.2, 0.2, 0.2));
+    light->setDiffuse(Eigen::Vector3f(0.4, 0.4, 0.4));
+    light->setSpecular(Eigen::Vector3f(1, 1, 1));
+    light->setAttenuation(Eigen::Vector3f(1, 0.045, 0.0075));
     lights_.push_back(light);
 }
 
@@ -92,49 +113,148 @@ void Renderer::resizeGL(int w, int h)
     gl_->glViewport(0, 0, w, h);
 
     camera_.setAspect( (double)w / h );
+
+    // recreate opaque fbo
+    if (gl_->glIsFramebuffer(opaque_fbo_))
+        gl_->glDeleteFramebuffers(1, &opaque_fbo_);
+    if (gl_->glIsTexture(opaque_textures_[0]))
+        gl_->glDeleteTextures(2, opaque_textures_);
+
+    gl_->glGenFramebuffers(1, &opaque_fbo_);
+    gl_->glGenTextures(2, opaque_textures_);
+
+    gl_->glBindFramebuffer(GL_FRAMEBUFFER, opaque_fbo_);
+
+    gl_->glBindTexture(GL_TEXTURE_2D, opaque_textures_[0]);
+    gl_->glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, w, h, 0, GL_RGB, GL_FLOAT, NULL);
+    gl_->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    gl_->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    gl_->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, opaque_textures_[0], 0);
+
+    gl_->glBindTexture(GL_TEXTURE_2D, opaque_textures_[1]);
+    gl_->glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, w, h, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, NULL);
+    gl_->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    gl_->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    gl_->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, opaque_textures_[1], 0);
+
+    gl_->glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
     update();
 }
 
 void Renderer::paintGL()
-{
-    gl_->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
+{    
     // light direction from camera
     //lights_[0]->setPosition( - camera_.lookAtDirection() );
-
-    // shadowmap shader
-    shadowmap_shader_->start();
     
     GLint screen_fbo;
     gl_->glGetIntegerv(GL_FRAMEBUFFER_BINDING, &screen_fbo);
 
+    // shadowmap shader
+    shadowmap_shader_->start();
+
+    int didx = 0;
     for (int i=0; i<lights_.size(); i++)
     {
-        shadowmap_shader_->bindTexture(i);
-        shadowmap_shader_->loadLight(lights_[i]);
+        if (lights_[i]->isDirectional())
+        {
+            shadowmap_shader_->bindTexture(didx);
+            shadowmap_shader_->loadLight(lights_[i]);
     
-        for (int j=0; j<rendering_shapes_.size(); j++)
-            rendering_shapes_[j]->draw(shadowmap_shader_);
+            for (int j=0; j<rendering_shapes_.size(); j++)
+                if (rendering_shapes_[j]->getAlpha() == 1.f)
+                    rendering_shapes_[j]->draw(shadowmap_shader_);
+
+            didx++;
+        }
     }
 
     shadowmap_shader_->stop();
-    gl_->glBindFramebuffer(GL_FRAMEBUFFER, screen_fbo);
+
+    // shadowmap point shader
+    shadowmap_point_shader_->start();
+
+    int pidx = 0;
+    for (int i=0; i<lights_.size(); i++)
+    {
+        if (lights_[i]->isPoint())
+        {
+            shadowmap_point_shader_->bindTexture(pidx);
+            shadowmap_point_shader_->loadLight(lights_[i]);
+    
+            for (int j=0; j<rendering_shapes_.size(); j++)
+                if (rendering_shapes_[j]->getAlpha() == 1.f)
+                    rendering_shapes_[j]->draw(shadowmap_point_shader_);
+
+            pidx++;
+        }
+    }
+
+    shadowmap_point_shader_->stop();
 
     // restore viewport
     gl_->glViewport(0, 0, width(), height());
+    
+    // render opaque objects first on an off-screen framebuffer
+    gl_->glBindFramebuffer(GL_FRAMEBUFFER, opaque_fbo_);
+    gl_->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // light shadow shader
     light_shadow_shader_->start();
     light_shadow_shader_->loadCamera(camera_);
     light_shadow_shader_->loadLights(lights_);
-
+    
+    didx = 0;
+    pidx = 0;
     for (int i=0; i<lights_.size(); i++)
-        light_shadow_shader_->bindShadowmapTexture(i, shadowmap_shader_->getShadowmapTextureId(i));
+    {
+        if (lights_[i]->isDirectional())
+        {
+            light_shadow_shader_->bindShadowmapTextureDirectional(didx, shadowmap_shader_->getShadowmapTextureId(didx));
+            didx++;
+        }
+
+        else if (lights_[i]->isPoint())
+        {
+            light_shadow_shader_->bindShadowmapTexturePoint(pidx, shadowmap_point_shader_->getShadowmapTextureId(pidx));
+            pidx++;
+        }
+    }
     
     for (int i=0; i<rendering_shapes_.size(); i++)
-        rendering_shapes_[i]->draw(light_shadow_shader_);
+        if (rendering_shapes_[i]->getAlpha() == 1.f)
+            rendering_shapes_[i]->draw(light_shadow_shader_);
 
     light_shadow_shader_->stop();
+
+    // restore to screen framebuffer
+    gl_->glBindFramebuffer(GL_FRAMEBUFFER, screen_fbo);
+    gl_->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // light oit shader
+    light_oit_shader_->start();
+    light_oit_shader_->loadCamera(camera_);
+    light_oit_shader_->loadLights(lights_);
+    
+    gl_->glDisable(GL_DEPTH_TEST);
+    gl_->glEnable(GL_BLEND);
+    gl_->glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    for (int i=0; i<rendering_shapes_.size(); i++)
+        if (rendering_shapes_[i]->getAlpha() < 1.f)
+            rendering_shapes_[i]->draw(light_oit_shader_);
+    
+    gl_->glDisable(GL_BLEND);
+
+    light_oit_shader_->stop();
+
+    // oit resolve shader
+    oit_resolve_shader_->start();
+    oit_resolve_shader_->setScreenSize(width(), height());
+    oit_resolve_shader_->bindOpaqueTextures(opaque_textures_[0], opaque_textures_[1]);
+    oit_resolve_shader_->resolve();
+    oit_resolve_shader_->stop();
+    gl_->glEnable(GL_DEPTH_TEST);
 
     // light shader
     /*

@@ -80,24 +80,33 @@ MainWindow::MainWindow()
     forward_kinematics_ = itomp_interface_->getOptimizerRobot();
 
     grey_ = new Material();
-    grey_->setDiffuseColor(Eigen::Vector4f(0.3, 0.3, 0.3, 1));
+    grey_->setAmbient(Eigen::Vector3f(0.3, 0.3, 0.3));
+    grey_->setDiffuse(Eigen::Vector3f(0.3, 0.3, 0.3));
+    grey_->setAlpha(0.25f);
     
     brown_ = new Material();
-    brown_->setDiffuseColor(Eigen::Vector4f(139./255, 69./255, 19./255, 1.));
+    brown_->setAmbient(Eigen::Vector3f(139./255, 69./255, 19./255));
+    brown_->setDiffuse(Eigen::Vector3f(139./255, 69./255, 19./255));
+    brown_->setSpecular(Eigen::Vector3f::Zero());
 
     // rendering table
+    const double margin = 0.01;
     rendering_table_ = new RenderingBox(renderer_);
     rendering_table_->setMaterial(brown_);
-    rendering_table_->setSize(Eigen::Vector3d(1, 2, 0.7));
+    rendering_table_->setSize(Eigen::Vector3d(1 - margin, 2 - margin, 0.7 - margin)); // shrinked by margin for rendering bounding box
     rendering_table_->setTransform(Eigen::Affine3d(Eigen::Translation3d(0.8, 0, 0.35)));
 
     // rendering objects
     /*
     Material* red = new Material();
-    red->setDiffuseColor(Eigen::Vector4f(1, 0, 0, 1));
+    red->setAmbient(Eigen::Vector3f(1, 0, 0));
+    red->setDiffuse(Eigen::Vector3f(1, 0, 0));
+    red->setAlpha(0.25f);
 
     Material* blue = new Material();
-    blue->setDiffuseColor(Eigen::Vector4f(0, 0, 1, 1));
+    blue->setAmbient(Eigen::Vector3f(0, 0, 1));
+    blue->setDiffuse(Eigen::Vector3f(0, 0, 1));
+    blue->setAlpha(0.25f);
 
     RenderingCapsule* capsule1 = new RenderingCapsule(renderer_);
     capsule1->setMaterial(red);
@@ -130,7 +139,9 @@ MainWindow::MainWindow()
     checkerboard_texture->setImage(2, 2, checkerboard_image);
 
     Material* checkerboard = new Material();
+    checkerboard->setAmbient(Eigen::Vector3f(1, 1, 1));
     checkerboard->setDiffuseTexture(checkerboard_texture);
+    checkerboard->setSpecular(Eigen::Vector3f::Zero());
 
     RenderingPlane* plane = new RenderingPlane(renderer_);
     plane->setMaterial(checkerboard);
@@ -154,19 +165,19 @@ void MainWindow::updateNextFrame()
     Eigen::MatrixXd trajectory = itomp_interface_->getBestTrajectory();
     
     int box_idx = 0;
-    for (int i=0; i<trajectory.cols() / 2; i++)
+    //for (int i=0; i<trajectory.cols() / 2; i++)
+    for (int i=0; i<1; i++)
     {
         Eigen::VectorXd optimizer_robot_trajectory = trajectory.col(i*2);
-
+        
         RobotState robot_state(*itomp_interface_->getRobotState());
         for (int j=0; j<itomp_interface_->getActiveJointNames().size(); j++)
             robot_state.setPosition(itomp_interface_->getActiveJointNames()[j], optimizer_robot_trajectory(j));
-
+        
         // update robot state to renderer
         rendering_robots_[i]->setRobotState(robot_state);
 
         // update collision boxes
-        /*
         forward_kinematics_->setPositions(trajectory.col(i*2));
         forward_kinematics_->setVelocities(trajectory.col(i*2+1));
         forward_kinematics_->forwardKinematics();
@@ -271,7 +282,7 @@ void MainWindow::updateNextFrame()
 
                 RenderingCapsule* rendering_capsule = dynamic_cast<RenderingCapsule*>(rendering_dynamic_obstacles_[dynamic_obstacle_idx]);
                 rendering_capsule->setMaterial(grey_);
-                rendering_capsule->setCapsule(capsule->getP(), capsule->getRp() - 0.2, capsule->getQ(), capsule->getRq() - 0.2);
+                rendering_capsule->setCapsule(capsule->getP(), capsule->getRp(), capsule->getQ(), capsule->getRq());
                 dynamic_obstacle_idx++;
             }
         }

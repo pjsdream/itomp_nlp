@@ -22,7 +22,7 @@ public:
 
     RenderingKinectHuman(Renderer* renderer);
 
-    virtual void draw(LightShader* shader);
+    virtual void draw(ShaderProgram* shader);
     
 private:
     

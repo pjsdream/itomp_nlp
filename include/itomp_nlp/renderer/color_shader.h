@@ -22,14 +22,13 @@ private:
 public:
 
     ColorShader(Renderer* renderer);
-    
-    virtual void bindAttributes();
 
     void loadModelTransform(const Eigen::Matrix4f& m);
     void loadCamera(const Camera& camera);
 
 protected:
     
+    virtual void bindAttributes();
     virtual void getAllUniformLocations();
 
 private:

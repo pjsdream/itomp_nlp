@@ -58,7 +58,7 @@ void RenderingHuman::updateBuffers()
     need_update_buffer_ = false;
 }
 
-void RenderingHuman::draw(LightShader* shader)
+void RenderingHuman::draw(ShaderProgram* shader)
 {
     if (need_update_buffer_)
         updateBuffers();

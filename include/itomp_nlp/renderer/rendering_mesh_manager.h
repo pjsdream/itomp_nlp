@@ -4,7 +4,7 @@
 
 #include <itomp_nlp/renderer/rendering_mesh.h>
 
-#include <map>
+#include <unordered_map>
 #include <string>
 
 
@@ -19,7 +19,7 @@ public:
 
 private:
 
-    static std::map<std::string, RenderingMesh*> meshes_;
+    static std::unordered_map<std::string, RenderingMesh*> meshes_;
 };
 
 }

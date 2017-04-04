@@ -28,16 +28,17 @@ void RenderingShape::setTransform(const Eigen::Affine3d& transform)
     transform_ = transform.cast<float>().matrix();
 }
     
-void RenderingShape::draw(LightShader* shader)
+void RenderingShape::draw(ShaderProgram* shader)
 {
 }
 
-void RenderingShape::draw(ColorShader* shader)
+float RenderingShape::getAlpha()
 {
-}
+    if (material_ == 0)
+        return 1.f;
 
-void RenderingShape::draw(ShadowmapShader* shader)
-{
+    else
+        return material_->getAlpha();
 }
 
 }

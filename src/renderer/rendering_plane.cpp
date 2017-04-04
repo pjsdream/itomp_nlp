@@ -71,7 +71,7 @@ void RenderingPlane::updateBuffers()
     }
 }
 
-void RenderingPlane::draw(LightShader* shader)
+void RenderingPlane::draw(ShaderProgram* shader)
 {
     updateBuffers();
 
@@ -79,20 +79,6 @@ void RenderingPlane::draw(LightShader* shader)
     shader->loadMaterial(material_);
 
     gl_->glBindVertexArray(vao_);
-    gl_->glEnableVertexAttribArray(1);
-    gl_->glEnableVertexAttribArray(2);
-    gl_->glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-}
-
-void RenderingPlane::draw(ShadowmapShader* shader)
-{
-    updateBuffers();
-
-    shader->loadModelTransform(transform_);
-
-    gl_->glBindVertexArray(vao_);
-    gl_->glDisableVertexAttribArray(1);
-    gl_->glDisableVertexAttribArray(2);
     gl_->glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 

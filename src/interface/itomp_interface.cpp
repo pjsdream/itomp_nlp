@@ -182,7 +182,7 @@ void ItompInterface::initializeResources()
     table_obstacle->addShape(table);
 
     optimizer_.addStaticObstacle(table_obstacle);
-    
+
     /*
     Eigen::Affine3d obstacle_center;
     obstacle_center.setIdentity();
@@ -214,8 +214,8 @@ void ItompInterface::initializeResources()
 
     Eigen::Affine3d camera_transform;
     camera_transform.setIdentity();
-    camera_transform.translate(Eigen::Vector3d(1.5, 1.6, 0.9));
-    camera_transform.rotate(Eigen::AngleAxisd(0, Eigen::Vector3d(0, 0, 1)));
+    camera_transform.translate(Eigen::Vector3d(-0.5, 0, 1.2));
+    camera_transform.rotate(Eigen::AngleAxisd(M_PI/2, Eigen::Vector3d(0, 0, 1)));
     camera_transform.rotate(Eigen::AngleAxisd(M_PI/2, Eigen::Vector3d(1, 0, 0)));
 
     for (int i=0; i<KinectDevice::bodyCount(); i++)
@@ -276,7 +276,8 @@ void ItompInterface::moveTrajectoryForwardOneTimestep()
         human_obstacles_[i]->update();
 
     // publish trajectory
-    Trajectory trajectory(active_joint_names_, 2.0, optimizer_.getBestTrajectory());
+    Eigen::MatrixXd trajectory_matrix = optimizer_.getBestTrajectory();
+    Trajectory trajectory(active_joint_names_, 0.5, trajectory_matrix);
     trajectory_publisher_.publish(trajectory);
 
     optimizer_.moveForwardOneTimestep();

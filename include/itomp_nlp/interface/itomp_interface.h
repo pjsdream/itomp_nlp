@@ -12,6 +12,8 @@
 #include <QScrollArea>
 #include <QTimer>
 
+#include <itomp_nlp/network/trajectory_publisher.h>
+
 #include <itomp_nlp/optimization/optimizer.h>
 #include <itomp_nlp/optimization/optimizer_robot_loader.h>
 
@@ -87,6 +89,8 @@ private:
     std::vector<std::string> active_joint_names_;
     std::vector<std::vector<std::string> > aabb_lists_;
     std::vector<DynamicKFHumanObstacle*> human_obstacles_;
+
+    TrajectoryPublisher trajectory_publisher_;
 
     bool is_optimizing_;
 

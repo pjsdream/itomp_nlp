@@ -18,8 +18,7 @@ public:
     RenderingMesh(Renderer* renderer, const std::string& filename);
     ~RenderingMesh();
 
-    virtual void draw(LightShader* shader);
-    virtual void draw(ShadowmapShader* shader);
+    virtual void draw(ShaderProgram* shader);
 
 private:
     

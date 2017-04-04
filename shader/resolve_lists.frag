@@ -20,10 +20,26 @@ layout (location = 0) out vec4 color;
 // Temporary array used for sorting fragments
 uvec4 fragment_list[MAX_FRAGMENTS];
 
+// opaque textures
+uniform sampler2D opaque_color;
+uniform sampler2D opaque_depth;
+
+// screen size for computing texture coords
+uniform int screen_width;
+uniform int screen_height;
+
 void main(void)
 {
     uint current_index;
     uint fragment_count = 0;
+
+    // opaque fragment from texture
+    vec2 tex_coords = vec2(gl_FragCoord.x / screen_width, gl_FragCoord.y / screen_height);
+    uvec4 opaque_fragment;
+    opaque_fragment.y = packUnorm4x8(vec4(texture(opaque_color, tex_coords).xyz, 1.f));
+    opaque_fragment.z = floatBitsToUint(texture(opaque_depth, tex_coords).r);
+    fragment_list[fragment_count] = opaque_fragment;
+    fragment_count++;
 
     current_index = imageLoad(head_pointer_image, ivec2(gl_FragCoord).xy).x;
 
@@ -39,7 +55,6 @@ void main(void)
 
     if (fragment_count > 1)
     {
-
         for (i = 0; i < fragment_count - 1; i++)
         {
             for (j = i + 1; j < fragment_count; j++)
@@ -60,7 +75,8 @@ void main(void)
 
     }
 
-    vec4 final_color = vec4(1.0);
+
+    vec4 final_color = vec4(1.f);
 
     for (i = 0; i < fragment_count; i++)
     {
@@ -71,5 +87,5 @@ void main(void)
     }
 
     color = final_color;
-    // color = vec4(float(fragment_count) / float(MAX_FRAGMENTS));
+    //color = vec4(float(fragment_count) / float(MAX_FRAGMENTS));
 }

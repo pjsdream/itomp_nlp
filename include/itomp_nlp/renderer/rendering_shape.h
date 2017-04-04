@@ -26,9 +26,9 @@ public:
     RenderingShape(Renderer* renderer);
     ~RenderingShape();
     
-    virtual void draw(LightShader* shader);
-    virtual void draw(ColorShader* shader);
-    virtual void draw(ShadowmapShader* shader);
+    virtual void draw(ShaderProgram* shader);
+
+    float getAlpha();
 
     inline void setMaterial(Material* material)
     {

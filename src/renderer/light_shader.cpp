@@ -39,17 +39,28 @@ void LightShader::getAllUniformLocations()
     {
         const std::string array_index = "[" + std::to_string(i) + "]";
         
-        location_light_use_[i] = getUniformLocation("light_use" + array_index);
-        location_light_position_[i] = getUniformLocation("light_position" + array_index);
-        location_light_diffuse_color_[i] = getUniformLocation("light_diffuse_color" + array_index);
-        location_light_specular_color_[i] = getUniformLocation("light_specular_color" + array_index);
+        location_directional_light_use_[i] = getUniformLocation("directional_lights" + array_index + ".use");
+        location_directional_light_position_[i] = getUniformLocation("directional_lights" + array_index + ".position");
+        location_directional_light_ambient_[i] = getUniformLocation("directional_lights" + array_index + ".ambient");
+        location_directional_light_diffuse_[i] = getUniformLocation("directional_lights" + array_index + ".diffuse");
+        location_directional_light_specular_[i] = getUniformLocation("directional_lights" + array_index + ".specular");
+
+        location_point_light_use_[i] = getUniformLocation("point_lights" + array_index + ".use");
+        location_point_light_position_[i] = getUniformLocation("point_lights" + array_index + ".position");
+        location_point_light_ambient_[i] = getUniformLocation("point_lights" + array_index + ".ambient");
+        location_point_light_diffuse_[i] = getUniformLocation("point_lights" + array_index + ".diffuse");
+        location_point_light_specular_[i] = getUniformLocation("point_lights" + array_index + ".specular");
+        location_point_light_attenuation_[i] = getUniformLocation("point_lights" + array_index + ".attenuation");
     }
     location_eye_position_ = getUniformLocation("eye_position");
-
-    location_material_diffuse_color_ = getUniformLocation("material_diffuse_color");
-    location_material_specular_color_ = getUniformLocation("material_specular_color");
-    location_shininess_ = getUniformLocation("shininess");
-    location_has_texture_ = getUniformLocation("has_texture");
+    
+    location_material_alpha_ = getUniformLocation("material.alpha");
+    location_material_ambient_ = getUniformLocation("material.ambient");
+    location_material_diffuse_ = getUniformLocation("material.diffuse");
+    location_material_specular_ = getUniformLocation("material.specular");
+    location_material_shininess_ = getUniformLocation("material.shininess");
+    location_material_has_texture_ = getUniformLocation("material.has_texture");
+    location_material_diffuse_texture_= getUniformLocation("material.diffuse_texture");
 }
 
 void LightShader::loadModelTransform(const Eigen::Matrix4f& m)
@@ -70,21 +81,48 @@ void LightShader::loadCamera(const Camera& camera)
 
 void LightShader::loadLights(const std::vector<Light*>& lights)
 {
-    for (int i=0; i<lights.size() && i<MAX_NUM_LIGHTS; i++)
+    for (int i=0; i<MAX_NUM_LIGHTS; i++)
     {
-        const Eigen::Vector3f position = lights[i]->getPosition().cast<float>();
-        const Eigen::Vector4f diffuse_color = lights[i]->getDiffuseColor();
-        const Eigen::Vector4f specular_color = lights[i]->getSpecularColor();
-        
-        loadUniform(location_light_use_[i], true);
-        loadUniform(location_light_position_[i], position);
-        loadUniform(location_light_diffuse_color_[i], diffuse_color);
-        loadUniform(location_light_specular_color_[i], specular_color);
+        loadUniform(location_directional_light_use_[i], false);
+        loadUniform(location_point_light_use_[i], false);
     }
 
-    for (int i=lights.size(); i<MAX_NUM_LIGHTS; i++)
+    int didx = 0;
+    int pidx = 0;
+
+    for (int i=0; i<lights.size(); i++)
     {
-        loadUniform(location_light_use_[i], false);
+        if (lights[i]->isDirectional() && didx < MAX_NUM_LIGHTS)
+        {
+            const Eigen::Vector3f& position = lights[i]->getPosition().cast<float>();
+            const Eigen::Vector3f& ambient = lights[i]->getAmbient();
+            const Eigen::Vector3f& diffuse = lights[i]->getDiffuse();
+            const Eigen::Vector3f& specular = lights[i]->getSpecular();
+        
+            loadUniform(location_directional_light_use_[didx], true);
+            loadUniform(location_directional_light_position_[didx], position);
+            loadUniform(location_directional_light_ambient_[didx], ambient);
+            loadUniform(location_directional_light_diffuse_[didx], diffuse);
+            loadUniform(location_directional_light_specular_[didx], specular);
+            didx++;
+        }
+        else if (lights[i]->isPoint() && pidx < MAX_NUM_LIGHTS)
+        {
+            const Eigen::Vector3f& position = lights[i]->getPosition().cast<float>();
+            const Eigen::Vector3f& ambient = lights[i]->getAmbient();
+            const Eigen::Vector3f& diffuse = lights[i]->getDiffuse();
+            const Eigen::Vector3f& specular = lights[i]->getSpecular();
+            const Eigen::Vector3f& attenuation = lights[i]->getAttenuation();
+        
+            loadUniform(location_point_light_use_[pidx], true);
+            loadUniform(location_point_light_position_[pidx], position);
+            loadUniform(location_point_light_ambient_[pidx], ambient);
+            loadUniform(location_point_light_diffuse_[pidx], diffuse);
+            loadUniform(location_point_light_specular_[pidx], specular);
+            loadUniform(location_point_light_attenuation_[pidx], attenuation);
+
+            pidx++;
+        }
     }
 }
 
@@ -92,29 +130,38 @@ void LightShader::loadMaterial(const Material* material)
 {
     if (material == 0)
     {
+        loadUniform(location_material_has_texture_, false);
+        loadUniform(location_material_alpha_, 1.0f);
+
+        printf("material = 0\n");
     }
 
     else
     {
-        const Eigen::Vector4f specular_color = material->getSpecularColor();
-
-        loadUniform(location_material_specular_color_, specular_color);
-        loadUniform(location_shininess_, material->getShininess());
-
+        const Eigen::Vector3f& ambient = material->getAmbient();
+        const Eigen::Vector3f& specular = material->getSpecular();
+        
+        loadUniform(location_material_alpha_, material->getAlpha());
+        loadUniform(location_material_ambient_, ambient);
+        loadUniform(location_material_specular_, specular);
+        loadUniform(location_material_shininess_, material->getShininess());
+        
         if (material->hasDiffuseTexture())
         {
-            gl_->glActiveTexture(GL_TEXTURE0);
+            gl_->glActiveTexture(GL_TEXTURE2);
+            gl_->glUniform1i(location_material_diffuse_texture_, 2);
             gl_->glBindTexture(GL_TEXTURE_2D, material->getDiffuseTexture()->getTexture());
+            gl_->glActiveTexture(GL_TEXTURE0);
 
-            loadUniform(location_has_texture_, true);
+            loadUniform(location_material_has_texture_, true);
         }
         else
         {
-            loadUniform(location_has_texture_, false);
+            loadUniform(location_material_has_texture_, false);
 
-            const Eigen::Vector4f diffuse_color = material->getDiffuseColor();
+            const Eigen::Vector3f& diffuse = material->getDiffuse();
 
-            loadUniform(location_material_diffuse_color_, diffuse_color);
+            loadUniform(location_material_diffuse_, diffuse);
         }
     }
 }

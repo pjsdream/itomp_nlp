@@ -3,8 +3,6 @@
 #include <itomp_nlp/shape/aabb.h>
 #include <itomp_nlp/shape/capsule2.h>
 
-#include <iostream>
-
 
 namespace itomp
 {
@@ -99,7 +97,6 @@ double OBB::getPenetrationDepth(OBB* obb) const
     }
 
     // endpoint projection
-    const double sign[2] = {1, -1};
     double proj_min_endpoints;
     double proj_max_endpoints;
     double min_dist = 1e10;
