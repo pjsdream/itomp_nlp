@@ -182,6 +182,7 @@ void MainWindow::updateNextFrame()
         forward_kinematics_->setVelocities(trajectory.col(i*2+1));
         forward_kinematics_->forwardKinematics();
 
+        /*
         const int num_links = forward_kinematics_->getNumLinks();
         for (int j=0; j<num_links; j++)
         {
@@ -204,6 +205,7 @@ void MainWindow::updateNextFrame()
                 }
             }
         }
+        */
 
         // update endeffector transform
         forward_kinematics_->setPositions(trajectory.col(i*2));

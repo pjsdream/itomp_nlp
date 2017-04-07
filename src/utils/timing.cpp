@@ -2,6 +2,12 @@
 
 #include <stdio.h>
 
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <time.h>
+#include <sys/time.h>
+#endif
 
 namespace itomp
 {
@@ -19,5 +25,36 @@ void timerPrintElapsedTime()
 
     timerStart();
 }
+
+//  Windows
+#ifdef _WIN32
+double getWallTime()
+{
+    LARGE_INTEGER time,freq;
+    if (!QueryPerformanceFrequency(&freq))
+    {
+        //  Handle error
+        return 0;
+    }
+    if (!QueryPerformanceCounter(&time))
+    {
+        //  Handle error
+        return 0;
+    }
+    return (double)time.QuadPart / freq.QuadPart;
+}
+//  Posix/Linux
+#else
+double getWallTime()
+{
+    struct timeval time;
+    if (gettimeofday(&time,NULL))
+    {
+        //  Handle error
+        return 0;
+    }
+    return (double)time.tv_sec + (double)time.tv_usec * .000001;
+}
+#endif
 
 }

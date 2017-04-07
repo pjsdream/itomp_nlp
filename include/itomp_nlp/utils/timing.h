@@ -18,6 +18,8 @@ static int start_time;
 void timerStart();
 void timerPrintElapsedTime();
 
+double getWallTime();
+
 }
 
 
