@@ -18,6 +18,7 @@ namespace itomp
 {
 
 Optimizer::Optimizer()
+    : trajectory_publisher_thread_(*this)
 {
     scene_ = new Scene();
 }

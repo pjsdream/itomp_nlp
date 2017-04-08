@@ -3,7 +3,6 @@
 
 
 #include <itomp_nlp/optimization/optimizer_robot.h>
-#include <itomp_nlp/optimization/trajectory_publisher_thread.h>
 #include <itomp_nlp/optimization/cost.h>
 
 #include <Eigen/Dense>
@@ -180,9 +179,6 @@ private:
     // [q0 q0' q1 q1' q2 q2' ... ]
     Eigen::MatrixXd interpolation_coefficients_;  // 4 rows
     Eigen::MatrixXd interpolated_variables_;      // n rows
-
-    // trajectory publisher at every timestep
-    TrajectoryPublisherThread trajectory_publisher_thread_;
 };
 
 }

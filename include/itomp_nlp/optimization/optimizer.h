@@ -4,6 +4,7 @@
 
 #include <itomp_nlp/optimization/optimizer_robot.h>
 #include <itomp_nlp/optimization/optimizer_thread.h>
+#include <itomp_nlp/optimization/trajectory_publisher_thread.h>
 
 #include <itomp_nlp/optimization/scene.h>
 
@@ -89,6 +90,9 @@ private:
     OptimizerThread optimization_thread_;
 
     Scene* scene_;
+
+    // trajectory publisher at every timestep
+    TrajectoryPublisherThread trajectory_publisher_thread_;
 };
 
 }

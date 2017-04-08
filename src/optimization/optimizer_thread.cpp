@@ -103,7 +103,6 @@ private:
 
 
 OptimizerThread::OptimizerThread()
-    : trajectory_publisher_thread_(*this)
 {
 }
 
