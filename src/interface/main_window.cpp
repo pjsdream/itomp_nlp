@@ -46,6 +46,7 @@ MainWindow::MainWindow()
     white->setSpecular(Eigen::Vector3f(1, 1, 1));
     white->setShininess(2);
 
+    /*
     for (int i=0; i<num_interpolated_variables; i++)
     {
         RenderingRobot* rendering_robot = new RenderingRobot(renderer_, robot_model);
@@ -56,6 +57,7 @@ MainWindow::MainWindow()
         rendering_box->setMaterial(white);
         rendering_objects_.push_back(rendering_box);
     }
+    */
 
     // rendering point cloud
     Eigen::Affine3d camera_transform;
@@ -88,47 +90,82 @@ MainWindow::MainWindow()
     brown_->setAmbient(Eigen::Vector3f(139./255, 69./255, 19./255));
     brown_->setDiffuse(Eigen::Vector3f(139./255, 69./255, 19./255));
     brown_->setSpecular(Eigen::Vector3f::Zero());
-
+    
     // rendering table
     const double margin = 0.01;
     rendering_table_ = new RenderingBox(renderer_);
     rendering_table_->setMaterial(brown_);
     rendering_table_->setSize(Eigen::Vector3d(1 - margin, 2 - margin, 0.7 - margin)); // shrinked by margin for rendering bounding box
     rendering_table_->setTransform(Eigen::Affine3d(Eigen::Translation3d(0.8, 0, 0.35)));
-
-    // rendering objects
-    /*
-    Material* red = new Material();
-    red->setAmbient(Eigen::Vector3f(1, 0, 0));
-    red->setDiffuse(Eigen::Vector3f(1, 0, 0));
-    red->setAlpha(0.25f);
-
-    Material* blue = new Material();
-    blue->setAmbient(Eigen::Vector3f(0, 0, 1));
-    blue->setDiffuse(Eigen::Vector3f(0, 0, 1));
-    blue->setAlpha(0.25f);
-
-    RenderingCapsule* capsule1 = new RenderingCapsule(renderer_);
-    capsule1->setMaterial(red);
-    capsule1->setCapsule(Eigen::Vector3d(0.7, 0.7, 0.7), 0.03, Eigen::Vector3d(0.7, 0.7, 0.8), 0.03);
-
-    RenderingCapsule* capsule2 = new RenderingCapsule(renderer_);
-    capsule2->setMaterial(blue);
-    capsule2->setCapsule(Eigen::Vector3d(0.7, -0.7, 0.7), 0.03, Eigen::Vector3d(0.7, -0.7, 0.8), 0.03);
-    */
-
+    
     // rendering laptop
+    /*
     Eigen::Affine3d laptop_transform;
     laptop_transform.setIdentity();
-    laptop_transform.translate(Eigen::Vector3d(0.8, 0.1, 0.71));
-    laptop_transform.rotate(Eigen::AngleAxisd(1, Eigen::Vector3d(0, 0, 1)));
+    laptop_transform.translate(Eigen::Vector3d(0.8, 0.6, 0.71));
+    laptop_transform.rotate(Eigen::AngleAxisd(2, Eigen::Vector3d(0, 0, 1)));
 
     rendering_laptop_ = new RenderingBox(renderer_);
     rendering_laptop_->setMaterial(white);
     rendering_laptop_->setTransform(laptop_transform);
     rendering_laptop_->setSize(Eigen::Vector3d(0.4, 0.3, 0.02));
-
+    */
     
+    // rendering objects
+    Material* red = new Material();
+    red->setAmbient(Eigen::Vector3f(1, 0, 0));
+    red->setDiffuse(Eigen::Vector3f(1, 0, 0));
+    red->setAlpha(1.f);
+
+    Material* blue = new Material();
+    blue->setAmbient(Eigen::Vector3f(0, 0, 1));
+    blue->setDiffuse(Eigen::Vector3f(0, 0, 1));
+    blue->setAlpha(1.f);
+    
+    // rendering robot trajectory
+    rendering_robot_trajectory_ = new RenderingRobotTrajectory(renderer_, robot_model, *itomp_interface_->getRobotState());
+    
+    // rendering attached object
+    RenderingBox* rendering_box = new RenderingBox(renderer_);
+    rendering_box->setSize(Eigen::Vector3d(0.1, 0.1, 0.1));
+    rendering_box->setMaterial(red);
+    //rendering_robot_trajectory_->attachObject(rendering_box);
+    rendering_robot_trajectory_->setForwardKinematics(forward_kinematics_);
+
+    RenderingCapsule* capsule1 = new RenderingCapsule(renderer_);
+    capsule1->setMaterial(red);
+    capsule1->setCapsule(Eigen::Vector3d(0.75, 0.75, 0.7), 0.03, Eigen::Vector3d(0.75, 0.75, 0.8), 0.03);
+
+    RenderingCapsule* capsule2 = new RenderingCapsule(renderer_);
+    capsule2->setMaterial(blue);
+    capsule2->setCapsule(Eigen::Vector3d(0.75, -0.75, 0.7), 0.03, Eigen::Vector3d(0.75, -0.75, 0.8), 0.03);
+
+    // rendering H shape obstacle
+    /*
+    Eigen::Affine3d obstacle_center;
+    obstacle_center.setIdentity();
+    obstacle_center.translate(Eigen::Vector3d(0.9, 0, 0.8));
+    RenderingBox* shape1 = new RenderingBox(renderer_);
+    shape1->setSize(Eigen::Vector3d(0.5, 1, 0.1));
+    shape1->setTransform(obstacle_center);
+    shape1->setMaterial(brown_);
+    
+    obstacle_center.setIdentity();
+    obstacle_center.translate(Eigen::Vector3d(0.9, 0, 1.4));
+    RenderingBox* shape2 = new RenderingBox(renderer_);
+    shape2->setSize(Eigen::Vector3d(0.5, 1, 0.1));
+    shape2->setTransform(obstacle_center);
+    shape2->setMaterial(brown_);
+    
+    obstacle_center.setIdentity();
+    obstacle_center.translate(Eigen::Vector3d(0.9, 0, 1.1));
+    RenderingBox* shape3 = new RenderingBox(renderer_);
+    shape3->setSize(Eigen::Vector3d(0.5, 0.1, 0.6));
+    shape3->setTransform(obstacle_center);
+    shape3->setMaterial(brown_);
+    */
+
+    // rendering planes
     std::vector<unsigned char> checkerboard_image = 
     {
         0xFF, 0xFF, 0xFF, 0xFF,  0xCF, 0xCF, 0xCF, 0xFF,
@@ -160,8 +197,16 @@ MainWindow::MainWindow()
 void MainWindow::updateNextFrame()
 {
     KinectDevice::getInstance()->update();
+    
+    // update current robot trajectory to renderer
+    const Trajectory current_robot_trajectory = itomp_interface_->getCurrentTrajectory();
+    const double current_time = itomp_interface_->getCurrentTrajectoryTime();
 
+    rendering_robot_trajectory_->setRobotTrajectory(current_robot_trajectory);
+    rendering_robot_trajectory_->setTime(current_time);
+    
     // update robot trajectory to renderer
+    /*
     Eigen::MatrixXd trajectory = itomp_interface_->getBestTrajectory();
     
     int box_idx = 0;
@@ -182,7 +227,6 @@ void MainWindow::updateNextFrame()
         forward_kinematics_->setVelocities(trajectory.col(i*2+1));
         forward_kinematics_->forwardKinematics();
 
-        /*
         const int num_links = forward_kinematics_->getNumLinks();
         for (int j=0; j<num_links; j++)
         {
@@ -205,7 +249,6 @@ void MainWindow::updateNextFrame()
                 }
             }
         }
-        */
 
         // update endeffector transform
         forward_kinematics_->setPositions(trajectory.col(i*2));
@@ -217,17 +260,20 @@ void MainWindow::updateNextFrame()
         rendering_objects_[i]->setTransform(transform);
     }
 
+
     // remove unused rendering boxes
     while (box_idx < rendering_boxes_.size())
     {
         delete *rendering_boxes_.rbegin();
         rendering_boxes_.pop_back();
     }
+        */
 
     // update scene rendering
     Scene* scene = itomp_interface_->getScene();
     const std::vector<StaticObstacle*> static_obstacles = scene->getStaticObstacles();
-
+    
+    /*
     int static_obstacle_idx = 0;
     for (int i=0; i<static_obstacles.size(); i++)
     {
@@ -259,6 +305,7 @@ void MainWindow::updateNextFrame()
         delete *rendering_static_obstacles_.rbegin();
         rendering_static_obstacles_.pop_back();
     }
+    */
 
     // dynamic obstacles
     const std::vector<DynamicObstacle*> dynamic_obstacles = scene->getDynamicObstacles();

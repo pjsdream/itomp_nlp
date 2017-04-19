@@ -64,6 +64,10 @@ public:
         return optimizer_.getScene();
     }
 
+    // current trajectory and time
+    Trajectory getCurrentTrajectory();
+    double getCurrentTrajectoryTime();
+
     // TODO: trajectory output type
     Eigen::MatrixXd getBestTrajectory();
 
@@ -89,6 +93,9 @@ private:
     std::vector<std::string> active_joint_names_;
     std::vector<std::vector<std::string> > aabb_lists_;
     std::vector<DynamicKFHumanObstacle*> human_obstacles_;
+
+    Trajectory trajectory_;
+    double start_time_;
 
     TrajectoryPublisher trajectory_publisher_;
 

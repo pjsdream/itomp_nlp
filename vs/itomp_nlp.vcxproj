@@ -273,6 +273,7 @@ winmoc.exe "..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\
     <ClCompile Include="..\src\renderer\rendering_mesh_manager.cpp" />
     <ClCompile Include="..\src\renderer\rendering_plane.cpp" />
     <ClCompile Include="..\src\renderer\rendering_robot.cpp" />
+    <ClCompile Include="..\src\renderer\rendering_robot_trajectory.cpp" />
     <ClCompile Include="..\src\renderer\rendering_shape.cpp" />
     <ClCompile Include="..\src\renderer\shadowmap_point_shader.cpp" />
     <ClCompile Include="..\src\renderer\shadowmap_shader.cpp" />
@@ -399,6 +400,7 @@ winmoc.exe "..\include\itomp_nlp\renderer\renderer.h" -o "..\src\GeneratedFiles\
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_mesh_manager.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_plane.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_robot.h" />
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_robot_trajectory.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\rendering_shape.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\material.h" />
     <ClInclude Include="..\include\itomp_nlp\renderer\shadowmap_point_shader.h" />

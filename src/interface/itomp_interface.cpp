@@ -8,6 +8,8 @@
 
 #include <itomp_nlp/optimization/dynamic_kf_human_obstacle.h>
 
+#include <itomp_nlp/utils/timing.h>
+
 
 namespace itomp
 {
@@ -172,7 +174,7 @@ void ItompInterface::initializeResources()
     optimizer_.addRepulsion(7, Eigen::Vector3d(0.1, 0, 0), Eigen::Vector3d(0.95, 0.01, 0.71), 0.2);
     */
 
-    // static obstacles
+    // table obstacle
     Eigen::Affine3d table_center;
     table_center.setIdentity();
     table_center.translate(Eigen::Vector3d(0.8, 0, 0.35));
@@ -183,6 +185,7 @@ void ItompInterface::initializeResources()
 
     optimizer_.addStaticObstacle(table_obstacle);
 
+    // H shape obstacle
     /*
     Eigen::Affine3d obstacle_center;
     obstacle_center.setIdentity();
@@ -197,21 +200,15 @@ void ItompInterface::initializeResources()
     obstacle_center.translate(Eigen::Vector3d(0.9, 0, 1.1));
     OBB* shape3 = new OBB(0.5, 0.1, 0.6, obstacle_center);
 
-    Capsule2* shape4 = new Capsule2(Eigen::Vector3d(0.85, 0, 0.9), 0.1, Eigen::Vector3d(0.85, 0, 1.3), 0.1);
-    Capsule2* shape5 = new Capsule2(Eigen::Vector3d(0.85, 0, 0.9), 0.1, Eigen::Vector3d(1.05, 0, 1.3), 0.1);
-    Capsule2* shape6 = new Capsule2(Eigen::Vector3d(0.85, 0, 0.9), 0.1, Eigen::Vector3d(1.25, 0, 1.3), 0.1);
-
     StaticObstacle* obstacle = new StaticObstacle();
     obstacle->addShape(shape1);
     obstacle->addShape(shape2);
     obstacle->addShape(shape3);
-    obstacle->addShape(shape4);
-    obstacle->addShape(shape5);
-    obstacle->addShape(shape6);
 
     optimizer_.addStaticObstacle(obstacle);
     */
 
+    // kinect camera
     Eigen::Affine3d camera_transform;
     camera_transform.setIdentity();
     camera_transform.translate(Eigen::Vector3d(-0.5, 0, 1.2));
@@ -227,6 +224,16 @@ void ItompInterface::initializeResources()
     }
 }
 
+Trajectory ItompInterface::getCurrentTrajectory()
+{
+    return trajectory_;
+}
+
+double ItompInterface::getCurrentTrajectoryTime()
+{
+    return getWallTime() - start_time_;
+}
+
 Eigen::MatrixXd ItompInterface::getBestTrajectory()
 {
     return optimizer_.getBestTrajectory();
@@ -239,6 +246,8 @@ void ItompInterface::startMotionPlanning()
         is_optimizing_ = true;
         execution_timer_->start();
         optimizer_.startOptimizationThread();
+
+        start_time_ = getWallTime();
     }
 }
 
@@ -277,7 +286,7 @@ void ItompInterface::moveTrajectoryForwardOneTimestep()
 
     // publish trajectory
     Eigen::MatrixXd trajectory_matrix = optimizer_.getBestTrajectory();
-    Trajectory trajectory(active_joint_names_, 0.5, trajectory_matrix);
+    Trajectory trajectory(active_joint_names_, 2.0, trajectory_matrix);
     trajectory_publisher_.publish(trajectory);
 
     optimizer_.moveForwardOneTimestep();
@@ -289,6 +298,10 @@ void ItompInterface::moveTrajectoryForwardOneTimestep()
     if (optimizer_.getBestTrajectoryCost() <= threshold)
         optimizer_.changeGoalCost();
         */
+
+    // store current trajectory
+    start_time_ = getWallTime();
+    trajectory_ = trajectory;
 }
 
 void ItompInterface::costFunctionChanged(int id, const std::string& type, std::vector<double> values)
@@ -328,7 +341,7 @@ void ItompInterface::costFunctionChanged(int id, const std::string& type, std::v
 void ItompInterface::commandAdded(std::string command)
 {
     printf("command: %s\n", command.c_str());
-    optimizer_.changeGoalCost();
+    //optimizer_.changeGoalCost();
 
     if (command.find("Don't") != std::string::npos)
     {
@@ -344,6 +357,113 @@ void ItompInterface::commandAdded(std::string command)
         optimizer_.setSmoothnessCost(0, 0.3);
         optimizer_.setCollisionCost(1, 30.0);
         optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.9, 0.0, 0.78));
+        optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
+    }
+
+    else if (command.find("a") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 10);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.9, 0.8, 1.4));
+        optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
+    }
+
+    else if (command.find("b") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 10);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.9, 0.6, 0.78));
+        optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
+    }
+
+    else if (command.find("c") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 10);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(1.0, 0.1, 0.78));
+        optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
+    }
+
+    else if (command.find("stop") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 10);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.9, 0.8, 0.9));
+        optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
+    }
+
+    // H shape
+    else if (command.find("hs") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 10);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.8, 0.3, 1.1));
+    }
+
+    else if (command.find("hg") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 10);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.8, -0.3, 1.1));
+    }
+
+    else if (command.find("h1") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 10);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.9, 1.2, 1.1));
+    }
+
+    else if (command.find("h2") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 10);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.9, 1.2, 1.8));
+    }
+
+    else if (command.find("h3") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 10);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.9, -1.2, 1.8));
+    }
+
+    else if (command.find("h4") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 10);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.9, -1.2, 1.1));
+    }
+
+    else if (command.find("p11") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 10);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.3, 0, 0), Eigen::Vector3d(0.75, 0.75, 0.85));
+        //optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
+    }
+
+    else if (command.find("p12") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 1);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.75, 0.75, 0.75));
+        optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
+    }
+
+    else if (command.find("p21") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 3);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.3, 0, 0), Eigen::Vector3d(0.75, -0.75, 0.85));
+        //optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
+    }
+
+    else if (command.find("p22") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 1);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.75, -0.75, 0.75));
         optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
     }
 }

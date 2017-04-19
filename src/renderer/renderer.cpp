@@ -94,11 +94,12 @@ void Renderer::initializeGL()
     light = new Light(Eigen::Vector3d(9, -1, 10));
     light->setDirectional();
     light->setAmbient(Eigen::Vector3f(0.2, 0.2, 0.2));
-    light->setDiffuse(Eigen::Vector3f(0.4, 0.4, 0.4));
+    light->setDiffuse(Eigen::Vector3f(1.0, 1.0, 1.0));
     light->setSpecular(Eigen::Vector3f(1, 1, 1));
     lights_.push_back(light);
 
     // point light
+    /*
     light = new Light(Eigen::Vector3d(2, 0, 2));
     light->setPoint();
     light->setAmbient(Eigen::Vector3f(0.2, 0.2, 0.2));
@@ -106,6 +107,7 @@ void Renderer::initializeGL()
     light->setSpecular(Eigen::Vector3f(1, 1, 1));
     light->setAttenuation(Eigen::Vector3f(1, 0.045, 0.0075));
     lights_.push_back(light);
+    */
 }
 
 void Renderer::resizeGL(int w, int h)

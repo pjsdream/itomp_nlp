@@ -6,6 +6,8 @@
 #include <string>
 #include <Eigen/Dense>
 
+#include <itomp_nlp/robot/robot_state.h>
+
 
 namespace itomp
 {

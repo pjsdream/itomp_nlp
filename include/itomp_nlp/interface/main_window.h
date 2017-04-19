@@ -12,6 +12,7 @@
 #include <itomp_nlp/renderer/rendering_box.h>
 #include <itomp_nlp/renderer/rendering_kinect_points.h>
 #include <itomp_nlp/renderer/rendering_plane.h>
+#include <itomp_nlp/renderer/rendering_robot_trajectory.h>
 
 
 namespace itomp
@@ -43,6 +44,8 @@ private:
     RenderingBox* rendering_table_;
     RenderingBox* rendering_laptop_;
     std::vector<RenderingBox*> rendering_objects_;
+
+    RenderingRobotTrajectory* rendering_robot_trajectory_;
 
     Material* grey_;
     Material* brown_;

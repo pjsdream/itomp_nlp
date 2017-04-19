@@ -378,6 +378,9 @@
     <ClCompile Include="..\src\optimization\trajectory_publisher_thread.cpp">
       <Filter>Optimization</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\renderer\rendering_robot_trajectory.cpp">
+      <Filter>RenderingShape</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shader\build_lists.frag">
@@ -756,6 +759,9 @@
     </ClInclude>
     <ClInclude Include="..\include\itomp_nlp\optimization\trajectory_publisher_thread.h">
       <Filter>Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\itomp_nlp\renderer\rendering_robot_trajectory.h">
+      <Filter>RenderingShape</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
