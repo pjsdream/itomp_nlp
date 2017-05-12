@@ -41,13 +41,18 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Instruct CMake to run moc automatically when needed
 set(CMAKE_AUTOMOC ON)
 # Find the Qt library
-set(CMAKE_PREFIX_PATH "/home/jaesungp/Qt/5.7/gcc_64")
-find_package(Qt5Widgets)
-find_package(Qt5OpenGL)
+set(Qt5Widgets_DIR /playpen/jaesungp/Qt/5.8/gcc_64)
+set(Qt5OpenGL_DIR /playpen/jaesungp/Qt/5.8/gcc_64)
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5OpenGL REQUIRED)
 add_definitions(${Qt5Widgets_DEFINITIONS})
 add_definitions(${Qt5OpenGL_DEFINITIONS})
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
 include_directories(${Qt5OpenGL_INCLUDE_DIRS})
+
+message(${CMAKE_PREFIX_PATH})
+message(${Qt5Widgets_INCLUDE_DIRS})
+message(${Qt5OpenGL_INCLUDE_DIRS})
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -136,9 +141,9 @@ include_directories(${Qt5OpenGL_INCLUDE_DIRS})
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
-  LIBRARIES itomp_nlp
-  CATKIN_DEPENDS roscpp
+  #INCLUDE_DIRS include
+  #LIBRARIES itomp_nlp
+  #CATKIN_DEPENDS roscpp actionlib
   #DEPENDS system_lib
 )
 
@@ -156,6 +161,8 @@ include_directories(
   ${Eigen_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
   ${ASSIMP_INCLUDE_DIRS}
+  ${Qt5Widgets_INCLUDE_DIRS}
+  ${Qt5OpenGL_INCLUDE_DIRS}
 )
 
 link_directories(
@@ -350,8 +357,6 @@ target_link_libraries(itomp_traj_execute
   zmq
   ${catkin_LIBRARIES}
 )
-
-message(${catkin_LIBRARIES})
 
 #############
 ## Install ##
