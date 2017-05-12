@@ -32,6 +32,23 @@ find_package(cmake_modules REQUIRED)
 # eigen
 find_package(Eigen REQUIRED)
 
+# assimp
+find_package(assimp REQUIRED VERSION 3.3.1)
+
+# Qt5
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed
+set(CMAKE_AUTOMOC ON)
+# Find the Qt library
+set(CMAKE_PREFIX_PATH "/home/jaesungp/Qt/5.7/gcc_64")
+find_package(Qt5Widgets)
+find_package(Qt5OpenGL)
+add_definitions(${Qt5Widgets_DEFINITIONS})
+add_definitions(${Qt5OpenGL_DEFINITIONS})
+include_directories(${Qt5Widgets_INCLUDE_DIRS})
+include_directories(${Qt5OpenGL_INCLUDE_DIRS})
+
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -138,16 +155,175 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${Eigen_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
+  ${ASSIMP_INCLUDE_DIRS}
 )
 
 link_directories(
   /usr/local/lib
+  lib
+)
+
+# Qt5 moc
+qt5_wrap_cpp(interface_moc
+  include/itomp_nlp/interface/itomp_cost_function_widget.h
+  include/itomp_nlp/interface/itomp_cost_functions_widget.h
+  include/itomp_nlp/interface/itomp_datagen_widget.h
+  include/itomp_nlp/interface/itomp_interface.h
+  include/itomp_nlp/interface/itomp_nlp_widget.h
+  include/itomp_nlp/interface/main_window.h
+  include/itomp_nlp/renderer/renderer.h
+)
+
+message(${interface_moc})
+
+# collect .h files
+file(GLOB_RECURSE itomp_HEADER_FILES
+  include/itomp_nlp/*.h
+  lib/*.h
+)
+file(GLOB_RECURSE itomp_EXCLUDING_HEADER_FILES
+  # Qt interface
+  include/itomp_nlp/interface/itomp_cost_function_widget.h
+  include/itomp_nlp/interface/itomp_cost_functions_widget.h
+  include/itomp_nlp/interface/itomp_datagen_widget.h
+  include/itomp_nlp/interface/itomp_interface.h
+  include/itomp_nlp/interface/itomp_nlp_widget.h
+  include/itomp_nlp/interface/main_window.h
+  include/itomp_nlp/renderer/renderer.h
+)
+list(REMOVE_ITEM itomp_HEADER_FILES
+  ${itomp_EXCLUDING_HEADER_FILES}
+)
+
+## Declare a C++ library
+add_library(itomp_nlp
+  # renderer
+  src/renderer/camera.cpp
+  src/renderer/color_shader.cpp
+  src/renderer/gl_base.cpp
+  src/renderer/light.cpp
+  src/renderer/light_oit_shader.cpp
+  src/renderer/light_shader.cpp
+  src/renderer/light_shadow_shader.cpp
+  src/renderer/material.cpp
+  src/renderer/normal_shader.cpp
+  src/renderer/oit_resolve_shader.cpp
+  src/renderer/renderer.cpp
+  src/renderer/rendering_box.cpp
+  src/renderer/rendering_capsule.cpp
+  src/renderer/rendering_human.cpp
+  #src/renderer/rendering_kinect_human.cpp
+  #src/renderer/rendering_kinect_points.cpp
+  src/renderer/rendering_mesh.cpp
+  src/renderer/rendering_mesh_manager.cpp
+  src/renderer/rendering_plane.cpp
+  src/renderer/rendering_robot.cpp
+  src/renderer/rendering_robot_trajectory.cpp
+  src/renderer/rendering_shape.cpp
+  src/renderer/shader_program.cpp
+  src/renderer/shadowmap_point_shader.cpp
+  src/renderer/shadowmap_shader.cpp
+  src/renderer/texture.cpp
+  src/renderer/wireframe_shader.cpp
+  ${interface_moc}
+
+  # shape
+  src/shape/aabb.cpp
+  src/shape/capsule.cpp
+  src/shape/capsule2.cpp
+  src/shape/mesh.cpp
+  src/shape/mesh_loader.cpp
+  src/shape/obb.cpp
+  src/shape/rigid_body.cpp
+  src/shape/shape.cpp
+
+  # robot
+  src/robot/continuous_joint.cpp
+  src/robot/fixed_joint.cpp
+  src/robot/joint.cpp
+  src/robot/link.cpp
+  src/robot/prismatic_joint.cpp
+  src/robot/revolute_joint.cpp
+  src/robot/robot_model.cpp
+  src/robot/robot_state.cpp
+  src/robot/urdf_parser.cpp
+
+  # optimization
+  src/optimization/optimizer.cpp
+  src/optimization/optimizer_robot.cpp
+  src/optimization/optimizer_robot_loader.cpp
+  src/optimization/optimizer_thread.cpp
+  src/optimization/cost.cpp
+  src/optimization/collision_cost.cpp
+  src/optimization/goal_cost.cpp
+  src/optimization/goal_orientation_cost.cpp
+  src/optimization/goal_region_cost.cpp
+  src/optimization/goal_upvector_cost.cpp
+  src/optimization/repulsive_cost.cpp
+  src/optimization/smoothness_cost.cpp
+  src/optimization/velocity_cost.cpp
+  src/optimization/scene.cpp
+  src/optimization/static_obstacle.cpp
+  src/optimization/dynamic_obstacle.cpp
+  #src/optimization/dynamic_kf_human_obstacle.cpp
+  src/optimization/trajectory.cpp
+  src/optimization/trajectory_publisher_thread.cpp
+
+  # network
+  src/network/trajectory_publisher.cpp
+
+  # interface
+  src/interface/itomp_cost_function_widget.cpp
+  src/interface/itomp_cost_functions_widget.cpp
+  src/interface/itomp_datagen_widget.cpp
+  src/interface/itomp_interface.cpp
+  src/interface/itomp_nlp_widget.cpp
+  src/interface/main_window.cpp
+
+  # utils
+  src/utils/conversion.cpp
+  src/utils/timing.cpp
+
+  # lodepng
+  lib/lodepng.cpp
+
+  # tinyxml2
+  lib/tinyxml2.cpp
+
+  # header files for QtCreator import
+  ${itomp_HEADER_FILES}
+)
+
+target_link_libraries(itomp_nlp
+  ${Qt5Widgets_LIBRARIES}
+  ${Qt5OpenGL_LIBRARIES}
+  ${ASSIMP_LIBRARIES}
+  zmq
+  speech_subscriber
 )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
 # add_dependencies(itomp_nlp ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+## Declare a C++ executable
+add_executable(test_interface
+  src/test/test_interface.cpp
+)
+
+## Add cmake target dependencies of the executable
+## same as for the library above
+# add_dependencies(itomp_nlp_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+## Specify libraries to link a library or executable target against
+target_link_libraries(test_interface
+  itomp_nlp
+  ${catkin_LIBRARIES}
+)
+
+# copy shaders
+file(COPY shader/ DESTINATION ${CATKIN_DEVEL_PREFIX}/lib/${PROJECT_NAME}/shader)
 
 ## Declare a C++ executable
 add_executable(itomp_traj_execute

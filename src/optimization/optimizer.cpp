@@ -18,14 +18,15 @@ namespace itomp
 {
 
 Optimizer::Optimizer()
-    : trajectory_publisher_thread_(*this)
 {
     scene_ = new Scene();
+    trajectory_publisher_thread_ = new TrajectoryPublisherThread(*this);
 }
 
 Optimizer::~Optimizer()
 {
     delete scene_;
+    delete trajectory_publisher_thread_;
 }
 
 void Optimizer::addStaticObstacle(StaticObstacle* obstacle)

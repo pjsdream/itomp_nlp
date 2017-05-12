@@ -92,7 +92,7 @@ private:
     Scene* scene_;
 
     // trajectory publisher at every timestep
-    TrajectoryPublisherThread trajectory_publisher_thread_;
+    TrajectoryPublisherThread* trajectory_publisher_thread_;
 };
 
 }

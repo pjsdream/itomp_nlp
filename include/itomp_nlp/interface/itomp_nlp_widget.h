@@ -5,8 +5,11 @@
 #include <QWidget>
 #include <QGridLayout>
 #include <QTextEdit>
+#include <QTimer>
 
 #include <itomp_nlp/optimization/optimizer.h>
+
+#include <speech_subscriber.h>
 
 
 namespace itomp
@@ -20,6 +23,8 @@ public:
 
     ItompNLPWidget(QWidget* parent = 0);
 
+    void setSpeechIPAddress(const std::string& ip);
+
 Q_SIGNALS:
 
     void commandAdded(std::string);
@@ -27,11 +32,15 @@ Q_SIGNALS:
 private Q_SLOTS:
 
     void textChanged();
+    void idle();
 
 private:
 
     QGridLayout* layout_;
     QTextEdit* text_edit_;
+    QTimer* idle_timer_;
+
+    speech_network::SpeechSubscriber* speech_subscriber_;
 };
 
 }

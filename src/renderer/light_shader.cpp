@@ -132,8 +132,6 @@ void LightShader::loadMaterial(const Material* material)
     {
         loadUniform(location_material_has_texture_, false);
         loadUniform(location_material_alpha_, 1.0f);
-
-        printf("material = 0\n");
     }
 
     else

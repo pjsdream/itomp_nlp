@@ -8,6 +8,7 @@ namespace itomp
 
 RenderingShape::RenderingShape(Renderer* renderer)
     : GLBase(renderer)
+    , material_(0)
 {
     transform_.setIdentity();
     renderer->addShape(this);

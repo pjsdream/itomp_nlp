@@ -6,7 +6,7 @@
 
 #include <itomp_nlp/shape/obb.h>
 
-#include <itomp_nlp/optimization/dynamic_kf_human_obstacle.h>
+//#include <itomp_nlp/optimization/dynamic_kf_human_obstacle.h>
 
 #include <itomp_nlp/utils/timing.h>
 
@@ -51,6 +51,7 @@ ItompInterface::ItompInterface(QWidget* parent)
     
     // text edit
     nlp_widget_ = new ItompNLPWidget(this);
+    nlp_widget_->setSpeechIPAddress("152.23.13.219");
     connect(nlp_widget_, SIGNAL(commandAdded(std::string)), this, SLOT(commandAdded(std::string)));
     
     layout_->setRowStretch(2, 0);
@@ -60,7 +61,7 @@ ItompInterface::ItompInterface(QWidget* parent)
     execution_timer_ = new QTimer(this);
     execution_timer_->setInterval(500);
     connect(execution_timer_, SIGNAL(timeout()), this, SLOT(moveTrajectoryForwardOneTimestep()));
-    
+
     // initialize resource
     initializeResources();
 }
@@ -209,6 +210,7 @@ void ItompInterface::initializeResources()
     */
 
     // kinect camera
+    /*
     Eigen::Affine3d camera_transform;
     camera_transform.setIdentity();
     camera_transform.translate(Eigen::Vector3d(-0.5, 0, 1.2));
@@ -222,6 +224,7 @@ void ItompInterface::initializeResources()
         optimizer_.addDynamicObstacle(human_obstacle);
         human_obstacles_.push_back(human_obstacle);
     }
+    */
 }
 
 Trajectory ItompInterface::getCurrentTrajectory()
@@ -281,8 +284,10 @@ void ItompInterface::resetMotionPlanning()
 
 void ItompInterface::moveTrajectoryForwardOneTimestep()
 {
+    /*
     for (int i=0; i<human_obstacles_.size(); i++)
         human_obstacles_[i]->update();
+        */
 
     // publish trajectory
     Eigen::MatrixXd trajectory_matrix = optimizer_.getBestTrajectory();

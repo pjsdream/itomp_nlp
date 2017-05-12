@@ -4,7 +4,7 @@
 
 #include <itomp_nlp/shape/capsule2.h>
 
-#include <itomp_nlp/renderer/rendering_kinect_human.h>
+//#include <itomp_nlp/renderer/rendering_kinect_human.h>
 
 #include <QTimer>
 
@@ -60,6 +60,7 @@ MainWindow::MainWindow()
     */
 
     // rendering point cloud
+    /*
     Eigen::Affine3d camera_transform;
     camera_transform.setIdentity();
     camera_transform.translate(Eigen::Vector3d(1.5, 1.6, 0.9));
@@ -67,6 +68,7 @@ MainWindow::MainWindow()
     camera_transform.rotate(Eigen::AngleAxisd(M_PI/2, Eigen::Vector3d(1, 0, 0)));
     rendering_point_cloud_ = new RenderingKinectPoints(renderer_);
     rendering_point_cloud_->setTransform(camera_transform);
+    */
     
     // rendering kinect
     /*
@@ -196,7 +198,7 @@ MainWindow::MainWindow()
 
 void MainWindow::updateNextFrame()
 {
-    KinectDevice::getInstance()->update();
+    // KinectDevice::getInstance()->update();
     
     // update current robot trajectory to renderer
     const Trajectory current_robot_trajectory = itomp_interface_->getCurrentTrajectory();

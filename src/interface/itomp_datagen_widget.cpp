@@ -36,6 +36,14 @@ ItompDatagenWidget::ItompDatagenWidget(QWidget* parent)
     initializeResources();
 }
 
+void ItompDatagenWidget::resetMotionPlanning()
+{
+}
+
+void ItompDatagenWidget::moveTrajectoryForwardOneTimestep()
+{
+}
+
 void ItompDatagenWidget::initializeResources()
 {
 }

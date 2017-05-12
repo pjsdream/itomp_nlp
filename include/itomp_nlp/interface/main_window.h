@@ -10,7 +10,7 @@
 
 #include <itomp_nlp/renderer/rendering_robot.h>
 #include <itomp_nlp/renderer/rendering_box.h>
-#include <itomp_nlp/renderer/rendering_kinect_points.h>
+//#include <itomp_nlp/renderer/rendering_kinect_points.h>
 #include <itomp_nlp/renderer/rendering_plane.h>
 #include <itomp_nlp/renderer/rendering_robot_trajectory.h>
 
@@ -40,7 +40,7 @@ private:
     std::vector<RenderingShape*> rendering_static_obstacles_;
     std::vector<RenderingShape*> rendering_dynamic_obstacles_;
 
-    RenderingKinectPoints* rendering_point_cloud_;
+    //RenderingKinectPoints* rendering_point_cloud_;
     RenderingBox* rendering_table_;
     RenderingBox* rendering_laptop_;
     std::vector<RenderingBox*> rendering_objects_;

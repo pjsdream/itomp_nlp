@@ -6,6 +6,7 @@ namespace itomp
 
 ItompNLPWidget::ItompNLPWidget(QWidget* parent)
     : QWidget(parent)
+    , speech_subscriber_(0)
 {
     layout_ = new QGridLayout(this);
     setLayout(layout_);
@@ -16,7 +17,19 @@ ItompNLPWidget::ItompNLPWidget(QWidget* parent)
     text_edit_->setMaximumHeight( QFontMetrics(text_edit_->font()).lineSpacing() * num_lines );
     connect(text_edit_, SIGNAL(textChanged()), this, SLOT(textChanged()));
 
+    idle_timer_ = new QTimer(this);
+    idle_timer_->setInterval(50);
+    connect(idle_timer_, SIGNAL(timeout()), this, SLOT(idle()));
+
     layout_->addWidget(text_edit_, 0, 0);
+}
+
+void ItompNLPWidget::setSpeechIPAddress(const std::string& ip)
+{
+    if (speech_subscriber_ != 0)
+        delete speech_subscriber_;
+
+    speech_subscriber_ = new speech_network::SpeechSubscriber(ip);
 }
 
 void ItompNLPWidget::textChanged()
@@ -33,6 +46,25 @@ void ItompNLPWidget::textChanged()
 
     else
         Q_EMIT commandAdded(s.substr(idx + 1));
+}
+
+void ItompNLPWidget::idle()
+{
+    if (speech_subscriber_ != 0)
+    {
+        std::string string = speech_subscriber_->receive();
+
+        if (string != "")
+        {
+            // interface string change
+            text_edit_->blockSignals(true);
+            text_edit_->setPlainText(QString(string.c_str()));
+            text_edit_->blockSignals(false);
+
+            // emit command
+            Q_EMIT commandAdded(string);
+        }
+    }
 }
 
 }
