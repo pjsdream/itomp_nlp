@@ -1,7 +1,6 @@
 #include <itomp_nlp/ros/fetch.h>
 
 
-#include <moveit_msgs/RobotState.h>
 #include <eigen_conversions/eigen_msg.h>
 #include <control_msgs/GripperCommandGoal.h>
 #include <control_msgs/FollowJointTrajectoryGoal.h>

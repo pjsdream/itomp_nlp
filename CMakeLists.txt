@@ -41,8 +41,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Instruct CMake to run moc automatically when needed
 set(CMAKE_AUTOMOC ON)
 # Find the Qt library
-set(Qt5Widgets_DIR /playpen/jaesungp/Qt/5.8/gcc_64)
-set(Qt5OpenGL_DIR /playpen/jaesungp/Qt/5.8/gcc_64)
+set(Qt5Widgets_DIR /home/jaesungp/Qt/5.8/gcc_64)
+set(Qt5OpenGL_DIR /home/jaesungp/Qt/5.8/gcc_64)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5OpenGL REQUIRED)
 add_definitions(${Qt5Widgets_DEFINITIONS})
@@ -161,6 +161,7 @@ include_directories(
   ${Eigen_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
   ${ASSIMP_INCLUDE_DIRS}
+  ${ZMQ_INCLUDE_DIRS}
   ${Qt5Widgets_INCLUDE_DIRS}
   ${Qt5OpenGL_INCLUDE_DIRS}
 )
@@ -305,6 +306,7 @@ target_link_libraries(itomp_nlp
   ${Qt5Widgets_LIBRARIES}
   ${Qt5OpenGL_LIBRARIES}
   ${ASSIMP_LIBRARIES}
+  ${ZMQ_LIBRARIES}
   zmq
   speech_subscriber
 )
@@ -342,10 +344,6 @@ add_executable(itomp_traj_execute
   src/optimization/trajectory.cpp
   src/ros/fetch.cpp
   src/ros/trajectory_executor.cpp
-
-  # zmq
-  lib/zmq.h
-  lib/zmq.hpp
 )
 
 ## Add cmake target dependencies of the executable

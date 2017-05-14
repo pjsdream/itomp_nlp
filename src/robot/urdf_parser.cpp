@@ -81,13 +81,13 @@ RobotModel* URDFParser::parseURDF(const std::string& filename)
         if (collision_element != 0)
         {
             // origin
-            tinyxml2::XMLElement* origin_element = visual_element->FirstChildElement("origin");
+            tinyxml2::XMLElement* origin_element = collision_element->FirstChildElement("origin");
             Eigen::Vector3d position;
             Eigen::Quaterniond orientation;
             parseOriginElement(origin_element, position, orientation);
 
             // geometry
-            tinyxml2::XMLElement* geometry_element = visual_element->FirstChildElement("geometry");
+            tinyxml2::XMLElement* geometry_element = collision_element->FirstChildElement("geometry");
             
             // TODO: box, cylinder, sphere
 

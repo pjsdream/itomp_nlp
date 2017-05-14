@@ -51,7 +51,7 @@ ItompInterface::ItompInterface(QWidget* parent)
     
     // text edit
     nlp_widget_ = new ItompNLPWidget(this);
-    nlp_widget_->setSpeechIPAddress("152.23.13.219");
+    nlp_widget_->setSpeechIPAddress("localhost");
     connect(nlp_widget_, SIGNAL(commandAdded(std::string)), this, SLOT(commandAdded(std::string)));
     
     layout_->setRowStretch(2, 0);
@@ -75,7 +75,7 @@ void ItompInterface::initializeResources()
 #else
     URDFParser urdf_parser;
     urdf_parser.addPackageDirectoryMapping("fetch_description", "/home/jaesungp/catkin_ws/src/fetch_ros/fetch_description");
-    robot_model_ = urdf_parser.parseURDF("/home/jaesungp/catkin_ws/src/itomp_nlp/urdf/fetch.urdf");
+    robot_model_ = urdf_parser.parseURDF("/home/jaesungp/catkin_ws/src/fetch_ros/fetch_description/robots/fetch.urdf");
 #endif
 
     // default robot state

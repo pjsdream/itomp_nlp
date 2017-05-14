@@ -46,7 +46,6 @@ MainWindow::MainWindow()
     white->setSpecular(Eigen::Vector3f(1, 1, 1));
     white->setShininess(2);
 
-    /*
     for (int i=0; i<num_interpolated_variables; i++)
     {
         RenderingRobot* rendering_robot = new RenderingRobot(renderer_, robot_model);
@@ -57,7 +56,6 @@ MainWindow::MainWindow()
         rendering_box->setMaterial(white);
         rendering_objects_.push_back(rendering_box);
     }
-    */
 
     // rendering point cloud
     /*
@@ -125,14 +123,16 @@ MainWindow::MainWindow()
     blue->setAlpha(1.f);
     
     // rendering robot trajectory
-    rendering_robot_trajectory_ = new RenderingRobotTrajectory(renderer_, robot_model, *itomp_interface_->getRobotState());
+    //rendering_robot_trajectory_ = new RenderingRobotTrajectory(renderer_, robot_model, *itomp_interface_->getRobotState());
     
     // rendering attached object
+    /*
     RenderingBox* rendering_box = new RenderingBox(renderer_);
     rendering_box->setSize(Eigen::Vector3d(0.1, 0.1, 0.1));
     rendering_box->setMaterial(red);
-    //rendering_robot_trajectory_->attachObject(rendering_box);
+    rendering_robot_trajectory_->attachObject(rendering_box);
     rendering_robot_trajectory_->setForwardKinematics(forward_kinematics_);
+    */
 
     RenderingCapsule* capsule1 = new RenderingCapsule(renderer_);
     capsule1->setMaterial(red);
@@ -204,11 +204,10 @@ void MainWindow::updateNextFrame()
     const Trajectory current_robot_trajectory = itomp_interface_->getCurrentTrajectory();
     const double current_time = itomp_interface_->getCurrentTrajectoryTime();
 
-    rendering_robot_trajectory_->setRobotTrajectory(current_robot_trajectory);
-    rendering_robot_trajectory_->setTime(current_time);
+    //rendering_robot_trajectory_->setRobotTrajectory(current_robot_trajectory);
+    //rendering_robot_trajectory_->setTime(current_time);
     
     // update robot trajectory to renderer
-    /*
     Eigen::MatrixXd trajectory = itomp_interface_->getBestTrajectory();
     
     int box_idx = 0;
@@ -269,7 +268,6 @@ void MainWindow::updateNextFrame()
         delete *rendering_boxes_.rbegin();
         rendering_boxes_.pop_back();
     }
-        */
 
     // update scene rendering
     Scene* scene = itomp_interface_->getScene();

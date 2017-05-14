@@ -15,6 +15,7 @@ namespace itomp
 
 RenderingMesh::RenderingMesh(Renderer* renderer, Mesh* mesh)
     : RenderingShape(renderer)
+    , vao_(0)
 {
     // TODO
 }
@@ -22,11 +23,15 @@ RenderingMesh::RenderingMesh(Renderer* renderer, Mesh* mesh)
 RenderingMesh::RenderingMesh(Renderer* renderer, const std::string& filename)
     : RenderingShape(renderer)
     , filename_(filename)
+    , vao_(0)
 {
 }
 
 void RenderingMesh::initializeBuffers()
 {
+    has_tex_coords_ = false;
+    num_triangles_ = 0;
+
     gl_->glGenVertexArrays(1, &vao_);
     gl_->glBindVertexArray(vao_);
 

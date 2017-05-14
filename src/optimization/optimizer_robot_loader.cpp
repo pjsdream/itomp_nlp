@@ -14,6 +14,8 @@ namespace itomp
 {
 
 OptimizerRobotLoader::OptimizerRobotLoader()
+    : aabb_offset_(Eigen::Vector3d::Zero())
+    , robot_state_(0)
 {
 }
 
@@ -144,8 +146,10 @@ void OptimizerRobotLoader::loadRobotRecursive(const Link* link, const Eigen::Aff
                     AABB shape_aabb = mesh->getAABB();
 
                     // extend by aabb_offset_
-                    shape_aabb.setLower( shape_aabb.getLower() - aabb_offset_ );
-                    shape_aabb.setUpper( shape_aabb.getUpper() + aabb_offset_ );
+                    Eigen::Vector3d new_lower = shape_aabb.getLower() - aabb_offset_;
+                    Eigen::Vector3d new_upper = shape_aabb.getUpper() + aabb_offset_;
+                    shape_aabb.setLower( new_lower );
+                    shape_aabb.setUpper( new_upper );
 
                     // apply translation
                     // TODO: apply orientation
