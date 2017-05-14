@@ -117,6 +117,7 @@ void Renderer::resizeGL(int w, int h)
     camera_.setAspect( (double)w / h );
 
     // recreate opaque fbo
+    /*
     if (gl_->glIsFramebuffer(opaque_fbo_))
         gl_->glDeleteFramebuffers(1, &opaque_fbo_);
     if (gl_->glIsTexture(opaque_textures_[0]))
@@ -140,6 +141,7 @@ void Renderer::resizeGL(int w, int h)
     gl_->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, opaque_textures_[1], 0);
 
     gl_->glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    */
 
     update();
 }
@@ -153,6 +155,7 @@ void Renderer::paintGL()
     gl_->glGetIntegerv(GL_FRAMEBUFFER_BINDING, &screen_fbo);
 
     // shadowmap shader
+    /*
     shadowmap_shader_->start();
 
     int didx = 0;
@@ -257,9 +260,9 @@ void Renderer::paintGL()
     oit_resolve_shader_->resolve();
     oit_resolve_shader_->stop();
     gl_->glEnable(GL_DEPTH_TEST);
+    */
 
     // light shader
-    /*
     light_shader_->start();
     light_shader_->loadCamera(camera_);
     light_shader_->loadLights(lights_);
@@ -268,7 +271,6 @@ void Renderer::paintGL()
         rendering_shapes_[i]->draw(light_shader_);
 
     light_shader_->stop();
-    */
 
     // color shader
     /*

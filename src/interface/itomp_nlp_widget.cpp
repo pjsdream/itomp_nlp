@@ -6,7 +6,7 @@ namespace itomp
 
 ItompNLPWidget::ItompNLPWidget(QWidget* parent)
     : QWidget(parent)
-    , speech_subscriber_(0)
+    //, speech_subscriber_(0)
 {
     layout_ = new QGridLayout(this);
     setLayout(layout_);
@@ -26,10 +26,12 @@ ItompNLPWidget::ItompNLPWidget(QWidget* parent)
 
 void ItompNLPWidget::setSpeechIPAddress(const std::string& ip)
 {
+    /*
     if (speech_subscriber_ != 0)
         delete speech_subscriber_;
 
     speech_subscriber_ = new speech_network::SpeechSubscriber(ip);
+    */
 }
 
 void ItompNLPWidget::textChanged()
@@ -50,6 +52,7 @@ void ItompNLPWidget::textChanged()
 
 void ItompNLPWidget::idle()
 {
+    /*
     if (speech_subscriber_ != 0)
     {
         std::string string = speech_subscriber_->receive();
@@ -65,6 +68,7 @@ void ItompNLPWidget::idle()
             Q_EMIT commandAdded(string);
         }
     }
+    */
 }
 
 }
