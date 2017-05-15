@@ -161,7 +161,6 @@ include_directories(
   ${Eigen_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
   ${ASSIMP_INCLUDE_DIRS}
-  ${ZMQ_INCLUDE_DIRS}
   ${Qt5Widgets_INCLUDE_DIRS}
   ${Qt5OpenGL_INCLUDE_DIRS}
 )
@@ -278,6 +277,7 @@ add_library(itomp_nlp
   src/optimization/trajectory_publisher_thread.cpp
 
   # network
+  src/network/speech_subscriber.cpp
   src/network/trajectory_publisher.cpp
 
   # interface
@@ -306,9 +306,7 @@ target_link_libraries(itomp_nlp
   ${Qt5Widgets_LIBRARIES}
   ${Qt5OpenGL_LIBRARIES}
   ${ASSIMP_LIBRARIES}
-  ${ZMQ_LIBRARIES}
   zmq
-  speech_subscriber
 )
 
 ## Add cmake target dependencies of the library

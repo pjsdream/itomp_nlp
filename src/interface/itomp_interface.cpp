@@ -17,6 +17,7 @@ namespace itomp
 ItompInterface::ItompInterface(QWidget* parent)
     : QWidget(parent)
     , is_optimizing_(false)
+    , phase_(-1)
 {
     setWindowTitle("Motion planner");
 
@@ -51,7 +52,8 @@ ItompInterface::ItompInterface(QWidget* parent)
     
     // text edit
     nlp_widget_ = new ItompNLPWidget(this);
-    nlp_widget_->setSpeechIPAddress("localhost");
+    nlp_widget_->setSpeechIPAddress("152.23.13.219");
+    //nlp_widget_->setSpeechIPAddress("localhost");
     connect(nlp_widget_, SIGNAL(commandAdded(std::string)), this, SLOT(commandAdded(std::string)));
     
     layout_->setRowStretch(2, 0);
@@ -348,7 +350,63 @@ void ItompInterface::commandAdded(std::string command)
     printf("command: %s\n", command.c_str());
     //optimizer_.changeGoalCost();
 
-    if (command.find("Don't") != std::string::npos)
+    /*
+    if (command.find("start") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 10);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(1.5, 0, 1.5));
+        optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
+    }
+
+    else if (command.find("place it on the table") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 10);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.9, 0, 0.78));
+        optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
+    }
+    else if (command.find("stop") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 10);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.9, 0, 0.78));
+        optimizer_.setGoalUpvectorCost(3, 0.0, 7, Eigen::Vector3d(0, 0, 1));
+    }
+    else if (command.find("don't put it") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 3);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.9, 0.3, 0.78));
+        optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
+    }
+    */
+
+    if (command.find("start") != std::string::npos)
+    {
+        optimizer_.setSmoothnessCost(0, 10);
+        optimizer_.setCollisionCost(1, 30.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(1.5, 0, 1.5));
+        optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
+        phase_ = -1;
+    }
+    if (command.find("pick up this") != std::string::npos)
+    {
+        if (phase_ == -1)
+        {
+            optimizer_.setSmoothnessCost(0, 10);
+            optimizer_.setCollisionCost(1, 30.0);
+            optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(1.5, 0, 1.5));
+            optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
+            phase_ = 0;
+        }
+        else if (phase_ == 0)
+        {
+        }
+    }
+
+    /*
+    if (command.find("don't") != std::string::npos)
     {
         optimizer_.setSmoothnessCost(0, 0.3);
         optimizer_.setCollisionCost(1, 30.0);
@@ -356,8 +414,8 @@ void ItompInterface::commandAdded(std::string command)
         optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
     }
 
-    else if (command.find("Place") != std::string::npos ||
-             command.find("Put") != std::string::npos)
+    else if (command.find("place") != std::string::npos ||
+             command.find("put") != std::string::npos)
     {
         optimizer_.setSmoothnessCost(0, 0.3);
         optimizer_.setCollisionCost(1, 30.0);
@@ -471,6 +529,7 @@ void ItompInterface::commandAdded(std::string command)
         optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.75, -0.75, 0.75));
         optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
     }
+    */
 }
 
 }

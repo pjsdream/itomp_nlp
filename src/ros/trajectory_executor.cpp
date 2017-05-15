@@ -8,40 +8,43 @@
 
 int main(int argc, char** argv)
 {
+    setbuf(stdout, NULL);
+    setbuf(stderr, NULL);
+
     ros::init(argc, argv, "trajectory_executor");
 
     itomp::Fetch fetch;
 
     // initialize with highest torso position
+    ROS_INFO("initializing torso position to 0.35m");
     fetch.moveTorso(0.35);
 
-    // open/close gripper at start
-    fetch.moveGripper(0.01);
+    // open gripper at start
+    ROS_INFO("opening gripper and wait for 3 seconds");
     fetch.openGripper();
+    ros::Duration(3.0).sleep();
 
+    // picking a can
+    ROS_INFO("picking a can");
+    fetch.moveGripper(0.06, true);
+
+    ROS_INFO("initializing arm position to zero");
     fetch.moveArmZeroPosition();
 
     //test_fetch.runMovingArmScenario();
     //test_fetch.runScenario();
 
-    ros::Rate rate(2);
-
     setbuf(stdout, NULL);
 
-    itomp::TrajectorySubscriber subscriber("152.23.47.51");
+    itomp::TrajectorySubscriber subscriber("localhost");
 
-    ros::Time stamp = ros::Time::now();
     while (ros::ok())
     {
-        ROS_INFO("supposed time: %lf", stamp.toSec());
-
         itomp::Trajectory trajectory;
-        trajectory = subscriber.receive();
+        trajectory = subscriber.receiveSync();
 
-        fetch.moveArm(stamp, trajectory);
-
-        rate.sleep();
-        stamp += ros::Duration(0.5);
+        ROS_INFO("time: %lf", ros::Time::now().toSec());
+        fetch.moveArm(ros::Time::now(), trajectory);
     }
 
     return 0;

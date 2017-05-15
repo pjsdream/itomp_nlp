@@ -6,8 +6,6 @@
 #include <WinSock2.h>
 #endif
 
-#include <zmq.hpp>
-
 #include <itomp_nlp/optimization/trajectory.h>
 
 
@@ -24,8 +22,8 @@ public:
 
 protected:
 
-    zmq::context_t zmq_context_;
-    zmq::socket_t zmq_publisher_;
+    void* zmq_context_;
+    void* zmq_publisher_;
 };
 
 }

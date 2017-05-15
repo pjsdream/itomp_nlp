@@ -9,7 +9,7 @@
 
 #include <itomp_nlp/optimization/optimizer.h>
 
-//#include <speech_subscriber.h>
+#include <itomp_nlp/network/speech_subscriber.h>
 
 
 namespace itomp
@@ -40,7 +40,7 @@ private:
     QTextEdit* text_edit_;
     QTimer* idle_timer_;
 
-//    speech_network::SpeechSubscriber* speech_subscriber_;
+    speech_network::SpeechSubscriber* speech_subscriber_;
 };
 
 }

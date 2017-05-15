@@ -6,8 +6,6 @@
 #include <WinSock2.h>
 #endif
 
-#include <zmq.hpp>
-
 #include <itomp_nlp/optimization/trajectory.h>
 
 
@@ -20,12 +18,12 @@ public:
 
     TrajectorySubscriber(const std::string& ip);
 
-    Trajectory receive();
+    Trajectory receiveSync();
 
 protected:
 
-    zmq::context_t zmq_context_;
-    zmq::socket_t zmq_subscriber_;
+    void* zmq_context_;
+    void* zmq_subscriber_;
 };
 
 }

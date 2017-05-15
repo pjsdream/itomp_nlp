@@ -112,6 +112,9 @@ private:
     ItompNLPWidget* nlp_widget_;
 
     QTimer* execution_timer_;
+
+    int phase_;
+    int subphase_;
 };
 
 }
