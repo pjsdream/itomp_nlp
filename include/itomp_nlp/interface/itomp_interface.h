@@ -3,6 +3,7 @@
 
 
 #include <itomp_nlp/network/trajectory_publisher.h>
+#include <itomp_nlp/network/finger_publisher.h>
 
 #include <QWidget>
 
@@ -98,6 +99,7 @@ private:
     double start_time_;
 
     TrajectoryPublisher trajectory_publisher_;
+    FingerPublisher finger_publisher_;
 
     bool is_optimizing_;
 
@@ -115,6 +117,8 @@ private:
 
     int phase_;
     int subphase_;
+
+    Eigen::Quaterniond pickup_orientation_;
 };
 
 }

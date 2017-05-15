@@ -1,4 +1,5 @@
 #include <itomp_nlp/network/trajectory_subscriber.h>
+#include <itomp_nlp/network/finger_subscriber.h>
 #include <itomp_nlp/ros/fetch.h>
 
 #include <stdio.h>
@@ -25,8 +26,8 @@ int main(int argc, char** argv)
     ros::Duration(3.0).sleep();
 
     // picking a can
-    ROS_INFO("picking a can");
-    fetch.moveGripper(0.06, true);
+    //ROS_INFO("picking a can");
+    //fetch.moveGripper(0.06, true);
 
     ROS_INFO("initializing arm position to zero");
     fetch.moveArmZeroPosition();
@@ -37,6 +38,7 @@ int main(int argc, char** argv)
     setbuf(stdout, NULL);
 
     itomp::TrajectorySubscriber subscriber("localhost");
+    itomp::FingerSubscriber finger_subscriber("localhost");
 
     while (ros::ok())
     {
@@ -45,6 +47,10 @@ int main(int argc, char** argv)
 
         ROS_INFO("time: %lf", ros::Time::now().toSec());
         fetch.moveArm(ros::Time::now(), trajectory);
+
+        double gap = finger_subscriber.receiveAsync();
+        if (gap != -1)
+            fetch.moveGripper(gap, true);
     }
 
     return 0;

@@ -19,6 +19,8 @@ ItompInterface::ItompInterface(QWidget* parent)
     , is_optimizing_(false)
     , phase_(-1)
 {
+    pickup_orientation_ = Eigen::Quaterniond(Eigen::AngleAxisd(M_PI/2, Eigen::Vector3d(0, 1, 0)));
+
     setWindowTitle("Motion planner");
 
     resize(600, 600);
@@ -306,6 +308,71 @@ void ItompInterface::moveTrajectoryForwardOneTimestep()
         optimizer_.changeGoalCost();
         */
 
+    printf("%d %d\n", phase_, subphase_);
+    if (phase_ == 0)
+    {
+        if (subphase_ == 0 && optimizer_.getBestTrajectoryCost() <= 0.06)
+        {
+            optimizer_.setSmoothnessCost(0, 0.3);
+            optimizer_.setGoalCost(2, 0.1, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.7, 0.3, 0.93));
+            optimizer_.setGoalOrientationCost(3, 1.0, 7, pickup_orientation_);
+            subphase_ = 1;
+        }
+        else if (subphase_ == 1 && optimizer_.getBestTrajectoryCost() <= 0.005)
+        {
+            optimizer_.setSmoothnessCost(0, 0.3);
+            optimizer_.setGoalCost(2, 0.1, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.7, 0.3, 0.73));
+            optimizer_.setGoalOrientationCost(3, 1.0, 7, pickup_orientation_);
+            subphase_ = 2;
+        }
+        else if (subphase_ == 2 && optimizer_.getBestTrajectoryCost() <= 0.01)
+        {
+            finger_publisher_.publish(0.06);
+            optimizer_.setSmoothnessCost(0, 1);
+            optimizer_.setGoalCost(2, 0.1, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.7, 0.3, 0.93));
+            optimizer_.setGoalOrientationCost(3, 1.0, 7, pickup_orientation_);
+            subphase_ = 3;
+        }
+    }
+    else if (phase_ == 1)
+    {
+        if (subphase_ == 0 && optimizer_.getBestTrajectoryCost() <= 0.06)
+        {
+            optimizer_.setSmoothnessCost(0, 3);
+            optimizer_.setGoalCost(2, 0.1, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.7, 0.3, 0.73));
+            optimizer_.setGoalOrientationCost(3, 1.0, 7, pickup_orientation_);
+            subphase_ = 1;
+        }
+        else if (subphase_ == 1 && optimizer_.getBestTrajectoryCost() <= 0.02)
+        {
+            finger_publisher_.publish(0.1);
+            optimizer_.setSmoothnessCost(0, 3);
+            optimizer_.setGoalCost(2, 0.1, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.7, 0.3, 0.93));
+            optimizer_.setGoalOrientationCost(3, 1.0, 7, pickup_orientation_);
+            subphase_ = 2;
+        }
+        else if (subphase_ == 2 && optimizer_.getBestTrajectoryCost() <= 0.06)
+        {
+            optimizer_.setSmoothnessCost(0, 1);
+            optimizer_.setGoalCost(2, 0.1, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.7, -0.3, 0.93));
+            subphase_ = 3;
+        }
+        else if (subphase_ == 3 && optimizer_.getBestTrajectoryCost() <= 0.005)
+        {
+            optimizer_.setSmoothnessCost(0, 3);
+            optimizer_.setGoalCost(2, 0.1, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.7, -0.3, 0.73));
+            optimizer_.setGoalOrientationCost(3, 1.0, 7, pickup_orientation_);
+            subphase_ = 4;
+        }
+        else if (subphase_ == 4 && optimizer_.getBestTrajectoryCost() <= 0.02)
+        {
+            finger_publisher_.publish(0.06);
+            optimizer_.setSmoothnessCost(0, 1);
+            optimizer_.setGoalCost(2, 0.1, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.7, -0.3, 0.93));
+            subphase_ = 5;
+        }
+    }
+
     // store current trajectory
     start_time_ = getWallTime();
     trajectory_ = trajectory;
@@ -382,26 +449,38 @@ void ItompInterface::commandAdded(std::string command)
     }
     */
 
+    Eigen::Quaterniond start_orientation = Eigen::Quaterniond(Eigen::AngleAxisd(M_PI*3/8, Eigen::Vector3d(0, 1, 0)));
+
     if (command.find("start") != std::string::npos)
     {
-        optimizer_.setSmoothnessCost(0, 10);
-        optimizer_.setCollisionCost(1, 30.0);
-        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(1.5, 0, 1.5));
-        optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
+        finger_publisher_.publish(0.1);
+        optimizer_.setSmoothnessCost(0, 30);
+        optimizer_.setCollisionCost(1, 100.0);
+        optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(0.7, 0, 1.2));
+        optimizer_.setGoalOrientationCost(3, 1.0, 7, start_orientation);
         phase_ = -1;
     }
-    if (command.find("pick up this") != std::string::npos)
+    if (command.find("pick up") != std::string::npos ||
+        command.find("grab") != std::string::npos)
     {
-        if (phase_ == -1)
+        if (phase_ == -1 || phase_ == 1)
         {
-            optimizer_.setSmoothnessCost(0, 10);
+            finger_publisher_.publish(0.1);
+            optimizer_.setSmoothnessCost(0, 0.3);
             optimizer_.setCollisionCost(1, 30.0);
-            optimizer_.setGoalCost(2, 1.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(1.5, 0, 1.5));
-            optimizer_.setGoalUpvectorCost(3, 10.0, 7, Eigen::Vector3d(0, 0, 1));
+            optimizer_.setGoalCost(2, 0.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(1.5, 0, 1.5));
+            optimizer_.setGoalOrientationCost(3, 0.0, 7, pickup_orientation_);
             phase_ = 0;
+            subphase_ = 0;
         }
         else if (phase_ == 0)
         {
+            optimizer_.setSmoothnessCost(0, 0.3);
+            optimizer_.setCollisionCost(1, 30.0);
+            optimizer_.setGoalCost(2, 0.0, 7, Eigen::Vector3d(0.2, 0, 0), Eigen::Vector3d(1.5, 0, 1.5));
+            optimizer_.setGoalOrientationCost(3, 0.0, 7, pickup_orientation_);
+            phase_ = 1;
+            subphase_ = 0;
         }
     }
 

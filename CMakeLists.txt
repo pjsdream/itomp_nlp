@@ -279,6 +279,7 @@ add_library(itomp_nlp
   # network
   src/network/speech_subscriber.cpp
   src/network/trajectory_publisher.cpp
+  src/network/finger_publisher.cpp
 
   # interface
   src/interface/itomp_cost_function_widget.cpp
@@ -339,6 +340,7 @@ add_executable(itomp_traj_execute
   include/itomp_nlp/ros/fetch.h
 
   src/network/trajectory_subscriber.cpp
+  src/network/finger_subscriber.cpp
   src/optimization/trajectory.cpp
   src/ros/fetch.cpp
   src/ros/trajectory_executor.cpp
